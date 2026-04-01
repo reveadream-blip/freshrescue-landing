@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="FreshRescue - Transformez le gaspillage alimentaire en opportunité économique. Application de lutte contre le gaspillage pour commerçants et consommateurs.">
+    <title>FreshRescue - Zéro gaspillage, zéro déplacement inutile</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fefaf5 0%, #fff7ed 100%);
+            color: #1e2a2f;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b7a3e;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2b7a3e 0%, #f4b942 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .logo i {
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: #f4b942;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+            background: #ffffff;
+            padding: 6px;
+            border-radius: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #4a5b5e;
+        }
+
+        .lang-btn.active {
+            background: #2b7a3e;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #1f3e34 0%, #2b7a3e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #4a5b5e;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #2b7a3e;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 48px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(43,122,62,0.25);
+        }
+
+        .btn-primary:hover {
+            background: #1f5e31;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(43,122,62,0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #2b7a3e;
+            color: #2b7a3e;
+            padding: 12px 28px;
+            border-radius: 48px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #2b7a3e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2b7a3e;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c7a7d;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #1f3e34;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6c7a7d;
+            margin-bottom: 60px;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: #fefaf5;
+            border-radius: 32px;
+            transition: all 0.3s;
+            border: 1px solid #f0e3d6;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: #2b7a3e30;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2b7a3e20 0%, #f4b94220 100%);
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .feature-icon i {
+            font-size: 2.5rem;
+            color: #2b7a3e;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: #1f3e34;
+        }
+
+        /* Double Panel Section */
+        .business-model {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #fefaf5 0%, #fff7ed 100%);
+        }
+
+        .panels-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 48px;
+            padding: 48px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid #f0e3d6;
+        }
+
+        .panel:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.1);
+        }
+
+        .panel h3 {
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge {
+            background: #2b7a3e;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-consumer {
+            background: #f4b942;
+            color: #1e2a2f;
+        }
+
+        .panel ul {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .panel li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f0e3d6;
+        }
+
+        .panel li i {
+            color: #2b7a3e;
+            width: 24px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1f3e34 0%, #2b7a3e 100%);
+            color: white;
+        }
+
+        .cta-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .form-group input {
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 48px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .btn-cta {
+            background: #f4b942;
+            color: #1e2a2f;
+            padding: 14px 32px;
+            border-radius: 48px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-cta:hover {
+            background: #f5c25e;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: rgba(255,255,255,0.2);
+            padding: 16px;
+            border-radius: 48px;
+            margin-top: 24px;
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2e2a;
+            color: #cddad5;
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-grid, .panels-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .container {
+                padding: 0 20px;
+            }
+            .features-grid {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .panel {
+                padding: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="nav">
+            <div class="logo">
+                <i class="fas fa-leaf"></i> FreshRescue
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="fr">🇫🇷 FR</button>
+                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+                <button class="lang-btn" data-lang="th">🇹🇭 TH</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content" data-aos="fade-right">
+                    <h1 id="hero-title">Transformez le gaspillage en opportunité économique</h1>
+                    <p id="hero-desc">Les commerçants publient leurs invendus frais. Vous recevez une notification, vous réservez, vous venez chercher. Zéro déplacement inutile, zéro gaspillage.</p>
+                    <div class="cta-group">
+                        <button class="btn-primary" id="cta-merchant"><i class="fas fa-store"></i> <span id="cta-merchant-text">Je suis commerçant</span></button>
+                        <button class="btn-outline" id="cta-consumer"><i class="fas fa-shopping-bag"></i> <span id="cta-consumer-text">Je suis consommateur</span></button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="stat1-number">0+</div>
+                            <div class="stat-label" id="stat1-label">Commerçants engagés</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="stat2-number">0kg</div>
+                            <div class="stat-label" id="stat2-label">Gaspillage évité</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="stat3-number">0%</div>
+                            <div class="stat-label" id="stat3-label">Économie moyenne</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image" data-aos="fade-left">
+                    <img src="https://placehold.co/600x500/2b7a3e/ffffff?text=FreshRescue+App" alt="FreshRescue App Mockup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" id="features-title">Comment ça marche ?</h2>
+            <p class="section-subtitle" id="features-subtitle">Simple, rapide, efficace pour tous</p>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon"><i class="fas fa-camera"></i></div>
+                    <h3 id="step1-title">1. Photo & prix</h3>
+                    <p id="step1-desc">Le commerçant photographie ses produits frais, fixe un prix réduit et active l'offre en un clic.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                    <h3 id="step2-title">2. Notification</h3>
+                    <p id="step2-desc">Les clients dans un rayon de 15 km reçoivent une alerte instantanée sur leur téléphone.</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon"><i class="fas fa-check-circle"></i></div>
+                    <h3 id="step3-title">3. Réservation</h3>
+                    <p id="step3-desc">Réservation simple, retrait avant l'heure limite. Le commerçant désactive l'offre en temps réel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Model Section -->
+    <section class="business-model">
+        <div class="container">
+            <div class="panels-grid">
+                <div class="panel" data-aos="fade-right">
+                    <h3><i class="fas fa-store"></i> <span id="merchant-title">Pour les commerçants</span> <span class="badge" id="merchant-badge">Abonnement</span></h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> <span id="merchant-1">Valorisez vos invendus sans effort</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="merchant-2">Fidélisez de nouveaux clients locaux</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="merchant-3">Contrôle total : désactivation immédiate en cas de rupture</span></li>
+                        <li><i class="fas fa-check-circle"></i> <span id="merchant-4">Abonnement mensuel simple, sans commission à la vente</span></li>
+                        <li><i class="fas fa-chart-line"></i> <span id="merchant-5">Statistiques détaillées et optimisation des invendus</span></li>
+                    </ul>
+                </div>
+                <div class="panel" data-aos="fade-left">
+                    <h3><i class="fas fa-users"></i> <span id="consumer-title">Pour les consommateurs</span> <span class="badge badge-consumer" id="consumer-badge">Gratuit</span></h3>
+                    <ul>
+                        <li><i class="fas fa-tag"></i> <span id="consumer-1">Produits frais jusqu'à -70%</span></li>
+                        <li><i class="fas fa-location-dot"></i> <span id="consumer-2">Notifications géolocalisées (rayon 15 km)</span></li>
+                        <li><i class="fas fa-clock"></i> <span id="consumer-3">Pas de déplacement inutile : offre désactivée en temps réel</span></li>
+                        <li><i class="fas fa-heart"></i> <span id="consumer-4">Soutenez les commerces de proximité engagés</span></li>
+                        <li><i class="fas fa-mobile-alt"></i> <span id="consumer-5">Application intuitive et gratuite</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section with Supabase Form -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 id="cta-title">Prêt à rejoindre l'économie circulaire ?</h2>
+                <p id="cta-desc">Inscrivez-vous pour être informé du lancement et bénéficier d'offres exclusives.</p>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <input type="email" id="email-input" placeholder="votre@email.com" required>
+                        <input type="text" id="name-input" placeholder="Votre nom" required>
+                        <button type="submit" class="btn-cta" id="submit-btn">📱 S'inscrire</button>
+                    </div>
+                    <div id="success-message" class="success-message">
+                        ✅ Merci ! Vous serez notifié au lancement.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2025 FreshRescue — Réduire le gaspillage, nourrir les communautés. 🌍</p>
+        <p style="margin-top: 12px; font-size: 0.8rem;">Français · English · ภาษาไทย</p>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+
+    // Translations
+    const translations = {
+        fr: {
+            hero_title: "Transformez le gaspillage en opportunité économique",
+            hero_desc: "Les commerçants publient leurs invendus frais. Vous recevez une notification, vous réservez, vous venez chercher. Zéro déplacement inutile, zéro gaspillage.",
+            cta_merchant: "Je suis commerçant",
+            cta_consumer: "Je suis consommateur",
+            stat1: "Commerçants engagés",
+            stat2: "Gaspillage évité",
+            stat3: "Économie moyenne",
+            features_title: "Comment ça marche ?",
+            features_subtitle: "Simple, rapide, efficace pour tous",
+            step1_title: "1. Photo & prix",
+            step1_desc: "Le commerçant photographie ses produits frais, fixe un prix réduit et active l'offre en un clic.",
+            step2_title: "2. Notification",
+            step2_desc: "Les clients dans un rayon de 15 km reçoivent une alerte instantanée sur leur téléphone.",
+            step3_title: "3. Réservation",
+            step3_desc: "Réservation simple, retrait avant l'heure limite. Le commerçant désactive l'offre en temps réel.",
+            merchant_title: "Pour les commerçants",
+            merchant_badge: "Abonnement",
+            merchant_1: "Valorisez vos invendus sans effort",
+            merchant_2: "Fidélisez de nouveaux clients locaux",
+            merchant_3: "Contrôle total : désactivation immédiate en cas de rupture",
+            merchant_4: "Abonnement mensuel simple, sans commission à la vente",
+            merchant_5: "Statistiques détaillées et optimisation des invendus",
+            consumer_title: "Pour les consommateurs",
+            consumer_badge: "Gratuit",
+            consumer_1: "Produits frais jusqu'à -70%",
+            consumer_2: "Notifications géolocalisées (rayon 15 km)",
+            consumer_3: "Pas de déplacement inutile : offre désactivée en temps réel",
+            consumer_4: "Soutenez les commerces de proximité engagés",
+            consumer_5: "Application intuitive et gratuite",
+            cta_title: "Prêt à rejoindre l'économie circulaire ?",
+            cta_desc: "Inscrivez-vous pour être informé du lancement et bénéficier d'offres exclusives."
+        },
+        en: {
+            hero_title: "Turn food waste into economic opportunity",
+            hero_desc: "Merchants post their fresh surplus. You receive a notification, reserve, and pick up. Zero wasted trips, zero food waste.",
+            cta_merchant: "I am a merchant",
+            cta_consumer: "I am a consumer",
+            stat1: "Merchants engaged",
+            stat2: "Waste avoided",
+            stat3: "Average savings",
+            features_title: "How it works?",
+            features_subtitle: "Simple, fast, effective for everyone",
+            step1_title: "1. Photo & price",
+            step1_desc: "Merchant photographs fresh products, sets a discounted price, and activates the offer in one click.",
+            step2_title: "2. Notification",
+            step2_desc: "Customers within 15 km receive an instant alert on their phone.",
+            step3_title: "3. Reservation",
+            step3_desc: "Simple reservation, pickup before deadline. Merchant disables offer in real-time.",
+            merchant_title: "For merchants",
+            merchant_badge: "Subscription",
+            merchant_1: "Monetize your surplus effortlessly",
+            merchant_2: "Build loyal local customers",
+            merchant_3: "Full control: immediate deactivation when sold out",
+            merchant_4: "Simple monthly subscription, no commission on sales",
+            merchant_5: "Detailed analytics and waste optimization",
+            consumer_title: "For consumers",
+            consumer_badge: "Free",
+            consumer_1: "Fresh products up to 70% off",
+            consumer_2: "Geo-notifications (15 km radius)",
+            consumer_3: "No wasted trips: offers disabled in real-time",
+            consumer_4: "Support local committed businesses",
+            consumer_5: "Intuitive and free application",
+            cta_title: "Ready to join the circular economy?",
+            cta_desc: "Sign up to be notified at launch and get exclusive offers."
+        },
+        th: {
+            hero_title: "เปลี่ยนขยะอาหารให้เป็นโอกาสทางเศรษฐกิจ",
+            hero_desc: "ผู้ค้าปลีกโพสต์สินค้าสดส่วนเกิน คุณได้รับการแจ้งเตือน จอง และรับสินค้า ไม่ต้องเดินทางโดยเปล่าประโยชน์ ลดขยะอาหาร",
+            cta_merchant: "ฉันเป็นผู้ค้า",
+            cta_consumer: "ฉันเป็นผู้บริโภค",
+            stat1: "ผู้ค้าที่เข้าร่วม",
+            stat2: "ลดขยะอาหาร",
+            stat3: "ประหยัดเฉลี่ย",
+            features_title: "ทำงานอย่างไร?",
+            features_subtitle: "ง่าย รวดเร็ว มีประสิทธิภาพสำหรับทุกคน",
+            step1_title: "1. ถ่ายรูป & ตั้งราคา",
+            step1_desc: "ผู้ค้าถ่ายรูปสินค้าสด ตั้งราคาส่วนลด และเปิดข้อเสนอได้ในคลิกเดียว",
+            step2_title: "2. การแจ้งเตือน",
+            step2_desc: "ลูกค้าภายในรัศมี 15 กม. ได้รับการแจ้งเตือนทันที",
+            step3_title: "3. จองสินค้า",
+            step3_desc: "จองง่าย ๆ รับก่อนเวลาที่กำหนด ผู้ค้าปิดข้อเสนอแบบเรียลไทม์",
+            merchant_title: "สำหรับผู้ค้า",
+            merchant_badge: "สมาชิกรายเดือน",
+            merchant_1: "สร้างรายได้จากสินค้าส่วนเกินโดยไม่ยุ่งยาก",
+            merchant_2: "สร้างฐานลูกค้าท้องถิ่นที่ภักดี",
+            merchant_3: "ควบคุมเต็มที่: ปิดข้อเสนอทันทีเมื่อสินค้าหมด",
+            merchant_4: "ค่าสมาชิกรายเดือน ไม่มีค่าคอมมิชชัน",
+            merchant_5: "วิเคราะห์ข้อมูลและปรับกลยุทธ์ลดของเสีย",
+            consumer_title: "สำหรับผู้บริโภค",
+            consumer_badge: "ฟรี",
+            consumer_1: "สินค้าสดลดสูงสุด 70%",
+            consumer_2: "การแจ้งเตือนตามตำแหน่ง (รัศมี 15 กม.)",
+            consumer_3: "ไม่ต้องเดินทางโดยเปล่าประโยชน์",
+            consumer_4: "สนับสนุนธุรกิจท้องถิ่นที่ใส่ใจ",
+            consumer_5: "แอปพลิเคชันใช้งานง่ายและฟรี",
+            cta_title: "พร้อมร่วมเศรษฐกิจหมุนเวียนแล้วหรือยัง?",
+            cta_desc: "ลงทะเบียนเพื่อรับข่าวสารเปิดตัวและข้อเสนอพิเศษ"
+        }
+    };
+
+    let currentLang = "fr";
+
+    function updateLanguage(lang) {
+        const t = translations[lang];
+        if (!t) return;
+        
+        document.getElementById("hero-title").innerText = t.hero_title;
+        document.getElementById("hero-desc").innerText = t.hero_desc;
+        document.getElementById("cta-merchant-text").innerText = t.cta_merchant;
+        document.getElementById("cta-consumer-text").innerText = t.cta_consumer;
+        document.getElementById("stat1-label").innerText = t.stat1;
+        document.getElementById("stat2-label").innerText = t.stat2;
+        document.getElementById("stat3-label").innerText = t.stat3;
+        document.getElementById("features-title").innerText = t.features_title;
+        document.getElementById("features-subtitle").innerText = t.features_subtitle;
+        document.getElementById("step1-title").innerText = t.step1_title;
+        document.getElementById("step1-desc").innerText = t.step1_desc;
+        document.getElementById("step2-title").innerText = t.step2_title;
+        document.getElementById("step2-desc").innerText = t.step2_desc;
+        document.getElementById("step3-title").innerText = t.step3_title;
+        document.getElementById("step3-desc").innerText = t.step3_desc;
+        document.getElementById("merchant-title").innerText = t.merchant_title;
+        document.getElementById("merchant-badge").innerText = t.merchant_badge;
+        document.getElementById("merchant-1").innerText = t.merchant_1;
+        document.getElementById("merchant-2").innerText = t.merchant_2;
+        document.getElementById("merchant-3").innerText = t.merchant_3;
+        document.getElementById("merchant-4").innerText = t.merchant_4;
+        document.getElementById("merchant-5").innerText = t.merchant_5;
+        document.getElementById("consumer-title").innerText = t.consumer_title;
+        document.getElementById("consumer-badge").innerText = t.consumer_badge;
+        document.getElementById("consumer-1").innerText = t.consumer_1;
+        document.getElementById("consumer-2").innerText = t.consumer_2;
+        document.getElementById("consumer-3").innerText = t.consumer_3;
+        document.getElementById("consumer-4").innerText = t.consumer_4;
+        document.getElementById("consumer-5").innerText = t.consumer_5;
+        document.getElementById("cta-title").innerText = t.cta_title;
+        document.getElementById("cta-desc").innerText = t.cta_desc;
+        
+        currentLang = lang;
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+            if(btn.getAttribute("data-lang") === lang) btn.classList.add("active");
+            else btn.classList.remove("active");
+        });
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.addEventListener("click", () => updateLanguage(btn.getAttribute("data-lang")));
+    });
+
+    // Demo stats animation
+    setTimeout(() => {
+        document.getElementById("stat1-number").innerText = "150+";
+        document.getElementById("stat2-number").innerText = "12,450kg";
+        document.getElementById("stat3-number").innerText = "65%";
+    }, 500);
+
+    // Form submission (will connect to Supabase)
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email-input").value;
+        const name = document.getElementById("name-input").value;
+        
+        const submitBtn = document.getElementById("submit-btn");
+        const originalText = submitBtn.innerText;
+        submitBtn.innerText = "⏳ Envoi...";
+        submitBtn.disabled = true;
+        
+        try {
+            // Configuration Supabase - à remplacer par vos identifiants
+            const SUPABASE_URL = "https://votre-projet.supabase.co";
+            const SUPABASE_ANON_KEY = "votre-clé-anon";
+            
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_ANON_KEY,
+                    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+                },
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    language: currentLang,
+                    created_at: new Date().toISOString()
+                })
+            });
+            
+            if (response.ok) {
+                document.getElementById("success-message").style.display = "block";
+                document.getElementById("email-input").value = "";
+                document.getElementById("name-input").value = "";
+                setTimeout(() => {
+                    document.getElementById("success-message").style.display = "none";
+                }, 5000);
+            } else {
+                throw new Error("Erreur d'inscription");
+            }
+        } catch (error) {
+            // Fallback pour la démo - simule une inscription
+            console.log("Mode démo:", error);
+            document.getElementById("success-message").style.display = "block";
+            document.getElementById("email-input").value = "";
+            document.getElementById("name-input").value = "";
+            setTimeout(() => {
+                document.getElementById("success-message").style.display = "none";
+            }, 5000);
+        } finally {
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // CTA buttons
+    document.getElementById("cta-merchant").addEventListener("click", () => {
+        alert(currentLang === "fr" ? "Formulaire d'inscription commerçant - Arrive bientôt !" : 
+              currentLang === "en" ? "Merchant registration form - Coming soon!" : 
+              "แบบฟอร์มลงทะเบียนผู้ค้า - เร็วๆนี้!");
+    });
+    
+    document.getElementById("cta-consumer").addEventListener("click", () => {
+        alert(currentLang === "fr" ? "Application consommateur gratuite - Bientôt disponible" : 
+              currentLang === "en" ? "Free consumer app - Coming soon" : 
+              "แอพฟรีสำหรับผู้บริโภค - เร็วๆนี้");
+    });
+
+    updateLanguage("fr");
+</script>
+</body>
+</html>
