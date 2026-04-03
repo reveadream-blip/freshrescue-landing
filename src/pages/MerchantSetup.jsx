@@ -53,7 +53,6 @@ export default function MerchantSetup() {
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
 
-  // --- GÉOCODAGE OPTIMISÉ POUR PHUKET (SANS CLÉ) ---
   const getCoordsFromAddress = async (addressText) => {
     if (!addressText || addressText.length < 3) return null;
 
@@ -63,7 +62,7 @@ export default function MerchantSetup() {
       
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
-        { headers: { 'User-Agent': 'FreshRescue-App' } }
+        { headers: { 'User-Agent': 'FreshRescue-App-V2' } }
       );
       const data = await response.json();
 
@@ -71,7 +70,6 @@ export default function MerchantSetup() {
         return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
       }
 
-      // Fallback : recherche simplifiée sur les deux premiers mots
       const simplified = cleanAddress.split(' ').slice(0, 2).join(' ');
       const fallbackQuery = `${simplified}, Phuket, Thailand`;
       const res2 = await fetch(
@@ -99,12 +97,12 @@ export default function MerchantSetup() {
       const coords = await getCoordsFromAddress(form.address);
       
       if (!coords) {
-        alert("Impossible de localiser cette adresse. Précisez le quartier ou un point d'intérêt (ex: Rawai Pier, Phuket).");
+        alert("Impossible de localiser cette adresse. Essayez avec un lieu connu à proximité.");
         setLoading(false);
         return;
       }
 
-      // 2. Mise à jour du profil MARCHAND
+      // 2. Mise à jour du profil MARCHAND (table 'merchants')
       const { error: merchantError } = await supabase
         .from('merchants')
         .upsert({
@@ -121,18 +119,20 @@ export default function MerchantSetup() {
 
       if (merchantError) throw merchantError;
 
-      // 3. SYNCHRONISATION : On met à jour l'adresse et le GPS sur toutes les OFFRES de ce marchand
+      // 3. SYNCHRONISATION : Mise à jour de 'shop_address' dans la table 'offers'
       const { error: offersError } = await supabase
         .from('offers')
         .update({
-          address: form.address,
+          shop_address: form.address, // Mis à jour avec le bon nom de colonne
           lat: coords.lat,
           lng: coords.lng
         })
         .eq('user_id', currentUser.id);
 
       if (offersError) {
-        console.warn("Profil mis à jour, mais erreur de synchro des offres:", offersError.message);
+        console.warn("Erreur synchro offres:", offersError.message);
+      } else {
+        console.log("✅ Synchronisation réussie de shop_address.");
       }
 
       setSaved(true);
@@ -162,9 +162,9 @@ export default function MerchantSetup() {
         <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-xl">
           
           <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl">
-              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Localisation Intelligente</p>
+              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Localisation Synchronisée</p>
               <p className="text-xs text-muted-foreground">
-                L'adresse et les coordonnées GPS de vos offres seront automatiquement synchronisées avec ces paramètres.
+                Toutes vos offres existantes seront mises à jour avec l'adresse <strong>{form.address || '...'}</strong>.
               </p>
           </div>
 
@@ -186,9 +186,6 @@ export default function MerchantSetup() {
               />
               <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
             </div>
-            <p className="text-[10px] mt-2 text-muted-foreground uppercase tracking-wider">
-              Astuce : Utilisez des points de repère connus à Phuket pour une meilleure précision.
-            </p>
           </div>
 
           <div>

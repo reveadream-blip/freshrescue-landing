@@ -24,7 +24,7 @@ export default function Explore() {
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
           user_lng: lng,
-          radius_km: 10
+          radius_km: 30
         });
         if (error) throw error;
         result = data;

@@ -3,55 +3,27 @@ import { MapPin, Navigation } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { useTranslation } from '../lib/i18n';
 
-function getDistance(lat1, lon1, lat2, lon2) {
-  const R = 6371; 
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
 export default function OfferCard({ offer }) {
   const { t, lang } = useTranslation();
   const [hovered, setHovered] = useState(false);
-
-  useEffect(() => {
-    // Utilisation de lat/lng pour correspondre à la fonction RPC
-    if ("geolocation" in navigator && offer.lat && offer.lng) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const distance = getDistance(
-          position.coords.latitude,
-          position.coords.longitude,
-          offer.lat,
-          offer.lng
-        );
-        if (distance <= 10) {
-          console.log(`Offre à proximité : ${distance.toFixed(1)} km`);
-        }
-      });
-    }
-  }, [offer]);
 
   const discount = offer.original_price
     ? Math.round(((offer.original_price - offer.discount_price) / offer.original_price) * 100)
     : null;
 
-  // Logique de traduction multilingue
   const title = lang === 'fr' && offer.title_fr ? offer.title_fr
     : lang === 'th' && offer.title_th ? offer.title_th
     : offer.title;
 
   const handleDirections = (e) => {
     e.stopPropagation();
+    // On utilise la colonne shop_address qui est synchronisée
     const address = offer.shop_address;
     if (address) {
-      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
       window.open(url, '_blank');
     } else {
-      alert("Adresse non renseignée");
+      alert("Adresse non renseignée. Veuillez la configurer dans votre profil marchand.");
     }
   };
 
@@ -94,7 +66,10 @@ export default function OfferCard({ offer }) {
           <h3 className="font-bold text-base text-foreground line-clamp-1 italic uppercase tracking-tight">{title}</h3>
           <div className="flex items-center gap-1.5 mt-1">
             <MapPin className="w-3.5 h-3.5 text-citrus flex-shrink-0" />
-            <p className="text-xs text-muted-foreground font-medium">{offer.shop_name}</p>
+            {/* On affiche le nom de la boutique et l'adresse si dispo */}
+            <p className="text-xs text-muted-foreground font-medium">
+              {offer.shop_name} • <span className="italic">{offer.shop_address || "Phuket"}</span>
+            </p>
           </div>
         </div>
 
@@ -109,7 +84,6 @@ export default function OfferCard({ offer }) {
         </div>
 
         <div className="pt-2 border-t border-border/50">
-          {/* Vérifie si ta colonne est 'collect_before' ou 'collect_deadline' */}
           <CountdownTimer deadline={offer.collect_before || offer.collect_deadline} />
         </div>
       </div>
