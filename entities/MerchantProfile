@@ -1,0 +1,62 @@
+{
+  "name": "MerchantProfile",
+  "type": "object",
+  "properties": {
+    "shop_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bakery",
+        "restaurant",
+        "grocery",
+        "market",
+        "cafe",
+        "other"
+      ]
+    },
+    "latitude": {
+      "type": "number"
+    },
+    "longitude": {
+      "type": "number"
+    },
+    "trial_start_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date when the free trial started"
+    },
+    "subscription_status": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "active",
+        "expired"
+      ],
+      "default": "trial",
+      "description": "Current subscription status"
+    },
+    "subscription_start_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date when paid subscription started"
+    }
+  },
+  "required": [
+    "shop_name",
+    "address"
+  ]
+}

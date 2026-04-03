@@ -1,0 +1,91 @@
+{
+  "name": "Offer",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Product name"
+    },
+    "title_fr": {
+      "type": "string",
+      "description": "Product name in French"
+    },
+    "title_th": {
+      "type": "string",
+      "description": "Product name in Thai"
+    },
+    "description": {
+      "type": "string",
+      "description": "Product description"
+    },
+    "description_fr": {
+      "type": "string",
+      "description": "Product description in French"
+    },
+    "description_th": {
+      "type": "string",
+      "description": "Product description in Thai"
+    },
+    "photo": {
+      "type": "string",
+      "description": "Product photo URL"
+    },
+    "original_price": {
+      "type": "number",
+      "description": "Original price in THB"
+    },
+    "discount_price": {
+      "type": "number",
+      "description": "Discounted price in THB"
+    },
+    "collect_before": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Collect before this time"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Whether the offer is currently active",
+      "default": true
+    },
+    "shop_name": {
+      "type": "string",
+      "description": "Name of the merchant shop"
+    },
+    "shop_address": {
+      "type": "string",
+      "description": "Address of the shop"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Shop latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Shop longitude"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bakery",
+        "fruits",
+        "vegetables",
+        "dairy",
+        "meat",
+        "seafood",
+        "prepared",
+        "beverages",
+        "other"
+      ],
+      "description": "Product category"
+    }
+  },
+  "required": [
+    "title",
+    "photo",
+    "discount_price",
+    "collect_before",
+    "shop_name",
+    "is_active"
+  ]
+}
