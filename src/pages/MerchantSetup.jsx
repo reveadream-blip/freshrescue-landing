@@ -55,52 +55,42 @@ export default function MerchantSetup() {
 
   // --- LA MAGIE EST ICI : TROUVER LE GPS VIA L'ADRESSE ---
   const getCoordsFromAddress = async (addressText) => {
+  if (!addressText || addressText.length < 3) return null;
+
   try {
-    // 1. On nettoie l'adresse et on force le contexte thaïlandais
-    // On enlève les virgules superflues et on ajoute Phuket
+    // 1. On prépare plusieurs variantes de recherche
     const cleanAddress = addressText.trim();
+    
+    // On essaie d'abord l'adresse précise + Phuket
     const query = `${cleanAddress}, Phuket, Thailand`;
     
-    console.log("Recherche en cours pour :", query);
-
     const response = await fetch(
       `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
-      {
-        headers: {
-          'Accept-Language': 'fr,en,th', // On accepte plusieurs langues
-          'User-Agent': 'FreshRescue-App-V2'
-        }
-      }
+      { headers: { 'User-Agent': 'FreshRescue-App' } }
     );
-
     const data = await response.json();
 
     if (data && data.length > 0) {
-      console.log("Adresse trouvée !", data[0]);
-      return {
-        lat: parseFloat(data[0].lat),
-        lng: parseFloat(data[0].lon)
-      };
+      return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
     }
 
-    // 2. DEUXIÈME CHANCE : Si ça échoue, on essaie une recherche plus large
-    // (Uniquement la ville et le pays si l'adresse précise bloque)
-    console.warn("Échec précision, tentative de recherche large...");
-    const fallbackResponse = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent("Rawai, Phuket, Thailand")}&limit=1`
-    );
-    const fallbackData = await fallbackResponse.json();
+    // 2. DEUXIÈME CHANCE : Si l'adresse précise échoue, on cherche juste le quartier/rue
+    // On prend les 2 premiers mots de l'adresse (souvent le nom de la rue ou du condo)
+    const simplified = cleanAddress.split(' ').slice(0, 2).join(' ');
+    const fallbackQuery = `${simplified}, Phuket, Thailand`;
     
-    if (fallbackData && fallbackData.length > 0) {
-       return {
-         lat: parseFloat(fallbackData[0].lat),
-         lng: parseFloat(fallbackData[0].lon)
-       };
+    const res2 = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&limit=1`
+    );
+    const data2 = await res2.json();
+
+    if (data2 && data2.length > 0) {
+      return { lat: parseFloat(data2[0].lat), lng: parseFloat(data2[0].lon) };
     }
 
     return null;
   } catch (error) {
-    console.error("Erreur API Nominatim:", error);
+    console.error("Erreur géocodage:", error);
     return null;
   }
 };
