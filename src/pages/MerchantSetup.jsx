@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Loader2, MapPin } from 'lucide-react'; 
+import { ArrowLeft, Check, Loader2, MapPin, Search } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase'; 
 import { useAuth } from '@/lib/AuthContext';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
-
-const SHOP_CATS = ['bakery', 'restaurant', 'grocery', 'market', 'cafe', 'other'];
 
 export default function MerchantSetup() {
   const { t } = useTranslation();
@@ -14,7 +12,6 @@ export default function MerchantSetup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [locating, setLocating] = useState(false); // Pour le bouton GPS
   
   const [form, setForm] = useState({ 
     shop_name: '', 
@@ -22,19 +19,17 @@ export default function MerchantSetup() {
     phone: '', 
     category: 'bakery', 
     description: '',
-    lat: null, // AJOUTÉ
-    lng: null  // AJOUTÉ
+    lat: null, 
+    lng: null
   });
 
   useEffect(() => {
-    if (currentUser?.id) {
-      loadProfile();
-    }
+    if (currentUser?.id) loadProfile();
   }, [currentUser]);
 
   const loadProfile = async () => {
     try {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('merchants')
         .select('*')
         .eq('user_id', currentUser.id)
@@ -47,58 +42,56 @@ export default function MerchantSetup() {
           phone: data.phone || '',
           category: data.category || 'bakery',
           description: data.description || '',
-          lat: data.lat || null, // AJOUTÉ
-          lng: data.lng || null  // AJOUTÉ
+          lat: data.lat || null,
+          lng: data.lng || null
         });
       }
     } catch (err) {
-      console.log("Premier profil : aucune donnée à charger encore.");
-    }
-  };
-
-  // FONCTION POUR RÉCUPÉRER LE GPS DU COMMERÇANT
-  const getMyLocation = () => {
-    setLocating(true);
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setForm(prev => ({
-            ...prev,
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }));
-          setLocating(false);
-          alert("Position GPS capturée !");
-        },
-        (error) => {
-          console.error(error);
-          setLocating(false);
-          alert("Erreur : Impossible de récupérer votre position. Vérifiez vos réglages GPS.");
-        }
-      );
+      console.log("Nouveau profil commerçant.");
     }
   };
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
 
+  // --- LA MAGIE EST ICI : TROUVER LE GPS VIA L'ADRESSE ---
+  const getCoordsFromAddress = async (addressText) => {
+    try {
+      // On utilise l'API gratuite Nominatim d'OpenStreetMap
+      // On ajoute "Phuket, Thailand" pour aider l'algorithme à ne pas chercher ailleurs
+      const query = `${addressText}, Phuket, Thailand`;
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`
+      );
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        return {
+          lat: parseFloat(data[0].lat),
+          lng: parseFloat(data[0].lon)
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error("Erreur géocodage gratuit:", error);
+      return null;
+    }
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
-    
-    if (!currentUser?.id) {
-      alert("Vous devez être connecté.");
-      navigate('/login');
-      return;
-    }
-
-    // Vérification que le GPS est là
-    if (!form.lat || !form.lng) {
-      alert("Veuillez cliquer sur le bouton 'Ma position actuelle' pour que les clients puissent vous trouver à moins de 10km.");
-      return;
-    }
-
     setLoading(true);
 
     try {
+      // 1. On cherche les coordonnées GPS basées sur l'adresse tapée
+      const coords = await getCoordsFromAddress(form.address);
+      
+      if (!coords) {
+        alert("Impossible de localiser cette adresse. Précisez la ville (ex: Rawai, Phuket).");
+        setLoading(false);
+        return;
+      }
+
+      // 2. On enregistre tout dans Supabase
       const { error } = await supabase
         .from('merchants')
         .upsert({
@@ -108,8 +101,8 @@ export default function MerchantSetup() {
           phone: form.phone,
           category: form.category,
           description: form.description,
-          lat: form.lat, // ENVOYÉ À SUPABASE
-          lng: form.lng, // ENVOYÉ À SUPABASE
+          lat: coords.lat, // On utilise les coordonnées trouvées par Mapbox
+          lng: coords.lng,
           updated_at: new Date().toISOString(),
         }, { onConflict: 'user_id' });
 
@@ -141,18 +134,11 @@ export default function MerchantSetup() {
 
         <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8">
           
-          {/* BOUTON GPS - TRÈS IMPORTANT */}
-          <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl flex flex-col items-center gap-3">
-             <p className="text-xs font-bold uppercase text-citrus text-center">Géolocalisation de la boutique</p>
-             <button 
-               type="button" 
-               onClick={getMyLocation}
-               className="flex items-center gap-2 bg-citrus text-earth px-6 py-2 rounded-full font-bold hover:scale-105 transition-transform"
-             >
-               {locating ? <Loader2 className="w-4 h-4 animate-spin" /> : <MapPin className="w-4 h-4" />}
-               {form.lat ? "Position capturée ✓" : "Utiliser ma position actuelle"}
-             </button>
-             {form.lat && <p className="text-[10px] text-muted-foreground">Lat: {form.lat.toFixed(4)} | Lng: {form.lng.toFixed(4)}</p>}
+          <div className="p-4 bg-citrus/5 border border-citrus/20 rounded-2xl">
+             <p className="text-[10px] font-bold uppercase text-citrus mb-1">Information Localisation</p>
+             <p className="text-xs text-muted-foreground italic">
+               Les coordonnées GPS sont calculées automatiquement à partir de l'adresse de votre établissement.
+             </p>
           </div>
 
           <div>
@@ -162,7 +148,18 @@ export default function MerchantSetup() {
 
           <div>
             <label className={labelClass}>{t('shopAddress')} *</label>
-            <input required type="text" value={form.address} onChange={e => set('address', e.target.value)} className={inputClass} />
+            <div className="relative">
+              <input 
+                required 
+                type="text" 
+                placeholder="Ex: 123 Beach Road, Rawai, Phuket"
+                value={form.address} 
+                onChange={e => set('address', e.target.value)} 
+                className={inputClass} 
+              />
+              <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus/50" />
+            </div>
+            <p className="text-[10px] mt-2 text-muted-foreground uppercase">Soyez précis pour que le GPS place l'épingle au bon endroit.</p>
           </div>
 
           <div>
