@@ -289,8 +289,11 @@ export function useTranslation() {
   };
 
   const setLanguage = (newLang) => {
-    localStorage.setItem('freshrescue_lang', newLang);
-    window.location.reload();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('freshrescue_lang', newLang);
+      // On force le rechargement pour que toute l'app change de langue proprement
+      window.location.reload();
+    }
   };
 
   return { t, lang, setLanguage };
