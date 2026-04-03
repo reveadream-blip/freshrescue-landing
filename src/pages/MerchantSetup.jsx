@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Loader2, MapPin, Search } from 'lucide-react'; 
+import { ArrowLeft, Check, Loader2, MapPin } from 'lucide-react'; 
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase'; 
 import { useAuth } from '@/lib/AuthContext';
@@ -53,64 +53,59 @@ export default function MerchantSetup() {
 
   const set = (key, val) => setForm(prev => ({ ...prev, [key]: val }));
 
-  // --- LA MAGIE EST ICI : TROUVER LE GPS VIA L'ADRESSE ---
+  // --- GÉOCODAGE OPTIMISÉ POUR PHUKET (SANS CLÉ) ---
   const getCoordsFromAddress = async (addressText) => {
-  if (!addressText || addressText.length < 3) return null;
+    if (!addressText || addressText.length < 3) return null;
 
-  try {
-    // 1. On prépare plusieurs variantes de recherche
-    const cleanAddress = addressText.trim();
-    
-    // On essaie d'abord l'adresse précise + Phuket
-    const query = `${cleanAddress}, Phuket, Thailand`;
-    
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
-      { headers: { 'User-Agent': 'FreshRescue-App' } }
-    );
-    const data = await response.json();
+    try {
+      const cleanAddress = addressText.trim();
+      const query = `${cleanAddress}, Phuket, Thailand`;
+      
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+        { headers: { 'User-Agent': 'FreshRescue-App' } }
+      );
+      const data = await response.json();
 
-    if (data && data.length > 0) {
-      return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      if (data && data.length > 0) {
+        return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+      }
+
+      // Fallback : recherche simplifiée sur les deux premiers mots
+      const simplified = cleanAddress.split(' ').slice(0, 2).join(' ');
+      const fallbackQuery = `${simplified}, Phuket, Thailand`;
+      const res2 = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&limit=1`
+      );
+      const data2 = await res2.json();
+
+      if (data2 && data2.length > 0) {
+        return { lat: parseFloat(data2[0].lat), lng: parseFloat(data2[0].lon) };
+      }
+
+      return null;
+    } catch (error) {
+      console.error("Erreur géocodage:", error);
+      return null;
     }
-
-    // 2. DEUXIÈME CHANCE : Si l'adresse précise échoue, on cherche juste le quartier/rue
-    // On prend les 2 premiers mots de l'adresse (souvent le nom de la rue ou du condo)
-    const simplified = cleanAddress.split(' ').slice(0, 2).join(' ');
-    const fallbackQuery = `${simplified}, Phuket, Thailand`;
-    
-    const res2 = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&limit=1`
-    );
-    const data2 = await res2.json();
-
-    if (data2 && data2.length > 0) {
-      return { lat: parseFloat(data2[0].lat), lng: parseFloat(data2[0].lon) };
-    }
-
-    return null;
-  } catch (error) {
-    console.error("Erreur géocodage:", error);
-    return null;
-  }
-};
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // 1. On cherche les coordonnées GPS basées sur l'adresse tapée
+      // 1. On cherche les coordonnées GPS
       const coords = await getCoordsFromAddress(form.address);
       
       if (!coords) {
-        alert("Impossible de localiser cette adresse. Précisez la ville (ex: Rawai, Phuket).");
+        alert("Impossible de localiser cette adresse. Précisez le quartier ou un point d'intérêt (ex: Rawai Pier, Phuket).");
         setLoading(false);
         return;
       }
 
-      // 2. On enregistre tout dans Supabase
-      const { error } = await supabase
+      // 2. Mise à jour du profil MARCHAND
+      const { error: merchantError } = await supabase
         .from('merchants')
         .upsert({
           user_id: currentUser.id,
@@ -119,12 +114,26 @@ export default function MerchantSetup() {
           phone: form.phone,
           category: form.category,
           description: form.description,
-          lat: coords.lat, // On utilise les coordonnées trouvées par Mapbox
+          lat: coords.lat,
           lng: coords.lng,
           updated_at: new Date().toISOString(),
         }, { onConflict: 'user_id' });
 
-      if (error) throw error;
+      if (merchantError) throw merchantError;
+
+      // 3. SYNCHRONISATION : On met à jour l'adresse et le GPS sur toutes les OFFRES de ce marchand
+      const { error: offersError } = await supabase
+        .from('offers')
+        .update({
+          address: form.address,
+          lat: coords.lat,
+          lng: coords.lng
+        })
+        .eq('user_id', currentUser.id);
+
+      if (offersError) {
+        console.warn("Profil mis à jour, mais erreur de synchro des offres:", offersError.message);
+      }
 
       setSaved(true);
       setTimeout(() => navigate('/merchant'), 1500);
@@ -144,19 +153,19 @@ export default function MerchantSetup() {
       <Navbar />
       <div className="pt-24 pb-16 px-6 max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
-          <button onClick={() => navigate(-1)} className="p-2 rounded-full border border-border">
+          <button onClick={() => navigate(-1)} className="p-2 rounded-full border border-border hover:bg-muted transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <h1 className="text-3xl font-black">{t('shopSettings')}</h1>
         </div>
 
-        <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8">
+        <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-xl">
           
-          <div className="p-4 bg-citrus/5 border border-citrus/20 rounded-2xl">
-             <p className="text-[10px] font-bold uppercase text-citrus mb-1">Information Localisation</p>
-             <p className="text-xs text-muted-foreground italic">
-               Les coordonnées GPS sont calculées automatiquement à partir de l'adresse de votre établissement.
-             </p>
+          <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl">
+              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Localisation Intelligente</p>
+              <p className="text-xs text-muted-foreground">
+                L'adresse et les coordonnées GPS de vos offres seront automatiquement synchronisées avec ces paramètres.
+              </p>
           </div>
 
           <div>
@@ -170,14 +179,16 @@ export default function MerchantSetup() {
               <input 
                 required 
                 type="text" 
-                placeholder="Ex: 123 Beach Road, Rawai, Phuket"
+                placeholder="Ex: Soi Saiyuan, Rawai"
                 value={form.address} 
                 onChange={e => set('address', e.target.value)} 
                 className={inputClass} 
               />
-              <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus/50" />
+              <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
             </div>
-            <p className="text-[10px] mt-2 text-muted-foreground uppercase">Soyez précis pour que le GPS place l'épingle au bon endroit.</p>
+            <p className="text-[10px] mt-2 text-muted-foreground uppercase tracking-wider">
+              Astuce : Utilisez des points de repère connus à Phuket pour une meilleure précision.
+            </p>
           </div>
 
           <div>
@@ -188,7 +199,7 @@ export default function MerchantSetup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-citrus text-earth py-4 rounded-2xl font-black text-lg hover:scale-[1.02] transition-transform disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 bg-citrus text-earth py-4 rounded-2xl font-black text-lg hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-60"
           >
             {saved ? <Check className="w-5 h-5" /> : loading ? <Loader2 className="w-5 h-5 animate-spin" /> : t('save')}
           </button>
