@@ -291,8 +291,12 @@ export function useTranslation() {
   const setLanguage = (newLang) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('freshrescue_lang', newLang);
-      // On force le rechargement pour que toute l'app change de langue proprement
-      window.location.reload();
+      
+      // SOLUTION ANTI-PAGE BLANCHE : 
+      // Au lieu de reload l'URL actuelle (ex: /merchant) qui peut bugger, 
+      // on force une redirection vers la racine ou une URL propre gérée par React.
+      const currentPath = window.location.pathname;
+      window.location.href = currentPath; 
     }
   };
 
