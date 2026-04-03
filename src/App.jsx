@@ -36,7 +36,13 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Landing />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/merchant" element={<MerchantGate />} />
+      
+      {/* Route pour la création d'une nouvelle offre */}
       <Route path="/merchant/post" element={<MerchantPost />} />
+      
+      {/* NOUVELLE ROUTE : Pour la modification d'une offre existante avec son ID */}
+      <Route path="/merchant/edit/:id" element={<MerchantPost />} />
+      
       <Route path="/merchant/setup" element={<MerchantSetup />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
