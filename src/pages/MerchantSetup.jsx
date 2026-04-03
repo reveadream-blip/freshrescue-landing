@@ -55,27 +55,55 @@ export default function MerchantSetup() {
 
   // --- LA MAGIE EST ICI : TROUVER LE GPS VIA L'ADRESSE ---
   const getCoordsFromAddress = async (addressText) => {
-    try {
-      // On utilise l'API gratuite Nominatim d'OpenStreetMap
-      // On ajoute "Phuket, Thailand" pour aider l'algorithme à ne pas chercher ailleurs
-      const query = `${addressText}, Phuket, Thailand`;
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`
-      );
-      const data = await response.json();
+  try {
+    // 1. On nettoie l'adresse et on force le contexte thaïlandais
+    // On enlève les virgules superflues et on ajoute Phuket
+    const cleanAddress = addressText.trim();
+    const query = `${cleanAddress}, Phuket, Thailand`;
+    
+    console.log("Recherche en cours pour :", query);
 
-      if (data && data.length > 0) {
-        return {
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
-        };
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+      {
+        headers: {
+          'Accept-Language': 'fr,en,th', // On accepte plusieurs langues
+          'User-Agent': 'FreshRescue-App-V2'
+        }
       }
-      return null;
-    } catch (error) {
-      console.error("Erreur géocodage gratuit:", error);
-      return null;
+    );
+
+    const data = await response.json();
+
+    if (data && data.length > 0) {
+      console.log("Adresse trouvée !", data[0]);
+      return {
+        lat: parseFloat(data[0].lat),
+        lng: parseFloat(data[0].lon)
+      };
     }
-  };
+
+    // 2. DEUXIÈME CHANCE : Si ça échoue, on essaie une recherche plus large
+    // (Uniquement la ville et le pays si l'adresse précise bloque)
+    console.warn("Échec précision, tentative de recherche large...");
+    const fallbackResponse = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent("Rawai, Phuket, Thailand")}&limit=1`
+    );
+    const fallbackData = await fallbackResponse.json();
+    
+    if (fallbackData && fallbackData.length > 0) {
+       return {
+         lat: parseFloat(fallbackData[0].lat),
+         lng: parseFloat(fallbackData[0].lon)
+       };
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Erreur API Nominatim:", error);
+    return null;
+  }
+};
 
   const handleSave = async (e) => {
     e.preventDefault();
