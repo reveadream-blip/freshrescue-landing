@@ -123,6 +123,7 @@ export default function MerchantPost() {
         }
       }
 
+      // Traductions du Titre et Description
       const titleEn = await translateText(form.title, 'en');
       await new Promise(r => setTimeout(r, 300));
       const titleTh = await translateText(form.title, 'th');
@@ -135,6 +136,15 @@ export default function MerchantPost() {
         await new Promise(r => setTimeout(r, 300));
         descTh = await translateText(form.description, 'th');
       }
+
+      // --- LOGIQUE DE TRADUCTION POUR LE MODE ET LE SAC ---
+      const consModeFr = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
+      const consModeEn = await translateText(consModeFr, 'en');
+      const consModeTh = await translateText(consModeFr, 'th');
+
+      const bagNoticeFr = form.needs_cool_bag ? "Prévoir un sac isotherme / congélation" : "";
+      const bagNoticeEn = form.needs_cool_bag ? await translateText(bagNoticeFr, 'en') : "";
+      const bagNoticeTh = form.needs_cool_bag ? await translateText(bagNoticeFr, 'th') : "";
 
       const submissionData = {
         user_id: activeUser.id,
@@ -152,9 +162,14 @@ export default function MerchantPost() {
         shop_address: form.shop_address, 
         photo: photoUrl,
         is_active: form.is_active,
-        consumption_mode: form.consumption_mode,
         expiry_date: form.expiry_date || null,
-        needs_cool_bag: form.needs_cool_bag
+        // Noms de colonnes alignés avec ton SQL Supabase
+        consumption_mode_fr: consModeFr,
+        consumption_mode_en: consModeEn,
+        consumption_mode_th: consModeTh,
+        bag_notice_fr: bagNoticeFr,
+        bag_notice_en: bagNoticeEn,
+        bag_notice_th: bagNoticeTh
       };
 
       if (isEdit) submissionData.id = id;

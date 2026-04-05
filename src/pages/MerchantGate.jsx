@@ -46,7 +46,7 @@ export default function MerchantGate() {
             {isLogin ? (t('login') || 'Connexion') : (t('signup') || 'Inscription')}
           </h2>
           <p className="text-muted-foreground text-xs mt-2 font-bold uppercase tracking-tighter">
-            {t('merchantLogin') || 'Merchant Access'} Phuket
+            {t('merchantLogin') || 'Merchant Access'} 
           </p>
         </div>
         
