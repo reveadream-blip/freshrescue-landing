@@ -55,32 +55,17 @@ export default function MerchantSetup() {
 
   const getCoordsFromAddress = async (addressText) => {
     if (!addressText || addressText.length < 3) return null;
-
     try {
       const cleanAddress = addressText.trim();
       const query = `${cleanAddress}, Phuket, Thailand`;
-      
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
         { headers: { 'User-Agent': 'FreshRescue-App-V2' } }
       );
       const data = await response.json();
-
       if (data && data.length > 0) {
         return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
       }
-
-      const simplified = cleanAddress.split(' ').slice(0, 2).join(' ');
-      const fallbackQuery = `${simplified}, Phuket, Thailand`;
-      const res2 = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fallbackQuery)}&limit=1`
-      );
-      const data2 = await res2.json();
-
-      if (data2 && data2.length > 0) {
-        return { lat: parseFloat(data2[0].lat), lng: parseFloat(data2[0].lon) };
-      }
-
       return null;
     } catch (error) {
       console.error("Erreur géocodage:", error);
@@ -93,47 +78,54 @@ export default function MerchantSetup() {
     setLoading(true);
 
     try {
-      // 1. On cherche les coordonnées GPS
       const coords = await getCoordsFromAddress(form.address);
-      
       if (!coords) {
         alert("Impossible de localiser cette adresse. Essayez avec un lieu connu à proximité.");
         setLoading(false);
         return;
       }
 
-      // 2. Mise à jour du profil MARCHAND (table 'merchants')
+      // --- LOGIQUE ABONNEMENT ---
+      // On vérifie si le profil existe déjà pour ne pas réinitialiser l'essai à chaque modif
+      const { data: existingProfile } = await supabase
+        .from('merchants')
+        .select('trial_start_date')
+        .eq('user_id', currentUser.id)
+        .single();
+
+      const merchantData = {
+        user_id: currentUser.id,
+        shop_name: form.shop_name,
+        address: form.address,
+        phone: form.phone,
+        category: form.category,
+        description: form.description,
+        lat: coords.lat,
+        lng: coords.lng,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Si c'est un nouveau profil (pas de trial_start_date), on lance les 15 jours
+      if (!existingProfile?.trial_start_date) {
+        merchantData.trial_start_date = new Date().toISOString();
+        merchantData.subscription_status = 'trial';
+      }
+      // --------------------------
+
       const { error: merchantError } = await supabase
         .from('merchants')
-        .upsert({
-          user_id: currentUser.id,
-          shop_name: form.shop_name,
-          address: form.address,
-          phone: form.phone,
-          category: form.category,
-          description: form.description,
-          lat: coords.lat,
-          lng: coords.lng,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: 'user_id' });
+        .upsert(merchantData, { onConflict: 'user_id' });
 
       if (merchantError) throw merchantError;
 
-      // 3. SYNCHRONISATION : Mise à jour de 'shop_address' dans la table 'offers'
-      const { error: offersError } = await supabase
+      await supabase
         .from('offers')
         .update({
-          shop_address: form.address, // Mis à jour avec le bon nom de colonne
+          shop_address: form.address,
           lat: coords.lat,
           lng: coords.lng
         })
         .eq('user_id', currentUser.id);
-
-      if (offersError) {
-        console.warn("Erreur synchro offres:", offersError.message);
-      } else {
-        console.log("✅ Synchronisation réussie de shop_address.");
-      }
 
       setSaved(true);
       setTimeout(() => navigate('/merchant'), 1500);
@@ -160,11 +152,10 @@ export default function MerchantSetup() {
         </div>
 
         <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-xl">
-          
           <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl">
-              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Localisation Synchronisée</p>
+              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Période d'essai</p>
               <p className="text-xs text-muted-foreground">
-                Toutes vos offres existantes seront mises à jour avec l'adresse <strong>{form.address || '...'}</strong>.
+                En enregistrant votre commerce, vous bénéficiez de <strong>15 jours d'essai gratuit</strong> sans engagement.
               </p>
           </div>
 

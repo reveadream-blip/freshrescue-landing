@@ -66,7 +66,8 @@ const translations = {
     takePhoto: "Upload Photo",
     publish: "Publish Offer",
     publishing: "Publishing...",
-    // Categories
+    backToHome: "Back to Home",
+    // Categories & Options
     bakery: "Bakery",
     fruits: "Fruits",
     vegetables: "Vegetables",
@@ -75,7 +76,16 @@ const translations = {
     seafood: "Seafood",
     prepared: "Prepared Food",
     beverages: "Beverages",
+    main_course: "Main Course",
+    cheese: "Cheese",
+    bread: "Bread",
     other: "Other",
+    consumptionMode: "Consumption Mode",
+    takeaway: "Takeaway",
+    onSite: "On Site",
+    both: "Both",
+    expiryDate: "Expiry Date (DLC)",
+    coolBag: "Cool bag required",
     // Footer
     footerTagline: "Transforming food waste into opportunity.",
     footerRights: "All rights reserved.",
@@ -158,6 +168,7 @@ const translations = {
     takePhoto: "Ajouter une Photo",
     publish: "Publier l'Offre",
     publishing: "Publication...",
+    backToHome: "Retour Accueil",
     bakery: "Boulangerie",
     fruits: "Fruits",
     vegetables: "Légumes",
@@ -166,7 +177,16 @@ const translations = {
     seafood: "Fruits de Mer",
     prepared: "Plats Préparés",
     beverages: "Boissons",
+    main_course: "Plats cuisinés",
+    cheese: "Fromage",
+    bread: "Pain",
     other: "Autre",
+    consumptionMode: "Mode de consommation",
+    takeaway: "À emporter",
+    onSite: "Sur place",
+    both: "Les deux",
+    expiryDate: "Date de péremption (DLC)",
+    coolBag: "Prévoir sac de congélation",
     footerTagline: "Transformer le gaspillage alimentaire en opportunité.",
     footerRights: "Tous droits réservés.",
     km: "km",
@@ -247,6 +267,7 @@ const translations = {
     takePhoto: "อัปโหลดรูปภาพ",
     publish: "เผยแพร่ข้อเสนอ",
     publishing: "กำลังเผยแพร่...",
+    backToHome: "กลับหน้าหลัก",
     bakery: "เบเกอรี่",
     fruits: "ผลไม้",
     vegetables: "ผัก",
@@ -255,7 +276,16 @@ const translations = {
     seafood: "อาหารทะเล",
     prepared: "อาหารปรุงสำเร็จ",
     beverages: "เครื่องดื่ม",
+    main_course: "อาหารจานหลัก",
+    cheese: "ชีส",
+    bread: "ขนมปัง",
     other: "อื่นๆ",
+    consumptionMode: "รูปแบบการทาน",
+    takeaway: "ซื้อกลับบ้าน",
+    onSite: "ทานที่ร้าน",
+    both: "ได้ทั้งสองอย่าง",
+    expiryDate: "วันหมดอายุ",
+    coolBag: "ต้องใช้ถุงเก็บความเย็น",
     footerTagline: "เปลี่ยนขยะอาหารเป็นโอกาส",
     footerRights: "สงวนลิขสิทธิ์",
     km: "กม.",
@@ -288,19 +318,26 @@ export function useTranslation() {
     return translations[lang]?.[key] || translations.en[key] || key;
   };
 
+  /**
+   * Fonction pour traduire les données provenant de la DB (titre, description)
+   * field : 'title' ou 'description'
+   */
+  const dt = (offer, field) => {
+    if (!offer) return "";
+    if (lang === 'en') return offer[`${field}_en`] || offer[field];
+    if (lang === 'th') return offer[`${field}_th`] || offer[field];
+    return offer[field];
+  };
+
   const setLanguage = (newLang) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('freshrescue_lang', newLang);
-      
-      // SOLUTION ANTI-PAGE BLANCHE : 
-      // Au lieu de reload l'URL actuelle (ex: /merchant) qui peut bugger, 
-      // on force une redirection vers la racine ou une URL propre gérée par React.
-      const currentPath = window.location.pathname;
-      window.location.href = currentPath; 
+      // On rafraîchit pour mettre à jour tout le contexte de l'app
+      window.location.reload(); 
     }
   };
 
-  return { t, lang, setLanguage };
+  return { t, dt, lang, setLanguage };
 }
 
 export function getCurrentLang() {

@@ -4,22 +4,23 @@ import CountdownTimer from './CountdownTimer';
 import { useTranslation } from '../lib/i18n';
 
 export default function OfferCard({ offer }) {
-  const { t, lang } = useTranslation();
+  // AJOUT de 'dt' ici
+  const { t, dt, lang } = useTranslation();
   const [hovered, setHovered] = useState(false);
 
   const discount = offer.original_price
     ? Math.round(((offer.original_price - offer.discount_price) / offer.original_price) * 100)
     : null;
 
-  const title = lang === 'fr' && offer.title_fr ? offer.title_fr
-    : lang === 'th' && offer.title_th ? offer.title_th
-    : offer.title;
+  // LOGIQUE SIMPLIFIÉE : On utilise la fonction magique dt
+  const title = dt(offer, 'title');
+  const description = dt(offer, 'description');
 
   const handleDirections = (e) => {
     e.stopPropagation();
-    // On utilise la colonne shop_address qui est synchronisée
     const address = offer.shop_address;
     if (address) {
+      // Correction de la string template (remplacement du 0 par $)
       const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
       window.open(url, '_blank');
     } else {
@@ -63,10 +64,19 @@ export default function OfferCard({ offer }) {
 
       <div className="p-4 space-y-3">
         <div>
-          <h3 className="font-bold text-base text-foreground line-clamp-1 italic uppercase tracking-tight">{title}</h3>
+          <h3 className="font-bold text-base text-foreground line-clamp-1 italic uppercase tracking-tight">
+            {title}
+          </h3>
+          
+          {/* Optionnel : Afficher la description si tu veux */}
+          {description && (
+            <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5 italic">
+              {description}
+            </p>
+          )}
+
           <div className="flex items-center gap-1.5 mt-1">
             <MapPin className="w-3.5 h-3.5 text-citrus flex-shrink-0" />
-            {/* On affiche le nom de la boutique et l'adresse si dispo */}
             <p className="text-xs text-muted-foreground font-medium">
               {offer.shop_name} • <span className="italic">{offer.shop_address || "Phuket"}</span>
             </p>
