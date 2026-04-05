@@ -5,10 +5,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
-// 1. IMPORT DE LA LIBRAIRIE DE COMPRESSION
 import imageCompression from 'browser-image-compression';
 
-// --- FONCTION DE TRADUCTION AUTOMATIQUE ---
 async function translateText(text, targetLang) {
   if (!text || text.trim() === "") return "";
   try {
@@ -98,25 +96,20 @@ export default function MerchantPost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!activeUser) return alert("Veuillez vous connecter");
+    if (!activeUser) return alert(t('loginRequired') || "Veuillez vous connecter");
     setLoading(true);
     
     try {
-      // 1. Gestion de la Photo avec COMPRESSION
       let photoUrl = form.photo || '';
       if (photoFile) {
-        // --- LOGIQUE DE COMPRESSION ---
         const options = {
-          maxSizeMB: 0.6,          // Max 600 Ko
-          maxWidthOrHeight: 1200,  // Redimensionnement max
+          maxSizeMB: 0.6,
+          maxWidthOrHeight: 1200,
           useWebWorker: true,
-          fileType: 'image/jpeg'   // Conversion en JPEG pour un meilleur poids
+          fileType: 'image/jpeg'
         };
 
-        console.log("Compression de l'image...");
         const compressedFile = await imageCompression(photoFile, options);
-        console.log(`Poids réduit de ${(photoFile.size / 1024).toFixed(0)}Ko à ${(compressedFile.size / 1024).toFixed(0)}Ko`);
-
         const fileName = `${activeUser.id}/${Date.now()}.jpg`;
         const { error: uploadError } = await supabase.storage
           .from('logos')
@@ -130,8 +123,6 @@ export default function MerchantPost() {
         }
       }
 
-      // --- 2. GÉNÉRATION DES TRADUCTIONS ---
-      console.log("Traduction en cours...");
       const titleEn = await translateText(form.title, 'en');
       await new Promise(r => setTimeout(r, 300));
       const titleTh = await translateText(form.title, 'th');
@@ -145,7 +136,6 @@ export default function MerchantPost() {
         descTh = await translateText(form.description, 'th');
       }
 
-      // 3. Préparation des données complètes
       const submissionData = {
         user_id: activeUser.id,
         title: form.title,
@@ -189,7 +179,9 @@ export default function MerchantPost() {
     <div className="min-h-screen bg-earth flex items-center justify-center text-center p-8">
       <div className="bg-card border border-border p-10 rounded-[3rem] shadow-2xl">
         <Check className="w-16 h-16 text-citrus mx-auto mb-4" />
-        <h2 className="text-2xl font-black uppercase italic">{isEdit ? "Modifié !" : "Publié !"}</h2>
+        <h2 className="text-2xl font-black uppercase italic">
+            {isEdit ? (t('updated') || "Modifié !") : (t('published') || "Publié !")}
+        </h2>
       </div>
     </div>
   );
@@ -200,7 +192,9 @@ export default function MerchantPost() {
       <div className="pt-24 pb-16 px-6 max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <button type="button" onClick={() => navigate(-1)} className="p-2 rounded-full border border-border hover:border-citrus/40"><ArrowLeft className="w-5 h-5" /></button>
-          <h1 className="text-3xl font-black italic uppercase tracking-tighter">{isEdit ? "Modifier" : "Publier"}</h1>
+          <h1 className="text-3xl font-black italic uppercase tracking-tighter">
+            {isEdit ? (t('edit') || "Modifier") : (t('post') || "Publier")}
+          </h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -213,32 +207,38 @@ export default function MerchantPost() {
           </label>
 
           <div className="space-y-4">
-            <input required placeholder="Nom du produit" className={inputClass} value={form.title} onChange={e => set('title', e.target.value)} />
+            <input 
+              required 
+              placeholder={t('productName') || "Nom du produit"} 
+              className={inputClass} 
+              value={form.title} 
+              onChange={e => set('title', e.target.value)} 
+            />
             
             <textarea 
-              placeholder="Description (Ingrédients, allergènes, quantité...)" 
+              placeholder={t('productDescPlaceholder') || "Description (Ingrédients, allergènes...)"} 
               className={inputClass + " h-24 resize-none"} 
               value={form.description} 
               onChange={e => set('description', e.target.value)} 
             />
 
             <div>
-              <label className={labelClass}><MapPin className="w-3 h-3" /> Lieu de retrait</label>
+              <label className={labelClass}><MapPin className="w-3 h-3" /> {t('pickupLocation') || "Lieu de retrait"}</label>
               <input required className={inputClass} value={form.shop_address} onChange={e => set('shop_address', e.target.value)} />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <input type="number" step="0.01" placeholder="Prix Original" className={inputClass} value={form.original_price} onChange={e => set('original_price', e.target.value)} />
-              <input required type="number" step="0.01" placeholder="Prix Flash" className={inputClass + " border-citrus text-citrus font-bold"} value={form.discount_price} onChange={e => set('discount_price', e.target.value)} />
+              <input type="number" step="0.01" placeholder={t('originalPrice') || "Prix Original"} className={inputClass} value={form.original_price} onChange={e => set('original_price', e.target.value)} />
+              <input required type="number" step="0.01" placeholder={t('flashPrice') || "Prix Flash"} className={inputClass + " border-citrus text-citrus font-bold"} value={form.discount_price} onChange={e => set('discount_price', e.target.value)} />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
                <div>
-                 <label className={labelClass}>Récupération avant :</label>
+                 <label className={labelClass}>{t('pickupBefore') || "Récupération avant :"}</label>
                  <input required type="datetime-local" className={inputClass} value={form.collect_before} onChange={e => set('collect_before', e.target.value)} />
                </div>
                <div>
-                 <label className={labelClass}>Catégorie :</label>
+                 <label className={labelClass}>{t('categoryLabel') || "Catégorie :"}</label>
                  <select className={inputClass + " font-bold text-xs uppercase"} value={form.category} onChange={e => set('category', e.target.value)}>
                    {CATEGORIES.map(c => <option key={c} value={c}>{t(c).toUpperCase()}</option>)}
                  </select>
@@ -272,7 +272,7 @@ export default function MerchantPost() {
           </div>
 
           <button type="submit" disabled={loading} className="w-full bg-citrus text-earth py-5 rounded-[2rem] font-black text-xl shadow-xl uppercase italic">
-            {loading ? <Loader2 className="animate-spin mx-auto w-6 h-6" /> : (isEdit ? "Enregistrer" : "Publier")}
+            {loading ? <Loader2 className="animate-spin mx-auto w-6 h-6" /> : (isEdit ? (t('save') || "Enregistrer") : (t('post') || "Publier"))}
           </button>
         </form>
       </div>

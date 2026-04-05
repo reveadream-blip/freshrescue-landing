@@ -12,7 +12,6 @@ import CountdownTimer from '@/components/CountdownTimer';
 const STRIPE_BASE_URL = 'https://buy.stripe.com/3cIeV6bUrc37dym2oHcZa04';
 const TRIAL_DAYS = 15;
 
-// --- FONCTION DE NETTOYAGE DU BUCKET LOGOS ---
 const deletePhotoFromLogos = async (photoUrl) => {
   if (!photoUrl) return;
   try {
@@ -27,8 +26,11 @@ const deletePhotoFromLogos = async (photoUrl) => {
   }
 };
 
+// --- BANNIÈRE DE SOUSCRIPTION TRADUITE ---
 function SubscriptionBanner({ profile }) {
+  const { t } = useTranslation(); // Ajout du hook ici
   if (!profile) return null;
+  
   const status = profile.subscription_status || 'trial';
   const trialStart = profile.trial_start_date ? new Date(profile.trial_start_date) : null;
   const checkoutUrl = `${STRIPE_BASE_URL}?client_reference_id=${profile.user_id}`;
@@ -42,7 +44,9 @@ function SubscriptionBanner({ profile }) {
     return (
       <div className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-8">
         <Crown className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-        <p className="text-sm font-bold text-emerald-500 uppercase italic">Abonnement Premium Actif 🌴</p>
+        <p className="text-sm font-bold text-emerald-500 uppercase italic">
+          {t('premiumActive') || 'Abonnement Premium Actif 🌴'}
+        </p>
       </div>
     );
   }
@@ -51,11 +55,15 @@ function SubscriptionBanner({ profile }) {
     return (
       <div className="p-6 rounded-3xl bg-red-600/10 border-2 border-red-600/40 text-center mb-8">
         <AlertTriangle className="w-8 h-8 text-red-600 mx-auto mb-3" />
-        <h3 className="font-black text-xl text-foreground uppercase italic leading-tight">Essai gratuit terminé</h3>
-        <p className="text-muted-foreground text-sm mb-5">Votre boutique n'est plus visible sur la carte. Abonnez-vous pour reprendre vos ventes.</p>
+        <h3 className="font-black text-xl text-foreground uppercase italic leading-tight">
+          {t('trialEnded') || 'Essai gratuit terminé'}
+        </h3>
+        <p className="text-muted-foreground text-sm mb-5">
+          {t('trialEndedDesc') || "Votre boutique n'est plus visible sur la carte."}
+        </p>
         <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" 
            className="inline-flex items-center gap-2 bg-citrus text-earth px-10 py-4 rounded-2xl font-black uppercase italic hover:scale-[1.02] transition-transform shadow-lg shadow-citrus/20 text-sm">
-          Activer mon accès (1 000 THB / mois)
+          {t('activateAccess') || 'Activer mon accès'}
         </a>
       </div>
     );
@@ -68,13 +76,17 @@ function SubscriptionBanner({ profile }) {
           {daysLeft}
         </div>
         <div>
-          <p className="text-sm font-black uppercase italic leading-none">Jours d'essai restants</p>
-          <p className="text-xs text-muted-foreground mt-1">Votre visibilité à Phuket est actuellement gratuite.</p>
+          <p className="text-sm font-black uppercase italic leading-none">
+            {t('trialDays') || "Jours d'essai restants"}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            {t('trialStatus') || "Votre visibilité est actuellement gratuite."}
+          </p>
         </div>
       </div>
       <a href={checkoutUrl} target="_blank" rel="noopener noreferrer"
          className="flex items-center gap-2 bg-citrus/20 hover:bg-citrus text-citrus hover:text-earth px-6 py-3 rounded-xl text-xs font-black uppercase italic transition-all border border-citrus/30">
-        <Crown className="w-4 h-4" /> Devenir Premium
+        <Crown className="w-4 h-4" /> {t('becomePremium') || 'Devenir Premium'}
       </a>
     </div>
   );
@@ -110,7 +122,6 @@ export default function MerchantDashboard() {
           const expired = offersData.filter(o => new Date(o.collect_before) < now);
           
           if (expired.length > 0) {
-            // NETTOYAGE AUTO (Storage + BDD)
             for (const off of expired) {
               await deletePhotoFromLogos(off.photo_url || off.photo);
               await supabase.from('offers').delete().eq('id', off.id);
@@ -146,7 +157,7 @@ export default function MerchantDashboard() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-20 text-citrus italic font-black uppercase tracking-widest">Nettoyage et Chargement...</div>;
+  if (loading) return <div className="flex justify-center py-20 text-citrus italic font-black uppercase tracking-widest">{t('saving')}</div>;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
