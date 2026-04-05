@@ -1,22 +1,47 @@
-// On n'importe plus le SDK propriétaire
-// On crée un simulateur de données (Mock) pour que l'app ne plante pas
-export const base44 = {
+// Simulation de l'API pour FreshRescue
+// Ce fichier remplace l'ancien base44Client.js
+const apiInstance = {
+  auth: {
+    // Simulation de l'utilisateur connecté avec ton e-mail
+    me: async () => ({ 
+      id: 'admin-1', 
+      name: 'Natcha', 
+      email: 'contact.applimanagement@gmail.com', 
+      role: 'admin' 
+    })
+  },
   entities: {
-    // Cette fonction simulera la récupération de tes données
+    // Cette fonction simulera la récupération de tes données (ex: liste des offres)
     get: async (entityName) => {
-      console.log(`Appel local pour l'entité : ${entityName}`);
-      // Ici, on pourra charger des fichiers JSON locaux plus tard
+      console.log(`[FreshRescue] Appel local pour l'entité : ${entityName}`);
       return []; 
     },
-    // Simulation de l'utilisateur connecté
-    User: {
-      me: async () => ({ id: '1', name: 'David', role: 'admin' })
+    // Simulation pour les profils marchands (utilisé dans PostOffer.jsx)
+    MerchantProfile: {
+      filter: async ({ created_by }) => {
+        console.log(`[FreshRescue] Filtrage profil pour : ${created_by}`);
+        return [
+          { 
+            id: 'p1', 
+            shop_name: 'FreshRescue Shop', 
+            address: 'Rawai, Phuket',
+            created_by: 'contact.applimanagement@gmail.com'
+          }
+        ];
+      }
     }
   },
   functions: {
     call: async (name, params) => {
-      console.log(`Appel de fonction locale : ${name}`);
+      console.log(`[FreshRescue] Appel de fonction locale : ${name}`);
       return { success: true };
     }
   }
 };
+
+// Exportation sous le nouveau nom pour ton nouveau branding
+export const api = apiInstance;
+
+// ON GARDE l'export base44 pour que tes fichiers actuels 
+// qui font : import { base44 } from ... continuent de marcher !
+export const base44 = apiInstance;

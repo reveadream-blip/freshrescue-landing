@@ -10,6 +10,7 @@ import Explore from './pages/Explore';
 import MerchantGate from './pages/MerchantGate';
 import MerchantPost from './pages/MerchantPost';
 import MerchantSetup from './pages/MerchantSetup';
+import Terms from './pages/Terms';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -36,6 +37,7 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Landing />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/merchant" element={<MerchantGate />} />
+      <Route path="/terms" element={<Terms />} />
       
       {/* Route pour la création d'une nouvelle offre */}
       <Route path="/merchant/post" element={<MerchantPost />} />

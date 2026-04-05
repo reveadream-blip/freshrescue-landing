@@ -227,16 +227,33 @@ export default function Landing() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border py-10 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-citrus flex items-center justify-center">
-              <Leaf className="w-4 h-4 text-earth" />
+      <footer className="border-t border-border py-12 px-6 bg-card/20">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-citrus flex items-center justify-center">
+                <Leaf className="w-4 h-4 text-earth" />
+              </div>
+              <span className="text-lg font-black">Fresh<span className="text-citrus">Rescue</span></span>
             </div>
-            <span className="text-lg font-black">Fresh<span className="text-citrus">Rescue</span></span>
+            <p className="text-muted-foreground text-xs font-bold uppercase italic tracking-wider">
+              {t('footerTagline')}
+            </p>
           </div>
-          <p className="text-muted-foreground text-sm">{t('footerTagline')}</p>
-          <p className="text-muted-foreground text-sm">© 2026 FreshRescue. {t('footerRights')}</p>
+
+          <div className="flex flex-col items-center md:items-end gap-3">
+            <div className="flex gap-6">
+              <Link 
+                to="/terms" 
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('footerTerms')}
+              </Link>
+            </div>
+            <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest opacity-60">
+              © 2026 FreshRescue. {t('footerRights')}
+            </p>
+          </div>
         </div>
       </footer>
     </div>
