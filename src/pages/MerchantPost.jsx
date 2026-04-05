@@ -200,15 +200,22 @@ export default function MerchantPost() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <label className="block cursor-pointer group">
             <div className={`relative w-full h-48 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all ${photoPreview ? 'border-citrus' : 'border-border'}`}>
-              {photoPreview ? <img src={photoPreview} className="w-full h-full object-cover" /> : <Camera className="opacity-20 w-10 h-10" />}
+              {photoPreview ? <img src={photoPreview} className="w-full h-full object-cover" alt="Preview" /> : <Camera className="opacity-20 w-10 h-10" />}
               {loading && <div className="absolute inset-0 bg-black/50 flex items-center justify-center"><Loader2 className="animate-spin text-white w-8 h-8" /></div>}
             </div>
-            <input type="file" accept="image/*" onChange={handlePhoto} className="hidden" />
+            <input 
+              type="file" 
+              accept="image/*" 
+              capture="environment" 
+              onChange={handlePhoto} 
+              className="hidden" 
+            />
           </label>
 
           <div className="space-y-4">
             <input 
               required 
+              type="text"
               placeholder={t('productName') || "Nom du produit"} 
               className={inputClass} 
               value={form.title} 
@@ -224,7 +231,7 @@ export default function MerchantPost() {
 
             <div>
               <label className={labelClass}><MapPin className="w-3 h-3" /> {t('pickupLocation') || "Lieu de retrait"}</label>
-              <input required className={inputClass} value={form.shop_address} onChange={e => set('shop_address', e.target.value)} />
+              <input required type="text" className={inputClass} value={form.shop_address} onChange={e => set('shop_address', e.target.value)} />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
