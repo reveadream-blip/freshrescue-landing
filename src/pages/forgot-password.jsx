@@ -20,7 +20,6 @@ export default function ForgotPassword() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        // C'est ici qu'on définit où l'utilisateur revient après l'email
         redirectTo: `${window.location.origin}/update-password`,
       });
 
@@ -45,29 +44,35 @@ export default function ForgotPassword() {
           <ArrowLeft className="w-4 h-4" /> {t('back') || "Retour"}
         </button>
 
-        <h1 className="text-3xl font-black uppercase italic tracking-tighter mb-2 leading-none">
-          Oubli ?
+        <h1 className="text-3xl font-black uppercase italic tracking-tighter mb-2 leading-tight">
+          {t('forgotPasswordTitle') || 'Oubli ?'}
         </h1>
         <p className="text-[11px] opacity-60 mb-8 font-bold uppercase tracking-tight">
-          Entrez votre email pour recevoir un lien.
+          {t('forgotPasswordSubtitle') || 'Entrez votre email pour recevoir un lien.'}
         </p>
 
         {message ? (
           <div className="bg-citrus/10 border border-citrus p-6 rounded-2xl text-center space-y-4">
             <CheckCircle className="w-12 h-12 text-citrus mx-auto" />
             <p className="text-sm font-black uppercase text-citrus italic leading-tight">{message}</p>
-            <p className="text-[10px] opacity-60 uppercase font-bold">Pensez à vérifier vos spams !</p>
+            <p className="text-[10px] opacity-60 uppercase font-bold">
+              {t('checkSpam') || 'Pensez à vérifier vos spams !'}
+            </p>
           </div>
         ) : (
           <form onSubmit={handleReset} className="space-y-4">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">Email</label>
+              {/* Traduction du label Email */}
+              <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
+                {t('emailLabel') || 'Email'}
+              </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-30" />
                 <input
                   required
                   type="email"
-                  placeholder="votre@email.com"
+                  // Traduction du placeholder ici
+                  placeholder={t('emailPlaceholder') || 'votre@email.com'}
                   className="w-full bg-muted border border-border rounded-2xl pl-12 pr-4 py-4 focus:border-citrus/50 outline-none transition-all text-foreground"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -84,7 +89,7 @@ export default function ForgotPassword() {
               disabled={loading}
               className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-95 transition-all disabled:opacity-50 mt-4 text-lg"
             >
-              {loading ? <Loader2 className="animate-spin mx-auto w-6 h-6" /> : "Envoyer le lien"}
+              {loading ? <Loader2 className="animate-spin mx-auto w-6 h-6" /> : (t('sendLink') || "Envoyer le lien")}
             </button>
           </form>
         )}

@@ -52,10 +52,12 @@ export default function MerchantGate() {
         
         <form onSubmit={handleAuth} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">Email</label>
+            <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
+              {t('emailLabel') || 'Email'}
+            </label>
             <input 
               type="email" 
-              placeholder="votre@email.com" 
+              placeholder={t('emailPlaceholder') || 'votre@email.com'} 
               value={email}
               required
               className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
@@ -84,7 +86,7 @@ export default function MerchantGate() {
                 to="/forgot-password" 
                 className="text-[10px] font-black uppercase opacity-50 hover:text-citrus hover:opacity-100 transition-all italic"
               >
-                {t('forgotPassword') || 'Mot de passe oublié ?'}
+                {t('forgotPasswordTitle') || 'Mot de passe oublié ?'}
               </Link>
             </div>
           )}
