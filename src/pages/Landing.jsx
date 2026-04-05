@@ -65,20 +65,20 @@ export default function Landing() {
           </div>
 
           {/* Stats */}
-          <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-            {[
-              { num: '10', unit: 'km', label: 'Notification radius' },
-              { num: '0', unit: '%', label: 'Commission on sales' },
-              { num: '70', unit: '%', label: 'Average discount' },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl md:text-4xl font-black text-citrus">
-                  {stat.num}<span className="text-stem">{stat.unit}</span>
-                </div>
-                <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </div>
+<div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+  {[
+    { num: '10', unit: 'km', label: t('notificationRadius') },
+    { num: '0', unit: '%', label: t('commissionOnSales') },
+    { num: '70', unit: '%', label: t('averageDiscount') },
+  ].map((stat, i) => (
+    <div key={i} className="text-center">
+      <div className="text-3xl md:text-4xl font-black text-citrus">
+        {stat.num}<span className="text-stem">{stat.unit}</span>
+      </div>
+      <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 

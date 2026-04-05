@@ -32,7 +32,7 @@ export default function OfferCard({ offer }) {
   // Si on est en français et que bag_notice_fr est vide mais que l'option est cochée (via une colonne boolean par ex)
   // Ou simplement forcer le texte si bag_notice existe dans une autre langue
   if (lang === 'fr' && (!bagNotice || bagNotice === "") && offer.needs_cool_bag) {
-    bagNotice = "Prévoir sac congélation";
+    bagNotice = "recongelable";
   }
 
   const handleDirections = (e) => {

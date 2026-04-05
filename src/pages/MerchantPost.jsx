@@ -286,7 +286,7 @@ export default function MerchantPost() {
             <div className="flex items-center justify-between p-4 bg-muted rounded-2xl border border-border">
               <div className="flex items-center gap-3">
                 <Snowflake className={`w-5 h-5 ${form.needs_cool_bag ? 'text-blue-400' : 'opacity-20'}`} />
-                <span className="text-[10px] font-black uppercase tracking-widest">{t('coolBag')}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('refreezable')}</span>
               </div>
               <input type="checkbox" className="w-6 h-6 accent-citrus" checked={form.needs_cool_bag} onChange={e => set('needs_cool_bag', e.target.checked)} />
             </div>
