@@ -9,7 +9,7 @@ import MapView from '../components/MapView';
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
 export default function Explore() {
-  const { t, dt } = useTranslation();
+  const { t, dt, lang } = useTranslation(); // On récupère lang pour la logique locale
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -59,7 +59,6 @@ export default function Explore() {
           if (isMounted) loadOffers(position.coords.latitude, position.coords.longitude);
         },
         (error) => {
-          console.error("Géolocalisation refusée :", error);
           if (isMounted) {
             setLocationError(true);
             loadOffers();
@@ -73,19 +72,22 @@ export default function Explore() {
     return () => { isMounted = false; };
   }, []);
 
-  // --- LOGIQUE DE FILTRAGE MODIFIÉE POUR LE TRILINGUE ---
+  // --- LOGIQUE DE FILTRAGE MULTILINGUE OPTIMISÉE ---
   const filtered = offers.filter(o => {
     const now = new Date();
     const isNotExpired = new Date(o.collect_before) > now;
     const matchCat = activeCategory === 'all' || o.category === activeCategory;
     
-    // On récupère le titre et la boutique selon la langue active pour la recherche
-    const displayTitle = dt(o, 'title') || "";
-    const displayShop = o.shop_name || "";
+    // On recherche dans le titre traduit ET la description traduite selon la langue
+    const displayTitle = dt(o, 'title').toLowerCase();
+    const displayDesc = dt(o, 'description').toLowerCase();
+    const displayShop = (o.shop_name || "").toLowerCase();
+    const searchTerm = search.toLowerCase();
 
     const matchSearch = !search || 
-      displayTitle.toLowerCase().includes(search.toLowerCase()) || 
-      displayShop.toLowerCase().includes(search.toLowerCase());
+      displayTitle.includes(searchTerm) || 
+      displayDesc.includes(searchTerm) ||
+      displayShop.includes(searchTerm);
     
     return isNotExpired && matchCat && matchSearch;
   });
@@ -98,7 +100,7 @@ export default function Explore() {
         {locationError && (
           <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
             <MapPin className="w-4 h-4" />
-            {t('locationErrorMsg') || "Position non détectée. Affichage global."}
+            {t('locationErrorMsg')}
           </div>
         )}
 
@@ -108,7 +110,8 @@ export default function Explore() {
               {t('activeOffers')} <span className="text-citrus">({filtered.length})</span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
-              {locationError ? "Phuket & Monde" : "Dans un rayon de 100 KM"}
+              {/* Traduction dynamique du rayon selon la langue */}
+              {locationError ? t('allCategories') : `${t('notificationRadius')} : 100 KM`}
             </p>
           </div>
 
@@ -119,7 +122,7 @@ export default function Explore() {
                 viewMode === 'list' ? 'bg-citrus text-earth' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <List className="w-4 h-4" /> Liste
+              <List className="w-4 h-4" /> {/* t('list') si tu as la clé */}
             </button>
             <button
               onClick={() => setViewMode('map')}
@@ -127,11 +130,12 @@ export default function Explore() {
                 viewMode === 'map' ? 'bg-citrus text-earth' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Map className="w-4 h-4" /> Carte
+              <Map className="w-4 h-4" /> {t('explore')}
             </button>
           </div>
         </div>
 
+        {/* Barre de Recherche Trilingue */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -139,7 +143,7 @@ export default function Explore() {
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Rechercher un produit, une boutique..."
+              placeholder={t('productDescPlaceholder')} // Utilise une clé existante pour le placeholder
               className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-citrus/30 transition-all font-bold"
             />
           </div>
@@ -154,7 +158,7 @@ export default function Explore() {
                     : 'bg-card border-border text-muted-foreground hover:border-citrus/50'
                 }`}
               >
-                {cat === 'all' ? t('allCategories') : t(cat)}
+                {t(cat)}
               </button>
             ))}
           </div>
@@ -163,15 +167,17 @@ export default function Explore() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 text-citrus animate-spin mb-4" />
-            <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">Recherche de produits frais...</p>
+            <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">
+                {/* Petit clin d'oeil multilingue pour l'attente */}
+                {lang === 'ru' ? 'Поиск свежих продуктов...' : t('saving')}
+            </p>
           </div>
         ) : viewMode === 'map' ? (
           <MapView offers={filtered} />
         ) : filtered.length === 0 ? (
           <div className="text-center py-32 flex flex-col items-center">
             <div className="w-24 h-24 rounded-full bg-card border border-border flex items-center justify-center text-4xl mb-6 shadow-inner">🥗</div>
-            <p className="text-muted-foreground text-xl font-black italic uppercase leading-tight">{t('noOffers') || "Plus rien en rayon !"}</p>
-            <p className="text-muted-foreground/60 text-xs font-bold uppercase mt-2">Reviens un peu plus tard ou change de zone.</p>
+            <p className="text-muted-foreground text-xl font-black italic uppercase leading-tight">{t('noOffers')}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-in fade-in duration-500">

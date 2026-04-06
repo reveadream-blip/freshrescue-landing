@@ -85,8 +85,6 @@ export default function MerchantSetup() {
         return;
       }
 
-      // --- LOGIQUE ABONNEMENT ---
-      // On vérifie si le profil existe déjà pour ne pas réinitialiser l'essai à chaque modif
       const { data: existingProfile } = await supabase
         .from('merchants')
         .select('trial_start_date')
@@ -105,12 +103,10 @@ export default function MerchantSetup() {
         updated_at: new Date().toISOString(),
       };
 
-      // Si c'est un nouveau profil (pas de trial_start_date), on lance les 15 jours
       if (!existingProfile?.trial_start_date) {
         merchantData.trial_start_date = new Date().toISOString();
         merchantData.subscription_status = 'trial';
       }
-      // --------------------------
 
       const { error: merchantError } = await supabase
         .from('merchants')
@@ -152,10 +148,11 @@ export default function MerchantSetup() {
         </div>
 
         <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-xl">
+          {/* SECTION TRADUITE POUR LA PÉRIODE D'ESSAI */}
           <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl">
-              <p className="text-[10px] font-bold uppercase text-citrus mb-1">Période d'essai</p>
+              <p className="text-[10px] font-bold uppercase text-citrus mb-1">{t('trialPeriod')}</p>
               <p className="text-xs text-muted-foreground">
-                En enregistrant votre commerce, vous bénéficiez de <strong>15 jours d'essai gratuit</strong> sans engagement.
+                {t('trialPeriodDesc')}
               </p>
           </div>
 

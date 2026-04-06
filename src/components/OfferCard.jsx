@@ -16,8 +16,8 @@ export default function OfferCard({ offer }) {
   
   // LOGIQUE DE TRADUCTION MANUELLE POUR LE MODE DE CONSO
   let consumptionMode = dt(offer, 'consumption_mode');
+  
   if (lang === 'fr') {
-    // Force "Sur place" si la valeur est "on site" ou "on-site"
     if (consumptionMode?.toLowerCase().includes('site')) {
       consumptionMode = "Sur place";
     } else if (consumptionMode?.toLowerCase().includes('takeaway')) {
@@ -25,14 +25,26 @@ export default function OfferCard({ offer }) {
     } else if (consumptionMode?.toLowerCase().includes('both')) {
       consumptionMode = "Les deux";
     }
+  } else if (lang === 'ru') {
+    // AJOUT DE LA LOGIQUE RUSSE
+    if (consumptionMode?.toLowerCase().includes('site')) {
+      consumptionMode = "На месте";
+    } else if (consumptionMode?.toLowerCase().includes('takeaway')) {
+      consumptionMode = "С собой";
+    } else if (consumptionMode?.toLowerCase().includes('both')) {
+      consumptionMode = "Оба варианта";
+    }
   }
 
   // LOGIQUE DE TRADUCTION POUR LE SAC
   let bagNotice = dt(offer, 'bag_notice');
-  // Si on est en français et que bag_notice_fr est vide mais que l'option est cochée (via une colonne boolean par ex)
-  // Ou simplement forcer le texte si bag_notice existe dans une autre langue
+  
+  // Gestion automatique du texte si la colonne spécifique est vide mais l'option cochée
   if (lang === 'fr' && (!bagNotice || bagNotice === "") && offer.needs_cool_bag) {
     bagNotice = "recongelable";
+  } else if (lang === 'ru' && (!bagNotice || bagNotice === "") && offer.needs_cool_bag) {
+    // AJOUT DE LA LOGIQUE RUSSE
+    bagNotice = "можно заморозить";
   }
 
   const handleDirections = (e) => {
@@ -42,7 +54,7 @@ export default function OfferCard({ offer }) {
       const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
       window.open(url, '_blank');
     } else {
-      alert("Adresse non renseignée.");
+      alert(lang === 'ru' ? "Адрес не указан." : "Adresse non renseignée.");
     }
   };
 
@@ -124,14 +136,14 @@ export default function OfferCard({ offer }) {
         {offer.expiry_date && (
           <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground/60 bg-muted/30 p-1.5 rounded-md self-start">
             <Calendar className="w-3 h-3" />
-            <span className="font-medium">DLC: {new Date(offer.expiry_date).toLocaleDateString()}</span>
+            <span className="font-medium">DLC: {new Date(offer.expiry_date).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'fr-FR')}</span>
           </div>
         )}
 
         <div className="pt-3 border-t border-border/40 flex flex-col space-y-1">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              {/* PRIX BARRÉ ROUGE ET GROS */}
+              {/* PRIX BARRÉ ROUGE */}
               {offer.original_price && (
                 <div className="flex items-baseline gap-1">
                   <span className="text-xl font-black text-red-600 line-through decoration-2">
@@ -147,7 +159,7 @@ export default function OfferCard({ offer }) {
               </div>
             </div>
             <div className="flex flex-col items-end">
-               <CountdownTimer deadline={offer.collect_before || offer.collect_deadline} />
+                <CountdownTimer deadline={offer.collect_before || offer.collect_deadline} />
             </div>
           </div>
         </div>

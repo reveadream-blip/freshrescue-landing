@@ -8,6 +8,7 @@ export default function LanguageSwitcher() {
     { code: 'en', label: 'EN' },
     { code: 'fr', label: 'FR' },
     { code: 'th', label: 'TH' },
+    { code: 'ru', label: 'RU' },
   ];
 
   return (
