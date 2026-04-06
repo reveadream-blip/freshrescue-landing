@@ -200,7 +200,7 @@ const translations = {
     averageDiscount: "Réduction moyenne",
     // Subscription
     subscriptionTitle: "Un Seul Forfait",
-    subscriptionPrice: "1 000",
+    subscriptionPrice: "1000",
     subscriptionCurrency: "THB/mois",
     subscriptionDesc: "Tout ce qu'il vous faut pour sauver des aliments et booster vos revenus.",
     subscriptionFeature1: "Offres illimitées",
