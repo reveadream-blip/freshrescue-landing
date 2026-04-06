@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
+import { supabase } from '../lib/supabase'; // Import de ton client Supabase
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';
@@ -16,6 +17,7 @@ export default function Landing() {
   const { t, lang } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
   useEffect(() => {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -26,6 +28,66 @@ export default function Landing() {
       setDeferredPrompt(e);
     });
   }, []);
+
+  // --- LOGIQUE NOTIFICATIONS PUSH + GEOLOC ---
+  const handleBellClick = async () => {
+    setIsSubscribing(true);
+    try {
+      // 1. Demander la permission de géolocalisation
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        });
+      });
+
+      const { longitude, latitude } = position.coords;
+
+      // 2. Demander la permission au navigateur pour les notifications
+      const permission = await Notification.requestPermission();
+      
+      if (permission !== 'granted') {
+        alert(t('notificationPermissionDenied') || "Merci d'autoriser les notifications pour recevoir les alertes locales.");
+        return;
+      }
+
+      // 3. Attendre que le Service Worker soit prêt
+      const registration = await navigator.serviceWorker.ready;
+
+      // 4. S'abonner au push manager
+      // Note: Remplacer 'VOTRE_CLE_PUBLIQUE_VAPID' par ta vraie clé plus tard
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: 'VOTRE_CLE_PUBLIQUE_VAPID' 
+      });
+
+      // 5. Sauvegarder dans Supabase avec le Point Géographique
+      const { error } = await supabase
+        .from('push_subscriptions')
+        .insert([{ 
+          subscription: subscription, 
+          lang: lang,
+          // Format PostGIS: POINT(longitude latitude)
+          location: `POINT(${longitude} ${latitude})`,
+          created_at: new Date() 
+        }]);
+
+      if (error) throw error;
+
+      alert(t('notificationSuccess') || "Alertes activées pour votre zone !");
+    } catch (err) {
+      console.error("Erreur d'abonnement:", err);
+      // Gestion spécifique si la géoloc est bloquée
+      if (err.code === 1) {
+        alert("La géolocalisation est nécessaire pour vous alerter des offres proches de vous.");
+      } else {
+        alert("Mode démo : Inscription reçue (VAPID à configurer).");
+      }
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -118,12 +180,15 @@ export default function Landing() {
               {t('exploreCta')}
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link
-              to="/merchant"
-              className="flex items-center gap-2 bg-muted border border-border px-8 py-4 rounded-full font-bold text-lg hover:border-citrus/50 transition-all"
+            {/* BOUTON D'ALERTE DYNAMIQUE */}
+            <button
+              onClick={handleBellClick}
+              disabled={isSubscribing}
+              className="flex items-center gap-2 bg-muted border border-border px-8 py-4 rounded-full font-bold text-lg hover:border-citrus/50 transition-all disabled:opacity-50"
             >
-              {t('merchantCta')}
-            </Link>
+              <BellRing className={`w-5 h-5 ${isSubscribing ? 'animate-bounce' : ''}`} />
+              {isSubscribing ? '...' : t('step2Title')}
+            </button>
           </div>
 
           <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
@@ -168,6 +233,7 @@ export default function Landing() {
                 title: t('step2Title'),
                 desc: t('step2Desc'),
                 img: FRUIT_IMG,
+                onClick: handleBellClick 
               },
               {
                 icon: <TrendingUp className="w-7 h-7 text-earth" />,
@@ -178,7 +244,11 @@ export default function Landing() {
                 img: VEGGIE_IMG,
               },
             ].map((step, i) => (
-              <div key={i} className="group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-citrus/30 transition-all">
+              <div 
+                key={i} 
+                onClick={step.onClick}
+                className={`group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-citrus/30 transition-all ${step.onClick ? 'cursor-pointer' : ''}`}
+              >
                 <div className="h-48 overflow-hidden">
                   <img src={step.img} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" />
                   <div className="absolute inset-0 h-48 bg-gradient-to-b from-transparent to-card" />
