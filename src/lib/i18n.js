@@ -32,7 +32,7 @@ const translations = {
 
     // Subscription
     subscriptionTitle: "One Simple Plan",
-    subscriptionPrice: "1,000",
+    subscriptionPrice: "1000",
     subscriptionCurrency: "THB/month",
     subscriptionDesc: "Everything you need to rescue food and boost revenue.",
     subscriptionFeature1: "Unlimited offers",
@@ -365,7 +365,7 @@ const translations = {
     averageDiscount: "ส่วนลดเฉลี่ย",
     // Subscription
     subscriptionTitle: "แผนเดียวเรียบง่าย",
-    subscriptionPrice: "1,000",
+    subscriptionPrice: "1000",
     subscriptionCurrency: "บาท/เดือน",
     subscriptionDesc: "ทุกอย่างที่คุณต้องการเพื่อช่วยอาหารและเพิ่มรายได้",
     subscriptionFeature1: "โพสต์ไม่จำกัด",
@@ -530,7 +530,7 @@ const translations = {
     averageDiscount: "Средняя скидка",
     // Subscription
     subscriptionTitle: "Один простой план",
-    subscriptionPrice: "1,000",
+    subscriptionPrice: "1000",
     subscriptionCurrency: "THB/мес",
     subscriptionDesc: "Все, что вам нужно для спасения еды и увеличения дохода.",
     subscriptionFeature1: "Неограниченное количество предложений",
