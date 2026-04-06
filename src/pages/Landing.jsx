@@ -1,29 +1,91 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, ArrowRight, Zap, MapPin, BellRing, TrendingUp, ShieldCheck, Leaf, Store } from 'lucide-react';
+import { 
+  CheckCircle, ArrowRight, Zap, MapPin, BellRing, 
+  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share 
+} from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
 
-const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop'; // Marché frais
-const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop'; // Boulangerie
-const FRUIT_IMG = 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=800&auto=format&fit=crop'; // Fruits
-const VEGGIE_IMG = 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?q=80&w=800&auto=format&fit=crop'; // Légumes
+const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
+const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';
+const FRUIT_IMG = 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=800&auto=format&fit=crop';
+const VEGGIE_IMG = 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?q=80&w=800&auto=format&fit=crop';
 
 export default function Landing() {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    setIsIOS(isIOSDevice);
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') setDeferredPrompt(null);
+  };
 
   return (
     <div className="min-h-screen bg-earth text-foreground">
       <Navbar />
 
+      {/* BANNIÈRE INSTALLATION PWA */}
+      <div className="pt-24 px-6 max-w-5xl mx-auto">
+        {deferredPrompt && (
+          <div className="bg-citrus rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-citrus/20 animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-earth rounded-xl flex items-center justify-center shadow-inner">
+                <Smartphone className="w-5 h-5 text-citrus" />
+              </div>
+              <div>
+                <p className="text-earth font-black text-sm">{t('pwaInstallTitle')}</p>
+                <p className="text-earth/70 text-[10px] font-bold">{t('pwaInstallDesc')}</p>
+              </div>
+            </div>
+            <button 
+              onClick={handleInstallClick}
+              className="bg-earth text-citrus px-5 py-2 rounded-full font-black text-xs hover:scale-105 transition-transform uppercase"
+            >
+              {t('pwaInstallBtn')}
+            </button>
+          </div>
+        )}
+
+        {isIOS && (
+          <div className="bg-muted/50 border border-border rounded-2xl p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="w-10 h-10 bg-citrus rounded-xl flex items-center justify-center flex-shrink-0">
+              <Smartphone className="w-5 h-5 text-earth" />
+            </div>
+            <div className="text-[11px] leading-tight">
+              <p className="font-bold text-foreground">{t('iosInstallTitle')}</p>
+              <div className="text-muted-foreground flex items-center flex-wrap gap-1">
+                {t('iosInstallDescBefore')}
+                <Share className="w-3 h-3 inline" />
+                {t('iosInstallDescAfter')}
+                <span className="font-bold text-citrus">"{t('iosInstallTarget')}"</span>.
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{ backgroundImage: `url(${HERO_BG})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-earth/60 via-transparent to-earth" />
 
-        {/* Pulse animation */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
           <div className="w-96 h-96 rounded-full border border-citrus/10 animate-pulse-ring" />
           <div className="absolute inset-8 rounded-full border border-citrus/15 animate-pulse-ring [animation-delay:0.5s]" />
@@ -64,21 +126,20 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Stats */}
-<div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-  {[
-    { num: '10', unit: 'km', label: t('notificationRadius') },
-    { num: '0', unit: '%', label: t('commissionOnSales') },
-    { num: '70', unit: '%', label: t('averageDiscount') },
-  ].map((stat, i) => (
-    <div key={i} className="text-center">
-      <div className="text-3xl md:text-4xl font-black text-citrus">
-        {stat.num}<span className="text-stem">{stat.unit}</span>
-      </div>
-      <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
-    </div>
-  ))}
-</div>
+          <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+            {[
+              { num: '10', unit: 'km', label: t('notificationRadius') },
+              { num: '0', unit: '%', label: t('commissionOnSales') },
+              { num: '70', unit: '%', label: t('averageDiscount') },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl md:text-4xl font-black text-citrus">
+                  {stat.num}<span className="text-stem">{stat.unit}</span>
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -141,7 +202,6 @@ export default function Landing() {
       {/* FOR MERCHANTS vs CUSTOMERS */}
       <section className="py-28 px-6 bg-card/30">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-          {/* Merchants */}
           <div className="rounded-3xl bg-citrus p-10 text-earth">
             <div className="w-12 h-12 bg-earth/10 rounded-2xl flex items-center justify-center mb-6">
               <Store className="w-6 h-6 text-earth" />
@@ -160,7 +220,6 @@ export default function Landing() {
             </Link>
           </div>
 
-          {/* Customers */}
           <div className="rounded-3xl bg-card border border-border p-10">
             <div className="w-12 h-12 bg-stem/10 rounded-2xl flex items-center justify-center mb-6">
               <MapPin className="w-6 h-6 text-stem" />
