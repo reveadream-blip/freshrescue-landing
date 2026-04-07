@@ -47,7 +47,9 @@ export default function MerchantPost() {
     is_active: true,
     consumption_mode: 'takeaway',
     expiry_date: '',
-    needs_cool_bag: false
+    needs_cool_bag: false,
+    lat: null, // Ajout pour la carte
+    lng: null  // Ajout pour la carte
   });
 
   const [photoFile, setPhotoFile] = useState(null);
@@ -58,9 +60,10 @@ export default function MerchantPost() {
   useEffect(() => {
     if (!activeUser) return;
     const loadInitialData = async () => {
+      // On récupère les infos du marchand incluant lat/lng
       const { data: merchantData } = await supabase
         .from('merchants')
-        .select('shop_name, address')
+        .select('shop_name, address, lat, lng')
         .eq('user_id', activeUser.id)
         .single();
 
@@ -74,12 +77,20 @@ export default function MerchantPost() {
             shop_address: merchantData?.address || offerData.shop_address,
             consumption_mode: offerData.consumption_mode || 'takeaway',
             expiry_date: offerData.expiry_date || '',
-            needs_cool_bag: offerData.needs_cool_bag || false
+            needs_cool_bag: offerData.needs_cool_bag || false,
+            lat: offerData.lat || merchantData?.lat,
+            lng: offerData.lng || merchantData?.lng
           });
           if (offerData.photo) setPhotoPreview(offerData.photo);
         }
       } else if (merchantData) {
-        setForm(prev => ({ ...prev, shop_name: merchantData.shop_name || '', shop_address: merchantData.address || '' }));
+        setForm(prev => ({ 
+            ...prev, 
+            shop_name: merchantData.shop_name || '', 
+            shop_address: merchantData.address || '',
+            lat: merchantData.lat,
+            lng: merchantData.lng
+        }));
       }
     };
     loadInitialData();
@@ -123,32 +134,25 @@ export default function MerchantPost() {
         }
       }
 
-      // Traductions du Titre et Description (Ajout du Russe)
+      // Traductions incluant le Russe
       const titleEn = await translateText(form.title, 'en');
-      await new Promise(r => setTimeout(r, 200));
       const titleTh = await translateText(form.title, 'th');
-      await new Promise(r => setTimeout(r, 200));
       const titleRu = await translateText(form.title, 'ru');
       
       let descEn = "";
       let descTh = "";
       let descRu = "";
       if (form.description && form.description.trim() !== "") {
-        await new Promise(r => setTimeout(r, 200));
         descEn = await translateText(form.description, 'en');
-        await new Promise(r => setTimeout(r, 200));
         descTh = await translateText(form.description, 'th');
-        await new Promise(r => setTimeout(r, 200));
         descRu = await translateText(form.description, 'ru');
       }
 
-      // --- LOGIQUE DE TRADUCTION POUR LE MODE ET LE SAC ---
       const consModeFr = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
       const consModeEn = await translateText(consModeFr, 'en');
       const consModeTh = await translateText(consModeFr, 'th');
       const consModeRu = await translateText(consModeFr, 'ru');
 
-      // Modification demandée : "recongelable" au lieu de l'ancien texte
       const bagNoticeFr = form.needs_cool_bag ? "recongelable" : "";
       const bagNoticeEn = form.needs_cool_bag ? await translateText(bagNoticeFr, 'en') : "";
       const bagNoticeTh = form.needs_cool_bag ? await translateText(bagNoticeFr, 'th') : "";
@@ -180,7 +184,10 @@ export default function MerchantPost() {
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
         bag_notice_th: bagNoticeTh,
-        bag_notice_ru: bagNoticeRu
+        bag_notice_ru: bagNoticeRu,
+        // CRUCIAL POUR LA CARTE :
+        lat: form.lat,
+        lng: form.lng
       };
 
       if (isEdit) submissionData.id = id;
@@ -198,7 +205,6 @@ export default function MerchantPost() {
     }
   };
 
-  // ... Reste du rendu (JSX) identique au tien
   const inputClass = "w-full bg-muted border border-border rounded-xl px-4 py-3 text-foreground focus:border-citrus/50 transition-colors";
   const labelClass = "text-[10px] font-black uppercase ml-1 opacity-50 tracking-widest flex items-center gap-2 mb-2";
 

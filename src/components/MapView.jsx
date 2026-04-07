@@ -68,20 +68,13 @@ export default function MapView({ offers }) {
     );
   }, []);
 
-  // FILTRE SÉCURISÉ : On affiche les offres si elles ont des coordonnées
+  // --- MODIFICATION ICI ---
+  // On ne filtre PLUS par distance. On affiche TOUT ce qui a des coordonnées.
   const nearbyOffers = offers.filter(o => {
-    const hasCoords = o.lat && o.lng;
-    if (!hasCoords) return false;
-    
-    // Si on a le GPS, on peut filtrer par distance (optionnel, ici 100km)
-    if (userPos) {
-      const distance = getDistance(userPos[0], userPos[1], o.lat, o.lng);
-      return distance <= 100;
-    }
-    return true; // Si pas de GPS, on affiche tout ce qui a des coordonnées
+    return o.lat && o.lng; 
   });
 
-  const defaultCenter = userPos || [7.8804, 98.3923]; // Phuket Town par défaut
+  const defaultCenter = userPos || [7.8804, 98.3923]; 
 
   if (locating) {
     return (
@@ -108,17 +101,17 @@ export default function MapView({ offers }) {
       >
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-  attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
         
         <RecenterMap position={userPos} />
 
-        {/* Marqueur Utilisateur */}
         {userPos && (
           <>
             <Marker position={userPos} icon={userIcon}>
               <Popup>📍 Vous êtes ici</Popup>
             </Marker>
+            {/* On garde le cercle visuel, mais il ne bloque plus l'affichage */}
             <Circle
               center={userPos}
               radius={10000}
@@ -127,7 +120,6 @@ export default function MapView({ offers }) {
           </>
         )}
 
-        {/* Marqueurs Offres */}
         {nearbyOffers.map(offer => (
           <Marker 
             key={offer.id} 
