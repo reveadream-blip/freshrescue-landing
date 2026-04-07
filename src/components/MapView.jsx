@@ -30,11 +30,12 @@ function RecenterMap({ position }) {
   const map = useMap();
   useEffect(() => {
     if (position) map.setView(position, 13);
-  }, [position]);
+  }, [position, map]);
   return null;
 }
 
 function getDistance(lat1, lon1, lat2, lon2) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
   const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
@@ -61,58 +62,62 @@ export default function MapView({ offers }) {
         setLocating(false);
       },
       () => {
-        setError('Impossible d\'accéder à votre position.');
+        setError('Position non accessible.');
         setLocating(false);
       }
     );
   }, []);
 
-  // Dans le filtre nearbyOffers
-const nearbyOffers = offers.filter(o => {
-  // Utilise o.lat et o.lng car ce sont les noms dans ta table
-  if (!o.lat || !o.lng || !userPos) return true; 
-  const distance = getDistance(userPos[0], userPos[1], o.lat, o.lng);
-  return distance <= 100; 
-});
+  // FILTRE SÉCURISÉ : On affiche les offres si elles ont des coordonnées
+  const nearbyOffers = offers.filter(o => {
+    const hasCoords = o.lat && o.lng;
+    if (!hasCoords) return false;
+    
+    // Si on a le GPS, on peut filtrer par distance (optionnel, ici 100km)
+    if (userPos) {
+      const distance = getDistance(userPos[0], userPos[1], o.lat, o.lng);
+      return distance <= 100;
+    }
+    return true; // Si pas de GPS, on affiche tout ce qui a des coordonnées
+  });
 
-  const defaultCenter = userPos || [13.7563, 100.5018]; // Bangkok fallback
+  const defaultCenter = userPos || [7.8804, 98.3923]; // Phuket Town par défaut
 
   if (locating) {
     return (
       <div className="w-full h-[500px] rounded-3xl bg-card border border-border flex items-center justify-center gap-3 text-muted-foreground">
-        <Navigation className="w-5 h-5 animate-pulse text-citrus" />
-        <span className="font-semibold">Localisation en cours...</span>
+        <Navigation className="w-5 h-5 animate-spin text-citrus" />
+        <span className="font-semibold uppercase italic text-xs">Localisation...</span>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[500px] rounded-3xl overflow-hidden border border-border relative">
+    <div className="w-full h-[500px] rounded-3xl overflow-hidden border border-border relative bg-card">
       {error && (
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] bg-card border border-border rounded-full px-4 py-2 text-xs text-muted-foreground flex items-center gap-2">
-          <MapPin className="w-3.5 h-3.5" /> {error} — carte centrée sur Bangkok
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] bg-card/90 backdrop-blur border border-border rounded-full px-4 py-2 text-[10px] font-bold uppercase italic text-muted-foreground flex items-center gap-2">
+          <MapPin className="w-3 h-3 text-orange-500" /> {error}
         </div>
       )}
 
-      {userPos && (
-        <div className="absolute top-3 right-3 z-[1000] bg-card border border-border rounded-full px-4 py-2 text-xs font-semibold text-citrus flex items-center gap-2">
-          <Navigation className="w-3.5 h-3.5" />
-          {nearbyOffers.length} offre{nearbyOffers.length !== 1 ? 's' : ''} à &lt;10km
-        </div>
-      )}
-
-      <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+      <MapContainer 
+        center={defaultCenter} 
+        zoom={12} 
+        style={{ height: '100%', width: '100%', background: '#1a1a1a' }} 
+        zoomControl={false}
+      >
         <TileLayer
-  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
   attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-/>
+        />
+        
         <RecenterMap position={userPos} />
 
-        {/* User position */}
+        {/* Marqueur Utilisateur */}
         {userPos && (
           <>
             <Marker position={userPos} icon={userIcon}>
-              <Popup>📍 Votre position</Popup>
+              <Popup>📍 Vous êtes ici</Popup>
             </Marker>
             <Circle
               center={userPos}
@@ -122,34 +127,35 @@ const nearbyOffers = offers.filter(o => {
           </>
         )}
 
-        {/* Offer markers */}
-        {/* Offer markers */}
-{nearbyOffers.map(offer => (
-  offer.lat && offer.lng && (
-    <Marker key={offer.id} position={[offer.lat, offer.lng]} icon={offerIcon}>
-      <Popup>
-        <div style={{ minWidth: 160 }}>
-          {offer.photo && (
-            <img 
-              src={offer.photo} 
-              alt={offer.title} 
-              style={{ width: '100%', height: 80, objectFit: 'cover', borderRadius: 8, marginBottom: 8 }} 
-            />
-          )}
-          <div style={{ fontWeight: 700, marginBottom: 4 }}>{offer.title}</div>
-          <div style={{ color: '#ff6b2b', fontWeight: 700, fontSize: 16 }}>{offer.discount_price} THB</div>
-          <div style={{ color: '#888', fontSize: 12, marginTop: 2 }}>{offer.shop_name}</div>
-          
-          {userPos && (
-            <div style={{ color: '#2ec4b6', fontSize: 11, marginTop: 4 }}>
-              📍 {getDistance(userPos[0], userPos[1], offer.lat, offer.lng).toFixed(1)} km
-            </div>
-          )}
-        </div> {/* <-- C'est souvent cette fermeture qui manquait */}
-      </Popup>
-    </Marker>
-  )
-))}
+        {/* Marqueurs Offres */}
+        {nearbyOffers.map(offer => (
+          <Marker 
+            key={offer.id} 
+            position={[offer.lat, offer.lng]} 
+            icon={offerIcon}
+          >
+            <Popup>
+              <div className="p-1" style={{ minWidth: 160 }}>
+                {offer.photo && (
+                  <img 
+                    src={offer.photo} 
+                    alt="" 
+                    className="w-full h-20 object-cover rounded-lg mb-2"
+                  />
+                )}
+                <div className="font-bold text-earth text-sm leading-tight mb-1">{offer.title}</div>
+                <div className="text-citrus font-black text-lg">{offer.discount_price} THB</div>
+                <div className="text-gray-500 text-[10px] font-bold uppercase">{offer.shop_name}</div>
+                
+                {userPos && (
+                  <div className="text-teal-600 text-[10px] font-bold mt-2 pt-2 border-t border-gray-100">
+                    📍 {getDistance(userPos[0], userPos[1], offer.lat, offer.lng).toFixed(1)} km
+                  </div>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
       </MapContainer>
     </div>
   );
