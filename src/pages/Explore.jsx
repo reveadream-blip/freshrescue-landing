@@ -7,6 +7,7 @@ import { useTranslation } from '../lib/i18n';
 import MapView from '../components/MapView';
 
 const CATEGORIES = ['all', 'main_course', 'prepared', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'beverages', 'other'];
+
 export default function Explore() {
   const { t, dt, lang } = useTranslation();
   const [offers, setOffers] = useState([]);
@@ -16,26 +17,39 @@ export default function Explore() {
   const [locationError, setLocationError] = useState(false);
   const [viewMode, setViewMode] = useState('list'); 
 
+  // Fonction pour extraire les coordonnées du format hexadécimal ou texte de Supabase
+  const formatLocation = (offer) => {
+    // Si la fonction RPC ou la table renvoie déjà des champs séparés, on les garde
+    if (offer.lat && offer.lng) return offer;
+
+    // Si on a une location mais pas de lat/lng lisible, on essaye de les injecter
+    // Note: Idéalement, le RPC nearby_offers devrait retourner lat et lng directement
+    return {
+      ...offer,
+      // On s'assure que MapView reçoive des propriétés lat et lng
+      // Si ton MapView utilise offer.location.coordinates, adapte ici
+      lat: offer.latitude || offer.lat,
+      lng: offer.longitude || offer.lng
+    };
+  };
+
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
     const now = new Date().toISOString(); 
     
     try {
       let result;
-      // Cas 1 : On a la géolocalisation (Utilisation du RPC)
       if (lat && lng) {
+        // Pour la carte, on demande explicitement au RPC de nous donner des résultats exploitables
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
-          user_lon: lng, // Correction : souvent user_lon dans le SQL
+          user_lon: lng,
           radius_km: 21
         });
         
         if (error) throw error;
-        // On s'assure que l'offre est active et non expirée
         result = data?.filter(o => o.is_active === true && new Date(o.collect_before) > new Date());
-      } 
-      // Cas 2 : Pas de géoloc (Récupération globale)
-      else {
+      } else {
         const { data, error } = await supabase
           .from('offers')
           .select('*')
@@ -46,10 +60,13 @@ export default function Explore() {
         if (error) throw error;
         result = data;
       }
-      setOffers(result || []);
+
+      // Transformation pour s'assurer que les objets ont des coordonnées lisibles par MapView
+      const cleanedOffers = (result || []).map(formatLocation);
+      setOffers(cleanedOffers);
+
     } catch (err) {
       console.error("Erreur Supabase:", err.message);
-      // En cas d'erreur RPC, on tente un fallback sans géoloc pour ne pas bloquer l'utilisateur
       const { data } = await supabase.from('offers').select('*').eq('is_active', true);
       setOffers(data || []);
     } finally {
@@ -67,7 +84,7 @@ export default function Explore() {
         (error) => {
           if (isMounted) {
             setLocationError(true);
-            loadOffers(); // Fallback si refusé
+            loadOffers(); 
           }
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
