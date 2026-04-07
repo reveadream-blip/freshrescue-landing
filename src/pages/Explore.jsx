@@ -8,18 +8,6 @@ import MapView from '../components/MapView';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
-// --- FONCTION UTILITAIRE POUR CONVERTIR LA CLÉ VAPID ---
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
-
 export default function Explore() {
   const { t, dt, lang } = useTranslation();
   const [offers, setOffers] = useState([]);
@@ -37,51 +25,45 @@ export default function Explore() {
       }
 
       try {
-        // Correction de l'URL pour éviter l'erreur de contexte origin/href
-        const swUrl = `${window.location.origin}/service-worker.js`;
-        const registration = await navigator.serviceWorker.register(swUrl);
+        // 1. Attendre que le Service Worker soit prêt
+        const registration = await navigator.serviceWorker.register('/service-worker.js');
         await navigator.serviceWorker.ready;
         
+        // 2. Demande de permission
         const permission = await Notification.requestPermission();
         
         if (permission === 'granted') {
-          const VAPID_PUBLIC_KEY = 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg';
-          const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
-
-          // NETTOYAGE : On résilie l'éventuel ancien abonnement défectueux avant d'en créer un propre
-          const existingSub = await registration.pushManager.getSubscription();
-          if (existingSub) {
-            await existingSub.unsubscribe();
-          }
-
+          // 3. Récupérer ou créer l'abonnement Push
           const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: convertedKey 
-          });
+  userVisibleOnly: true,
+  applicationServerKey: 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg' 
+});
 
+          // 4. Récupérer l'ID de l'utilisateur (si connecté)
           const { data: { user } } = await supabase.auth.getUser();
 
-          // Sauvegarde sécurisée dans la table push_subscriptions
+          // 5. Sauvegarde dans ta table push_subscriptions
           const { error: upsertError } = await supabase
             .from('push_subscriptions')
             .upsert({
-              subscription: JSON.parse(JSON.stringify(subscription)), 
+              subscription: subscription, // Format JSONB
               user_id: user?.id || null,
               lang: lang
             }, {
-              onConflict: 'subscription'
+              onConflict: 'subscription' // Évite les doublons sur le même navigateur
             });
 
           if (upsertError) throw upsertError;
-          console.log("✅ Abonnement push synchronisé avec succès");
+          console.log("Abonnement push synchronisé avec succès");
         }
       } catch (error) {
-        console.error("❌ Erreur système de notification:", error);
+        console.error("Erreur système de notification:", error);
       }
     };
 
     setupNotifications();
-  }, [lang]); 
+  }, [lang]); // Se relance si la langue change pour mettre à jour la préférence
+  // ----------------------------------------------------
 
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
@@ -145,25 +127,22 @@ export default function Explore() {
   }, []);
 
   const filtered = offers.filter(o => {
-  const now = new Date();
-  const isNotExpired = new Date(o.collect_before) > now;
-  const matchCat = activeCategory === 'all' || o.category === activeCategory;
-  
-  // LOGIQUE DE LANGUE CORRIGÉE
-  // Si la langue est 'fr', on prend la colonne de base, sinon on utilise la traduction
-  const displayTitle = lang === 'fr' ? (o.title || "") : (dt(o, 'title') || "");
-  const displayDesc = lang === 'fr' ? (o.description || "") : (dt(o, 'description') || "");
-  const displayShop = (o.shop_name || "").toLowerCase();
-  
-  const searchTerm = search.toLowerCase();
+    const now = new Date();
+    const isNotExpired = new Date(o.collect_before) > now;
+    const matchCat = activeCategory === 'all' || o.category === activeCategory;
+    
+    const displayTitle = (dt(o, 'title') || "").toLowerCase();
+    const displayDesc = (dt(o, 'description') || "").toLowerCase();
+    const displayShop = (o.shop_name || "").toLowerCase();
+    const searchTerm = search.toLowerCase();
 
-  const matchSearch = !search || 
-    displayTitle.toLowerCase().includes(searchTerm) || 
-    displayDesc.toLowerCase().includes(searchTerm) ||
-    displayShop.includes(searchTerm);
-  
-  return isNotExpired && matchCat && matchSearch;
-});
+    const matchSearch = !search || 
+      displayTitle.includes(searchTerm) || 
+      displayDesc.includes(searchTerm) ||
+      displayShop.includes(searchTerm);
+    
+    return isNotExpired && matchCat && matchSearch;
+  });
 
   return (
     <div className="min-h-screen bg-earth text-foreground">

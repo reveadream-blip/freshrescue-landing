@@ -6,7 +6,19 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
-import { supabase } from '../lib/supabase'; // Import de ton client Supabase
+import { supabase } from '../lib/supabase';
+
+// --- UTILITAIRE DE CONVERSION VAPID ---
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';
@@ -31,58 +43,76 @@ export default function Landing() {
 
   // --- LOGIQUE NOTIFICATIONS PUSH + GEOLOC ---
   const handleBellClick = async () => {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert("Votre navigateur ne supporte pas les notifications push.");
+      return;
+    }
+
     setIsSubscribing(true);
     try {
-      // 1. Demander la permission de géolocalisation
+      // 1. Géolocalisation
       const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: true,
-          timeout: 5000,
+          timeout: 7000,
           maximumAge: 0
         });
       });
 
       const { longitude, latitude } = position.coords;
 
-      // 2. Demander la permission au navigateur pour les notifications
+      // 2. Permission Notifications
       const permission = await Notification.requestPermission();
-      
       if (permission !== 'granted') {
         alert(t('notificationPermissionDenied') || "Merci d'autoriser les notifications pour recevoir les alertes locales.");
         return;
       }
 
-      // 3. Attendre que le Service Worker soit prêt
+      // 3. Service Worker
       const registration = await navigator.serviceWorker.ready;
 
-      // 4. S'abonner au push manager
-      // Note: Remplacer 'VOTRE_CLE_PUBLIQUE_VAPID' par ta vraie clé plus tard
-      const subscription = await registration.pushManager.subscribe({
+      // 4. Clé VAPID (Récupérée depuis ton .env)
+const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+
+if (!VAPID_PUBLIC_KEY) {
+  console.error("La clé VAPID publique est manquante dans le fichier .env");
+  return;
+}
+
+const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+
+      // 5. Subscription (Nettoyage forcé pour éviter les erreurs de changement de clé)
+      let subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        await subscription.unsubscribe();
+      }
+
+      subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: 'VOTRE_CLE_PUBLIQUE_VAPID' 
+        applicationServerKey: convertedKey 
       });
 
-      // 5. Sauvegarder dans Supabase avec le Point Géographique
+      // 6. Sauvegarder dans Supabase
       const { error } = await supabase
         .from('push_subscriptions')
-        .insert([{ 
-          subscription: subscription, 
+        .upsert([{ 
+          subscription: JSON.parse(JSON.stringify(subscription)), 
           lang: lang,
-          // Format PostGIS: POINT(longitude latitude)
           location: `POINT(${longitude} ${latitude})`,
           created_at: new Date() 
-        }]);
+        }], {
+          onConflict: 'subscription'
+        });
 
       if (error) throw error;
 
       alert(t('notificationSuccess') || "Alertes activées pour votre zone !");
     } catch (err) {
-      console.error("Erreur d'abonnement:", err);
-      // Gestion spécifique si la géoloc est bloquée
+      console.error("Détail erreur abonnement:", err);
       if (err.code === 1) {
         alert("La géolocalisation est nécessaire pour vous alerter des offres proches de vous.");
       } else {
-        alert("Mode démo : Inscription reçue (VAPID à configurer).");
+        alert(`Erreur technique : ${err.message || "Problème de connexion"}`);
       }
     } finally {
       setIsSubscribing(false);
@@ -180,7 +210,6 @@ export default function Landing() {
               {t('exploreCta')}
               <ArrowRight className="w-5 h-5" />
             </Link>
-            {/* BOUTON D'ALERTE DYNAMIQUE */}
             <button
               onClick={handleBellClick}
               disabled={isSubscribing}
