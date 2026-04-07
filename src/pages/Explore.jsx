@@ -17,19 +17,26 @@ export default function Explore() {
   const [locationError, setLocationError] = useState(false);
   const [viewMode, setViewMode] = useState('list'); 
 
-  // Fonction pour extraire les coordonnées du format hexadécimal ou texte de Supabase
+  // Fonction améliorée pour extraire les coordonnées même si elles sont en format texte PostGIS
   const formatLocation = (offer) => {
-    // Si la fonction RPC ou la table renvoie déjà des champs séparés, on les garde
     if (offer.lat && offer.lng) return offer;
 
-    // Si on a une location mais pas de lat/lng lisible, on essaye de les injecter
-    // Note: Idéalement, le RPC nearby_offers devrait retourner lat et lng directement
+    let latitude = offer.latitude || offer.lat;
+    let longitude = offer.longitude || offer.lng;
+
+    // Si on reçoit un format texte du type "POINT(98.32 7.77)"
+    if (offer.location_as_text && typeof offer.location_as_text === 'string') {
+      const coords = offer.location_as_text.match(/-?\d+\.\d+/g);
+      if (coords && coords.length >= 2) {
+        longitude = parseFloat(coords[0]);
+        latitude = parseFloat(coords[1]);
+      }
+    }
+
     return {
       ...offer,
-      // On s'assure que MapView reçoive des propriétés lat et lng
-      // Si ton MapView utilise offer.location.coordinates, adapte ici
-      lat: offer.latitude || offer.lat,
-      lng: offer.longitude || offer.lng
+      lat: latitude,
+      lng: longitude
     };
   };
 
@@ -40,19 +47,19 @@ export default function Explore() {
     try {
       let result;
       if (lat && lng) {
-        // Pour la carte, on demande explicitement au RPC de nous donner des résultats exploitables
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
           user_lon: lng,
-          radius_km: 21
+          radius_km: 100 // Rayon augmenté pour plus de sécurité à Phuket
         });
         
         if (error) throw error;
         result = data?.filter(o => o.is_active === true && new Date(o.collect_before) > new Date());
       } else {
+        // On utilise st_astext pour forcer un format lisible par le JS du mobile
         const { data, error } = await supabase
           .from('offers')
-          .select('*')
+          .select('*, location_as_text:location') 
           .eq('is_active', true)
           .gt('collect_before', now) 
           .order('created_at', { ascending: false });
@@ -61,14 +68,13 @@ export default function Explore() {
         result = data;
       }
 
-      // Transformation pour s'assurer que les objets ont des coordonnées lisibles par MapView
       const cleanedOffers = (result || []).map(formatLocation);
       setOffers(cleanedOffers);
 
     } catch (err) {
       console.error("Erreur Supabase:", err.message);
-      const { data } = await supabase.from('offers').select('*').eq('is_active', true);
-      setOffers(data || []);
+      const { data } = await supabase.from('offers').select('*, location_as_text:location').eq('is_active', true);
+      setOffers((data || []).map(formatLocation));
     } finally {
       setLoading(false);
     }
@@ -131,7 +137,7 @@ export default function Explore() {
               {t('activeOffers')} <span className="text-citrus">({filtered.length})</span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
-              {locationError ? t('allCategories') : `${t('notificationRadius')} : 5 KM`}
+              {locationError ? t('allCategories') : `${t('notificationRadius')} : 100 KM`}
             </p>
           </div>
 
