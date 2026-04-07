@@ -6,10 +6,9 @@ import OfferCard from '../components/OfferCard';
 import { useTranslation } from '../lib/i18n';
 import MapView from '../components/MapView';
 
-const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
-
+const CATEGORIES = ['all', 'main_course', 'prepared', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'beverages', 'other'];
 export default function Explore() {
-  const { t, dt, lang } = useTranslation(); // On récupère lang pour la logique locale
+  const { t, dt, lang } = useTranslation();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -23,16 +22,20 @@ export default function Explore() {
     
     try {
       let result;
+      // Cas 1 : On a la géolocalisation (Utilisation du RPC)
       if (lat && lng) {
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
-          user_lng: lng,
-          radius_km: 100
+          user_lon: lng, // Correction : souvent user_lon dans le SQL
+          radius_km: 21
         });
-        if (error) throw error;
         
-        result = data?.filter(o => o.is_active && new Date(o.collect_before) > new Date());
-      } else {
+        if (error) throw error;
+        // On s'assure que l'offre est active et non expirée
+        result = data?.filter(o => o.is_active === true && new Date(o.collect_before) > new Date());
+      } 
+      // Cas 2 : Pas de géoloc (Récupération globale)
+      else {
         const { data, error } = await supabase
           .from('offers')
           .select('*')
@@ -46,6 +49,9 @@ export default function Explore() {
       setOffers(result || []);
     } catch (err) {
       console.error("Erreur Supabase:", err.message);
+      // En cas d'erreur RPC, on tente un fallback sans géoloc pour ne pas bloquer l'utilisateur
+      const { data } = await supabase.from('offers').select('*').eq('is_active', true);
+      setOffers(data || []);
     } finally {
       setLoading(false);
     }
@@ -61,10 +67,10 @@ export default function Explore() {
         (error) => {
           if (isMounted) {
             setLocationError(true);
-            loadOffers();
+            loadOffers(); // Fallback si refusé
           }
         },
-        { enableHighAccuracy: true, timeout: 10000 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
       loadOffers();
@@ -72,15 +78,13 @@ export default function Explore() {
     return () => { isMounted = false; };
   }, []);
 
-  // --- LOGIQUE DE FILTRAGE MULTILINGUE OPTIMISÉE ---
   const filtered = offers.filter(o => {
     const now = new Date();
     const isNotExpired = new Date(o.collect_before) > now;
     const matchCat = activeCategory === 'all' || o.category === activeCategory;
     
-    // On recherche dans le titre traduit ET la description traduite selon la langue
-    const displayTitle = dt(o, 'title').toLowerCase();
-    const displayDesc = dt(o, 'description').toLowerCase();
+    const displayTitle = dt(o, 'title')?.toLowerCase() || "";
+    const displayDesc = dt(o, 'description')?.toLowerCase() || "";
     const displayShop = (o.shop_name || "").toLowerCase();
     const searchTerm = search.toLowerCase();
 
@@ -110,8 +114,7 @@ export default function Explore() {
               {t('activeOffers')} <span className="text-citrus">({filtered.length})</span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
-              {/* Traduction dynamique du rayon selon la langue */}
-              {locationError ? t('allCategories') : `${t('notificationRadius')} : 100 KM`}
+              {locationError ? t('allCategories') : `${t('notificationRadius')} : 5 KM`}
             </p>
           </div>
 
@@ -122,7 +125,7 @@ export default function Explore() {
                 viewMode === 'list' ? 'bg-citrus text-earth' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <List className="w-4 h-4" /> {/* t('list') si tu as la clé */}
+              <List className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewMode('map')}
@@ -135,7 +138,6 @@ export default function Explore() {
           </div>
         </div>
 
-        {/* Barre de Recherche Trilingue */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -143,7 +145,7 @@ export default function Explore() {
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder={t('productDescPlaceholder')} // Utilise une clé existante pour le placeholder
+              placeholder={t('productDescPlaceholder')}
               className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-citrus/30 transition-all font-bold"
             />
           </div>
@@ -168,7 +170,6 @@ export default function Explore() {
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 text-citrus animate-spin mb-4" />
             <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">
-                {/* Petit clin d'oeil multilingue pour l'attente */}
                 {lang === 'ru' ? 'Поиск свежих продуктов...' : t('saving')}
             </p>
           </div>
