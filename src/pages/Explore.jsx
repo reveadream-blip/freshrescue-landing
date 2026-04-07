@@ -35,9 +35,9 @@ export default function Explore() {
         if (permission === 'granted') {
           // 3. Récupérer ou créer l'abonnement Push
           const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: 'TA_CLE_PUBLIQUE_VAPID_ICI' // <--- REMPLACE MOI
-          });
+  userVisibleOnly: true,
+  applicationServerKey: 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg' 
+});
 
           // 4. Récupérer l'ID de l'utilisateur (si connecté)
           const { data: { user } } = await supabase.auth.getUser();

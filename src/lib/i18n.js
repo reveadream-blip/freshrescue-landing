@@ -465,7 +465,7 @@ const translations = {
     onSite: "ทานที่ร้าน",
     both: "ได้ทั้งสองอย่าง",
     expiryDate: "วันหมดอายุ",
-    refreezable: "แช่แข็งได้",
+    refreezable: "ถุงเก็บความเย็น",
     // Footer
     footerTagline: "เปลี่ยนขยะอาหารเป็นโอกาส",
     footerRights: "สงวนลิขสิทธิ์",
@@ -635,7 +635,7 @@ const translations = {
     onSite: "На месте",
     both: "Оба варианта",
     expiryDate: "Срок годности (DLC)",
-    refreezable: "можно заморозить",
+    refreezable: "термосумка",
     // Footer
     footerTagline: "Превращаем пищевые отходы в возможности.",
     footerRights: "Все права защищены.",

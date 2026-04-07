@@ -123,28 +123,36 @@ export default function MerchantPost() {
         }
       }
 
-      // Traductions du Titre et Description
+      // Traductions du Titre et Description (Ajout du Russe)
       const titleEn = await translateText(form.title, 'en');
-      await new Promise(r => setTimeout(r, 300));
+      await new Promise(r => setTimeout(r, 200));
       const titleTh = await translateText(form.title, 'th');
+      await new Promise(r => setTimeout(r, 200));
+      const titleRu = await translateText(form.title, 'ru');
       
       let descEn = "";
       let descTh = "";
+      let descRu = "";
       if (form.description && form.description.trim() !== "") {
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 200));
         descEn = await translateText(form.description, 'en');
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise(r => setTimeout(r, 200));
         descTh = await translateText(form.description, 'th');
+        await new Promise(r => setTimeout(r, 200));
+        descRu = await translateText(form.description, 'ru');
       }
 
       // --- LOGIQUE DE TRADUCTION POUR LE MODE ET LE SAC ---
       const consModeFr = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
       const consModeEn = await translateText(consModeFr, 'en');
       const consModeTh = await translateText(consModeFr, 'th');
+      const consModeRu = await translateText(consModeFr, 'ru');
 
-      const bagNoticeFr = form.needs_cool_bag ? "Prévoir un sac isotherme / congélation" : "";
+      // Modification demandée : "recongelable" au lieu de l'ancien texte
+      const bagNoticeFr = form.needs_cool_bag ? "recongelable" : "";
       const bagNoticeEn = form.needs_cool_bag ? await translateText(bagNoticeFr, 'en') : "";
       const bagNoticeTh = form.needs_cool_bag ? await translateText(bagNoticeFr, 'th') : "";
+      const bagNoticeRu = form.needs_cool_bag ? await translateText(bagNoticeFr, 'ru') : "";
 
       const submissionData = {
         user_id: activeUser.id,
@@ -154,6 +162,8 @@ export default function MerchantPost() {
         description_en: descEn,
         title_th: titleTh,
         description_th: descTh,
+        title_ru: titleRu,
+        description_ru: descRu,
         original_price: form.original_price ? Number(form.original_price) : null,
         discount_price: Number(form.discount_price),
         collect_before: new Date(form.collect_before).toISOString(),
@@ -163,13 +173,14 @@ export default function MerchantPost() {
         photo: photoUrl,
         is_active: form.is_active,
         expiry_date: form.expiry_date || null,
-        // Noms de colonnes alignés avec ton SQL Supabase
         consumption_mode_fr: consModeFr,
         consumption_mode_en: consModeEn,
         consumption_mode_th: consModeTh,
+        consumption_mode_ru: consModeRu,
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
-        bag_notice_th: bagNoticeTh
+        bag_notice_th: bagNoticeTh,
+        bag_notice_ru: bagNoticeRu
       };
 
       if (isEdit) submissionData.id = id;
@@ -187,6 +198,7 @@ export default function MerchantPost() {
     }
   };
 
+  // ... Reste du rendu (JSX) identique au tien
   const inputClass = "w-full bg-muted border border-border rounded-xl px-4 py-3 text-foreground focus:border-citrus/50 transition-colors";
   const labelClass = "text-[10px] font-black uppercase ml-1 opacity-50 tracking-widest flex items-center gap-2 mb-2";
 
