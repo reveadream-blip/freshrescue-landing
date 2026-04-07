@@ -1,35 +1,79 @@
 // public/service-worker.js
-
 const CACHE_NAME = 'freshrescue-v1';
+const ASSETS_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/logo192.png',
+  '/manifest.json'
+];
 
-// Lors de l'installation, on peut mettre en cache des pages (optionnel)
+// 1. INSTALLATION : Mise en cache des ressources critiques
 self.addEventListener('install', (event) => {
-  console.log('Service Worker: Installé');
+  console.log('Service Worker: Installation...');
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
+  );
+  self.skipWaiting();
 });
 
-// Activation du Service Worker
+// 2. ACTIVATION : Nettoyage des anciens caches
 self.addEventListener('activate', (event) => {
   console.log('Service Worker: Activé');
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim();
 });
 
-// Intercepter les requêtes pour que l'app soit "Installable"
+// 3. STRATÉGIE DE FETCH : Réseau d'abord, sinon Cache
 self.addEventListener('fetch', (event) => {
-  // On laisse passer les requêtes normalement
-  event.respondWith(fetch(event.request));
+  event.respondWith(
+    fetch(event.request).catch(() => {
+      return caches.match(event.request);
+    })
+  );
 });
 
-// ÉCOUTER LES NOTIFICATIONS PUSH (C'est ici que la magie opérera)
+// 4. RÉCEPTION DES NOTIFICATIONS PUSH
 self.addEventListener('push', (event) => {
-  const data = event.data ? event.data.json() : { title: 'FreshRescue', body: 'Nouvelle offre disponible !' };
-  
+  let data = { 
+    title: 'FreshRescue', 
+    body: 'Une nouvelle offre est disponible !',
+    url: '/explore'
+  };
+
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      // Si les données ne sont pas du JSON, on utilise le texte brut
+      data = { ...data, body: event.data.text() };
+    }
+  }
+
   const options = {
     body: data.body,
-    icon: '/logo192.png', // Assure-toi d'avoir cette image dans public
+    icon: '/logo192.png', // Doit exister dans ton dossier public
     badge: '/logo192.png',
-    vibrate: [100, 50, 100],
+    vibrate: [200, 100, 200],
+    tag: 'freshrescue-notification', // Évite d'empiler 50 notifications
+    renotify: true,
     data: {
-      url: data.url || '/'
-    }
+      url: data.url || '/explore'
+    },
+    actions: [
+      { action: 'open', title: 'Voir l\'offre' }
+    ]
   };
 
   event.waitUntil(
@@ -37,10 +81,25 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Quand l'utilisateur clique sur la notification
+// 5. CLIC SUR LA NOTIFICATION
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+
+  // On récupère l'URL transmise ou on va sur /explore par défaut
+  const urlToOpen = event.notification.data.url || '/explore';
+
   event.waitUntil(
-    clients.openWindow(event.notification.data.url)
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // Si l'app est déjà ouverte, on focus dessus
+      for (let client of windowClients) {
+        if (client.url === urlToOpen && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      // Sinon on ouvre une nouvelle fenêtre
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
   );
 });

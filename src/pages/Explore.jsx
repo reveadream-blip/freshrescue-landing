@@ -17,6 +17,54 @@ export default function Explore() {
   const [locationError, setLocationError] = useState(false);
   const [viewMode, setViewMode] = useState('list'); 
 
+  // --- GESTION DES NOTIFICATIONS ET SYNCHRO SUPABASE ---
+  useEffect(() => {
+    const setupNotifications = async () => {
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+        return;
+      }
+
+      try {
+        // 1. Attendre que le Service Worker soit prêt
+        const registration = await navigator.serviceWorker.register('/service-worker.js');
+        await navigator.serviceWorker.ready;
+        
+        // 2. Demande de permission
+        const permission = await Notification.requestPermission();
+        
+        if (permission === 'granted') {
+          // 3. Récupérer ou créer l'abonnement Push
+          const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: 'TA_CLE_PUBLIQUE_VAPID_ICI' // <--- REMPLACE MOI
+          });
+
+          // 4. Récupérer l'ID de l'utilisateur (si connecté)
+          const { data: { user } } = await supabase.auth.getUser();
+
+          // 5. Sauvegarde dans ta table push_subscriptions
+          const { error: upsertError } = await supabase
+            .from('push_subscriptions')
+            .upsert({
+              subscription: subscription, // Format JSONB
+              user_id: user?.id || null,
+              lang: lang
+            }, {
+              onConflict: 'subscription' // Évite les doublons sur le même navigateur
+            });
+
+          if (upsertError) throw upsertError;
+          console.log("Abonnement push synchronisé avec succès");
+        }
+      } catch (error) {
+        console.error("Erreur système de notification:", error);
+      }
+    };
+
+    setupNotifications();
+  }, [lang]); // Se relance si la langue change pour mettre à jour la préférence
+  // ----------------------------------------------------
+
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
     const now = new Date().toISOString(); 
@@ -26,7 +74,7 @@ export default function Explore() {
       if (lat && lng) {
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
-          user_lon: lng, // Utilisation de user_lon pour correspondre au SQL
+          user_lon: lng, 
           radius_km: 100
         });
         if (error) throw error;
@@ -43,7 +91,6 @@ export default function Explore() {
         result = data;
       }
 
-      // Normalisation des données pour MapView (pont entre SQL et Leaflet)
       const formattedResult = (result || []).map(o => ({
         ...o,
         lat: parseFloat(o.lat || o.latitude),
