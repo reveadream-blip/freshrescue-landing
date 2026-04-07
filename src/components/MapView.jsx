@@ -69,8 +69,10 @@ export default function MapView({ offers }) {
 
   // Dans le filtre nearbyOffers
 const nearbyOffers = offers.filter(o => {
-  if (!o.lat || !o.lng || !userPos) return !!o.lat && !!o.lng; // CHANGÉ
-  return getDistance(userPos[0], userPos[1], o.lat, o.lng) <= 100; // CHANGÉ (passé à 100km pour Phuket)
+  // Utilise o.lat et o.lng car ce sont les noms dans ta table
+  if (!o.lat || !o.lng || !userPos) return true; 
+  const distance = getDistance(userPos[0], userPos[1], o.lat, o.lng);
+  return distance <= 100; 
 });
 
   const defaultCenter = userPos || [13.7563, 100.5018]; // Bangkok fallback

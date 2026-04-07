@@ -18,38 +18,45 @@ export default function Explore() {
   const [viewMode, setViewMode] = useState('list'); 
 
   const loadOffers = async (lat = null, lng = null) => {
-    setLoading(true);
-    const now = new Date().toISOString(); 
-    
-    try {
-      let result;
-      if (lat && lng) {
-        const { data, error } = await supabase.rpc('nearby_offers', {
-          user_lat: lat,
-          user_lng: lng,
-          radius_km: 100
-        });
-        if (error) throw error;
-        
-        result = data?.filter(o => o.is_active && new Date(o.collect_before) > new Date());
-      } else {
-        const { data, error } = await supabase
-          .from('offers')
-          .select('*')
-          .eq('is_active', true)
-          .gt('collect_before', now) 
-          .order('created_at', { ascending: false });
-        
-        if (error) throw error;
-        result = data;
-      }
-      setOffers(result || []);
-    } catch (err) {
-      console.error("Erreur Supabase:", err.message);
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  const now = new Date().toISOString(); 
+  
+  try {
+    let result;
+    if (lat && lng) {
+      const { data, error } = await supabase.rpc('nearby_offers', {
+        user_lat: lat,
+        user_lon: lng, // CHANGÉ : 'user_lon' au lieu de 'user_lng' pour matcher SQL
+        radius_km: 100
+      });
+      if (error) throw error;
+      
+      // IMPORTANT : Mapper les résultats pour que Leaflet comprenne lat/lng
+      result = data?.map(o => ({
+        ...o,
+        lat: o.latitude, // On crée le pont entre le SQL et le JS
+        lng: o.longitude
+      })).filter(o => o.is_active && new Date(o.collect_before) > new Date());
+      
+    } else {
+      // Pour la vue par défaut, on force la récupération de la position textuelle
+      const { data, error } = await supabase
+        .from('offers')
+        .select('*, lat:latitude, lng:longitude') // On alias directement ici
+        .eq('is_active', true)
+        .gt('collect_before', now) 
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      result = data;
     }
-  };
+    setOffers(result || []);
+  } catch (err) {
+    console.error("Erreur Supabase:", err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     let isMounted = true;
