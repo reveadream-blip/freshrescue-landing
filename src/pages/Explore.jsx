@@ -8,6 +8,18 @@ import MapView from '../components/MapView';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
+// --- FONCTION UTILITAIRE POUR CONVERTIR LA CLÉ VAPID ---
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 export default function Explore() {
   const { t, dt, lang } = useTranslation();
   const [offers, setOffers] = useState([]);
@@ -25,45 +37,44 @@ export default function Explore() {
       }
 
       try {
-        // 1. Attendre que le Service Worker soit prêt
         const registration = await navigator.serviceWorker.register('/service-worker.js');
         await navigator.serviceWorker.ready;
         
-        // 2. Demande de permission
         const permission = await Notification.requestPermission();
         
         if (permission === 'granted') {
-          // 3. Récupérer ou créer l'abonnement Push
-          const subscription = await registration.pushManager.subscribe({
-  userVisibleOnly: true,
-  applicationServerKey: 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg' 
-});
+          // Conversion de la clé VAPID pour le navigateur
+          const VAPID_PUBLIC_KEY = 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg';
+          const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
 
-          // 4. Récupérer l'ID de l'utilisateur (si connecté)
+          const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedKey 
+          });
+
           const { data: { user } } = await supabase.auth.getUser();
 
-          // 5. Sauvegarde dans ta table push_subscriptions
+          // Sauvegarde sécurisée (conversion en JSON pur pour la colonne JSONB)
           const { error: upsertError } = await supabase
             .from('push_subscriptions')
             .upsert({
-              subscription: subscription, // Format JSONB
+              subscription: JSON.parse(JSON.stringify(subscription)), 
               user_id: user?.id || null,
               lang: lang
             }, {
-              onConflict: 'subscription' // Évite les doublons sur le même navigateur
+              onConflict: 'subscription'
             });
 
           if (upsertError) throw upsertError;
-          console.log("Abonnement push synchronisé avec succès");
+          console.log("✅ Abonnement push synchronisé avec succès");
         }
       } catch (error) {
-        console.error("Erreur système de notification:", error);
+        console.error("❌ Erreur système de notification:", error);
       }
     };
 
     setupNotifications();
-  }, [lang]); // Se relance si la langue change pour mettre à jour la préférence
-  // ----------------------------------------------------
+  }, [lang]); 
 
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
