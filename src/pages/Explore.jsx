@@ -145,22 +145,25 @@ export default function Explore() {
   }, []);
 
   const filtered = offers.filter(o => {
-    const now = new Date();
-    const isNotExpired = new Date(o.collect_before) > now;
-    const matchCat = activeCategory === 'all' || o.category === activeCategory;
-    
-    const displayTitle = (dt(o, 'title') || "").toLowerCase();
-    const displayDesc = (dt(o, 'description') || "").toLowerCase();
-    const displayShop = (o.shop_name || "").toLowerCase();
-    const searchTerm = search.toLowerCase();
+  const now = new Date();
+  const isNotExpired = new Date(o.collect_before) > now;
+  const matchCat = activeCategory === 'all' || o.category === activeCategory;
+  
+  // LOGIQUE DE LANGUE CORRIGÉE
+  // Si la langue est 'fr', on prend la colonne de base, sinon on utilise la traduction
+  const displayTitle = lang === 'fr' ? (o.title || "") : (dt(o, 'title') || "");
+  const displayDesc = lang === 'fr' ? (o.description || "") : (dt(o, 'description') || "");
+  const displayShop = (o.shop_name || "").toLowerCase();
+  
+  const searchTerm = search.toLowerCase();
 
-    const matchSearch = !search || 
-      displayTitle.includes(searchTerm) || 
-      displayDesc.includes(searchTerm) ||
-      displayShop.includes(searchTerm);
-    
-    return isNotExpired && matchCat && matchSearch;
-  });
+  const matchSearch = !search || 
+    displayTitle.toLowerCase().includes(searchTerm) || 
+    displayDesc.toLowerCase().includes(searchTerm) ||
+    displayShop.includes(searchTerm);
+  
+  return isNotExpired && matchCat && matchSearch;
+});
 
   return (
     <div className="min-h-screen bg-earth text-foreground">

@@ -11,8 +11,8 @@ export default function OfferCard({ offer }) {
     ? Math.round(((offer.original_price - offer.discount_price) / offer.original_price) * 100)
     : null;
 
-  const title = dt(offer, 'title');
-  const description = dt(offer, 'description');
+  const title = lang === 'fr' ? (offer.title || "") : dt(offer, 'title');
+const description = lang === 'fr' ? (offer.description || "") : dt(offer, 'description');
   
   // LOGIQUE DE TRADUCTION MANUELLE POUR LE MODE DE CONSO
   let consumptionMode = dt(offer, 'consumption_mode');
