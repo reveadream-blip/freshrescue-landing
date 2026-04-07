@@ -37,15 +37,22 @@ export default function Explore() {
       }
 
       try {
-        const registration = await navigator.serviceWorker.register('/service-worker.js');
+        // Correction de l'URL pour éviter l'erreur de contexte origin/href
+        const swUrl = `${window.location.origin}/service-worker.js`;
+        const registration = await navigator.serviceWorker.register(swUrl);
         await navigator.serviceWorker.ready;
         
         const permission = await Notification.requestPermission();
         
         if (permission === 'granted') {
-          // Conversion de la clé VAPID pour le navigateur
           const VAPID_PUBLIC_KEY = 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg';
           const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+
+          // NETTOYAGE : On résilie l'éventuel ancien abonnement défectueux avant d'en créer un propre
+          const existingSub = await registration.pushManager.getSubscription();
+          if (existingSub) {
+            await existingSub.unsubscribe();
+          }
 
           const subscription = await registration.pushManager.subscribe({
             userVisibleOnly: true,
@@ -54,7 +61,7 @@ export default function Explore() {
 
           const { data: { user } } = await supabase.auth.getUser();
 
-          // Sauvegarde sécurisée (conversion en JSON pur pour la colonne JSONB)
+          // Sauvegarde sécurisée dans la table push_subscriptions
           const { error: upsertError } = await supabase
             .from('push_subscriptions')
             .upsert({
