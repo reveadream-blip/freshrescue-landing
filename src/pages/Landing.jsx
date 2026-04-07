@@ -1,24 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  CheckCircle, ArrowRight, Zap, MapPin, BellRing, 
+  CheckCircle, ArrowRight, Zap, MapPin, 
   TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
-import { supabase } from '../lib/supabase';
-
-// --- UTILITAIRE DE CONVERSION VAPID ---
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';
@@ -29,7 +16,6 @@ export default function Landing() {
   const { t, lang } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
-  const [isSubscribing, setIsSubscribing] = useState(false);
 
   useEffect(() => {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -40,84 +26,6 @@ export default function Landing() {
       setDeferredPrompt(e);
     });
   }, []);
-
-  // --- LOGIQUE NOTIFICATIONS PUSH + GEOLOC ---
-  const handleBellClick = async () => {
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      alert("Votre navigateur ne supporte pas les notifications push.");
-      return;
-    }
-
-    setIsSubscribing(true);
-    try {
-      // 1. Géolocalisation
-      const position = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 7000,
-          maximumAge: 0
-        });
-      });
-
-      const { longitude, latitude } = position.coords;
-
-      // 2. Permission Notifications
-      const permission = await Notification.requestPermission();
-      if (permission !== 'granted') {
-        alert(t('notificationPermissionDenied') || "Merci d'autoriser les notifications pour recevoir les alertes locales.");
-        return;
-      }
-
-      // 3. Service Worker
-      const registration = await navigator.serviceWorker.ready;
-
-      // 4. Clé VAPID (Récupérée depuis ton .env)
-const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
-
-if (!VAPID_PUBLIC_KEY) {
-  console.error("La clé VAPID publique est manquante dans le fichier .env");
-  return;
-}
-
-const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
-
-      // 5. Subscription (Nettoyage forcé pour éviter les erreurs de changement de clé)
-      let subscription = await registration.pushManager.getSubscription();
-      if (subscription) {
-        await subscription.unsubscribe();
-      }
-
-      subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: convertedKey 
-      });
-
-      // 6. Sauvegarder dans Supabase
-      const { error } = await supabase
-        .from('push_subscriptions')
-        .upsert([{ 
-          subscription: JSON.parse(JSON.stringify(subscription)), 
-          lang: lang,
-          location: `POINT(${longitude} ${latitude})`,
-          created_at: new Date() 
-        }], {
-          onConflict: 'subscription'
-        });
-
-      if (error) throw error;
-
-      alert(t('notificationSuccess') || "Alertes activées pour votre zone !");
-    } catch (err) {
-      console.error("Détail erreur abonnement:", err);
-      if (err.code === 1) {
-        alert("La géolocalisation est nécessaire pour vous alerter des offres proches de vous.");
-      } else {
-        alert(`Erreur technique : ${err.message || "Problème de connexion"}`);
-      }
-    } finally {
-      setIsSubscribing(false);
-    }
-  };
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -210,14 +118,6 @@ const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
               {t('exploreCta')}
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <button
-              onClick={handleBellClick}
-              disabled={isSubscribing}
-              className="flex items-center gap-2 bg-muted border border-border px-8 py-4 rounded-full font-bold text-lg hover:border-citrus/50 transition-all disabled:opacity-50"
-            >
-              <BellRing className={`w-5 h-5 ${isSubscribing ? 'animate-bounce' : ''}`} />
-              {isSubscribing ? '...' : t('step2Title')}
-            </button>
           </div>
 
           <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
@@ -256,13 +156,12 @@ const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
                 img: BAKERY_IMG,
               },
               {
-                icon: <BellRing className="w-7 h-7 text-earth" />,
+                icon: <MapPin className="w-7 h-7 text-earth" />,
                 bg: 'bg-stem',
                 num: '02',
                 title: t('step2Title'),
                 desc: t('step2Desc'),
                 img: FRUIT_IMG,
-                onClick: handleBellClick 
               },
               {
                 icon: <TrendingUp className="w-7 h-7 text-earth" />,
@@ -275,8 +174,7 @@ const convertedKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
             ].map((step, i) => (
               <div 
                 key={i} 
-                onClick={step.onClick}
-                className={`group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-citrus/30 transition-all ${step.onClick ? 'cursor-pointer' : ''}`}
+                className="group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-citrus/30 transition-all"
               >
                 <div className="h-48 overflow-hidden">
                   <img src={step.img} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" />

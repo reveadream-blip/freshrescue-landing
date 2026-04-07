@@ -17,54 +17,7 @@ export default function Explore() {
   const [locationError, setLocationError] = useState(false);
   const [viewMode, setViewMode] = useState('list'); 
 
-  // --- GESTION DES NOTIFICATIONS ET SYNCHRO SUPABASE ---
-  useEffect(() => {
-    const setupNotifications = async () => {
-      if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-        return;
-      }
-
-      try {
-        // 1. Attendre que le Service Worker soit prêt
-        const registration = await navigator.serviceWorker.register('/service-worker.js');
-        await navigator.serviceWorker.ready;
-        
-        // 2. Demande de permission
-        const permission = await Notification.requestPermission();
-        
-        if (permission === 'granted') {
-          // 3. Récupérer ou créer l'abonnement Push
-          const subscription = await registration.pushManager.subscribe({
-  userVisibleOnly: true,
-  applicationServerKey: 'BDiE_RB1ZjwPF64LDMZXhERjDufh3ZVi9FmvNrDbvwu0iP7IE1O2PXlwoORedKUQo_oIR1sCVQqlNqcW1Ccq2Dg' 
-});
-
-          // 4. Récupérer l'ID de l'utilisateur (si connecté)
-          const { data: { user } } = await supabase.auth.getUser();
-
-          // 5. Sauvegarde dans ta table push_subscriptions
-          const { error: upsertError } = await supabase
-            .from('push_subscriptions')
-            .upsert({
-              subscription: subscription, // Format JSONB
-              user_id: user?.id || null,
-              lang: lang
-            }, {
-              onConflict: 'subscription' // Évite les doublons sur le même navigateur
-            });
-
-          if (upsertError) throw upsertError;
-          console.log("Abonnement push synchronisé avec succès");
-        }
-      } catch (error) {
-        console.error("Erreur système de notification:", error);
-      }
-    };
-
-    setupNotifications();
-  }, [lang]); // Se relance si la langue change pour mettre à jour la préférence
-  // ----------------------------------------------------
-
+  // --- CHARGEMENT DES OFFRES ---
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
     const now = new Date().toISOString(); 
@@ -72,6 +25,7 @@ export default function Explore() {
     try {
       let result;
       if (lat && lng) {
+        // Utilisation de la fonction RPC pour la proximité
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
           user_lon: lng, 
@@ -80,6 +34,7 @@ export default function Explore() {
         if (error) throw error;
         result = data;
       } else {
+        // Chargement standard si pas de géolocalisation
         const { data, error } = await supabase
           .from('offers')
           .select('*')
@@ -91,6 +46,7 @@ export default function Explore() {
         result = data;
       }
 
+      // Formatage des coordonnées pour MapView
       const formattedResult = (result || []).map(o => ({
         ...o,
         lat: parseFloat(o.lat || o.latitude),
@@ -105,6 +61,7 @@ export default function Explore() {
     }
   };
 
+  // Initialisation avec Géolocalisation
   useEffect(() => {
     let isMounted = true;
     if ("geolocation" in navigator) {
@@ -126,6 +83,7 @@ export default function Explore() {
     return () => { isMounted = false; };
   }, []);
 
+  // --- FILTRAGE CLIENT ---
   const filtered = offers.filter(o => {
     const now = new Date();
     const isNotExpired = new Date(o.collect_before) > now;
@@ -149,6 +107,7 @@ export default function Explore() {
       <Navbar />
       <div className="pt-24 pb-16 px-6 max-w-7xl mx-auto">
         
+        {/* Message d'erreur de localisation */}
         {locationError && (
           <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
             <MapPin className="w-4 h-4" />
@@ -156,6 +115,7 @@ export default function Explore() {
           </div>
         )}
 
+        {/* Header avec Titre et Sélecteur de vue */}
         <div className="mb-10 flex justify-between items-end flex-wrap gap-4">
           <div>
             <h1 className="text-4xl md:text-5xl font-black mb-2 italic uppercase">
@@ -186,6 +146,7 @@ export default function Explore() {
           </div>
         </div>
 
+        {/* Barre de recherche et Catégories */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -214,11 +175,12 @@ export default function Explore() {
           </div>
         </div>
 
+        {/* Affichage des résultats */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 text-citrus animate-spin mb-4" />
             <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">
-                {lang === 'ru' ? 'Поиск свежих продуктов...' : t('saving')}
+                {lang === 'ru' ? 'Поиск свежих продуктов...' : 'Chargement des offres...'}
             </p>
           </div>
         ) : viewMode === 'map' ? (
