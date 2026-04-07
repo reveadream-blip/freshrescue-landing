@@ -35,8 +35,8 @@ export default function Explore() {
 
     return {
       ...offer,
-      lat: latitude,
-      lng: longitude
+      lat: latitude ? parseFloat(latitude) : null,
+      lng: longitude ? parseFloat(longitude) : null
     };
   };
 
@@ -56,7 +56,6 @@ export default function Explore() {
         if (error) throw error;
         result = data?.filter(o => o.is_active === true && new Date(o.collect_before) > new Date());
       } else {
-        // On utilise st_astext pour forcer un format lisible par le JS du mobile
         const { data, error } = await supabase
           .from('offers')
           .select('*, location_as_text:location') 
