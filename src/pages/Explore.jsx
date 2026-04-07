@@ -6,39 +6,16 @@ import OfferCard from '../components/OfferCard';
 import { useTranslation } from '../lib/i18n';
 import MapView from '../components/MapView';
 
-const CATEGORIES = ['all', 'main_course', 'prepared', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'beverages', 'other'];
+const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
 export default function Explore() {
-  const { t, dt, lang } = useTranslation();
+  const { t, dt, lang } = useTranslation(); // On récupère lang pour la logique locale
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [locationError, setLocationError] = useState(false);
   const [viewMode, setViewMode] = useState('list'); 
-
-  // Fonction améliorée pour extraire les coordonnées même si elles sont en format texte PostGIS
-  const formatLocation = (offer) => {
-    if (offer.lat && offer.lng) return offer;
-
-    let latitude = offer.latitude || offer.lat;
-    let longitude = offer.longitude || offer.lng;
-
-    // Si on reçoit un format texte du type "POINT(98.32 7.77)"
-    if (offer.location_as_text && typeof offer.location_as_text === 'string') {
-      const coords = offer.location_as_text.match(/-?\d+\.\d+/g);
-      if (coords && coords.length >= 2) {
-        longitude = parseFloat(coords[0]);
-        latitude = parseFloat(coords[1]);
-      }
-    }
-
-    return {
-      ...offer,
-      lat: latitude ? parseFloat(latitude) : null,
-      lng: longitude ? parseFloat(longitude) : null
-    };
-  };
 
   const loadOffers = async (lat = null, lng = null) => {
     setLoading(true);
@@ -49,16 +26,16 @@ export default function Explore() {
       if (lat && lng) {
         const { data, error } = await supabase.rpc('nearby_offers', {
           user_lat: lat,
-          user_lon: lng,
-          radius_km: 100 // Rayon augmenté pour plus de sécurité à Phuket
+          user_lng: lng,
+          radius_km: 100
         });
-        
         if (error) throw error;
-        result = data?.filter(o => o.is_active === true && new Date(o.collect_before) > new Date());
+        
+        result = data?.filter(o => o.is_active && new Date(o.collect_before) > new Date());
       } else {
         const { data, error } = await supabase
           .from('offers')
-          .select('*, location_as_text:location') 
+          .select('*')
           .eq('is_active', true)
           .gt('collect_before', now) 
           .order('created_at', { ascending: false });
@@ -66,14 +43,9 @@ export default function Explore() {
         if (error) throw error;
         result = data;
       }
-
-      const cleanedOffers = (result || []).map(formatLocation);
-      setOffers(cleanedOffers);
-
+      setOffers(result || []);
     } catch (err) {
       console.error("Erreur Supabase:", err.message);
-      const { data } = await supabase.from('offers').select('*, location_as_text:location').eq('is_active', true);
-      setOffers((data || []).map(formatLocation));
     } finally {
       setLoading(false);
     }
@@ -89,10 +61,10 @@ export default function Explore() {
         (error) => {
           if (isMounted) {
             setLocationError(true);
-            loadOffers(); 
+            loadOffers();
           }
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 10000 }
       );
     } else {
       loadOffers();
@@ -100,13 +72,15 @@ export default function Explore() {
     return () => { isMounted = false; };
   }, []);
 
+  // --- LOGIQUE DE FILTRAGE MULTILINGUE OPTIMISÉE ---
   const filtered = offers.filter(o => {
     const now = new Date();
     const isNotExpired = new Date(o.collect_before) > now;
     const matchCat = activeCategory === 'all' || o.category === activeCategory;
     
-    const displayTitle = dt(o, 'title')?.toLowerCase() || "";
-    const displayDesc = dt(o, 'description')?.toLowerCase() || "";
+    // On recherche dans le titre traduit ET la description traduite selon la langue
+    const displayTitle = dt(o, 'title').toLowerCase();
+    const displayDesc = dt(o, 'description').toLowerCase();
     const displayShop = (o.shop_name || "").toLowerCase();
     const searchTerm = search.toLowerCase();
 
@@ -136,6 +110,7 @@ export default function Explore() {
               {t('activeOffers')} <span className="text-citrus">({filtered.length})</span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
+              {/* Traduction dynamique du rayon selon la langue */}
               {locationError ? t('allCategories') : `${t('notificationRadius')} : 100 KM`}
             </p>
           </div>
@@ -147,7 +122,7 @@ export default function Explore() {
                 viewMode === 'list' ? 'bg-citrus text-earth' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <List className="w-4 h-4" />
+              <List className="w-4 h-4" /> {/* t('list') si tu as la clé */}
             </button>
             <button
               onClick={() => setViewMode('map')}
@@ -160,6 +135,7 @@ export default function Explore() {
           </div>
         </div>
 
+        {/* Barre de Recherche Trilingue */}
         <div className="flex flex-col md:flex-row gap-4 mb-10">
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -167,7 +143,7 @@ export default function Explore() {
               type="text"
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder={t('productDescPlaceholder')}
+              placeholder={t('productDescPlaceholder')} // Utilise une clé existante pour le placeholder
               className="w-full pl-12 pr-4 py-3 bg-card border border-border rounded-full text-foreground focus:outline-none focus:ring-2 focus:ring-citrus/30 transition-all font-bold"
             />
           </div>
@@ -192,6 +168,7 @@ export default function Explore() {
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 text-citrus animate-spin mb-4" />
             <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">
+                {/* Petit clin d'oeil multilingue pour l'attente */}
                 {lang === 'ru' ? 'Поиск свежих продуктов...' : t('saving')}
             </p>
           </div>
