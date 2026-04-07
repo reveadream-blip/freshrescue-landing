@@ -692,15 +692,26 @@ export function useTranslation() {
   };
 
   /**
-   * Fonction pour traduire les données provenant de la DB (titre, description)
-   * field : 'title' ou 'description'
+   * Fonction pour traduire les données provenant de la DB (titre, description, bag_notice)
+   * field : 'title', 'description' ou 'bag_notice'
    */
   const dt = (offer, field) => {
     if (!offer) return "";
-    if (lang === 'en') return offer[`${field}_en`] || offer[field];
-    if (lang === 'th') return offer[`${field}_th`] || offer[field];
-    if (lang === 'ru') return offer[`${field}_ru`] || offer[field]; // Support Russe ajouté
-    return offer[`${field}_fr`] || offer[field]; // Par défaut tente le français ou le champ brut
+
+    // 1. On cherche la valeur dans la langue sélectionnée
+    const currentLangValue = offer[`${field}_${lang}`];
+    if (currentLangValue && currentLangValue.trim() !== "") {
+      return currentLangValue;
+    }
+
+    // 2. Repli (Fallback) : Si vide, on cherche en Français (ta langue par défaut)
+    const frenchValue = offer[`${field}_fr` ];
+    if (frenchValue && frenchValue.trim() !== "") {
+      return frenchValue;
+    }
+
+    // 3. Dernier recours : On tente l'anglais ou le champ brut
+    return offer[`${field}_en`] || offer[field] || "";
   };
 
   const setLanguage = (newLang) => {

@@ -181,6 +181,7 @@ export default function MerchantPost() {
         consumption_mode_en: consModeEn,
         consumption_mode_th: consModeTh,
         consumption_mode_ru: consModeRu,
+        needs_cool_bag: form.needs_cool_bag,
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
         bag_notice_th: bagNoticeTh,

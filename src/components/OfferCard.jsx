@@ -18,45 +18,47 @@ export default function OfferCard({ offer }) {
   let consumptionMode = dt(offer, 'consumption_mode');
   
   if (lang === 'fr') {
-    if (consumptionMode?.toLowerCase().includes('site')) {
-      consumptionMode = "Sur place";
-    } else if (consumptionMode?.toLowerCase().includes('takeaway')) {
-      consumptionMode = "À emporter";
-    } else if (consumptionMode?.toLowerCase().includes('both')) {
-      consumptionMode = "Les deux";
-    }
+    if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "Sur place";
+    else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "À emporter";
+    else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Les deux";
   } else if (lang === 'ru') {
-    // AJOUT DE LA LOGIQUE RUSSE
-    if (consumptionMode?.toLowerCase().includes('site')) {
-      consumptionMode = "На месте";
-    } else if (consumptionMode?.toLowerCase().includes('takeaway')) {
-      consumptionMode = "С собой";
-    } else if (consumptionMode?.toLowerCase().includes('both')) {
-      consumptionMode = "Оба варианта";
-    }
+    if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "На месте";
+    else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "С собой";
+    else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Оба варианта";
   }
 
-  // LOGIQUE DE TRADUCTION POUR LE SAC
-  let bagNotice = dt(offer, 'bag_notice');
+  // --- LOGIQUE FIXÉE POUR LE SAC (RECONGELABLE) ---
+  // On récupère d'abord la valeur brute de la DB pour checker
+  const rawNotice = offer[`bag_notice_${lang}`] || offer.bag_notice_fr;
+  let bagNotice = dt(offer, 'bag_notice') || rawNotice;
   
-  // Gestion automatique du texte si la colonne spécifique est vide mais l'option cochée
-  if (lang === 'fr' && (!bagNotice || bagNotice === "") && offer.needs_cool_bag) {
-    bagNotice = "recongelable";
-  } else if (lang === 'ru' && (!bagNotice || bagNotice === "") && offer.needs_cool_bag) {
-    // AJOUT DE LA LOGIQUE RUSSE
-    bagNotice = "можно заморозить";
+  // SÉCURITÉ CRITIQUE : Si needs_cool_bag est vrai, on NE PEUT PAS avoir un texte vide
+  if (offer.needs_cool_bag) {
+    if (!bagNotice || bagNotice.toString().trim() === "" || bagNotice === "undefined") {
+      const defaults = {
+        fr: "recongelable",
+        ru: "можно заморозить",
+        en: "re-freezable",
+        th: "แช่แข็งซ้ำได้"
+      };
+      bagNotice = defaults[lang] || defaults.en;
+    }
   }
 
   const handleDirections = (e) => {
     e.stopPropagation();
     const address = offer.shop_address;
     if (address) {
+      // Correction syntaxe URL
       const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
       window.open(url, '_blank');
     } else {
       alert(lang === 'ru' ? "Адрес не указан." : "Adresse non renseignée.");
     }
   };
+
+  // Debug pour voir ce qui bloque dans la console
+  console.log(`Offre: ${offer.title} | needs_cool_bag: ${offer.needs_cool_bag} | bagNotice: ${bagNotice}`);
 
   return (
     <div
@@ -103,7 +105,7 @@ export default function OfferCard({ offer }) {
           {description && (
             <div className="flex items-start gap-1.5 mb-2">
               <AlignLeft className="w-3 h-3 text-muted-foreground mt-0.5 flex-shrink-0" />
-              <p className="text-[11px] text-muted-foreground leading-relaxed italic">
+              <p className="text-[11px] text-muted-foreground leading-relaxed italic line-clamp-2">
                 {description}
               </p>
             </div>
@@ -117,7 +119,8 @@ export default function OfferCard({ offer }) {
               </div>
             )}
             
-            {bagNotice && bagNotice.trim() !== "" && (
+            {/* AFFICHAGE DU FLOCON - Forcé si le booléen est vrai */}
+            {offer.needs_cool_bag === true && (
               <div className="flex items-center gap-1 text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-lg border border-blue-400/20">
                 <Snowflake className="w-2.5 h-2.5" />
                 <span className="text-[8px] font-black uppercase">{bagNotice}</span>
@@ -143,7 +146,6 @@ export default function OfferCard({ offer }) {
         <div className="pt-3 border-t border-border/40 flex flex-col space-y-1">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
-              {/* PRIX BARRÉ ROUGE */}
               {offer.original_price && (
                 <div className="flex items-baseline gap-1">
                   <span className="text-xl font-black text-red-600 line-through decoration-2">
@@ -152,7 +154,6 @@ export default function OfferCard({ offer }) {
                   <span className="text-[8px] font-bold text-red-600 uppercase">THB</span>
                 </div>
               )}
-              {/* PRIX PROMO */}
               <div className="flex items-baseline gap-1">
                 <span className="text-2xl font-black text-foreground tracking-tighter">{offer.discount_price}</span>
                 <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">THB</span>
