@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+
 import { useTranslation } from '../../lib/i18n';
 import { Link } from 'react-router-dom';
 import { Plus, ToggleLeft, ToggleRight, Trash2, Store } from 'lucide-react';
@@ -13,11 +13,10 @@ export default function MerchantDashboard() {
 
   useEffect(() => {
     const load = async () => {
-      const user = await base44.auth.me();
-      const profiles = await base44.entities.MerchantProfile.filter({ created_by: user.email });
+      
       if (profiles.length > 0) setProfile(profiles[0]);
 
-      const myOffers = await base44.entities.Offer.filter({ created_by: user.email }, '-created_date', 50);
+      
       setOffers(myOffers);
       setLoading(false);
     };
@@ -25,12 +24,12 @@ export default function MerchantDashboard() {
   }, []);
 
   const toggleOffer = async (offer) => {
-    await base44.entities.Offer.update(offer.id, { is_active: !offer.is_active });
+    
     setOffers((prev) => prev.map((o) => o.id === offer.id ? { ...o, is_active: !o.is_active } : o));
   };
 
   const deleteOffer = async (offer) => {
-    await base44.entities.Offer.delete(offer.id);
+    
     setOffers((prev) => prev.filter((o) => o.id !== offer.id));
   };
 

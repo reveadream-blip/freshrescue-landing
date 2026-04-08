@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+
 import { useTranslation } from '../../lib/i18n';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Camera, MapPin } from 'lucide-react';
@@ -23,8 +23,7 @@ export default function MerchantSettings() {
 
   useEffect(() => {
     const load = async () => {
-      const user = await base44.auth.me();
-      const profiles = await base44.entities.MerchantProfile.filter({ created_by: user.email });
+      
       if (profiles.length > 0) {
         const p = profiles[0];
         setProfile(p);
@@ -46,7 +45,7 @@ export default function MerchantSettings() {
     const file = e.target.files[0];
     if (!file) return;
     setPhotoPreview(URL.createObjectURL(file));
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    
     setForm((prev) => ({ ...prev, photo: file_url }));
   };
 
@@ -77,9 +76,9 @@ export default function MerchantSettings() {
     };
 
     if (profile) {
-      await base44.entities.MerchantProfile.update(profile.id, data);
+     
     } else {
-      await base44.entities.MerchantProfile.create(data);
+      
     }
 
     setSaving(false);

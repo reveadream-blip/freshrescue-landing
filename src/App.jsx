@@ -84,7 +84,8 @@ const AuthenticatedApp = () => {
 function App() {
   return (
     <QueryClientProvider client={queryClientInstance}>
-      <Router>
+      {/* Ajout des Future Flags ici pour supprimer les warnings v7 */}
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AuthenticatedApp />
           <Toaster />

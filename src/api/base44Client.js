@@ -1,5 +1,4 @@
-// Simulation de l'API pour FreshRescue
-// Ce fichier remplace l'ancien base44Client.js
+
 const apiInstance = {
   auth: {
     // Simulation de l'utilisateur connecté avec ton e-mail
@@ -41,7 +40,3 @@ const apiInstance = {
 
 // Exportation sous le nouveau nom pour ton nouveau branding
 export const api = apiInstance;
-
-// ON GARDE l'export base44 pour que tes fichiers actuels 
-// qui font : import { base44 } from ... continuent de marcher !
-export const base44 = apiInstance;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+
 import { useTranslation } from '../../lib/i18n';
 import { useNavigate } from 'react-router-dom';
 import { Camera, ArrowLeft, MapPin } from 'lucide-react';
@@ -26,12 +26,11 @@ export default function PostOffer() {
 
   useEffect(() => {
     const load = async () => {
-      const user = await base44.auth.me();
-      const profiles = await base44.entities.MerchantProfile.filter({ created_by: user.email });
+      
       if (profiles.length > 0) {
         const p = profiles[0];
         setProfile(p);
-        // On pré-remplit l'adresse du formulaire avec celle du profil
+        
         setForm(prev => ({ ...prev, shop_address: p.address || '' }));
       }
     };
@@ -43,7 +42,7 @@ export default function PostOffer() {
     if (!file) return;
     setPhotoPreview(URL.createObjectURL(file));
     try {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      
       setForm((prev) => ({ ...prev, photo: file_url }));
     } catch (err) {
       console.error("Erreur upload:", err);
@@ -56,7 +55,7 @@ export default function PostOffer() {
     setPublishing(true);
 
     try {
-      await base44.entities.Offer.create({
+      
         title: form.title,
         description: form.description,
         original_price: form.original_price ? Number(form.original_price) : undefined,

@@ -1,4 +1,3 @@
-import base44 from "@base44/vite-plugin"
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import path from 'path' // Indispensable pour gérer les chemins
@@ -7,8 +6,7 @@ import path from 'path' // Indispensable pour gérer les chemins
 export default defineConfig({
   logLevel: 'info', 
   plugins: [
-    base44({
-      // ta config existante
+   
     }),
     react(),
   ],
