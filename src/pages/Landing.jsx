@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   CheckCircle, ArrowRight, Zap, MapPin, 
-  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share 
+  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
@@ -110,22 +110,32 @@ export default function Landing() {
             {t('heroSubtitle')}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to="/explore"
-              className="flex items-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-citrus/20"
-            >
-              {t('exploreCta')}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to="/explore"
+                className="flex items-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-citrus/20"
+              >
+                {t('exploreCta')}
+                <ArrowRight className="w-5 h-5" />
+              </Link>
 
-            {/* BOUTON COMMERÇANT AJOUTÉ ICI */}
-            <Link
-              to="/merchant"
-              className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
+              <Link
+                to="/merchant"
+                className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
+              >
+                <Store className="w-5 h-5 text-citrus" />
+                {t('merchantCta')}
+              </Link>
+            </div>
+
+            {/* LIEN INSTRUCTIONS AJOUTÉ ICI */}
+            <Link 
+              to="/instructions" 
+              className="group flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors text-sm font-bold uppercase tracking-wider"
             >
-              <Store className="w-5 h-5 text-citrus" />
-              {t('merchantCta')}
+              <HelpCircle className="w-5 h-5 group-hover:animate-bounce" />
+              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'zh' ? '如何运作？' : 'How it works?'}
             </Link>
           </div>
 

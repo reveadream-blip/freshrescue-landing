@@ -37,7 +37,8 @@ const AuthenticatedApp = () => {
     '/update-password', 
     '/merchant', 
     '/', 
-    '/explore'
+    '/explore',
+    '/instructions' // --- AJOUTÉ : Autorise l'accès public à la page d'instructions ---
   ].includes(location.pathname);
 
   // 1. Affichage du loader (sauf si route publique)
@@ -63,7 +64,8 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/merchant" element={<MerchantGate />} />
-      <Route path="/how-it-works" element={<Instructions />} />
+      {/* --- MODIFIÉ : Route renommée en /instructions pour correspondre au lien de la Landing --- */}
+      <Route path="/instructions" element={<Instructions />} /> 
       
       <Route 
         path="/merchant/post" 
