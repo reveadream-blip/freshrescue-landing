@@ -14,6 +14,7 @@ import MerchantSetup from './pages/MerchantSetup';
 import Terms from './pages/Terms';
 import ForgotPassword from './pages/forgot-password';
 import UpdatePassword from './pages/update-password';
+import Instructions from './pages/Instructions';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
@@ -62,6 +63,7 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/merchant" element={<MerchantGate />} />
+      <Route path="/how-it-works" element={<Instructions />} />
       
       <Route 
         path="/merchant/post" 
