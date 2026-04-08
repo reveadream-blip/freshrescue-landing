@@ -118,6 +118,15 @@ export default function Landing() {
               {t('exploreCta')}
               <ArrowRight className="w-5 h-5" />
             </Link>
+
+            {/* BOUTON COMMERÇANT AJOUTÉ ICI */}
+            <Link
+              to="/merchant"
+              className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
+            >
+              <Store className="w-5 h-5 text-citrus" />
+              {t('merchantCta')}
+            </Link>
           </div>
 
           <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
