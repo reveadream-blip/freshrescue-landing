@@ -34,6 +34,30 @@ export default function Landing() {
     if (outcome === 'accepted') setDeferredPrompt(null);
   };
 
+  const pricingPlans = [
+    {
+      title: 'planSingleMonth',
+      price: "1000",
+      subtext: 'oneMonth',
+      description: 'descSingle',
+      highlight: false
+    },
+    {
+      title: 'planSubscription',
+      price: "1000",
+      subtext: 'perMonth',
+      description: 'descSubscription',
+      highlight: true
+    },
+    {
+      title: 'planYearly',
+      price: "10000",
+      subtext: 'twoMonthsFree',
+      description: 'descYearly',
+      highlight: false
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-earth text-foreground">
       <Navbar />
@@ -129,13 +153,12 @@ export default function Landing() {
               </Link>
             </div>
 
-            {/* LIEN INSTRUCTIONS AJOUTÉ ICI */}
             <Link 
               to="/instructions" 
               className="group flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors text-sm font-bold uppercase tracking-wider"
             >
               <HelpCircle className="w-5 h-5 group-hover:animate-bounce" />
-              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'zh' ? '如何运作？' : 'How it works?'}
+              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'ru' ? 'Как это работает?' : 'How it works?'}
             </Link>
           </div>
 
@@ -258,46 +281,52 @@ export default function Landing() {
 
       {/* SUBSCRIPTION */}
       <section className="py-28 px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="rounded-3xl bg-card border-2 border-citrus/40 p-12 text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-citrus via-stem to-citrus" />
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-citrus/5 rounded-full" />
+        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+          {pricingPlans.map((plan, index) => (
+            <div key={index} className={`rounded-3xl bg-card border-2 ${plan.highlight ? 'border-citrus shadow-xl shadow-citrus/10' : 'border-citrus/40'} p-10 text-center relative overflow-hidden flex flex-col`}>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-citrus via-stem to-citrus" />
+              
+              <div className="inline-flex items-center justify-center gap-2 bg-citrus/10 border border-citrus/30 rounded-full px-4 py-2 mb-6 w-fit mx-auto">
+                <ShieldCheck className="w-4 h-4 text-citrus" />
+                <span className="text-[10px] font-bold text-citrus uppercase tracking-widest">{t(plan.title)}</span>
+              </div>
 
-            <div className="inline-flex items-center gap-2 bg-citrus/10 border border-citrus/30 rounded-full px-4 py-2 mb-6">
-              <ShieldCheck className="w-4 h-4 text-citrus" />
-              <span className="text-sm font-bold text-citrus">{t('subscriptionTitle')}</span>
+              <div className="flex items-baseline justify-center gap-2 mb-2">
+                <span className="text-5xl font-black text-foreground">{plan.price}</span>
+                <span className="text-xl font-bold text-citrus">THB</span>
+              </div>
+              <div className="text-citrus font-bold uppercase tracking-widest text-sm mt-1">
+                {t(plan.subtext)}
+              </div>
+              <p className="text-muted-foreground text-sm mt-4 min-h-[3rem]">
+                {t(plan.description)}
+              </p>
+
+              <ul className="space-y-3 mb-10 text-left max-w-xs mx-auto flex-grow border-t border-border/50 pt-8 mt-6">
+                {[
+                  'featureUnlimited',
+                  'featureGeo',
+                  'featureStock',
+                  'featureZeroComm',
+                  'featureSupport'
+                ].map((featureKey, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <CheckCircle className="w-4 h-4 text-citrus flex-shrink-0" />
+                    <span className="font-medium text-foreground text-sm">
+                      {t(featureKey)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                to="/merchant"
+                className="inline-flex items-center justify-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-lg shadow-citrus/30 w-full"
+              >
+                {t('getStarted')} <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
-
-            <div className="flex items-baseline justify-center gap-2 mb-2">
-              <span className="text-7xl font-black text-foreground">{t('subscriptionPrice')}</span>
-              <span className="text-2xl font-bold text-citrus">{t('subscriptionCurrency')}</span>
-            </div>
-            <p className="text-muted-foreground mb-10 text-lg">{t('subscriptionDesc')}</p>
-
-            <ul className="space-y-3 mb-10 text-left max-w-xs mx-auto">
-              {[
-                t('subscriptionFeature1'),
-                t('subscriptionFeature2'),
-                t('subscriptionFeature3'),
-                t('subscriptionFeature4'),
-                t('subscriptionFeature5'),
-              ].map((f, i) => (
-                <li key={i} className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-citrus/15 border border-citrus/30 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle className="w-3.5 h-3.5 text-citrus" />
-                  </div>
-                  <span className="font-medium text-foreground">{f}</span>
-                </li>
-              ))}
-            </ul>
-
-            <Link
-              to="/merchant"
-              className="inline-flex items-center gap-2 bg-citrus text-earth px-10 py-4 rounded-full font-black text-lg hover:scale-105 transition-transform shadow-xl shadow-citrus/30"
-            >
-              {t('getStarted')} <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
+          ))}
         </div>
       </section>
 
