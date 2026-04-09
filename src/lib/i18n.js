@@ -76,7 +76,7 @@ const translations = {
     password: "Password",
     // Explore
     "pwaInstallTitle": "Install the App",
-"pwaInstallDesc": "Get push alerts in Phuket!",
+"pwaInstallDesc": "Get push alerts!",
 "pwaInstallBtn": "INSTALL",
 "iosInstallTitle": "Enable notifications on iPhone:",
 "iosInstallDesc": "Tap the Share button then 'Add to Home Screen'.",
@@ -181,7 +181,7 @@ const translations = {
     shopPhone: "Phone",
     shopCategory: "Shop Type",
     shopPhoto: "Shop Photo",
-    notificationRadius: "Notification radius",
+    notificationRadius: "Radius around your location",
     commissionOnSales: "Commission on sales",
     averageDiscount: "Average discount",
   },
@@ -215,7 +215,7 @@ const translations = {
     customerBenefit2: "Produits frais jusqu'à -70%",
     customerBenefit3: "Découvrez les commerces de proximité",
     customerBenefit4: "Contribuez à réduire le gaspillage",
-    notificationRadius: "Rayon de notification",
+    notificationRadius: "Rayon autour de votre position",
     commissionOnSales: "Commission sur ventes",
     averageDiscount: "Réduction moyenne",
     // Subscription
@@ -264,7 +264,7 @@ const translations = {
     password: "Mot de passe",
     // Explore
     "pwaInstallTitle": "Installer l'application",
-"pwaInstallDesc": "Recevez les alertes push à Phuket !",
+"pwaInstallDesc": "Recevez les alertes push!",
 "pwaInstallBtn": "INSTALLER",
 "iosInstallTitle": "Activez les notifications sur iPhone :",
 "iosInstallDesc": "Appuyez sur le bouton Partager puis sur 'Sur l'écran d'accueil'.",
@@ -400,7 +400,7 @@ const translations = {
     customerBenefit2: "อาหารสดลดสูงสุด 70%",
     customerBenefit3: "ค้นพบร้านค้าใกล้บ้าน",
     customerBenefit4: "ช่วยลดขยะอาหาร",
-    notificationRadius: "รัศมีการแจ้งเตือน",
+    notificationRadius: "รัศมีรอบๆ ตำแหน่งของคุณ",
     commissionOnSales: "ค่าธรรมเนียมการขาย",
     averageDiscount: "ส่วนลดเฉลี่ย",
     // Subscription
@@ -585,7 +585,7 @@ const translations = {
     customerBenefit2: "Свежие продукты со скидкой до 70%",
     customerBenefit3: "Откройте для себя местные магазины",
     customerBenefit4: "Помогите сократить количество пищевых отходов",
-    notificationRadius: "Радиус уведомлений",
+    notificationRadius: "Радиус вокруг вашего местоположения",
     commissionOnSales: "Комиссия с продаж",
     averageDiscount: "Средняя скидка",
     // Subscription
