@@ -26,8 +26,8 @@ export default function PostOffer() {
 
   useEffect(() => {
     const load = async () => {
-      // Note: Assurez-vous que 'profiles' est bien défini ou importé ici dans votre projet
-      if (typeof profiles !== 'undefined' && profiles.length > 0) {
+      
+      if (profiles.length > 0) {
         const p = profiles[0];
         setProfile(p);
         
@@ -42,7 +42,7 @@ export default function PostOffer() {
     if (!file) return;
     setPhotoPreview(URL.createObjectURL(file));
     try {
-      // file_url doit être défini par votre logique d'upload (ex: Supabase storage)
+      
       setForm((prev) => ({ ...prev, photo: file_url }));
     } catch (err) {
       console.error("Erreur upload:", err);
@@ -55,8 +55,8 @@ export default function PostOffer() {
     setPublishing(true);
 
     try {
-      // Votre logique de sauvegarde (ex: supabase.from('offers').insert...)
-      /* title: form.title,
+      
+        title: form.title,
         description: form.description,
         original_price: form.original_price ? Number(form.original_price) : undefined,
         discount_price: Number(form.discount_price),
@@ -65,10 +65,10 @@ export default function PostOffer() {
         photo: form.photo,
         is_active: true,
         shop_name: profile?.shop_name || 'My Shop',
-        shop_address: form.shop_address,
+        shop_address: form.shop_address, // On utilise l'adresse du formulaire !
         latitude: profile?.latitude || undefined,
         longitude: profile?.longitude || undefined,
-      */
+      });
       navigate('/merchant');
     } catch (err) {
       alert("Erreur lors de la publication");
@@ -104,7 +104,11 @@ export default function PostOffer() {
                 <span className="text-sm text-muted-foreground">{t('takePhoto')}</span>
               </div>
             )}
-            {/* MODIFICATION ICI : capture="environment" supprimé pour laisser le choix Galerie/Photo */}
+            {/* MODIFICATION : Suppression de 'capture="environment"' 
+                et utilisation de 'image/*' seul. 
+                Si Android persiste à n'ouvrir que la galerie, c'est une application par défaut 
+                système qui bloque le choix (voir paramètres Android).
+            */}
             <input 
               type="file" 
               accept="image/*" 
@@ -114,10 +118,10 @@ export default function PostOffer() {
           </label>
         </div>
 
-        {/* Adresse de collecte */}
+        {/* Adresse de collecte (AJOUTÉ POUR VÉRIFICATION) */}
         <div className="p-4 bg-muted/50 rounded-xl border border-border">
           <label className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
-            <MapPin className="w-3 h-3" /> {t('shopAddress') || 'Adresse de collecte'}
+            <MapPin className="w-3 h-3" /> {t('address') || 'Adresse de collecte'}
           </label>
           <input
             type="text"
