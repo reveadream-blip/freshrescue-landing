@@ -104,16 +104,7 @@ export default function PostOffer() {
                 <span className="text-sm text-muted-foreground">{t('takePhoto')}</span>
               </div>
             )}
-            {/* L'attribut capture="environment" a été supprimé ci-dessous. 
-                C'est cette suppression qui permet au téléphone de proposer 
-                le menu "Appareil Photo" ou "Galerie/Fichiers".
-            */}
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handlePhoto} 
-              className="hidden" 
-            />
+            <input type="file" accept="image/*" capture="environment" onChange={handlePhoto} className="hidden" />
           </label>
         </div>
 
