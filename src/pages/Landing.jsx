@@ -17,6 +17,14 @@ export default function Landing() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
 
+  // Traductions locales pour le sticker promotionnel
+  const promoText = {
+    fr: { free: '1 mois OFFERT', test: 'Essayer !' },
+    th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !' },
+    ru: { free: '1 месяц БЕСПЛАТНО', test: 'Попробуй !' },
+    en: { free: '1 month FREE', test: 'Test it !' }
+  }[lang] || { free: '1 month FREE', test: 'Test it !' };
+
   useEffect(() => {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     setIsIOS(isIOSDevice);
@@ -144,13 +152,20 @@ export default function Landing() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
 
-              <Link
-                to="/merchant"
-                className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
-              >
-                <Store className="w-5 h-5 text-citrus" />
-                {t('merchantCta')}
-              </Link>
+              <div className="relative">
+                {/* STICKER TRADUIT HERO */}
+                <div className="absolute -top-6 -right-2 bg-earth text-citrus px-3 py-1 rounded-xl shadow-xl rotate-12 animate-pulse border border-citrus flex flex-col items-center z-20 pointer-events-none">
+                  <span className="text-[9px] font-black leading-none whitespace-nowrap uppercase">{promoText.free}</span>
+                  <span className="text-[8px] font-bold uppercase tracking-tighter opacity-80">{promoText.test}</span>
+                </div>
+                <Link
+                  to="/merchant"
+                  className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
+                >
+                  <Store className="w-5 h-5 text-citrus" />
+                  {t('merchantCta')}
+                </Link>
+              </div>
             </div>
 
             <Link 
@@ -241,7 +256,13 @@ export default function Landing() {
       {/* FOR MERCHANTS vs CUSTOMERS */}
       <section className="py-28 px-6 bg-card/30">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-          <div className="rounded-3xl bg-citrus p-10 text-earth">
+          <div className="rounded-3xl bg-citrus p-10 text-earth relative overflow-visible">
+            {/* STICKER TRADUIT SECTION MARCHAND */}
+            <div className="absolute -top-6 -right-4 bg-earth text-citrus px-4 py-2 rounded-2xl shadow-2xl rotate-12 animate-pulse border-2 border-citrus flex flex-col items-center z-20 pointer-events-none">
+              <span className="text-[14px] font-black leading-none uppercase">{promoText.free}</span>
+              <span className="text-[10px] font-bold uppercase tracking-tighter">{promoText.test}</span>
+            </div>
+
             <div className="w-12 h-12 bg-earth/10 rounded-2xl flex items-center justify-center mb-6">
               <Store className="w-6 h-6 text-earth" />
             </div>

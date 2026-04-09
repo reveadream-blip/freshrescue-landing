@@ -27,8 +27,7 @@ const description = lang === 'fr' ? (offer.description || "") : dt(offer, 'descr
     else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Оба варианта";
   }
 
-  // --- LOGIQUE FIXÉE POUR LE SAC (RECONGELABLE) ---
-  // On récupère d'abord la valeur brute de la DB pour checker
+    // On récupère d'abord la valeur brute de la DB pour checker
   const rawNotice = offer[`bag_notice_${lang}`] || offer.bag_notice_fr;
   let bagNotice = dt(offer, 'bag_notice') || rawNotice;
   
@@ -36,10 +35,10 @@ const description = lang === 'fr' ? (offer.description || "") : dt(offer, 'descr
   if (offer.needs_cool_bag) {
     if (!bagNotice || bagNotice.toString().trim() === "" || bagNotice === "undefined") {
       const defaults = {
-        fr: "recongelable",
-        ru: "можно заморозить",
-        en: "re-freezable",
-        th: "แช่แข็งซ้ำได้"
+        fr: "Congelable",
+        ru: "замораживаемый",
+        en: "Freezable",
+        th: "แช่แข็งได้"
       };
       bagNotice = defaults[lang] || defaults.en;
     }

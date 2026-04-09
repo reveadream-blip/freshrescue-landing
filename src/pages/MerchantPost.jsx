@@ -153,7 +153,7 @@ export default function MerchantPost() {
       const consModeTh = await translateText(consModeFr, 'th');
       const consModeRu = await translateText(consModeFr, 'ru');
 
-      const bagNoticeFr = form.needs_cool_bag ? "recongelable" : "";
+      const bagNoticeFr = form.needs_cool_bag ? "Congelable" : "";
       const bagNoticeEn = form.needs_cool_bag ? await translateText(bagNoticeFr, 'en') : "";
       const bagNoticeTh = form.needs_cool_bag ? await translateText(bagNoticeFr, 'th') : "";
       const bagNoticeRu = form.needs_cool_bag ? await translateText(bagNoticeFr, 'ru') : "";

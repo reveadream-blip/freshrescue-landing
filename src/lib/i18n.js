@@ -137,7 +137,7 @@ const translations = {
     onSite: "On Site",
     both: "Both",
     expiryDate: "Expiry Date (DLC)",
-    refreezable: "refreezable",
+    Freezable: "Freezable",
     // Footer
     footerTagline: "Transforming food waste into opportunity.",
     footerRights: "All rights reserved.",
@@ -325,7 +325,7 @@ const translations = {
     onSite: "Sur place",
     both: "Les deux",
     expiryDate: "Date de péremption (DLC)",
-    refreezable: "Recongelable",
+    Freezable: "Congelable",
     // Footer
     footerTagline: "Transformer le gaspillage alimentaire en opportunité.",
     footerRights: "Tous droits réservés.",
@@ -510,7 +510,7 @@ const translations = {
     onSite: "ทานที่ร้าน",
     both: "ได้ทั้งสองอย่าง",
     expiryDate: "วันหมดอายุ",
-    refreezable: "ถุงเก็บความเย็น",
+    Freezable: "แช่แข็งได้",
     // Footer
     footerTagline: "เปลี่ยนขยะอาหารเป็นโอกาส",
     footerRights: "สงวนลิขสิทธิ์",
@@ -695,7 +695,7 @@ const translations = {
     onSite: "На месте",
     both: "Оба варианта",
     expiryDate: "Срок годности (DLC)",
-    refreezable: "термосумка",
+    Freezable: "замораживаемый",
     // Footer
     footerTagline: "Превращаем пищевые отходы в возможности.",
     footerRights: "Все права защищены.",
