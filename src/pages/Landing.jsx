@@ -80,8 +80,7 @@ export default function Landing() {
               </div>
               <div>
                 <p className="text-earth font-black text-sm">{t('pwaInstallTitle')}</p>
-                <p className="text-earth/70 text-[10px] font-bold">{t('pwaInstallDesc')}</p>
-              </div>
+                              </div>
             </div>
             <button 
               onClick={handleInstallClick}
