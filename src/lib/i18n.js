@@ -6,6 +6,7 @@ const translations = {
     exploreCta: "Explore Deals Near You",
     merchantCta: "I'm a Merchant",
     // Nav
+    geoError: "Please enable geolocation !",
     home: "Home",
     explore: "Explore",
     merchantLogin: "Merchant Portal",
@@ -269,6 +270,7 @@ const translations = {
     back: "Retour",
     password: "Mot de passe",
     // Explore
+    geoError: "Veuillez activer la géolocalisation !",
     pwaInstallTitle: "Installer l'application",
     pwaInstallBtn: "INSTALLER",
     iosInstallTitle: "Activez les notifications sur iPhone :",
@@ -456,6 +458,7 @@ const translations = {
     back: "กลับ",
     password: "รหัสผ่าน",
     // Explore
+    geoError: "กรุณาเปิดใช้งานการระบุตำแหน่ง !",
     pwaInstallTitle: "ติดตั้งแอปพลิเคชัน",
     pwaInstallBtn: "ติดตั้ง",
     iosInstallTitle: "เปิดการแจ้งเตือนบน iPhone:",
@@ -643,6 +646,7 @@ const translations = {
     back: "Назад",
     password: "Пароль",
     // Explore
+    geoError: "Пожалуйста, включите геолокацию !",
     pwaInstallTitle: "Установить приложение",
     pwaInstallBtn: "УСТАНОВИТЬ",
     iosInstallTitle: "Включите уведомления на iPhone:",
@@ -766,19 +770,19 @@ export function useTranslation() {
   const dt = (offer, field) => {
     if (!offer) return "";
 
-    // 1. On cherche la valeur dans la langue sélectionnée
-    const currentLangValue = offer[`${field}_${lang}`];
-    if (currentLangValue && currentLangValue.trim() !== "") {
-      return currentLangValue;
+    // 1. Si la langue est le français, on utilise le champ racine (ex: offer.title)
+    if (lang === 'fr') {
+      return offer[field] || "";
     }
 
-    // 2. Repli (Fallback) : Si vide, on cherche en Français (ta langue par défaut)
-    const frenchValue = offer[`${field}_fr` ];
-    if (frenchValue && frenchValue.trim() !== "") {
-      return frenchValue;
+    // 2. Pour les autres langues, on cherche le champ suffixé (ex: offer.title_en)
+    const localizedValue = offer[`${field}_${lang}`];
+    if (localizedValue && localizedValue.trim() !== "") {
+      return localizedValue;
     }
 
-    // 3. Dernier recours : On tente l'anglais ou le champ brut
+    // 3. Repli (Fallback) : Si la traduction demandée n'existe pas, 
+    // on essaie l'anglais, puis on finit par le champ racine (français)
     return offer[`${field}_en`] || offer[field] || "";
   };
 

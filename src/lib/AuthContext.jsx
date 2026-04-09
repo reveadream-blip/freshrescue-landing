@@ -13,11 +13,17 @@ export const AuthProvider = ({ children }) => {
     checkUser();
 
     // 2. Ecouter les changements de connexion (Login/Logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       setIsAuthenticated(!!currentUser);
       setIsLoadingAuth(false);
+
+      // Gestion du lien de récupération de mot de passe
+      if (event === 'PASSWORD_RECOVERY') {
+        // Redirection vers ta page de nouveau mot de passe
+        window.location.href = '/reset-password';
+      }
     });
 
     return () => subscription.unsubscribe();

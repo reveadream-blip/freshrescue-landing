@@ -109,11 +109,12 @@ export default function Explore() {
         
         {/* Message d'erreur de localisation */}
         {locationError && (
-          <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
-            <MapPin className="w-4 h-4" />
-            {t('locationErrorMsg')}
-          </div>
-        )}
+  <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
+    <MapPin className="w-4 h-4" />
+    {/* MODIFICATION ICI : Utilisation de la clé de traduction */}
+    {t('geoError')}
+  </div>
+)}
 
         {/* Header avec Titre et Sélecteur de vue */}
         <div className="mb-10 flex justify-between items-end flex-wrap gap-4">

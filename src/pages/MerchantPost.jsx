@@ -11,8 +11,9 @@ async function translateText(text, targetLang) {
   if (!text || text.trim() === "") return "";
   try {
     const encodedText = encodeURIComponent(text);
+    // sl=auto est crucial pour détecter la langue que TU tapes (Thaï ou Français)
     const res = await fetch(
-      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetLang}&dt=t&q=${encodedText}`
+      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodedText}`
     );
     const data = await res.json();
     if (data && data[0]) {
@@ -35,7 +36,6 @@ export default function MerchantPost() {
   const activeUser = user || currentUser;
   const navigate = useNavigate();
 
-  // Refs pour déclencher les inputs cachés
   const cameraInputRef = useRef(null);
   const galleryInputRef = useRef(null);
 
@@ -137,32 +137,43 @@ export default function MerchantPost() {
         }
       }
 
-      const titleEn = await translateText(form.title, 'en');
-      const titleTh = await translateText(form.title, 'th');
-      const titleRu = await translateText(form.title, 'ru');
+      // --- LOGIQUE DE TRADUCTION SÉCURISÉE ---
+      // 1. On ne demande JAMAIS de traduire vers le français ici, 
+      //    sinon Google risque de remplacer ton Thaï par du Français.
+      const [titleEn, titleTh, titleRu] = await Promise.all([
+        translateText(form.title, 'en'),
+        translateText(form.title, 'th'),
+        translateText(form.title, 'ru')
+      ]);
       
-      let descEn = "";
-      let descTh = "";
-      let descRu = "";
+      let descEn = "", descTh = "", descRu = "";
       if (form.description && form.description.trim() !== "") {
-        descEn = await translateText(form.description, 'en');
-        descTh = await translateText(form.description, 'th');
-        descRu = await translateText(form.description, 'ru');
+        [descEn, descTh, descRu] = await Promise.all([
+          translateText(form.description, 'en'),
+          translateText(form.description, 'th'),
+          translateText(form.description, 'ru')
+        ]);
       }
 
       const consModeFr = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
-      const consModeEn = await translateText(consModeFr, 'en');
-      const consModeTh = await translateText(consModeFr, 'th');
-      const consModeRu = await translateText(consModeFr, 'ru');
+      const [consModeEn, consModeTh, consModeRu] = await Promise.all([
+        translateText(consModeFr, 'en'),
+        translateText(consModeFr, 'th'),
+        translateText(consModeFr, 'ru')
+      ]);
 
       const bagNoticeFr = form.needs_cool_bag ? "Congelable" : "";
-      const bagNoticeEn = form.needs_cool_bag ? await translateText(bagNoticeFr, 'en') : "";
-      const bagNoticeTh = form.needs_cool_bag ? await translateText(bagNoticeFr, 'th') : "";
-      const bagNoticeRu = form.needs_cool_bag ? await translateText(bagNoticeFr, 'ru') : "";
+      const [bagNoticeEn, bagNoticeTh, bagNoticeRu] = await Promise.all([
+        translateText(bagNoticeFr, 'en'),
+        translateText(bagNoticeFr, 'th'),
+        translateText(bagNoticeFr, 'ru')
+      ]);
 
       const submissionData = {
         user_id: activeUser.id,
-        title: form.title,
+        // IMPORTANT : On enregistre ton texte ORIGINAL (Thaï ou Français) 
+        // dans les colonnes de base.
+        title: form.title, 
         description: form.description,
         title_en: titleEn,
         description_en: descEn,
@@ -234,13 +245,11 @@ export default function MerchantPost() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            {/* Zone de prévisualisation */}
             <div className={`relative w-full h-48 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all ${photoPreview ? 'border-citrus' : 'border-border'}`}>
               {photoPreview ? <img src={photoPreview} className="w-full h-full object-cover" alt="Preview" /> : <Camera className="opacity-20 w-10 h-10" />}
               {loading && <div className="absolute inset-0 bg-black/50 flex items-center justify-center"><Loader2 className="animate-spin text-white w-8 h-8" /></div>}
             </div>
 
-            {/* Sélecteurs de photo en dessous */}
             <div className="grid grid-cols-2 gap-4">
               <button 
                 type="button" 

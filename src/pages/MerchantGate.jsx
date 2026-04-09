@@ -53,11 +53,11 @@ export default function MerchantGate() {
         <form onSubmit={handleAuth} className="space-y-4">
           <div className="space-y-1">
             <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
-              {t('emailLabel') || 'Email'}
+              Email
             </label>
             <input 
               type="email" 
-              placeholder={t('emailPlaceholder') || 'votre@email.com'} 
+              placeholder="Email" 
               value={email}
               required
               className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"

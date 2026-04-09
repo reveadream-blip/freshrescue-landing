@@ -62,17 +62,15 @@ export default function ForgotPassword() {
         ) : (
           <form onSubmit={handleReset} className="space-y-4">
             <div className="space-y-1">
-              {/* Traduction du label Email */}
               <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
-                {t('emailLabel') || 'Email'}
+                Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-30" />
                 <input
                   required
                   type="email"
-                  // Traduction du placeholder ici
-                  placeholder={t('emailPlaceholder') || 'votre@email.com'}
+                  placeholder="Email"
                   className="w-full bg-muted border border-border rounded-2xl pl-12 pr-4 py-4 focus:border-citrus/50 outline-none transition-all text-foreground"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

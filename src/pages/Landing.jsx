@@ -17,7 +17,6 @@ export default function Landing() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
 
-  // Traductions locales pour le sticker promotionnel
   const promoText = {
     fr: { free: '1 mois OFFERT', test: 'Essayer !' },
     th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !' },
@@ -70,7 +69,6 @@ export default function Landing() {
     <div className="min-h-screen bg-earth text-foreground">
       <Navbar />
 
-      {/* BANNIÈRE INSTALLATION PWA */}
       <div className="pt-24 px-6 max-w-5xl mx-auto">
         {deferredPrompt && (
           <div className="bg-citrus rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-citrus/20 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -80,7 +78,7 @@ export default function Landing() {
               </div>
               <div>
                 <p className="text-earth font-black text-sm">{t('pwaInstallTitle')}</p>
-                              </div>
+              </div>
             </div>
             <button 
               onClick={handleInstallClick}
@@ -109,7 +107,6 @@ export default function Landing() {
         )}
       </div>
 
-      {/* HERO */}
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
@@ -152,8 +149,8 @@ export default function Landing() {
               </Link>
 
               <div className="relative">
-                {/* STICKER TRADUIT HERO */}
-                <div className="absolute -top-6 -right-2 bg-earth text-citrus px-3 py-1 rounded-xl shadow-xl rotate-12 animate-pulse border border-citrus flex flex-col items-center z-20 pointer-events-none">
+                {/* STICKER TRADUIT HERO - POSITION BASSE (-bottom-6) */}
+                <div className="absolute -bottom-6 -right-2 bg-earth text-citrus px-3 py-1 rounded-xl shadow-xl rotate-12 animate-pulse border border-citrus flex flex-col items-center z-20 pointer-events-none">
                   <span className="text-[9px] font-black leading-none whitespace-nowrap uppercase">{promoText.free}</span>
                   <span className="text-[8px] font-bold uppercase tracking-tighter opacity-80">{promoText.test}</span>
                 </div>
@@ -193,7 +190,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section className="py-28 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -252,11 +248,9 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* FOR MERCHANTS vs CUSTOMERS */}
       <section className="py-28 px-6 bg-card/30">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
           <div className="rounded-3xl bg-citrus p-10 text-earth relative overflow-visible">
-            {/* STICKER TRADUIT SECTION MARCHAND */}
             <div className="absolute -top-6 -right-4 bg-earth text-citrus px-4 py-2 rounded-2xl shadow-2xl rotate-12 animate-pulse border-2 border-citrus flex flex-col items-center z-20 pointer-events-none">
               <span className="text-[14px] font-black leading-none uppercase">{promoText.free}</span>
               <span className="text-[10px] font-bold uppercase tracking-tighter">{promoText.test}</span>
@@ -299,7 +293,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* SUBSCRIPTION */}
       <section className="py-28 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
           {pricingPlans.map((plan, index) => (
@@ -350,7 +343,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="border-t border-border py-12 px-6 bg-card/20">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
