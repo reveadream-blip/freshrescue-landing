@@ -148,14 +148,7 @@ export default function MerchantSetup() {
         </div>
 
         <form onSubmit={handleSave} className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-xl">
-          {/* SECTION TRADUITE POUR LA PÉRIODE D'ESSAI */}
-          <div className="p-4 bg-citrus/10 border border-citrus/20 rounded-2xl">
-              <p className="text-[10px] font-bold uppercase text-citrus mb-1">{t('trialPeriod')}</p>
-              <p className="text-xs text-muted-foreground">
-                {t('trialPeriodDesc')}
-              </p>
-          </div>
-
+          
           <div>
             <label className={labelClass}>{t('shopName')} *</label>
             <input required type="text" value={form.shop_name} onChange={e => set('shop_name', e.target.value)} className={inputClass} />

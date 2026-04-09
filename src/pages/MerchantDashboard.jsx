@@ -76,7 +76,8 @@ function SubscriptionBanner({ profile }) {
         </div>
         <div>
           <h3 className="font-black uppercase italic text-lg leading-tight">
-            {daysLeft > 0 ? t('trialInProgress') || "Période d'essai" : t('trialEnded') || "Essai terminé"}
+            {/* CORRECTION ICI : On utilise t() en priorité */}
+            {daysLeft > 0 ? (t('trialInProgress') || "Période d'essai") : (t('trialEnded') || "Essai terminé")}
           </h3>
           <p className="text-sm text-muted-foreground font-medium">
             {daysLeft > 0 

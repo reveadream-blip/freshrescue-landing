@@ -240,7 +240,6 @@ export default function MerchantPost() {
             <input 
               type="file" 
               accept="image/*" 
-              capture="environment" 
               onChange={handlePhoto} 
               className="hidden" 
             />
