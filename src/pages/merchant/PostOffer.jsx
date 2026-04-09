@@ -104,10 +104,9 @@ export default function PostOffer() {
                 <span className="text-sm text-muted-foreground">{t('takePhoto')}</span>
               </div>
             )}
-            {/* MODIFICATION : Suppression de 'capture="environment"' 
-                et utilisation de 'image/*' seul. 
-                Si Android persiste à n'ouvrir que la galerie, c'est une application par défaut 
-                système qui bloque le choix (voir paramètres Android).
+            {/* L'attribut capture="environment" a été supprimé ci-dessous. 
+                C'est cette suppression qui permet au téléphone de proposer 
+                le menu "Appareil Photo" ou "Galerie/Fichiers".
             */}
             <input 
               type="file" 
