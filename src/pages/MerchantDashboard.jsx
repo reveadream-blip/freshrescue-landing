@@ -5,12 +5,15 @@ import { useTranslation } from '@/lib/i18n';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Plus, ToggleLeft, ToggleRight, Trash2, Store, 
-  Crown, AlertTriangle, Edit, ArrowLeft, Home 
+  Crown, AlertTriangle, Edit, ArrowLeft, Home, CheckCircle2
 } from 'lucide-react';
 import CountdownTimer from '@/components/CountdownTimer';
 
-const STRIPE_BASE_URL = 'https://buy.stripe.com/3cIeV6bUrc37dym2oHcZa04';
-const TRIAL_DAYS = 15;
+const STRIPE_RECURRING_URL = 'https://buy.stripe.com/3cIeV6bUrc37dym2oHcZa04';
+const STRIPE_MONTHLY_ONETIME = 'https://buy.stripe.com/fZucMYaQnd7b3XM2oHcZa05';
+const STRIPE_YEARLY_ONETIME = 'https://buy.stripe.com/00weV68If9UZama8N5cZa06';
+
+const TRIAL_DAYS = 30;
 
 const deletePhotoFromLogos = async (photoUrl) => {
   if (!photoUrl) return;
@@ -26,68 +29,113 @@ const deletePhotoFromLogos = async (photoUrl) => {
   }
 };
 
-// --- BANNIÈRE DE SOUSCRIPTION TRADUITE ---
+// --- COMPOSANT BANNIÈRE & SÉLECTEUR DE FORMULES ---
 function SubscriptionBanner({ profile }) {
-  const { t } = useTranslation(); // Ajout du hook ici
+  const { t } = useTranslation();
   if (!profile) return null;
   
   const status = profile.subscription_status || 'trial';
   const trialStart = profile.trial_start_date ? new Date(profile.trial_start_date) : null;
-  const checkoutUrl = `${STRIPE_BASE_URL}?client_reference_id=${profile.user_id}`;
+  const subscriptionEnd = profile.subscription_end_date ? new Date(profile.subscription_end_date) : null;
   
-  if (!trialStart && status === 'trial') return null;
+  const isPremium = status === 'active' || (subscriptionEnd && subscriptionEnd > new Date());
+  const ref = `?client_reference_id=${profile.user_id}`;
 
-  const daysUsed = Math.floor((Date.now() - trialStart) / 86400000);
+  // Si déjà Premium, on affiche juste le badge de succès
+  if (isPremium) {
+    return (
+      <div className="flex items-center justify-between p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-8">
+        <div className="flex items-center gap-3">
+          <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+          <p className="text-sm font-bold text-emerald-500 uppercase italic">
+            {t('premiumActive') || 'Abonnement Premium Actif 🌴'}
+          </p>
+        </div>
+        {subscriptionEnd && (
+          <span className="text-[10px] bg-emerald-500/20 text-emerald-500 px-3 py-1 rounded-full font-bold">
+            Fin : {subscriptionEnd.toLocaleDateString()}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
   const daysLeft = Math.max(0, TRIAL_DAYS - daysUsed);
 
-  if (status === 'active') {
-    return (
-      <div className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-8">
-        <Crown className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-        <p className="text-sm font-bold text-emerald-500 uppercase italic">
-          {t('premiumActive') || 'Abonnement Premium Actif 🌴'}
-        </p>
-      </div>
-    );
-  }
-
-  if (daysLeft === 0) {
-    return (
-      <div className="p-6 rounded-3xl bg-red-600/10 border-2 border-red-600/40 text-center mb-8">
-        <AlertTriangle className="w-8 h-8 text-red-600 mx-auto mb-3" />
-        <h3 className="font-black text-xl text-foreground uppercase italic leading-tight">
-          {t('trialEnded') || 'Essai gratuit terminé'}
-        </h3>
-        <p className="text-muted-foreground text-sm mb-5">
-          {t('trialEndedDesc') || "Votre boutique n'est plus visible sur la carte."}
-        </p>
-        <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" 
-           className="inline-flex items-center gap-2 bg-citrus text-earth px-10 py-4 rounded-2xl font-black uppercase italic hover:scale-[1.02] transition-transform shadow-lg shadow-citrus/20 text-sm">
-          {t('activateAccess') || 'Activer mon accès'}
-        </a>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-5 rounded-3xl bg-citrus/10 border border-citrus/30 mb-8">
-      <div className="flex items-center gap-4">
-        <div className="h-12 w-12 rounded-2xl bg-citrus flex items-center justify-center text-earth font-black text-xl italic shadow-inner">
+    <div className="p-6 rounded-[2.5rem] bg-card border border-border mb-8 shadow-xl overflow-hidden relative">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+        <Crown className="w-32 h-32" />
+      </div>
+
+      <div className="flex items-center gap-4 mb-8">
+        <div className={`h-14 w-14 rounded-2xl flex items-center justify-center font-black text-xl italic shadow-lg ${daysLeft > 0 ? 'bg-citrus text-earth' : 'bg-red-600 text-white'}`}>
           {daysLeft}
         </div>
         <div>
-          <p className="text-sm font-black uppercase italic leading-none">
-            {t('trialDays') || "Jours d'essai restants"}
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {t('trialStatus') || "Votre visibilité est actuellement gratuite."}
+          <h3 className="font-black uppercase italic text-lg leading-tight">
+            {daysLeft > 0 ? t('trialInProgress') || "Période d'essai" : t('trialEnded') || "Essai terminé"}
+          </h3>
+          <p className="text-sm text-muted-foreground font-medium">
+            {daysLeft > 0 
+              ? t('trialDesc') || "Profitez de l'offre pour booster votre visibilité en Thaïlande." 
+              : t('trialExpiredDesc') || "Votre visibilité est suspendue. Choisissez une formule pour reprendre."}
           </p>
         </div>
       </div>
-      <a href={checkoutUrl} target="_blank" rel="noopener noreferrer"
-         className="flex items-center gap-2 bg-citrus/20 hover:bg-citrus text-citrus hover:text-earth px-6 py-3 rounded-xl text-xs font-black uppercase italic transition-all border border-citrus/30">
-        <Crown className="w-4 h-4" /> {t('becomePremium') || 'Devenir Premium'}
-      </a>
+
+      {/* GRILLE DES PRIX / SÉLECTEUR TRADUIT */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+  {/* Option 1: Récurrent (CB) */}
+  <a href={`${STRIPE_RECURRING_URL}${ref}`} target="_blank" rel="noopener noreferrer"
+     className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
+    <div>
+      <div className="flex justify-between items-start mb-2">
+        <p className="font-black italic uppercase text-sm">{t('planRecurring')}</p>
+        <Crown className="w-4 h-4 text-citrus opacity-50" />
+      </div>
+      <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-4">{t('descRecurring')}</p>
+    </div>
+    <div className="flex items-center justify-between mt-2">
+      <span className="text-xs font-black uppercase italic text-citrus">{t('subscribe')}</span>
+      <Plus className="w-4 h-4 text-citrus group-hover:rotate-90 transition-transform" />
+    </div>
+  </a>
+
+  {/* Option 2: 1 Mois Ponctuel (PromptPay) */}
+  <a href={`${STRIPE_MONTHLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
+     className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
+    <div>
+      <div className="flex justify-between items-start mb-2">
+        <p className="font-black italic uppercase text-sm">{t('planMonthly')}</p>
+        <div className="px-2 py-0.5 rounded text-[8px] bg-blue-500/20 text-blue-400 font-bold">PROMPTPAY</div>
+      </div>
+      <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-4">{t('descMonthly')}</p>
+    </div>
+    <div className="flex items-center justify-between mt-2">
+      <span className="text-xs font-black uppercase italic text-citrus">{t('choose')}</span>
+      <Plus className="w-4 h-4 text-citrus group-hover:rotate-90 transition-transform" />
+    </div>
+  </a>
+
+  {/* Option 3: 1 An (Best Value) */}
+  <a href={`${STRIPE_YEARLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
+     className="group p-5 rounded-3xl border-2 border-citrus/30 hover:border-citrus transition-all bg-citrus/5 flex flex-col justify-between relative overflow-hidden">
+    <div className="absolute -right-6 -top-2 bg-citrus text-earth font-black text-[8px] px-8 py-1 rotate-45 uppercase">{t('promo')}</div>
+    <div>
+      <div className="flex justify-between items-start mb-2">
+        <p className="font-black italic uppercase text-sm">{t('planYearly')}</p>
+      </div>
+      <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-4">{t('descYearly')}</p>
+    </div>
+    <div className="flex items-center justify-between mt-2">
+      <span className="text-xs font-black uppercase italic text-citrus">{t('takeYear')}</span>
+      <Plus className="w-4 h-4 text-citrus group-hover:rotate-90 transition-transform" />
+    </div>
+  </a>
+</div>
     </div>
   );
 }
@@ -100,6 +148,16 @@ export default function MerchantDashboard() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
 
+  // LOGIQUE D'EXPIRATION HYBRIDE
+  const isExpired = (() => {
+    if (!profile) return false;
+    if (profile.subscription_status === 'active') return false;
+    if (profile.subscription_end_date && new Date(profile.subscription_end_date) > new Date()) return false;
+    const trialStart = profile.trial_start_date ? new Date(profile.trial_start_date) : null;
+    const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
+    return daysUsed >= TRIAL_DAYS;
+  })();
+
   useEffect(() => {
     const loadAndCleanData = async () => {
       if (!currentUser?.id) return;
@@ -109,7 +167,22 @@ export default function MerchantDashboard() {
           .select('*')
           .eq('user_id', currentUser.id)
           .single();
-        if (profileData) setProfile(profileData);
+        
+        if (profileData) {
+          setProfile(profileData);
+          
+          const subEnd = profileData.subscription_end_date ? new Date(profileData.subscription_end_date) : null;
+          const trialStart = profileData.trial_start_date ? new Date(profileData.trial_start_date) : null;
+          const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
+
+          const reallyExpired = profileData.subscription_status !== 'active' && 
+                                (!subEnd || subEnd < new Date()) && 
+                                daysUsed >= TRIAL_DAYS;
+
+          if (reallyExpired) {
+            await supabase.from('offers').update({ is_active: false }).eq('user_id', currentUser.id);
+          }
+        }
 
         const { data: offersData } = await supabase
           .from('offers')
@@ -141,6 +214,7 @@ export default function MerchantDashboard() {
   }, [currentUser]);
 
   const toggleOffer = async (offer) => {
+    if (isExpired) return; 
     const newStatus = !offer.is_active;
     const { error } = await supabase.from('offers').update({ is_active: newStatus }).eq('id', offer.id);
     if (!error) {
@@ -177,23 +251,20 @@ export default function MerchantDashboard() {
           <Link to="/merchant/setup" className="inline-flex items-center gap-2 bg-card border border-border hover:border-citrus/50 text-foreground font-bold px-4 py-2.5 rounded-xl text-xs uppercase transition-all shadow-sm">
             <Store className="w-4 h-4" /> {t('shopSettings')}
           </Link>
-          <Link to="/merchant/post" className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20">
-            <Plus className="w-4 h-4" /> {t('postOffer')}
-          </Link>
+          
+          {isExpired ? (
+            <button disabled className="inline-flex items-center gap-2 bg-muted text-muted-foreground font-black px-5 py-2.5 rounded-xl text-xs uppercase italic cursor-not-allowed opacity-50">
+              <Plus className="w-4 h-4" /> {t('postOffer')}
+            </button>
+          ) : (
+            <Link to="/merchant/post" className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20">
+              <Plus className="w-4 h-4" /> {t('postOffer')}
+            </Link>
+          )}
         </div>
       </div>
 
       <SubscriptionBanner profile={profile} />
-
-      {!profile && (
-        <div className="bg-card border border-border rounded-[2rem] p-12 text-center space-y-4">
-          <Store className="w-16 h-16 text-muted-foreground mx-auto opacity-20" />
-          <p className="text-muted-foreground font-bold">{t('noShopYet')}</p>
-          <Link to="/merchant/setup" className="inline-flex items-center gap-2 bg-citrus text-earth font-black px-8 py-4 rounded-2xl text-sm uppercase italic transition-all">
-            {t('setupShop')}
-          </Link>
-        </div>
-      )}
 
       <div className="grid gap-4">
         {offers.length === 0 ? (
@@ -213,9 +284,15 @@ export default function MerchantDashboard() {
               </div>
               <div className="flex items-center gap-2">
                 <Link to={`/merchant/edit/${offer.id}`} className="p-2.5 rounded-xl bg-card border border-border hover:border-citrus/50 text-foreground transition-all shadow-sm"><Edit className="w-5 h-5" /></Link>
-                <button onClick={() => toggleOffer(offer)} className={`p-2.5 rounded-xl transition-all ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}>
+                
+                <button 
+                  onClick={() => toggleOffer(offer)} 
+                  disabled={isExpired}
+                  className={`p-2.5 rounded-xl transition-all ${isExpired ? 'cursor-not-allowed opacity-30' : ''} ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}
+                >
                   {offer.is_active ? <ToggleRight className="w-6 h-6" /> : <ToggleLeft className="w-6 h-6" />}
                 </button>
+
                 <button onClick={() => deleteOffer(offer)} className="p-2.5 rounded-xl bg-red-600/10 text-red-600 hover:bg-red-600 hover:text-white transition-all"><Trash2 className="w-5 h-5" /></button>
               </div>
             </div>

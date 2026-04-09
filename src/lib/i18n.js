@@ -30,7 +30,7 @@ const translations = {
     customerBenefit3: "Discover local shops nearby",
     customerBenefit4: "Help reduce food waste",
 
-    // Subscription
+    // Subscription & Plans
     subscriptionTitle: "One Simple Plan",
     subscriptionPrice: "1000",
     subscriptionCurrency: "THB/month",
@@ -48,6 +48,21 @@ const translations = {
     trialEndedDesc: "Your shop is no longer visible on the map.",
     activateAccess: "Activate my access",
     trialStatus: "Your visibility is currently free.",
+    trialInProgress: "Trial Period",
+    trialExpiredDesc: "Your shop is hidden. Reactivate it below.",
+    
+    // Plans Selection
+    planRecurring: "Monthly Auto",
+    planMonthly: "1 Month One-time",
+    planYearly: "12 Months 💎",
+    descRecurring: "Automatic billing via Credit Card",
+    descMonthly: "One-time payment, no commitment",
+    descYearly: "Two months free! - Save over the year. One-time payment.",
+    promo: "Sale",
+    choose: "Choose",
+    subscribe: "Subscribe",
+    takeYear: "Get Annual Plan",
+
     getStarted: "Get Started",
     login: "Log In",
     signup: "Sign Up",
@@ -61,10 +76,10 @@ const translations = {
     password: "Password",
     // Explore
     "pwaInstallTitle": "Install the App",
-"pwaInstallDesc": "Get push alerts in Phuket!",
-"pwaInstallBtn": "INSTALL",
-"iosInstallTitle": "Enable notifications on iPhone:",
-"iosInstallDesc": "Tap the Share button then 'Add to Home Screen'.",
+    "pwaInstallDesc": "Get push alerts in Phuket!",
+    "pwaInstallBtn": "INSTALL",
+    "iosInstallTitle": "Enable notifications on iPhone:",
+    "iosInstallDesc": "Tap the Share button then 'Add to Home Screen'.",
     activeOffers: "Active Offers",
     noOffers: "No offers available right now. Check back soon!",
     collectBefore: "Collect before",
@@ -222,6 +237,21 @@ const translations = {
     trialEndedDesc: "Votre boutique n'est plus visible sur la carte.",
     activateAccess: "Activer mon accès",
     trialStatus: "Votre visibilité est actuellement gratuite.",
+    trialInProgress: "Période d'essai",
+    trialExpiredDesc: "Votre boutique est masquée. Réactivez-la ci-dessous.",
+
+    // Plans Selection
+    planRecurring: "Mensuel Auto",
+    planMonthly: "1 Mois Unique",
+    planYearly: "12 Mois 💎",
+    descRecurring: "Prélèvement automatique par Carte Bancaire",
+    descMonthly: "Paiement ponctuel sans engagement",
+    descYearly: "Deux mois offerts ! - Économisez sur l'année. Paiement unique.",
+    promo: "Promo",
+    choose: "Choisir",
+    subscribe: "S'abonner",
+    takeYear: "Prendre l'année",
+
     login: "Connexion",
     signup: "Inscription",
     loginRequired: "Veuillez vous connecter",
@@ -234,10 +264,10 @@ const translations = {
     password: "Mot de passe",
     // Explore
     "pwaInstallTitle": "Installer l'application",
-"pwaInstallDesc": "Recevez les alertes push à Phuket !",
-"pwaInstallBtn": "INSTALLER",
-"iosInstallTitle": "Activez les notifications sur iPhone :",
-"iosInstallDesc": "Appuyez sur le bouton Partager puis sur 'Sur l'écran d'accueil'.",
+    "pwaInstallDesc": "Recevez les alertes push à Phuket !",
+    "pwaInstallBtn": "INSTALLER",
+    "iosInstallTitle": "Activez les notifications sur iPhone :",
+    "iosInstallDesc": "Appuyez sur le bouton Partager puis sur 'Sur l'écran d'accueil'.",
     activeOffers: "Offres Actives",
     noOffers: "Aucune offre disponible pour le moment. Revenez bientôt !",
     collectBefore: "À récupérer avant",
@@ -391,6 +421,21 @@ const translations = {
     trialEndedDesc: "ร้านค้าของคุณไม่แสดงบนแผนที่อีกต่อไป",
     activateAccess: "เปิดใช้งานการเข้าถึงของฉัน",
     trialStatus: "ขณะนี้คุณสามารถเข้าชมได้ฟรี",
+    trialInProgress: "ระยะเวลาทดลองใช้งาน",
+    trialExpiredDesc: "ร้านค้าของคุณถูกซ่อนอยู่ โปรดเปิดใช้งานอีกครั้งด้านล่าง",
+
+    // Plans Selection
+    planRecurring: "รายเดือนอัตโนมัติ",
+    planMonthly: "1 เดือน (รายครั้ง)",
+    planYearly: "12 เดือน 💎",
+    descRecurring: "ตัดบัตรเครดิตอัตโนมัติรายเดือน",
+    descMonthly: "ชำระรายครั้ง ไม่มีข้อผูกมัด",
+    descYearly: "ใช้งานฟรี 2 เดือน! - ประหยัดได้ตลอดทั้งปี จ่ายครั้งเดียวจบ",
+    promo: "โปรโมชั่น",
+    choose: "เลือก",
+    subscribe: "สมัครสมาชิก",
+    takeYear: "เลือกรายปี",
+
     getStarted: "เริ่มต้นเลย",
     login: "เข้าสู่ระบบ",
     signup: "ลงทะเบียน",
@@ -404,10 +449,10 @@ const translations = {
     password: "รหัสผ่าน",
     // Explore
     "pwaInstallTitle": "ติดตั้งแอปพลิเคชัน",
-"pwaInstallDesc": "รับการแจ้งเตือนในภูเก็ต!",
-"pwaInstallBtn": "ติดตั้ง",
-"iosInstallTitle": "เปิดการแจ้งเตือนบน iPhone:",
-"iosInstallDesc": "กดปุ่มแชร์แล้วเลือก 'เพิ่มไปยังหน้าจอโฮม'",
+    "pwaInstallDesc": "รับการแจ้งเตือนในภูเก็ต!",
+    "pwaInstallBtn": "ติดตั้ง",
+    "iosInstallTitle": "เปิดการแจ้งเตือนบน iPhone:",
+    "iosInstallDesc": "กดปุ่มแชร์แล้วเลือก 'เพิ่มไปยังหน้าจอโฮม'",
     activeOffers: "ข้อเสนอที่ใช้งานอยู่",
     noOffers: "ยังไม่มีข้อเสนอในตอนนี้ กลับมาใหม่เร็วๆ นี้!",
     collectBefore: "รับก่อน",
@@ -561,6 +606,21 @@ const translations = {
     trialEndedDesc: "Ваш магазин больше не виден на карте.",
     activateAccess: "Активировать мой доступ",
     trialStatus: "На данный момент ваша видимость бесплатна.",
+    trialInProgress: "Пробный период",
+    trialExpiredDesc: "Ваш магазин скрыт. Пожалуйста, активируйте его ниже.",
+
+    // Plans Selection
+    planRecurring: "Ежемесячно авто",
+    planMonthly: "1 месяц разово",
+    planYearly: "12 месяцев 💎",
+    descRecurring: "Автоплатеж с банковской карты",
+    descMonthly: "Разовый платеж, без обязательств",
+    descYearly: "Два месяца бесплатно! — Экономьте в течение года. Единовременная оплата.",
+    promo: "Акция",
+    choose: "Выбрать",
+    subscribe: "Подписаться",
+    takeYear: "Купить на год",
+
     getStarted: "Начать",
     login: "Войти",
     signup: "Регистрация",
@@ -574,10 +634,10 @@ const translations = {
     password: "Пароль",
     // Explore
     "pwaInstallTitle": "Установить приложение",
-"pwaInstallDesc": "Получайте пуш-уведомления на Пхукете!",
-"pwaInstallBtn": "УСТАНОВИТЬ",
-"iosInstallTitle": "Включите уведомления на iPhone:",
-"iosInstallDesc": "Нажмите кнопку 'Поделиться', затем 'На экран «Домой»'.",
+    "pwaInstallDesc": "Получайте пуш-уведомления на Пхукете!",
+    "pwaInstallBtn": "УСТАНОВИТЬ",
+    "iosInstallTitle": "Включите уведомления на iPhone:",
+    "iosInstallDesc": "Нажмите кнопку 'Поделиться', затем 'На экран «Домой»'.",
     activeOffers: "Активные предложения",
     noOffers: "На данный момент предложений нет. Зайдите позже!",
     collectBefore: "Забрать до",
@@ -691,26 +751,16 @@ export function useTranslation() {
     return translations[lang]?.[key] || translations.en[key] || key;
   };
 
-  /**
-   * Fonction pour traduire les données provenant de la DB (titre, description, bag_notice)
-   * field : 'title', 'description' ou 'bag_notice'
-   */
   const dt = (offer, field) => {
     if (!offer) return "";
-
-    // 1. On cherche la valeur dans la langue sélectionnée
     const currentLangValue = offer[`${field}_${lang}`];
     if (currentLangValue && currentLangValue.trim() !== "") {
       return currentLangValue;
     }
-
-    // 2. Repli (Fallback) : Si vide, on cherche en Français (ta langue par défaut)
     const frenchValue = offer[`${field}_fr` ];
     if (frenchValue && frenchValue.trim() !== "") {
       return frenchValue;
     }
-
-    // 3. Dernier recours : On tente l'anglais ou le champ brut
     return offer[`${field}_en`] || offer[field] || "";
   };
 
