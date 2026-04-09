@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Camera, ArrowLeft, Check, Loader2, MapPin, Snowflake, Utensils } from 'lucide-react';
+import { Camera, ArrowLeft, Check, Loader2, MapPin, Snowflake, Utensils, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
 import Navbar from '../components/Navbar';
@@ -35,6 +35,10 @@ export default function MerchantPost() {
   const activeUser = user || currentUser;
   const navigate = useNavigate();
 
+  // Refs pour déclencher les inputs cachés
+  const cameraInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
+
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -48,8 +52,8 @@ export default function MerchantPost() {
     consumption_mode: 'takeaway',
     expiry_date: '',
     needs_cool_bag: false,
-    lat: null, // Ajout pour la carte
-    lng: null  // Ajout pour la carte
+    lat: null,
+    lng: null
   });
 
   const [photoFile, setPhotoFile] = useState(null);
@@ -60,7 +64,6 @@ export default function MerchantPost() {
   useEffect(() => {
     if (!activeUser) return;
     const loadInitialData = async () => {
-      // On récupère les infos du marchand incluant lat/lng
       const { data: merchantData } = await supabase
         .from('merchants')
         .select('shop_name, address, lat, lng')
@@ -134,7 +137,6 @@ export default function MerchantPost() {
         }
       }
 
-      // Traductions incluant le Russe
       const titleEn = await translateText(form.title, 'en');
       const titleTh = await translateText(form.title, 'th');
       const titleRu = await translateText(form.title, 'ru');
@@ -186,7 +188,6 @@ export default function MerchantPost() {
         bag_notice_en: bagNoticeEn,
         bag_notice_th: bagNoticeTh,
         bag_notice_ru: bagNoticeRu,
-        // CRUCIAL POUR LA CARTE :
         lat: form.lat,
         lng: form.lng
       };
@@ -232,18 +233,49 @@ export default function MerchantPost() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <label className="block cursor-pointer group">
+          <div className="space-y-4">
+            {/* Zone de prévisualisation */}
             <div className={`relative w-full h-48 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all ${photoPreview ? 'border-citrus' : 'border-border'}`}>
               {photoPreview ? <img src={photoPreview} className="w-full h-full object-cover" alt="Preview" /> : <Camera className="opacity-20 w-10 h-10" />}
               {loading && <div className="absolute inset-0 bg-black/50 flex items-center justify-center"><Loader2 className="animate-spin text-white w-8 h-8" /></div>}
             </div>
-            <input 
-              type="file" 
-              accept="image/*" 
-              onChange={handlePhoto} 
-              className="hidden" 
-            />
-          </label>
+
+            {/* Sélecteurs de photo en dessous */}
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                type="button" 
+                onClick={() => cameraInputRef.current?.click()}
+                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+              >
+                <Camera className="w-6 h-6 text-citrus" />
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('camera') || "Appareil"}</span>
+                <input 
+                  ref={cameraInputRef}
+                  type="file" 
+                  accept="image/*" 
+                  capture="environment"
+                  onChange={handlePhoto} 
+                  className="hidden" 
+                />
+              </button>
+
+              <button 
+                type="button" 
+                onClick={() => galleryInputRef.current?.click()}
+                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+              >
+                <ImageIcon className="w-6 h-6 text-citrus" />
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('gallery') || "Galerie"}</span>
+                <input 
+                  ref={galleryInputRef}
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handlePhoto} 
+                  className="hidden" 
+                />
+              </button>
+            </div>
+          </div>
 
           <div className="space-y-4">
             <input 
