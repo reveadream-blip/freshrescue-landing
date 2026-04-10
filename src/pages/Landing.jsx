@@ -18,11 +18,11 @@ export default function Landing() {
   const [isIOS, setIsIOS] = useState(false);
 
   const promoText = {
-    fr: { free: '1 mois OFFERT', test: 'Essayer !' },
-    th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !' },
-    ru: { free: '1 месяц БЕСПЛАТНО', test: 'Попробуй !' },
-    en: { free: '1 month FREE', test: 'Test it !' }
-  }[lang] || { free: '1 month FREE', test: 'Test it !' };
+    fr: { free: '1 mois OFFERT', test: 'Essayer !', hundredFree: '100% GRATUIT' },
+    th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !', hundredFree: 'ฟรี 100%' },
+    ru: { free: '1 месяц БЕСПЛАТНО', test: 'Попробуй !', hundredFree: '100% БЕСПЛАТНО' },
+    en: { free: '1 month FREE', test: 'Test it !', hundredFree: '100% FREE' }
+  }[lang] || { free: '1 month FREE', test: 'Test it !', hundredFree: '100% FREE' };
 
   useEffect(() => {
     const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -140,16 +140,21 @@ export default function Landing() {
 
           <div className="flex flex-col items-center gap-6">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/explore"
-                className="flex items-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-citrus/20"
-              >
-                {t('exploreCta')}
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              <div className="flex flex-col items-center gap-2">
+                <Link
+                  to="/explore"
+                  className="flex items-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-citrus/20"
+                >
+                  {t('exploreCta')}
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+                {/* 100% FREE TRADUIT */}
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-citrus animate-pulse">
+                  {promoText.hundredFree}
+                </span>
+              </div>
 
               <div className="relative">
-                {/* STICKER TRADUIT HERO - POSITION BASSE (-bottom-6) */}
                 <div className="absolute -bottom-6 -right-2 bg-earth text-citrus px-3 py-1 rounded-xl shadow-xl rotate-12 animate-pulse border border-citrus flex flex-col items-center z-20 pointer-events-none">
                   <span className="text-[9px] font-black leading-none whitespace-nowrap uppercase">{promoText.free}</span>
                   <span className="text-[8px] font-bold uppercase tracking-tighter opacity-80">{promoText.test}</span>

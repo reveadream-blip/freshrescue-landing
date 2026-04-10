@@ -5,6 +5,7 @@ const translations = {
     heroSubtitle: "Fresh food at unbeatable prices from local shops near you. Merchants turn surplus into sales. Consumers get quality for less.",
     exploreCta: "Explore Deals Near You",
     merchantCta: "I'm a Merchant",
+    oneHundredFree: "100% FREE",
     // Nav
     geoError: "Please enable geolocation !",
     home: "Home",
@@ -199,6 +200,7 @@ const translations = {
     heroSubtitle: "Des produits frais à prix imbattables dans les commerces près de chez vous. Les commerçants transforment leurs surplus en ventes. Les consommateurs profitent de la qualité à petit prix.",
     exploreCta: "Découvrir les Offres",
     merchantCta: "Je suis Commerçant",
+    oneHundredFree: "100% GRATUIT",
     // Nav
     home: "Accueil",
     explore: "Explorer",
@@ -392,6 +394,7 @@ const translations = {
     heroSubtitle: "อาหารสดในราคาสุดคุ้มจากร้านค้าใกล้คุณ ผู้ค้าเปลี่ยนของเหลือเป็นรายได้ ลูกค้าได้ของดีราคาถูก",
     exploreCta: "ค้นหาดีลใกล้คุณ",
     merchantCta: "ฉันเป็นผู้ค้า",
+    oneHundredFree: "ฟรี 100%",
     // Nav
     home: "หน้าแรก",
     explore: "สำรวจ",
@@ -585,6 +588,7 @@ const translations = {
     heroSubtitle: "Свежие продукты по непревзойденным ценам в местных магазинах рядом с вами. Продавцы превращают излишки в продажи. Покупатели получают качество за меньшие деньги.",
     exploreCta: "Посмотреть предложения рядом",
     merchantCta: "Я продавец",
+    oneHundredFree: "100% БЕСПЛАТНО",
     // Nav
     home: "Главная",
     explore: "Поиск",
