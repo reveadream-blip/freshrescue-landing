@@ -136,11 +136,23 @@ const description = dt(offer, 'description');
         </div>
 
         {offer.expiry_date && (
-          <div className="flex items-center gap-1.5 text-[9px] text-muted-foreground/60 bg-muted/30 p-1.5 rounded-md self-start">
-            <Calendar className="w-3 h-3" />
-            <span className="font-medium">DLC: {new Date(offer.expiry_date).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'fr-FR')}</span>
-          </div>
+  <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/80 bg-muted/40 p-2 rounded-xl self-start border border-border/20">
+    <Calendar className="w-3.5 h-3.5 text-citrus/60" />
+    <span className="leading-none">
+      {/* On utilise font-bold au lieu de font-black pour la netteté */}
+      <span className="font-bold uppercase tracking-wider text-foreground mr-1">
+        {t('expiryLabel') || "Consume before"}:
+      </span>
+      <span className="font-medium">
+        {new Date(offer.expiry_date).toLocaleDateString(
+          lang === 'ru' ? 'ru-RU' : 
+          lang === 'th' ? 'th-TH' : 
+          'fr-FR'
         )}
+      </span>
+    </span>
+  </div>
+)}
 
         <div className="pt-3 border-t border-border/40 flex flex-col space-y-1">
           <div className="flex items-center justify-between">

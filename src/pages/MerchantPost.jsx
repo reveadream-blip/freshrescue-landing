@@ -255,39 +255,43 @@ export default function MerchantPost() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <button 
-                type="button" 
-                onClick={() => cameraInputRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
-              >
-                <Camera className="w-6 h-6 text-citrus" />
-                <span className="text-[10px] font-black uppercase tracking-widest">{t('camera') || "Appareil"}</span>
-                <input 
-                  ref={cameraInputRef}
-                  type="file" 
-                  accept="image/*" 
-                  capture="environment"
-                  onChange={handlePhoto} 
-                  className="hidden" 
-                />
-              </button>
+  <button 
+    type="button" 
+    onClick={() => cameraInputRef.current?.click()}
+    className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+  >
+    <Camera className="w-6 h-6 text-citrus" />
+    <span className="text-[10px] font-black uppercase tracking-widest">
+      {t('camera')} {/* Traduction dynamique ici */}
+    </span>
+    <input 
+      ref={cameraInputRef}
+      type="file" 
+      accept="image/*" 
+      capture="environment"
+      onChange={handlePhoto} 
+      className="hidden" 
+    />
+  </button>
 
-              <button 
-                type="button" 
-                onClick={() => galleryInputRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
-              >
-                <ImageIcon className="w-6 h-6 text-citrus" />
-                <span className="text-[10px] font-black uppercase tracking-widest">{t('gallery') || "Galerie"}</span>
-                <input 
-                  ref={galleryInputRef}
-                  type="file" 
-                  accept="image/*" 
-                  onChange={handlePhoto} 
-                  className="hidden" 
-                />
-              </button>
-            </div>
+  <button 
+    type="button" 
+    onClick={() => galleryInputRef.current?.click()}
+    className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+  >
+    <ImageIcon className="w-6 h-6 text-citrus" />
+    <span className="text-[10px] font-black uppercase tracking-widest">
+      {t('gallery')} {/* Traduction dynamique ici */}
+    </span>
+    <input 
+      ref={galleryInputRef}
+      type="file" 
+      accept="image/*" 
+      onChange={handlePhoto} 
+      className="hidden" 
+    />
+  </button>
+</div>
           </div>
 
           <div className="space-y-4">

@@ -40,6 +40,8 @@ const translations = {
     planMonthly: "1 Month One-time",
     planYearly: "12 Months 💎",
     descRecurring: "Automatic billing via Credit Card",
+    month: "MONTH",
+    year: "YEAR",
     descMonthly: "One-time payment, no commitment",
     descYearly: "Save more on annual plan. One-time pay.",
     promo: "Sale",
@@ -103,6 +105,8 @@ const translations = {
     confirmDelete: "Delete this offer?",
     trialPeriod: "Trial Period",
     // Post form
+    camera: "CAMERA",
+    gallery: "GALLERY",
     productName: "Product Name",
     productDescription: "Description (optional)",
     productDescPlaceholder: "Description (Ingredients, allergens, quantity...)",
@@ -139,6 +143,7 @@ const translations = {
     takeaway: "Takeaway",
     onSite: "On Site",
     both: "Both",
+    expiryLabel: "Consume before",
     expiryDate: "Expiry Date (DLC)",
     Freezable: "Freezable",
     // Footer
@@ -230,6 +235,8 @@ const translations = {
     planMonthly: "1 Mois Unique",
     planYearly: "12 Mois 💎",
     descRecurring: "Prélèvement automatique par Carte Bancaire",
+    month: "MOIS",
+    year: "AN",
     descMonthly: "Paiement ponctuel sans engagement",
     descYearly: "Économisez sur l'année. Paiement unique.",
     promo: "Promo",
@@ -294,6 +301,8 @@ const translations = {
     confirmDelete: "Supprimer cette offre ?",
     trialPeriod: "Période d'essai",
     // Post form
+    camera: "APPAREIL PHOTO",
+    gallery: "GALERIE",
     productName: "Nom du Produit",
     productDescription: "Description (optionnel)",
     productDescPlaceholder: "Description (Ingrédients, allergènes, quantité...)",
@@ -330,6 +339,7 @@ const translations = {
     takeaway: "À emporter",
     onSite: "Sur place",
     both: "Les deux",
+    expiryLabel: "À consommer avant le",
     expiryDate: "Date de péremption (DLC)",
     Freezable: "Congelable",
     // Footer
@@ -418,6 +428,8 @@ const translations = {
     planMonthly: "1 เดือน (รายครั้ง)",
     planYearly: "12 เดือน 💎",
     descRecurring: "ตัดบัตรเครดิตอัตโนมัติรายเดือน",
+    month: "เดือน",
+    year: "ปี",
     descMonthly: "ชำระรายครั้ง ไม่มีข้อผูกมัด",
     descYearly: "ประหยัดกว่าด้วยรายปี ชำระครั้งเดียว",
     promo: "โปรโมชั่น",
@@ -482,6 +494,8 @@ const translations = {
     confirmDelete: "ลบข้อเสนอนี้หรือไม่?",
     trialPeriod: "ระยะเวลาทดลองใช้งาน",
     // Post form
+    camera: "กล้อง",
+    gallery: "แกลเลอรี่",
     productName: "ชื่อสินค้า",
     productDescription: "รายละเอียด (ไม่บังคับ)",
     productDescPlaceholder: "รายละเอียด (ส่วนผสม, สารก่อภูมิแพ้, จำนวน...)",
@@ -518,6 +532,7 @@ const translations = {
     takeaway: "ซื้อกลับบ้าน",
     onSite: "ทานที่ร้าน",
     both: "ได้ทั้งสองอย่าง",
+    expiryLabel: "ควรบริโภคก่อน",
     expiryDate: "วันหมดอายุ",
     Freezable: "แช่แข็งได้",
     // Footer
@@ -606,6 +621,8 @@ const translations = {
     planMonthly: "1 месяц разово",
     planYearly: "12 месяцев 💎",
     descRecurring: "Автоплатеж с банковской карты",
+    month: "МЕСЯЦ",
+    year: "год",
     descMonthly: "Разовый платеж, без обязательств",
     descYearly: "Экономия при оплате за год. Разово.",
     promo: "Акция",
@@ -670,6 +687,8 @@ const translations = {
     confirmDelete: "Удалить это предложение?",
     trialPeriod: "Пробный период",
     // Post form
+    camera: "КАМЕРА",
+    gallery: "ГАЛЕРЕЯ",
     productName: "Название продукта",
     productDescription: "Описание (необязательно)",
     productDescPlaceholder: "Описание (ингредиенты, аллергены, количество...)",
@@ -706,6 +725,7 @@ const translations = {
     takeaway: "С собой",
     onSite: "На месте",
     both: "Оба варианта",
+    expiryLabel: "Срок годности до",
     expiryDate: "Срок годности (DLC)",
     Freezable: "замораживаемый",
     // Footer
