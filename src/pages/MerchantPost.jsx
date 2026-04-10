@@ -6,12 +6,56 @@ import { useAuth } from '@/lib/AuthContext';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
 import imageCompression from 'browser-image-compression';
+import * as nsfwjs from 'nsfwjs';
+import * as tf from '@tensorflow/tfjs';
+
+// --- CONFIGURATION MODÉRATION ---
+const BANNED_WORDS = [
+  'porn', 'porno', 'nudes', 'naked', 'erotic', 'xxx', 'sex', 'hardcore', 'softcore',
+  'penis', 'vagina', 'boobs', 'tits', 'asshole', 'clitoris', 'dick', 'pussy', 'butt',
+  'intercourse', 'masturbation', 'orgasm', 'blowjob', 'handjob', 'rimjob', 'anal',
+  'escort', 'prostitute', 'hooker', 'webcam', 'onlyfans', 'sugar daddy', 'sugar baby',
+  'fuck', 'shit', 'bitch', 'bastard', 'cunt', 'motherfucker', 'dickhead', 'asshat',
+  'nigger', 'faggot', 'retard', 'slut', 'whore',
+  'drugs', 'cocaine', 'heroin', 'meth', 'marijuana', 'cannabis', 'pills', 'ecstasy'
+];
+
+const containsInappropriateContent = (text) => {
+  if (!text) return false;
+  const lowerText = text.toLowerCase();
+  return BANNED_WORDS.some(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'i');
+    return regex.test(lowerText);
+  });
+};
+
+const checkImageSafety = async (file) => {
+  try {
+    const model = await nsfwjs.load();
+    const imageUrl = URL.createObjectURL(file);
+    const img = new Image();
+    img.src = imageUrl;
+    
+    return new Promise((resolve) => {
+      img.onload = async () => {
+        const predictions = await model.classify(img);
+        URL.revokeObjectURL(imageUrl);
+        const unsafe = predictions.find(p => 
+          (p.className === 'Porn' || p.className === 'Hentai' || p.className === 'Sexy') && p.probability > 0.7
+        );
+        resolve(!unsafe);
+      };
+    });
+  } catch (error) {
+    console.error("Erreur analyse image:", error);
+    return true; 
+  }
+};
 
 async function translateText(text, targetLang) {
   if (!text || text.trim() === "") return "";
   try {
     const encodedText = encodeURIComponent(text);
-    // sl=auto est crucial pour détecter la langue que TU tapes (Thaï, Russe ou Français)
     const res = await fetch(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodedText}`
     );
@@ -111,11 +155,25 @@ export default function MerchantPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!activeUser) return alert(t('loginRequired') || "Veuillez vous connecter");
+
+    if (containsInappropriateContent(form.title) || containsInappropriateContent(form.description)) {
+      alert(t('inappropriateContentError') || "Contenu inapproprié détecté. Merci de modifier votre texte.");
+      return;
+    }
+
     setLoading(true);
     
     try {
       let photoUrl = form.photo || '';
       if (photoFile) {
+        // --- VÉRIFICATION SÉCURITÉ IMAGE ---
+        const isSafe = await checkImageSafety(photoFile);
+        if (!isSafe) {
+          setLoading(false);
+          alert(t('inappropriateImageError') || "Image refusée : contenu inapproprié détecté");
+          return;
+        }
+
         const options = {
           maxSizeMB: 0.6,
           maxWidthOrHeight: 1200,
@@ -137,8 +195,6 @@ export default function MerchantPost() {
         }
       }
 
-      // --- LOGIQUE DE TRADUCTION AMÉLIORÉE ---
-      // On traduit vers les 4 langues pour remplir toutes les colonnes de la DB
       const [titleFr, titleEn, titleTh, titleRu] = await Promise.all([
         translateText(form.title, 'fr'),
         translateText(form.title, 'en'),
@@ -176,7 +232,6 @@ export default function MerchantPost() {
         user_id: activeUser.id,
         title: form.title, 
         description: form.description,
-        // On remplit explicitement les colonnes de langues
         title_fr: titleFr,
         description_fr: descFr,
         title_en: titleEn,
@@ -255,43 +310,43 @@ export default function MerchantPost() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-  <button 
-    type="button" 
-    onClick={() => cameraInputRef.current?.click()}
-    className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
-  >
-    <Camera className="w-6 h-6 text-citrus" />
-    <span className="text-[10px] font-black uppercase tracking-widest">
-      {t('camera')} {/* Traduction dynamique ici */}
-    </span>
-    <input 
-      ref={cameraInputRef}
-      type="file" 
-      accept="image/*" 
-      capture="environment"
-      onChange={handlePhoto} 
-      className="hidden" 
-    />
-  </button>
+              <button 
+                type="button" 
+                onClick={() => cameraInputRef.current?.click()}
+                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+              >
+                <Camera className="w-6 h-6 text-citrus" />
+                <span className="text-[10px] font-black uppercase tracking-widest">
+                  {t('camera')}
+                </span>
+                <input 
+                  ref={cameraInputRef}
+                  type="file" 
+                  accept="image/*" 
+                  capture="environment"
+                  onChange={handlePhoto} 
+                  className="hidden" 
+                />
+              </button>
 
-  <button 
-    type="button" 
-    onClick={() => galleryInputRef.current?.click()}
-    className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
-  >
-    <ImageIcon className="w-6 h-6 text-citrus" />
-    <span className="text-[10px] font-black uppercase tracking-widest">
-      {t('gallery')} {/* Traduction dynamique ici */}
-    </span>
-    <input 
-      ref={galleryInputRef}
-      type="file" 
-      accept="image/*" 
-      onChange={handlePhoto} 
-      className="hidden" 
-    />
-  </button>
-</div>
+              <button 
+                type="button" 
+                onClick={() => galleryInputRef.current?.click()}
+                className="flex flex-col items-center justify-center gap-2 p-4 bg-muted border border-border rounded-2xl hover:border-citrus/50 transition-all"
+              >
+                <ImageIcon className="w-6 h-6 text-citrus" />
+                <span className="text-[10px] font-black uppercase tracking-widest">
+                  {t('gallery')}
+                </span>
+                <input 
+                  ref={galleryInputRef}
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handlePhoto} 
+                  className="hidden" 
+                />
+              </button>
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -357,7 +412,6 @@ export default function MerchantPost() {
               </div>
               <input type="checkbox" className="w-6 h-6 accent-citrus" checked={form.needs_cool_bag} onChange={e => set('needs_cool_bag', e.target.checked)} />
             </div>
-
           </div>
 
           <button type="submit" disabled={loading} className="w-full bg-citrus text-earth py-5 rounded-[2rem] font-black text-xl shadow-xl uppercase italic">

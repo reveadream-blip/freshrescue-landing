@@ -10,7 +10,9 @@ export default function MerchantGate() {
   const { t } = useTranslation(); 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // step: 'email' ou 'otp'
+  const [step, setStep] = useState('email'); 
+  const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
 
   if (user) {
@@ -27,14 +29,44 @@ export default function MerchantGate() {
     );
   }
 
-  const handleAuth = async (e) => {
+  // ENVOYER LE CODE OTP
+  const handleSendOTP = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = isLogin 
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        // Empêche la création automatique si tu veux que seuls les inscrits se connectent
+        shouldCreateUser: !isLogin, 
+      },
+    });
 
-    if (error) alert(error.message);
+    if (error) {
+      alert(error.message);
+    } else {
+      setStep('otp');
+      alert(t('otpSent') || "Un code de vérification a été envoyé par email.");
+    }
+    setLoading(false);
+  };
+
+  // VÉRIFIER LE CODE OTP
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token: otp,
+      type: 'magiclink',
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      // Le user sera automatiquement mis à jour via AuthContext
+    }
     setLoading(false);
   };
 
@@ -46,71 +78,77 @@ export default function MerchantGate() {
             {isLogin ? (t('login') || 'Connexion') : (t('signup') || 'Inscription')}
           </h2>
           <p className="text-muted-foreground text-xs mt-2 font-bold uppercase tracking-tighter">
-            {t('merchantLogin') || 'Merchant Access'} 
+            {step === 'email' ? (t('merchantLogin') || 'Merchant Access') : (t('verifyEmail') || 'Vérification')}
           </p>
         </div>
         
-        <form onSubmit={handleAuth} className="space-y-4">
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
-              Email
-            </label>
-            <input 
-              type="email" 
-              placeholder="Email" 
-              value={email}
-              required
-              className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          
-          <div className="space-y-1">
-            <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
-              {t('password') || 'Mot de passe'}
-            </label>
-            <input 
-              type="password" 
-              placeholder="••••••••" 
-              value={password}
-              required
-              className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          {/* SECTION MOT DE PASSE OUBLIÉ */}
-          {isLogin && (
-            <div className="text-right px-2">
-              <Link 
-                to="/forgot-password" 
-                className="text-[10px] font-black uppercase opacity-50 hover:text-citrus hover:opacity-100 transition-all italic"
-              >
-                {t('forgotPasswordTitle') || 'Mot de passe oublié ?'}
-              </Link>
+        {step === 'email' ? (
+          <form onSubmit={handleSendOTP} className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
+                Email
+              </label>
+              <input 
+                type="email" 
+                placeholder="Email" 
+                value={email}
+                required
+                className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-          )}
 
+            <button 
+              disabled={loading}
+              className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-[0.98] transition-all mt-4 disabled:opacity-50"
+            >
+              {loading ? (t('loading') || 'Envoi...') : (t('sendCode') || 'Recevoir mon code')}
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyOTP} className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
+                {t('enterCode') || 'Code reçu par mail'}
+              </label>
+              <input 
+                type="text" 
+                placeholder="123456" 
+                value={otp}
+                required
+                className="w-full bg-muted border border-border p-4 rounded-2xl text-center text-2xl font-black tracking-[1em] focus:border-citrus/50 outline-none transition-all text-foreground"
+                onChange={(e) => setOtp(e.target.value)}
+              />
+            </div>
+
+            <button 
+              disabled={loading}
+              className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-[0.98] transition-all mt-4 disabled:opacity-50"
+            >
+              {loading ? (t('loading') || 'Vérification...') : (t('verify') || 'Vérifier')}
+            </button>
+            
+            <button 
+              type="button"
+              onClick={() => setStep('email')}
+              className="w-full text-[10px] font-black uppercase opacity-50 hover:text-citrus transition-all italic"
+            >
+              {t('changeEmail') || "Modifier l'email"}
+            </button>
+          </form>
+        )}
+
+        {step === 'email' && (
           <button 
-            disabled={loading}
-            className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-[0.98] transition-all mt-4 disabled:opacity-50"
+            onClick={() => setIsLogin(!isLogin)}
+            className="w-full mt-8 text-[11px] text-muted-foreground hover:text-citrus font-black uppercase tracking-wider transition-colors italic"
           >
-            {loading 
-              ? (t('loading') || 'Chargement...') 
-              : (isLogin ? (t('dashboard') || 'Entrer') : (t('getStarted') || 'Créer'))
+            {isLogin 
+              ? (t('noAccount') || "Pas encore inscrit !") 
+              : (t('hasAccount') || "Déjà inscrit !")
             }
           </button>
-        </form>
-
-        <button 
-          onClick={() => setIsLogin(!isLogin)}
-          className="w-full mt-8 text-[11px] text-muted-foreground hover:text-citrus font-black uppercase tracking-wider transition-colors italic"
-        >
-          {isLogin 
-            ? (t('noAccount') || "Nouveau ici ? Créer un compte") 
-            : (t('hasAccount') || "Déjà inscrit ? Se connecter")
-          }
-        </button>
+        )}
       </div>
     </div>
   );
