@@ -58,7 +58,7 @@ export default function Landing() {
     },
     {
       title: 'planYearly',
-      price: "10000",
+      price: "9900",
       subtext: 'twoMonthsFree',
       description: 'descYearly',
       highlight: false
