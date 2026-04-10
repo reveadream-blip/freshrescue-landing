@@ -755,49 +755,55 @@ const translations = {
 };
 
 export function useTranslation() {
-  const lang = typeof window !== 'undefined' 
-    ? localStorage.getItem('freshrescue_lang') || 'en' 
-    : 'en';
+  // On récupère la langue de manière réactive
+  const lang = (typeof window !== 'undefined' 
+    ? localStorage.getItem('freshrescue_lang') 
+    : 'en') || 'en';
   
   const t = (key) => {
     return translations[lang]?.[key] || translations.en[key] || key;
   };
 
   /**
-   * Fonction pour traduire les données provenant de la DB (titre, description, bag_notice)
-   * field : 'title', 'description' ou 'bag_notice'
+   * Fonction pour traduire les données provenant de la DB
    */
   const dt = (offer, field) => {
     if (!offer) return "";
 
-    // 1. Si la langue est le français, on utilise le champ racine (ex: offer.title)
-    if (lang === 'fr') {
-      return offer[field] || "";
-    }
+    const availableLangs = ['fr', 'en', 'th', 'ru'];
 
-    // 2. Pour les autres langues, on cherche le champ suffixé (ex: offer.title_en)
+    // 1. PRIORITÉ ABSOLUE : Chercher la colonne de la langue active (ex: title_fr)
+    // C'est ici que "pain traditionnel" doit être récupéré
     const localizedValue = offer[`${field}_${lang}`];
+    
     if (localizedValue && localizedValue.trim() !== "") {
       return localizedValue;
     }
 
-    // 3. Repli (Fallback) : Si la traduction demandée n'existe pas, 
-    // on essaie l'anglais, puis on finit par le champ racine (français)
-    return offer[`${field}_en`] || offer[field] || "";
+    // 2. REPLI : Si on ne trouve rien dans la langue choisie, 
+    // on regarde si le champ racine (ex: offer.title) contient quelque chose
+    if (offer[field] && typeof offer[field] === 'string' && offer[field].trim() !== "") {
+      return offer[field];
+    }
+
+    // 3. ULTIME RECOURS : On cherche n'importe quelle langue qui a du texte
+    for (const l of availableLangs) {
+      const fallbackValue = offer[`${field}_${l}`];
+      if (fallbackValue && fallbackValue.trim() !== "") {
+        return fallbackValue;
+      }
+    }
+
+    return "";
   };
 
   const setLanguage = (newLang) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('freshrescue_lang', newLang);
+      // Le reload est brutal mais efficace pour forcer la mise à jour de 'lang'
       window.location.reload(); 
     }
   };
 
   return { t, dt, lang, setLanguage };
-}
-
-export function getCurrentLang() {
-  return typeof window !== 'undefined' 
-    ? localStorage.getItem('freshrescue_lang') || 'en' 
-    : 'en';
 }

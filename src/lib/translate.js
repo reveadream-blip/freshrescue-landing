@@ -6,9 +6,9 @@ export async function translateText(text, targetLang) {
     // encodeURIComponent est plus robuste pour les caractères spéciaux
     const encodedText = encodeURIComponent(text);
     
-    // On force sl=fr (source français) pour garantir que Google traite bien la demande vers l'anglais
+    
     const res = await fetch(
-      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=fr&tl=${targetLang}&dt=t&q=${encodedText}`
+      `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodedText}`
     );
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);

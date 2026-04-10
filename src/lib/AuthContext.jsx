@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
       // Gestion du lien de récupération de mot de passe
       if (event === 'PASSWORD_RECOVERY') {
         // Redirection vers ta page de nouveau mot de passe
-        window.location.href = '/reset-password';
+        window.location.href = '/update-password';
       }
     });
 

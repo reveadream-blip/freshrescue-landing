@@ -11,7 +11,7 @@ async function translateText(text, targetLang) {
   if (!text || text.trim() === "") return "";
   try {
     const encodedText = encodeURIComponent(text);
-    // sl=auto est crucial pour détecter la langue que TU tapes (Thaï ou Français)
+    // sl=auto est crucial pour détecter la langue que TU tapes (Thaï, Russe ou Français)
     const res = await fetch(
       `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodedText}`
     );
@@ -137,44 +137,48 @@ export default function MerchantPost() {
         }
       }
 
-      // --- LOGIQUE DE TRADUCTION SÉCURISÉE ---
-      // 1. On ne demande JAMAIS de traduire vers le français ici, 
-      //    sinon Google risque de remplacer ton Thaï par du Français.
-      const [titleEn, titleTh, titleRu] = await Promise.all([
+      // --- LOGIQUE DE TRADUCTION AMÉLIORÉE ---
+      // On traduit vers les 4 langues pour remplir toutes les colonnes de la DB
+      const [titleFr, titleEn, titleTh, titleRu] = await Promise.all([
+        translateText(form.title, 'fr'),
         translateText(form.title, 'en'),
         translateText(form.title, 'th'),
         translateText(form.title, 'ru')
       ]);
       
-      let descEn = "", descTh = "", descRu = "";
+      let descFr = "", descEn = "", descTh = "", descRu = "";
       if (form.description && form.description.trim() !== "") {
-        [descEn, descTh, descRu] = await Promise.all([
+        [descFr, descEn, descTh, descRu] = await Promise.all([
+          translateText(form.description, 'fr'),
           translateText(form.description, 'en'),
           translateText(form.description, 'th'),
           translateText(form.description, 'ru')
         ]);
       }
 
-      const consModeFr = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
-      const [consModeEn, consModeTh, consModeRu] = await Promise.all([
-        translateText(consModeFr, 'en'),
-        translateText(consModeFr, 'th'),
-        translateText(consModeFr, 'ru')
+      const consModeBase = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
+      const [consModeFr, consModeEn, consModeTh, consModeRu] = await Promise.all([
+        translateText(consModeBase, 'fr'),
+        translateText(consModeBase, 'en'),
+        translateText(consModeBase, 'th'),
+        translateText(consModeBase, 'ru')
       ]);
 
-      const bagNoticeFr = form.needs_cool_bag ? "Congelable" : "";
-      const [bagNoticeEn, bagNoticeTh, bagNoticeRu] = await Promise.all([
-        translateText(bagNoticeFr, 'en'),
-        translateText(bagNoticeFr, 'th'),
-        translateText(bagNoticeFr, 'ru')
+      const bagNoticeBase = form.needs_cool_bag ? "Congelable" : "";
+      const [bagNoticeFr, bagNoticeEn, bagNoticeTh, bagNoticeRu] = await Promise.all([
+        translateText(bagNoticeBase, 'fr'),
+        translateText(bagNoticeBase, 'en'),
+        translateText(bagNoticeBase, 'th'),
+        translateText(bagNoticeBase, 'ru')
       ]);
 
       const submissionData = {
         user_id: activeUser.id,
-        // IMPORTANT : On enregistre ton texte ORIGINAL (Thaï ou Français) 
-        // dans les colonnes de base.
         title: form.title, 
         description: form.description,
+        // On remplit explicitement les colonnes de langues
+        title_fr: titleFr,
+        description_fr: descFr,
         title_en: titleEn,
         description_en: descEn,
         title_th: titleTh,
@@ -314,16 +318,16 @@ export default function MerchantPost() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-               <div>
-                 <label className={labelClass}>{t('pickupBefore') || "Récupération avant :"}</label>
-                 <input required type="datetime-local" className={inputClass} value={form.collect_before} onChange={e => set('collect_before', e.target.value)} />
-               </div>
-               <div>
-                 <label className={labelClass}>{t('categoryLabel') || "Catégorie :"}</label>
-                 <select className={inputClass + " font-bold text-xs uppercase"} value={form.category} onChange={e => set('category', e.target.value)}>
-                   {CATEGORIES.map(c => <option key={c} value={c}>{t(c).toUpperCase()}</option>)}
-                 </select>
-               </div>
+                <div>
+                  <label className={labelClass}>{t('pickupBefore') || "Récupération avant :"}</label>
+                  <input required type="datetime-local" className={inputClass} value={form.collect_before} onChange={e => set('collect_before', e.target.value)} />
+                </div>
+                <div>
+                  <label className={labelClass}>{t('categoryLabel') || "Catégorie :"}</label>
+                  <select className={inputClass + " font-bold text-xs uppercase"} value={form.category} onChange={e => set('category', e.target.value)}>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{t(c).toUpperCase()}</option>)}
+                  </select>
+                </div>
             </div>
 
             <div className="pt-2">
@@ -345,7 +349,7 @@ export default function MerchantPost() {
             <div className="flex items-center justify-between p-4 bg-muted rounded-2xl border border-border">
               <div className="flex items-center gap-3">
                 <Snowflake className={`w-5 h-5 ${form.needs_cool_bag ? 'text-blue-400' : 'opacity-20'}`} />
-                <span className="text-[10px] font-black uppercase tracking-widest">{t('refreezable')}</span>
+                <span className="text-[10px] font-black uppercase tracking-widest">{t('freezable')}</span>
               </div>
               <input type="checkbox" className="w-6 h-6 accent-citrus" checked={form.needs_cool_bag} onChange={e => set('needs_cool_bag', e.target.checked)} />
             </div>
