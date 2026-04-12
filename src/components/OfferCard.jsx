@@ -12,7 +12,7 @@ export default function OfferCard({ offer }) {
     : null;
 
   const title = dt(offer, 'title');
-const description = dt(offer, 'description');
+  const description = dt(offer, 'description');
   
   // LOGIQUE DE TRADUCTION MANUELLE POUR LE MODE DE CONSO
   let consumptionMode = dt(offer, 'consumption_mode');
@@ -25,22 +25,32 @@ const description = dt(offer, 'description');
     if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "На месте";
     else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "С собой";
     else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Оба варианта";
+  } else if (lang === 'it') {
+    if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "Sul posto";
+    else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "Da asporto";
+    else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Entrambi";
   }
 
-    // On récupère d'abord la valeur brute de la DB pour checker
-  const rawNotice = offer[`bag_notice_${lang}`] || offer.bag_notice_fr;
-  let bagNotice = dt(offer, 'bag_notice') || rawNotice;
+  // RÉCUPÉRATION DE LA NOTICE SAC / CONGÉLATION (CORRIGÉE)
+  let bagNotice = dt(offer, 'bag_notice');
   
-  // SÉCURITÉ CRITIQUE : Si needs_cool_bag est vrai, on NE PEUT PAS avoir un texte vide
   if (offer.needs_cool_bag) {
-    if (!bagNotice || bagNotice.toString().trim() === "" || bagNotice === "undefined") {
+    // Si vide, ou si c'est le mot anglais "freezable" provenant de la DB, on force les traductions i18n
+    if (!bagNotice || 
+        bagNotice.toString().trim() === "" || 
+        bagNotice === "undefined" || 
+        bagNotice.toLowerCase() === "freezable") {
+      
       const defaults = {
         fr: "Congelable",
         ru: "замораживаемый",
         en: "Freezable",
-        th: "แช่แข็งได้"
+        th: "แช่แข็งได้",
+        it: "Congelabile"
       };
-      bagNotice = defaults[lang] || defaults.en;
+      
+      // On utilise la traduction du dictionnaire t() en priorité si elle existe, sinon les defaults
+      bagNotice = t('freezable') !== 'freezable' ? t('freezable') : (defaults[lang] || defaults.en);
     }
   }
 
@@ -48,16 +58,18 @@ const description = dt(offer, 'description');
     e.stopPropagation();
     const address = offer.shop_address;
     if (address) {
-      // Correction syntaxe URL
       const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
       window.open(url, '_blank');
     } else {
-      alert(lang === 'ru' ? "Адрес не указан." : "Adresse non renseignée.");
+      const errorMsgs = {
+        fr: "Adresse non renseignée.",
+        ru: "Адрес не указан.",
+        it: "Indirizzo non disponible.",
+        en: "Address not provided."
+      };
+      alert(errorMsgs[lang] || errorMsgs.en);
     }
   };
-
-  // Debug pour voir ce qui bloque dans la console
-  console.log(`Offre: ${offer.title} | needs_cool_bag: ${offer.needs_cool_bag} | bagNotice: ${bagNotice}`);
 
   return (
     <div
@@ -118,7 +130,6 @@ const description = dt(offer, 'description');
               </div>
             )}
             
-            {/* AFFICHAGE DU FLOCON - Forcé si le booléen est vrai */}
             {offer.needs_cool_bag === true && (
               <div className="flex items-center gap-1 text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-lg border border-blue-400/20">
                 <Snowflake className="w-2.5 h-2.5" />
@@ -136,23 +147,23 @@ const description = dt(offer, 'description');
         </div>
 
         {offer.expiry_date && (
-  <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/80 bg-muted/40 p-2 rounded-xl self-start border border-border/20">
-    <Calendar className="w-3.5 h-3.5 text-citrus/60" />
-    <span className="leading-none">
-      {/* On utilise font-bold au lieu de font-black pour la netteté */}
-      <span className="font-bold uppercase tracking-wider text-foreground mr-1">
-        {t('expiryLabel') || "Consume before"}:
-      </span>
-      <span className="font-medium">
-        {new Date(offer.expiry_date).toLocaleDateString(
-          lang === 'ru' ? 'ru-RU' : 
-          lang === 'th' ? 'th-TH' : 
-          'fr-FR'
+          <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/80 bg-muted/40 p-2 rounded-xl self-start border border-border/20">
+            <Calendar className="w-3.5 h-3.5 text-citrus/60" />
+            <span className="leading-none">
+              <span className="font-bold uppercase tracking-wider text-foreground mr-1">
+                {t('expiryLabel') || "Consume before"}:
+              </span>
+              <span className="font-medium">
+                {new Date(offer.expiry_date).toLocaleDateString(
+                  lang === 'ru' ? 'ru-RU' : 
+                  lang === 'th' ? 'th-TH' : 
+                  lang === 'it' ? 'it-IT' :
+                  'fr-FR'
+                )}
+              </span>
+            </span>
+          </div>
         )}
-      </span>
-    </span>
-  </div>
-)}
 
         <div className="pt-3 border-t border-border/40 flex flex-col space-y-1">
           <div className="flex items-center justify-between">
@@ -171,7 +182,7 @@ const description = dt(offer, 'description');
               </div>
             </div>
             <div className="flex flex-col items-end">
-                <CountdownTimer deadline={offer.collect_before || offer.collect_deadline} />
+              <CountdownTimer deadline={offer.collect_before || offer.collect_deadline} />
             </div>
           </div>
         </div>

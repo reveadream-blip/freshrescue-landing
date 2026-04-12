@@ -10,7 +10,7 @@ export default function MerchantGate() {
   const { t } = useTranslation(); 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
-  // step: 'email' ou 'otp'
+  const [password, setPassword] = useState(''); // Pour l'inscription
   const [step, setStep] = useState('email'); 
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,45 +29,51 @@ export default function MerchantGate() {
     );
   }
 
-  // ENVOYER LE CODE OTP
-  const handleSendOTP = async (e) => {
+  // GESTION CONNEXION (OTP) OU INSCRIPTION (PASSWORD)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        // Empêche la création automatique si tu veux que seuls les inscrits se connectent
-        shouldCreateUser: !isLogin, 
-      },
-    });
 
-    if (error) {
-      alert(error.message);
+    if (isLogin) {
+      // MODE CONNEXION : On envoie le code OTP
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: false }, // Ne crée pas de compte ici
+      });
+      if (error) alert(error.message);
+      else {
+        setStep('otp');
+        alert(t('otpSent') || "Un code de vérification a été envoyé.");
+      }
     } else {
-      setStep('otp');
-      alert(t('otpSent') || "Un code de vérification a été envoyé par email.");
+      // MODE INSCRIPTION : Création avec mot de passe
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) alert(error.message);
+      else alert("Inscription réussie ! Vérifiez vos emails.");
     }
     setLoading(false);
   };
 
-  // VÉRIFIER LE CODE OTP
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
     const { error } = await supabase.auth.verifyOtp({
       email,
       token: otp,
       type: 'magiclink',
     });
-
-    if (error) {
-      alert(error.message);
-    } else {
-      // Le user sera automatiquement mis à jour via AuthContext
-    }
+    if (error) alert(error.message);
     setLoading(false);
+  };
+
+  const handleResetPassword = async () => {
+    if (!email) return alert("Veuillez saisir votre email.");
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) alert(error.message);
+    else alert("Lien de réinitialisation envoyé !");
   };
 
   return (
@@ -75,22 +81,21 @@ export default function MerchantGate() {
       <div className="w-full max-w-md bg-card border border-border p-8 rounded-[2.5rem] shadow-2xl">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-black uppercase italic leading-none text-foreground">
-            {isLogin ? (t('login') || 'Connexion') : (t('signup') || 'Inscription')}
+            {isLogin ? t('login') : t('signup')}
           </h2>
-          <p className="text-muted-foreground text-xs mt-2 font-bold uppercase tracking-tighter">
-            {step === 'email' ? (t('merchantLogin') || 'Merchant Access') : (t('verifyEmail') || 'Vérification')}
+          <p className="text-muted-foreground text-[10px] mt-2 font-bold uppercase tracking-tighter">
+            {step === 'email' ? t('merchantLogin') : t('verifyEmail')}
           </p>
         </div>
         
         {step === 'email' ? (
-          <form onSubmit={handleSendOTP} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
                 Email
               </label>
               <input 
                 type="email" 
-                placeholder="Email" 
                 value={email}
                 required
                 className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
@@ -98,18 +103,44 @@ export default function MerchantGate() {
               />
             </div>
 
+            {!isLogin && (
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
+                  {t('password')}
+                </label>
+                <input 
+                  type="password" 
+                  value={password}
+                  required
+                  className="w-full bg-muted border border-border p-4 rounded-2xl focus:border-citrus/50 outline-none transition-all text-foreground"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            )}
+
+            {/* MOT DE PASSE OUBLIÉ (S'affiche seulement en mode inscription/password) */}
+            {!isLogin && (
+              <button 
+                type="button"
+                onClick={handleResetPassword}
+                className="text-[9px] font-black uppercase italic text-muted-foreground hover:text-citrus transition-all ml-4"
+              >
+                {t('forgotPassword') || "Mot de passe oublié ?"}
+              </button>
+            )}
+
             <button 
               disabled={loading}
               className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-[0.98] transition-all mt-4 disabled:opacity-50"
             >
-              {loading ? (t('loading') || 'Envoi...') : (t('sendCode') || 'Recevoir mon code')}
+              {loading ? t('loading') : (isLogin ? t('sendCode') : t('signup'))}
             </button>
           </form>
         ) : (
           <form onSubmit={handleVerifyOTP} className="space-y-4">
             <div className="space-y-1">
               <label className="text-[10px] font-bold uppercase ml-4 text-muted-foreground italic">
-                {t('enterCode') || 'Code reçu par mail'}
+                {t('enterCode')}
               </label>
               <input 
                 type="text" 
@@ -125,7 +156,7 @@ export default function MerchantGate() {
               disabled={loading}
               className="w-full bg-citrus text-earth py-5 rounded-2xl font-black uppercase italic shadow-lg shadow-citrus/10 hover:brightness-110 active:scale-[0.98] transition-all mt-4 disabled:opacity-50"
             >
-              {loading ? (t('loading') || 'Vérification...') : (t('verify') || 'Vérifier')}
+              {loading ? t('loading') : t('verify')}
             </button>
             
             <button 
@@ -133,7 +164,7 @@ export default function MerchantGate() {
               onClick={() => setStep('email')}
               className="w-full text-[10px] font-black uppercase opacity-50 hover:text-citrus transition-all italic"
             >
-              {t('changeEmail') || "Modifier l'email"}
+              {t('changeEmail')}
             </button>
           </form>
         )}
@@ -143,10 +174,7 @@ export default function MerchantGate() {
             onClick={() => setIsLogin(!isLogin)}
             className="w-full mt-8 text-[11px] text-muted-foreground hover:text-citrus font-black uppercase tracking-wider transition-colors italic"
           >
-            {isLogin 
-              ? (t('noAccount') || "Pas encore inscrit !") 
-              : (t('hasAccount') || "Déjà inscrit !")
-            }
+            {isLogin ? t('noAccount') : t('hasAccount')}
           </button>
         )}
       </div>

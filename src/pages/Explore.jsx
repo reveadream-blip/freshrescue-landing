@@ -109,12 +109,11 @@ export default function Explore() {
         
         {/* Message d'erreur de localisation */}
         {locationError && (
-  <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
-    <MapPin className="w-4 h-4" />
-    {/* MODIFICATION ICI : Utilisation de la clé de traduction */}
-    {t('geoError')}
-  </div>
-)}
+          <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center gap-3 animate-pulse font-bold italic uppercase">
+            <MapPin className="w-4 h-4" />
+            {t('geoError')}
+          </div>
+        )}
 
         {/* Header avec Titre et Sélecteur de vue */}
         <div className="mb-10 flex justify-between items-end flex-wrap gap-4">
@@ -181,7 +180,7 @@ export default function Explore() {
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="w-10 h-10 text-citrus animate-spin mb-4" />
             <p className="text-muted-foreground font-black italic uppercase text-xs tracking-widest">
-                {lang === 'ru' ? 'Поиск свежих продуктов...' : 'Chargement des offres...'}
+                {t('loadingOffers')}
             </p>
           </div>
         ) : viewMode === 'map' ? (

@@ -34,6 +34,20 @@ const content = {
     ],
     customerText: "Scan to see offers and pay directly at the shop."
   },
+  it: {
+    merchantTitle: "Area Commerciante",
+    customerTitle: "Area Cliente",
+    merchantDesc: "Segui questi passaggi per pubblicare un'offerta.",
+    scanAction: "Scansiona il QR Code per iniziare",
+    promoAdvice: "Non dimenticare di esporre questo poster nel tuo negozio! Parlane ai tuoi clienti affinché approfittino delle tue promozioni!",
+    steps: [
+      { t: "Accesso", d: "Inserisci la tua email e la password.", icon: "🔑" },
+      { t: "Configurazione", d: "Nel pannello di controllo, vai su 'Impostazioni negozio'.", icon: "⚙️" },
+      { t: "Creazione", d: "Clicca su 'Pubblica un'offerta'. Scatta una foto o caricala.", icon: "📸" },
+      { t: "Validazione", d: "Compila i campi necessari e clicca su 'Pubblica'.", icon: "✅" }
+    ],
+    customerText: "Scansiona per vedere le offerte e paga direttamente in negozio."
+  },
   th: {
     merchantTitle: "สำหรับร้านค้า",
     customerTitle: "สำหรับลูกค้า",

@@ -166,7 +166,6 @@ export default function MerchantPost() {
     try {
       let photoUrl = form.photo || '';
       if (photoFile) {
-        // --- VÉRIFICATION SÉCURITÉ IMAGE ---
         const isSafe = await checkImageSafety(photoFile);
         if (!isSafe) {
           setLoading(false);
@@ -195,37 +194,44 @@ export default function MerchantPost() {
         }
       }
 
-      const [titleFr, titleEn, titleTh, titleRu] = await Promise.all([
+      // --- TRADUCTIONS DES TEXTES (AJOUT IT) ---
+      const [titleFr, titleEn, titleTh, titleRu, titleIt] = await Promise.all([
         translateText(form.title, 'fr'),
         translateText(form.title, 'en'),
         translateText(form.title, 'th'),
-        translateText(form.title, 'ru')
+        translateText(form.title, 'ru'),
+        translateText(form.title, 'it')
       ]);
       
-      let descFr = "", descEn = "", descTh = "", descRu = "";
+      let descFr = "", descEn = "", descTh = "", descRu = "", descIt = "";
       if (form.description && form.description.trim() !== "") {
-        [descFr, descEn, descTh, descRu] = await Promise.all([
+        [descFr, descEn, descTh, descRu, descIt] = await Promise.all([
           translateText(form.description, 'fr'),
           translateText(form.description, 'en'),
           translateText(form.description, 'th'),
-          translateText(form.description, 'ru')
+          translateText(form.description, 'ru'),
+          translateText(form.description, 'it')
         ]);
       }
 
+      // --- TRADUCTIONS DES MODES DE CONSO (AJOUT IT) ---
       const consModeBase = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
-      const [consModeFr, consModeEn, consModeTh, consModeRu] = await Promise.all([
+      const [consModeFr, consModeEn, consModeTh, consModeRu, consModeIt] = await Promise.all([
         translateText(consModeBase, 'fr'),
         translateText(consModeBase, 'en'),
         translateText(consModeBase, 'th'),
-        translateText(consModeBase, 'ru')
+        translateText(consModeBase, 'ru'),
+        translateText(consModeBase, 'it')
       ]);
 
+      // --- TRADUCTIONS DES NOTICES (AJOUT IT) ---
       const bagNoticeBase = form.needs_cool_bag ? "Congelable" : "";
-      const [bagNoticeFr, bagNoticeEn, bagNoticeTh, bagNoticeRu] = await Promise.all([
+      const [bagNoticeFr, bagNoticeEn, bagNoticeTh, bagNoticeRu, bagNoticeIt] = await Promise.all([
         translateText(bagNoticeBase, 'fr'),
         translateText(bagNoticeBase, 'en'),
         translateText(bagNoticeBase, 'th'),
-        translateText(bagNoticeBase, 'ru')
+        translateText(bagNoticeBase, 'ru'),
+        translateText(bagNoticeBase, 'it')
       ]);
 
       const submissionData = {
@@ -240,6 +246,8 @@ export default function MerchantPost() {
         description_th: descTh,
         title_ru: titleRu,
         description_ru: descRu,
+        title_it: titleIt, // Nouveau champ
+        description_it: descIt, // Nouveau champ
         original_price: form.original_price ? Number(form.original_price) : null,
         discount_price: Number(form.discount_price),
         collect_before: new Date(form.collect_before).toISOString(),
@@ -253,11 +261,13 @@ export default function MerchantPost() {
         consumption_mode_en: consModeEn,
         consumption_mode_th: consModeTh,
         consumption_mode_ru: consModeRu,
+        consumption_mode_it: consModeIt, // Nouveau champ
         needs_cool_bag: form.needs_cool_bag,
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
         bag_notice_th: bagNoticeTh,
         bag_notice_ru: bagNoticeRu,
+        bag_notice_it: bagNoticeIt, // Nouveau champ
         lat: form.lat,
         lng: form.lng
       };

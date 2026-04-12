@@ -1,4 +1,211 @@
 const translations = {
+ it: {
+    // Landing
+    heroTitle: "Smetti di sprecare. Inizia a risparmiare.",
+    heroSubtitle: "Cibo fresco a prezzi imbattibili dai negozi locali vicino a te. I commercianti trasformano l'eccedenza in vendite. I consumatori ottengono qualità a meno.",
+    exploreCta: "Esplora le offerte vicino a te",
+    merchantCta: "Sono un commerciante",
+    oneHundredFree: "100% GRATUITO",
+    // Nav
+    geoError: "Per favore, abilita la geolocalizzazione!",
+    home: "Home",
+    explore: "Esplora",
+    merchantLogin: "Portale Commercianti",
+    logout: "Esci",
+    // How it works
+    howItWorks: "Come funziona",
+    step1Title: "Il commerciante pubblica",
+    step1Desc: "Scatta una foto del cibo in eccesso, imposta un prezzo flash e scegli un orario limite per il ritiro.",
+    step2Title: "I clienti visualizzano",
+    step2Desc: "Le offerte vengono visualizzate entro un raggio di 10 km da te.",
+    step3Title: "Ritira e gusta",
+    step3Desc: "I clienti ritirano cibo fresco scontato prima dell'orario limite. Zero sprechi.",
+    // Value
+    forMerchants: "Per i Commercianti",
+    forCustomers: "Per i Clienti",
+    merchantBenefit1: "Trasforma l'eccedenza in entrate",
+    merchantBenefit2: "Attira nuovi clienti locali",
+    merchantBenefit3: "Zero commissioni sulle vendite",
+    merchantBenefit4: "Controllo totale — disattiva quando vuoi",
+    customerBenefit1: "Nessuna registrazione richiesta",
+    customerBenefit2: "Cibo fresco fino al 70% di sconto",
+    customerBenefit3: "Scopri i negozi locali nelle vicinanze",
+    customerBenefit4: "Aiuta a ridurre lo spreco alimentare",
+
+    // Subscription
+    forgotPassword: "Password dimenticata?",
+    noAccount: "Non ancora registrato!",
+    hasAccount: "Già registrato!",
+    otpSent: "Un codice di verifica è stato inviato alla tua email",
+    verifyEmail: "Verifica",
+    enterCode: "Codice ricevuto via email",
+    sendCode: "Ricevi il mio codice",
+    verify: "Verifica",
+    changeEmail: "Cambia email",
+    inappropriateContentError: "Contenuto inappropriato rilevato. Per favore, modifica il testo",
+    trialInProgress: "Periodo di prova",
+    trialEnded: "Prova terminata",
+    trialDesc: "Approfitta di questa offerta per aumentare la tua visibilità in Thailandia.",
+    trialExpiredDesc: "La tua visibilità è sospesa. Scegli un piano per riprenderla.",
+    planRecurring: "Mensile Automatico",
+    planMonthly: "1 Mese Singolo",
+    planYearly: "12 Mesi 💎",
+    descRecurring: "Fatturazione automatica tramite carta di credito",
+    month: "MESE",
+    year: "ANNO",
+    descMonthly: "Pagamento unico, senza impegno",
+    descYearly: "Risparmia di più con il piano annuale. Pagamento unico.",
+    promo: "Saldi",
+    choose: "Scegli",
+    subscribe: "Abbonati",
+    takeYear: "Ottieni il Piano Annuale",
+    planSingleMonth: "FreshRescue Pass 1 Mese",
+    planSubscription: "Abbonamento Mensile FreshRescue Pass",
+    planYearly: "FreshRescue Pass 1 Anno",
+    oneMonth: "mese",
+    perMonth: "/mese",
+    twoMonthsFree: "2 mesi gratis",
+    descSingle: "Ideale per testare l'impatto sulle tue vendite.",
+    descSubscription: "Flessibilità totale per il tuo stabilimento.",
+    descYearly: "Impegno a lungo termine per il massimo risparmio.",
+    featureUnlimited: "Offerte illimitate",
+    featureGeo: "Geolocalizzazione delle offerte a 10km",
+    featureStock: "Controllo delle scorte in tempo reale",
+    featureZeroComm: "Zero commissioni",
+    featureSupport: "4 lingue",
+    trialDays: "GIORNI DI PROVA RIMASTI",
+    trialDesc: "La tua visibilità è attualmente gratuita.",
+    becomePremium: "DIVENTA PREMIUM",
+    premiumActive: "Abbonamento Premium Attivo 🌴",
+    trialEnded: "Prova gratuita terminata",
+    trialEndedDesc: "Il tuo negozio non è più visibile sulla mappa.",
+    activateAccess: "Attiva il mio accesso",
+    trialStatus: "La tua visibilità è attualmente gratuita.",
+    getStarted: "Inizia",
+    login: "Accedi",
+    signup: "Iscriviti",
+    loginRequired: "Per favore, accedi",
+    forgotPasswordTitle: "Dimenticato?",
+    forgotPasswordSubtitle: "Inserisci la tua email per ricevere un link di recupero.",
+    sendLink: "Invia link",
+    emailSent: "L'email di recupero è stata inviata!",
+    checkSpam: "Non dimenticare di controllare la cartella spam!",
+    back: "Indietro",
+    password: "Password",
+    // Explore
+    "pwaInstallTitle": "Installa l'App",
+    "pwaInstallBtn": "INSTALLA",
+    "iosInstallTitle": "Attiva le notifiche su iPhone:",
+    "iosInstallDesc": "Tocca il pulsante Condividi e poi 'Aggiungi alla schermata Home'.",
+    activeOffers: "Offerte Attive",
+    noOffers: "Nessuna offerta disponibile al momento. Torna presto!",
+    collectBefore: "Ritira entro le",
+    away: "di distanza",
+    soldOut: "Esaurito",
+    getDirections: "Ottieni Indicazioni",
+    allCategories: "Tutte",
+    filterByCategory: "Filtra",
+    // Merchant
+    myOffers: "Le Mie Offerte",
+    postOffer: "Pubblica Nuova Offerta",
+    active: "Attiva",
+    inactive: "Inattiva",
+    deactivate: "Disattiva",
+    reactivate: "Riattiva",
+    deleteOffer: "Elimina",
+    confirmDelete: "Eliminare questa offerta?",
+    trialPeriod: "Periodo di Prova",
+    // Post form
+    inappropriateImageError: "Immagine rifiutata: rilevato contenuto inappropriato",
+    inappropriateContentError: "Il tuo post contiene termini non autorizzati (sesso, droghe o insulti).",
+    camera: "FOTOCAMERA",
+    gallery: "GALLERIA",
+    productName: "Nome del Prodotto",
+    productDescription: "Descrizione (opzionale)",
+    productDescPlaceholder: "Descrizione (Ingredienti, allergeni, quantità...)",
+    originalPrice: "Prezzo Originale (THB)",
+    discountPrice: "Prezzo Flash (THB)",
+    flashPrice: "Prezzo Flash (THB)",
+    collectDeadline: "Ritirare Entro le",
+    pickupBefore: "Ritirare Entro:",
+    pickupLocation: "Luogo di Ritiro",
+    category: "Categoria",
+    categoryLabel: "Categoria:",
+    takePhoto: "Carica Foto",
+    publish: "Pubblica Offerta",
+    publishing: "Pubblicazione...",
+    published: "Pubblicata!",
+    updated: "Aggiornata!",
+    edit: "Modifica",
+    post: "Pubblica",
+    backToHome: "Torna alla Home",
+    // Categories & Options
+    bakery: "Panetteria",
+    fruits: "Frutta",
+    vegetables: "Verdura",
+    dairy: "Latticini",
+    meat: "Carne",
+    seafood: "Pesce",
+    prepared: "Cibi Pronti",
+    beverages: "Bevande",
+    main_course: "Piatto Principale",
+    cheese: "Formaggi",
+    bread: "Pane",
+    other: "Altro",
+    consumptionMode: "Modalità di Consumo",
+    takeaway: "Da asporto",
+    onSite: "Sul posto",
+    both: "Entrambi",
+    expiryLabel: "Consumare entro il",
+    expiryDate: "Data di Scadenza (DLC)",
+    freezable: "Congelabile",
+    // Footer
+    footerTagline: "Trasformiamo lo spreco alimentare in opportunità.",
+    footerRights: "Tutti i diritti riservati.",
+    footerTerms: "Termini e Condizioni",
+    termsMainTitle: "TERMINI E CONDIZIONI — FRESHRESCUE",
+    termsLastUpdate: "Ultimo aggiornamento: 5 luglio 2026",
+    termsSection1Title: "1. IL CONCETTO FRESHRESCUE",
+    termsSection1Content: "FreshRescue fornisce una piattaforma di collegamento che consente alle attività commerciali di vendere le proprie eccedenze alimentari a prezzi ridotti. L'uso dell'app facilita la localizzazione delle offerte vicino all'utente.",
+    termsSection2Title: "2. PRENOTAZIONE E RITIRO",
+    termsSection2Sub1Title: "3.1 Processo",
+    termsSection2Sub1Content: "L'Utente visualizza le offerte tramite l'App. Il cliente non ha bisogno di registrarsi o pagare online. FreshRescue non raccoglie alcuna informazione sull'utente.",
+    termsSection2Sub2Title: "3.3 Validazione",
+    termsSection2Sub2Content: "L'Utente deve recarsi il più rapidamente possibile a ritirare l'offerta prima della fine della fascia oraria specificata.",
+    termsSection3Title: "3. RESPONSABILITÀ E SICUREZZA",
+    termsSection3Content: "I negozi sono gli unici responsabili della freschezza e della conformità dei prodotti.",
+    termsSection3AllergiesTitle: "Allergie",
+    termsSection3AllergiesContent: "È responsabilità dell'Utente verificare gli ingredienti direttamente con il Negozio.",
+    termsLegalTitle: "INFORMAZIONI LEGALI",
+    legalPublisher: "Editore",
+    legalHeadquarters: "Sede legale",
+    legalThailand: "Thailandia",
+    legalContact: "Contatto",
+    legalLaw: "Legge applicabile",
+    legalThaiLaw: "Tailandese",
+    // Misc
+    km: "km",
+    off: "di sconto",
+    left: "rimasti",
+    minutes: "min",
+    hours: "ore",
+    expired: "Scaduto",
+    language: "Lingua",
+    dashboard: "Dashboard",
+    shopSettings: "Impostazioni Negozio",
+    noShopYet: "Configura prima il tuo negozio",
+    setupShop: "Configura Negozio",
+    save: "Salva",
+    saving: "Salvataggio...",
+    shopName: "Nome Negozio",
+    shopAddress: "Indirizzo",
+    shopPhone: "Telefono",
+    shopCategory: "Tipo di Negozio",
+    shopPhoto: "Foto Negozio",
+    notificationRadius: "Raggio d'azione",
+    commissionOnSales: "Commissione sulle vendite",
+    averageDiscount: "Sconto medio",
+}, 
   en: {
     // Landing
     heroTitle: "Stop Wasting. Start Saving.",
@@ -33,6 +240,7 @@ const translations = {
     customerBenefit4: "Help reduce food waste",
 
     // Subscription
+    forgotPassword: "Forgot password?",
     noAccount: "Not registered yet !",
     hasAccount: "Already registered !",
     otpSent: "A verification code has been sent to your email",
@@ -157,7 +365,7 @@ const translations = {
     both: "Both",
     expiryLabel: "Consume before",
     expiryDate: "Expiry Date (DLC)",
-    Freezable: "Freezable",
+    freezable: "Freezable",
     // Footer
     footerTagline: "Transforming food waste into opportunity.",
     footerRights: "All rights reserved.",
@@ -240,6 +448,7 @@ const translations = {
     commissionOnSales: "Commission sur ventes",
     averageDiscount: "Réduction moyenne",
     // Subscription
+    forgotPassword: "Mot de passe oublié ?",
     noAccount: "Pas encore inscrit !",
     hasAccount: "Déjà inscrit !",
     otpSent: "Un code de vérification a été envoyé par email",
@@ -365,7 +574,7 @@ const translations = {
     both: "Les deux",
     expiryLabel: "À consommer avant le",
     expiryDate: "Date de péremption (DLC)",
-    Freezable: "Congelable",
+    freezable: "Congelable",
     // Footer
     footerTagline: "Transformer le gaspillage alimentaire en opportunité.",
     footerRights: "Tous droits réservés.",
@@ -445,6 +654,7 @@ const translations = {
     commissionOnSales: "ค่าธรรมเนียมการขาย",
     averageDiscount: "ส่วนลดเฉลี่ย",
     // Subscription
+    forgotPassword: "ลืมรหัสผ่าน?",
     noAccount: "ยังไม่ได้ลงทะเบียน !",
     hasAccount: "ลงทะเบียนแล้ว !",
     otpSent: "รหัสยืนยันถูกส่งไปยังอีเมลของคุณแล้ว",
@@ -570,7 +780,7 @@ const translations = {
     both: "ได้ทั้งสองอย่าง",
     expiryLabel: "ควรบริโภคก่อน",
     expiryDate: "วันหมดอายุ",
-    Freezable: "แช่แข็งได้",
+    freezable: "แช่แข็งได้",
     // Footer
     footerTagline: "เปลี่ยนขยะอาหารเป็นโอกาส",
     footerRights: "สงวนลิขสิทธิ์",
@@ -650,6 +860,7 @@ const translations = {
     commissionOnSales: "Комиссия с продаж",
     averageDiscount: "Средняя скидка",
     // Subscription
+    forgotPassword: "Забыли пароль?",
     noAccount: "Еще не зарегистрированы !",
     hasAccount: "Уже зарегистрированы !",
     otpSent: "Код подтверждения был отправлен на вашу почту",
@@ -775,7 +986,7 @@ const translations = {
     both: "Оба варианта",
     expiryLabel: "Срок годности до",
     expiryDate: "Срок годности (DLC)",
-    Freezable: "замораживаемый",
+    freezable: "замораживаемый",
     // Footer
     footerTagline: "Превращаем пищевые отходы в возможности.",
     footerRights: "Все права защищены.",
@@ -838,37 +1049,43 @@ export function useTranslation() {
   const dt = (offer, field) => {
     if (!offer) return "";
 
-    const availableLangs = ['fr', 'en', 'th', 'ru'];
+    const availableLangs = ['fr', 'en', 'th', 'ru', 'it'];
+    let finalValue = "";
 
-    // 1. PRIORITÉ ABSOLUE : Chercher la colonne de la langue active (ex: title_fr)
-    // C'est ici que "pain traditionnel" doit être récupéré
+    // 1. PRIORITÉ : Chercher la colonne de la langue active (ex: title_it)
     const localizedValue = offer[`${field}_${lang}`];
     
-    if (localizedValue && localizedValue.trim() !== "") {
-      return localizedValue;
+    if (localizedValue && localizedValue.trim() !== "" && localizedValue !== "undefined") {
+      finalValue = localizedValue;
+    } 
+    // 2. REPLI : Champ racine (ex: offer.title)
+    else if (offer[field] && typeof offer[field] === 'string' && offer[field].trim() !== "" && offer[field] !== "undefined") {
+      finalValue = offer[field];
     }
-
-    // 2. REPLI : Si on ne trouve rien dans la langue choisie, 
-    // on regarde si le champ racine (ex: offer.title) contient quelque chose
-    if (offer[field] && typeof offer[field] === 'string' && offer[field].trim() !== "") {
-      return offer[field];
-    }
-
-    // 3. ULTIME RECOURS : On cherche n'importe quelle langue qui a du texte
-    for (const l of availableLangs) {
-      const fallbackValue = offer[`${field}_${l}`];
-      if (fallbackValue && fallbackValue.trim() !== "") {
-        return fallbackValue;
+    // 3. ULTIME RECOURS : On boucle sur toutes les langues disponibles
+    else {
+      for (const l of availableLangs) {
+        const fallbackValue = offer[`${field}_${l}`];
+        if (fallbackValue && fallbackValue.trim() !== "" && fallbackValue !== "undefined") {
+          finalValue = fallbackValue;
+          break;
+        }
       }
     }
 
-    return "";
+    // --- LOGIQUE CRITIQUE POUR "fREEZABLE" ---
+    // Si la valeur trouvée est "freezable", on ignore la DB et on utilise le dictionnaire i18n
+    if (finalValue && finalValue.toLowerCase().trim() === 'freezable') {
+      return t('freezable');
+    }
+
+    return finalValue;
   };
 
   const setLanguage = (newLang) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('freshrescue_lang', newLang);
-      // Le reload est brutal mais efficace pour forcer la mise à jour de 'lang'
+      // Forcer la mise à jour globale
       window.location.reload(); 
     }
   };

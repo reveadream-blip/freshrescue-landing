@@ -9,7 +9,8 @@ export default function LanguageSwitcher() {
     { code: 'fr', label: 'FR' },
     { code: 'th', label: 'TH' },
     { code: 'ru', label: 'RU' },
-  ];
+    { code: 'it', label: 'IT' },
+      ];
 
   return (
     <div className="flex items-center gap-0.5 sm:gap-1 bg-muted/50 backdrop-blur-md rounded-full px-1.5 py-1 border border-border/50">

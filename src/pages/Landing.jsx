@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   CheckCircle, ArrowRight, Zap, MapPin, 
-  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle 
+  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import Navbar from '../components/Navbar';
@@ -13,12 +13,14 @@ const FRUIT_IMG = 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?
 const VEGGIE_IMG = 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?q=80&w=800&auto=format&fit=crop';
 
 export default function Landing() {
-  const { t, lang } = useTranslation();
+  // AJOUT DE setLanguage ICI
+  const { t, lang, setLanguage } = useTranslation();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
 
   const promoText = {
     fr: { free: '1 mois OFFERT', test: 'Essayer !', hundredFree: '100% GRATUIT' },
+    it: { free: '1 mese OFFERTO', test: 'Prova!', hundredFree: '100% GRATUITO' },
     th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !', hundredFree: 'ฟรี 100%' },
     ru: { free: '1 месяц БЕСПЛАТНО', test: 'Попробуй !', hundredFree: '100% БЕСПЛАТНО' },
     en: { free: '1 month FREE', test: 'Test it !', hundredFree: '100% FREE' }
@@ -69,7 +71,7 @@ export default function Landing() {
     <div className="min-h-screen bg-earth text-foreground">
       <Navbar />
 
-      <div className="pt-24 px-6 max-w-5xl mx-auto">
+            <div className="pt-24 px-6 max-w-5xl mx-auto">
         {deferredPrompt && (
           <div className="bg-citrus rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-citrus/20 animate-in fade-in slide-in-from-top-4 duration-500">
             <div className="flex items-center gap-3">
@@ -148,7 +150,6 @@ export default function Landing() {
                   {t('exploreCta')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                {/* 100% FREE TRADUIT */}
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-citrus animate-pulse">
                   {promoText.hundredFree}
                 </span>
@@ -174,7 +175,7 @@ export default function Landing() {
               className="group flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors text-sm font-bold uppercase tracking-wider"
             >
               <HelpCircle className="w-5 h-5 group-hover:animate-bounce" />
-              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'ru' ? 'Как это работает?' : 'How it works?'}
+              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'ru' ? 'Как это работает?' : lang === 'it' ? 'Come funziona?' : 'How it works?'}
             </Link>
           </div>
 
