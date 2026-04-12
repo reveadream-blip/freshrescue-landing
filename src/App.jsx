@@ -1,8 +1,8 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom'; // Ajout de useNavigate
-import { useEffect } from 'react'; // Ajout de useEffect
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -16,32 +16,48 @@ import ForgotPassword from './pages/forgot-password';
 import UpdatePassword from './pages/update-password';
 import Instructions from './pages/Instructions';
 
-const AuthenticatedApp = () => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate(); // Hook pour la redirection forcée
+// --- NOUVEAUX IMPORTS POUR L'ADMIN ---
+import { AdminRoute } from '@/components/AdminRoute';
+import AdminDashboard from './pages/AdminDashboard'; 
+import { ADMIN_EMAILS } from '@/lib/adminConfig'; // Import de ta liste d'emails
 
-  // --- NOUVEAU : GESTION DU LIEN DE RÉCUPÉRATION ---
+const AuthenticatedApp = () => {
+  const { user, isAuthenticated, isLoadingAuth, isLoadingPublicSettings, authError } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // --- LOGIQUE DE REDIRECTION AUTOMATIQUE ---
   useEffect(() => {
-    // Supabase met les infos après le # (hash) dans l'URL
+    // 1. Gestion du lien de récupération de mot de passe
     const hash = window.location.hash;
     if (hash && hash.includes('type=recovery')) {
-      // Si on détecte un jeton de récupération, on envoie vers la page de mise à jour
       navigate('/update-password');
+      return;
     }
-  }, [navigate]);
 
-  // Liste des routes qui ne doivent JAMAIS être bloquées
+    // 2. Redirection automatique de l'admin après connexion
+    if (isAuthenticated && user) {
+      const isAdmin = ADMIN_EMAILS.some(email => email.toLowerCase() === user.email.toLowerCase());
+      
+      // Si c'est l'admin et qu'il est sur une page générique, on l'envoie sur le dashboard
+      const isOnGenericPage = ['/', '/merchant', '/explore'].includes(location.pathname);
+      
+      if (isAdmin && isOnGenericPage) {
+        navigate('/admin');
+      }
+    }
+  }, [isAuthenticated, user, navigate, location.pathname]);
+
+  // Liste des routes publiques
   const isPublicAuthRoute = [
     '/forgot-password', 
     '/update-password', 
     '/merchant', 
     '/', 
     '/explore',
-    '/instructions' // --- AJOUTÉ : Autorise l'accès public à la page d'instructions ---
-  ].includes(location.pathname);
+    '/instructions'
+  ].includes(location.pathname) || location.pathname.startsWith('/admin');
 
-  // 1. Affichage du loader (sauf si route publique)
   if ((isLoadingPublicSettings || isLoadingAuth) && !isPublicAuthRoute) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-earth">
@@ -50,12 +66,10 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // 2. Gestion des erreurs critiques
   if (authError && authError.type === 'user_not_registered' && !isPublicAuthRoute) {
     return <UserNotRegisteredError />;
   }
 
-  // 3. Rendu des routes
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
@@ -64,9 +78,18 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/merchant" element={<MerchantGate />} />
-      {/* --- MODIFIÉ : Route renommée en /instructions pour correspondre au lien de la Landing --- */}
       <Route path="/instructions" element={<Instructions />} /> 
       
+      {/* --- ROUTE ADMIN PROTÉGÉE --- */}
+      <Route 
+        path="/admin/*" 
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } 
+      />
+
       <Route 
         path="/merchant/post" 
         element={!authError ? <MerchantPost /> : <MerchantGate />} 
@@ -88,7 +111,6 @@ const AuthenticatedApp = () => {
 function App() {
   return (
     <QueryClientProvider client={queryClientInstance}>
-      {/* Ajout des Future Flags ici pour supprimer les warnings v7 */}
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AuthenticatedApp />

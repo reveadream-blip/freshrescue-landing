@@ -7,13 +7,16 @@ import MerchantDashboard from './MerchantDashboard';
 
 export default function MerchantGate() {
   const { user, logout } = useAuth();
-  const { t } = useTranslation(); 
+  const { t, lang } = useTranslation(); 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(''); // Pour l'inscription
+  const [password, setPassword] = useState(''); 
   const [step, setStep] = useState('email'); 
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Sécurité supplémentaire pour récupérer la langue
+  const activeLang = lang || localStorage.getItem('language') || 'fr';
 
   if (user) {
     return (
@@ -35,24 +38,30 @@ export default function MerchantGate() {
     setLoading(true);
 
     if (isLogin) {
-      // MODE CONNEXION : On envoie le code OTP
+      // MODE CONNEXION : On envoie le code OTP avec la langue
       const { error } = await supabase.auth.signInWithOtp({
         email,
-        options: { shouldCreateUser: false }, // Ne crée pas de compte ici
+        options: { 
+          shouldCreateUser: false,
+          data: { lang: activeLang } 
+        },
       });
       if (error) alert(error.message);
       else {
         setStep('otp');
-        alert(t('otpSent') || "Un code de vérification a été envoyé.");
+        alert(t('otpSent'));
       }
     } else {
-      // MODE INSCRIPTION : Création avec mot de passe
+      // MODE INSCRIPTION : Création avec mot de passe et langue
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: { lang: activeLang } 
+        }
       });
       if (error) alert(error.message);
-      else alert("Inscription réussie ! Vérifiez vos emails.");
+      else alert(t('signupSuccess') || "Inscription réussie !");
     }
     setLoading(false);
   };
@@ -70,10 +79,26 @@ export default function MerchantGate() {
   };
 
   const handleResetPassword = async () => {
-    if (!email) return alert("Veuillez saisir votre email.");
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-    if (error) alert(error.message);
-    else alert("Lien de réinitialisation envoyé !");
+    if (!email) {
+      alert(t('enterEmail') || "Veuillez saisir votre email.");
+      return;
+    }
+    
+    setLoading(true);
+
+    /**
+     * ASTUCE : On tente de mettre à jour l'utilisateur avec la langue actuelle 
+     * juste avant de lancer le reset. Si l'utilisateur existe, ses meta-data 
+     * seront prêtes pour le template e-mail.
+     */
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/merchant-gate?lang=${activeLang}`,
+    });
+
+    if (resetError) alert(resetError.message);
+    else alert(t('resetSent') || "Lien de réinitialisation envoyé !");
+    
+    setLoading(false);
   };
 
   return (
@@ -118,14 +143,13 @@ export default function MerchantGate() {
               </div>
             )}
 
-            {/* MOT DE PASSE OUBLIÉ (S'affiche seulement en mode inscription/password) */}
-            {!isLogin && (
+            {isLogin && ( // Changement ici : on affiche le bouton reset aussi en mode login si besoin
               <button 
                 type="button"
                 onClick={handleResetPassword}
                 className="text-[9px] font-black uppercase italic text-muted-foreground hover:text-citrus transition-all ml-4"
               >
-                {t('forgotPassword') || "Mot de passe oublié ?"}
+                {t('forgotPassword')}
               </button>
             )}
 

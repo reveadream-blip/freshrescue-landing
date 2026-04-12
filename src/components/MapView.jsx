@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-le
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin, Navigation } from 'lucide-react';
+import { useTranslation } from '../lib/i18n';
 
 // Fix leaflet default icon
 delete L.Icon.Default.prototype._getIconUrl;
@@ -46,13 +47,15 @@ function getDistance(lat1, lon1, lat2, lon2) {
 }
 
 export default function MapView({ offers }) {
+  // On récupère t pour les traductions statiques et dt pour les données
+  const { t, dt } = useTranslation(); 
   const [userPos, setUserPos] = useState(null);
   const [locating, setLocating] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError('Géolocalisation non supportée.');
+      setError(t('geoNotSupported') || 'Géolocalisation non supportée.');
       setLocating(false);
       return;
     }
@@ -62,25 +65,21 @@ export default function MapView({ offers }) {
         setLocating(false);
       },
       () => {
-        setError('Position non accessible.');
+        // Utilisation de t() pour le message d'erreur
+        setError(t('posNotAccessible') || 'Position non accessible.');
         setLocating(false);
       }
     );
-  }, []);
+  }, [t]); // Ajout de t dans les dépendances
 
-  // --- MODIFICATION ICI ---
-  // On ne filtre PLUS par distance. On affiche TOUT ce qui a des coordonnées.
-  const nearbyOffers = offers.filter(o => {
-    return o.lat && o.lng; 
-  });
-
+  const nearbyOffers = offers.filter(o => o.lat && o.lng);
   const defaultCenter = userPos || [7.8804, 98.3923]; 
 
   if (locating) {
     return (
       <div className="w-full h-[500px] rounded-3xl bg-card border border-border flex items-center justify-center gap-3 text-muted-foreground">
         <Navigation className="w-5 h-5 animate-spin text-citrus" />
-        <span className="font-semibold uppercase italic text-xs">Localisation...</span>
+        <span className="font-semibold uppercase italic text-xs">{t('locating') || 'Localisation...'}</span>
       </div>
     );
   }
@@ -109,9 +108,8 @@ export default function MapView({ offers }) {
         {userPos && (
           <>
             <Marker position={userPos} icon={userIcon}>
-              <Popup>📍 Vous êtes ici</Popup>
+              <Popup>📍 {t('youAreHere') || 'Vous êtes ici'}</Popup>
             </Marker>
-            {/* On garde le cercle visuel, mais il ne bloque plus l'affichage */}
             <Circle
               center={userPos}
               radius={10000}
@@ -135,7 +133,9 @@ export default function MapView({ offers }) {
                     className="w-full h-20 object-cover rounded-lg mb-2"
                   />
                 )}
-                <div className="font-bold text-earth text-sm leading-tight mb-1">{offer.title}</div>
+                <div className="font-bold text-earth text-sm leading-tight mb-1">
+                  {dt(offer, 'title')}
+                </div>
                 <div className="text-citrus font-black text-lg">{offer.discount_price} THB</div>
                 <div className="text-gray-500 text-[10px] font-bold uppercase">{offer.shop_name}</div>
                 

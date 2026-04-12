@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Camera, ArrowLeft, Check, Loader2, MapPin, Snowflake, Utensils, Image as ImageIcon } from 'lucide-react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { Camera, ArrowLeft, Check, Loader2, MapPin, Snowflake, Utensils, Image as ImageIcon, Globe, Leaf } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/lib/AuthContext';
-import Navbar from '../components/Navbar';
+// On n'importe plus Navbar car on va utiliser le header personnalisé
 import { useTranslation } from '../lib/i18n';
 import imageCompression from 'browser-image-compression';
 import * as nsfwjs from 'nsfwjs';
@@ -73,7 +73,7 @@ async function translateText(text, targetLang) {
 const CATEGORIES = ['bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other', 'main_course', 'cheese', 'bread'];
 
 export default function MerchantPost() {
-  const { t } = useTranslation();
+  const { t, lang, setLanguage } = useTranslation(); // Ajout de lang et setLanguage
   const { id } = useParams();
   const isEdit = Boolean(id);
   const { user, currentUser } = useAuth(); 
@@ -246,8 +246,8 @@ export default function MerchantPost() {
         description_th: descTh,
         title_ru: titleRu,
         description_ru: descRu,
-        title_it: titleIt, // Nouveau champ
-        description_it: descIt, // Nouveau champ
+        title_it: titleIt,
+        description_it: descIt,
         original_price: form.original_price ? Number(form.original_price) : null,
         discount_price: Number(form.discount_price),
         collect_before: new Date(form.collect_before).toISOString(),
@@ -261,13 +261,13 @@ export default function MerchantPost() {
         consumption_mode_en: consModeEn,
         consumption_mode_th: consModeTh,
         consumption_mode_ru: consModeRu,
-        consumption_mode_it: consModeIt, // Nouveau champ
+        consumption_mode_it: consModeIt,
         needs_cool_bag: form.needs_cool_bag,
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
         bag_notice_th: bagNoticeTh,
         bag_notice_ru: bagNoticeRu,
-        bag_notice_it: bagNoticeIt, // Nouveau champ
+        bag_notice_it: bagNoticeIt,
         lat: form.lat,
         lng: form.lng
       };
@@ -303,7 +303,41 @@ export default function MerchantPost() {
 
   return (
     <div className="min-h-screen bg-earth text-foreground">
-      <Navbar />
+      {/* HEADER FIXE AVEC LOGO ET ROLLER DE LANGUE */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-earth/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-xl bg-citrus flex items-center justify-center shadow-lg shadow-citrus/20">
+              <Leaf className="w-6 h-6 text-earth" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter">Fresh<span className="text-citrus">Rescue</span></span>
+          </Link>
+
+          <div className="flex items-center gap-4">
+            <div className="relative group">
+              <select
+                value={lang}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="appearance-none bg-white/10 border border-white/20 rounded-full pl-10 pr-8 py-2 text-sm font-bold cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-citrus/50 text-foreground"
+                style={{ backgroundColor: '#1a1a1a', color: 'white' }}
+              >
+                <option value="en" className="bg-earth text-white">EN</option>
+                <option value="fr" className="bg-earth text-white">FR</option>
+                <option value="it" className="bg-earth text-white">IT</option>
+                <option value="th" className="bg-earth text-white">TH</option>
+                <option value="ru" className="bg-earth text-white">RU</option>
+              </select>
+              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <svg className="w-3 h-3 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div className="pt-24 pb-16 px-6 max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-8">
           <button type="button" onClick={() => navigate(-1)} className="p-2 rounded-full border border-border hover:border-citrus/40"><ArrowLeft className="w-5 h-5" /></button>

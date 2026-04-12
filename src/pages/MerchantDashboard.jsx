@@ -5,7 +5,7 @@ import { useTranslation } from '@/lib/i18n';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Plus, ToggleLeft, ToggleRight, Trash2, Store, 
-  Crown, Edit, ArrowLeft, Home, CheckCircle2
+  Crown, Edit, ArrowLeft, Home, CheckCircle2, Globe, Leaf
 } from 'lucide-react';
 import CountdownTimer from '@/components/CountdownTimer';
 
@@ -85,7 +85,6 @@ function SubscriptionBanner({ profile }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Option 1: Récurrent */}
         <a href={`${STRIPE_RECURRING_URL}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
           <div>
@@ -107,7 +106,6 @@ function SubscriptionBanner({ profile }) {
           </div>
         </a>
 
-        {/* Option 2: 1 Mois Ponctuel */}
         <a href={`${STRIPE_MONTHLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
           <div>
@@ -129,7 +127,6 @@ function SubscriptionBanner({ profile }) {
           </div>
         </a>
 
-        {/* Option 3: 1 An */}
         <a href={`${STRIPE_YEARLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border-2 border-citrus/30 hover:border-citrus transition-all bg-citrus/5 flex flex-col justify-between relative overflow-hidden">
           <div className="absolute -right-6 -top-2 bg-citrus text-earth font-black text-[8px] px-8 py-1 rotate-45 uppercase">{t('promo')}</div>
@@ -156,7 +153,7 @@ function SubscriptionBanner({ profile }) {
 }
 
 export default function MerchantDashboard() {
-  const { t } = useTranslation();
+  const { t, lang, setLanguage } = useTranslation();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [offers, setOffers] = useState([]);
@@ -234,63 +231,100 @@ export default function MerchantDashboard() {
   if (loading) return <div className="flex justify-center py-20 text-citrus italic font-black uppercase tracking-widest">{t('saving')}</div>;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      <div className="flex items-center justify-between mb-4">
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors font-bold uppercase italic text-xs">
-          <ArrowLeft className="w-4 h-4" /> {t('backToHome') || 'Retour Accueil'}
-        </button>
-        <Link to="/" className="text-citrus"><Home className="w-5 h-5" /></Link>
-      </div>
-
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-4xl font-black tracking-tight uppercase italic leading-none">{t('myOffers')}</h1>
-          {profile && <p className="text-citrus text-sm font-bold mt-2 uppercase tracking-[0.2em]">{profile.shop_name}</p>}
-        </div>
-        <div className="flex gap-3">
-          <Link to="/merchant/setup" className="inline-flex items-center gap-2 bg-card border border-border hover:border-citrus/50 text-foreground font-bold px-4 py-2.5 rounded-xl text-xs uppercase transition-all shadow-sm">
-            <Store className="w-4 h-4" /> {t('shopSettings')}
+    <div className="min-h-screen bg-earth text-foreground">
+      {/* HEADER FIXE AVEC LOGO ET ROLLER DE LANGUE */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-earth/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-xl bg-citrus flex items-center justify-center shadow-lg shadow-citrus/20">
+              <Leaf className="w-6 h-6 text-earth" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter">Fresh<span className="text-citrus">Rescue</span></span>
           </Link>
-          <Link to="/merchant/post" className={isExpired ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}>
-             <button disabled={isExpired} className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20">
-               <Plus className="w-4 h-4" /> {t('postOffer')}
-             </button>
-          </Link>
-        </div>
-      </div>
 
-      <SubscriptionBanner profile={profile} />
-
-      <div className="grid gap-4">
-        {offers.length === 0 ? (
-          <p className="text-center py-10 text-muted-foreground italic uppercase text-xs font-bold tracking-widest opacity-50">Aucune offre active</p>
-        ) : (
-          offers.map((offer) => (
-            <div key={offer.id} className={`flex items-center gap-4 bg-card border rounded-2xl p-4 transition-all ${offer.is_active ? 'border-border/50' : 'border-border/10 opacity-60 bg-black/5'}`}>
-              <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-muted">
-                <img src={offer.photo_url || offer.photo} alt={offer.title} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-black text-sm truncate uppercase italic mb-1">{offer.title}</h3>
-                <div className="flex items-center gap-3">
-                  <span className="text-citrus font-black text-sm italic">฿{offer.discount_price}</span>
-                  <CountdownTimer deadline={offer.collect_before} />
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link to={`/merchant/edit/${offer.id}`} className="p-2.5 rounded-xl bg-card border border-border hover:border-citrus/50 text-foreground transition-all shadow-sm"><Edit className="w-5 h-5" /></Link>
-                <button 
-                  onClick={() => toggleOffer(offer)} 
-                  disabled={isExpired}
-                  className={`p-2.5 rounded-xl transition-all ${isExpired ? 'cursor-not-allowed opacity-30' : ''} ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}
-                >
-                  {offer.is_active ? <ToggleRight className="w-6 h-6" /> : <ToggleLeft className="w-6 h-6" />}
-                </button>
-                <button onClick={() => deleteOffer(offer)} className="p-2.5 rounded-xl bg-red-600/10 text-red-600 hover:bg-red-600 hover:text-white transition-all"><Trash2 className="w-5 h-5" /></button>
+          <div className="flex items-center gap-4">
+            <div className="relative group">
+              <select
+                value={lang}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="appearance-none bg-white/10 border border-white/20 rounded-full pl-10 pr-8 py-2 text-sm font-bold cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-citrus/50 text-foreground"
+                style={{ backgroundColor: '#1a1a1a', color: 'white' }}
+              >
+                <option value="en" className="bg-earth text-white">EN</option>
+                <option value="fr" className="bg-earth text-white">FR</option>
+                <option value="it" className="bg-earth text-white">IT</option>
+                <option value="th" className="bg-earth text-white">TH</option>
+                <option value="ru" className="bg-earth text-white">RU</option>
+              </select>
+              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <svg className="w-3 h-3 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
             </div>
-          ))
-        )}
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 space-y-8">
+        <div className="flex items-center justify-between mb-4">
+          <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors font-bold uppercase italic text-xs">
+            <ArrowLeft className="w-4 h-4" /> {t('backToHome') || 'Retour Accueil'}
+          </button>
+          <Link to="/" className="text-citrus"><Home className="w-5 h-5" /></Link>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-black tracking-tight uppercase italic leading-none">{t('myOffers')}</h1>
+            {profile && <p className="text-citrus text-sm font-bold mt-2 uppercase tracking-[0.2em]">{profile.shop_name}</p>}
+          </div>
+          <div className="flex gap-3">
+            <Link to="/merchant/setup" className="inline-flex items-center gap-2 bg-card border border-border hover:border-citrus/50 text-foreground font-bold px-4 py-2.5 rounded-xl text-xs uppercase transition-all shadow-sm">
+              <Store className="w-4 h-4" /> {t('shopSettings')}
+            </Link>
+            <Link to="/merchant/post" className={isExpired ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}>
+               <button disabled={isExpired} className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20">
+                 <Plus className="w-4 h-4" /> {t('postOffer')}
+               </button>
+            </Link>
+          </div>
+        </div>
+
+        <SubscriptionBanner profile={profile} />
+
+        <div className="grid gap-4">
+          {offers.length === 0 ? (
+            <p className="text-center py-10 text-muted-foreground italic uppercase text-xs font-bold tracking-widest opacity-50">Aucune offre active</p>
+          ) : (
+            offers.map((offer) => (
+              <div key={offer.id} className={`flex items-center gap-4 bg-card border rounded-2xl p-4 transition-all ${offer.is_active ? 'border-border/50' : 'border-border/10 opacity-60 bg-black/5'}`}>
+                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-muted">
+                  <img src={offer.photo_url || offer.photo} alt={offer.title} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-black text-sm truncate uppercase italic mb-1">{offer.title}</h3>
+                  <div className="flex items-center gap-3">
+                    <span className="text-citrus font-black text-sm italic">฿{offer.discount_price}</span>
+                    <CountdownTimer deadline={offer.collect_before} />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link to={`/merchant/edit/${offer.id}`} className="p-2.5 rounded-xl bg-card border border-border hover:border-citrus/50 text-foreground transition-all shadow-sm"><Edit className="w-5 h-5" /></Link>
+                  <button 
+                    onClick={() => toggleOffer(offer)} 
+                    disabled={isExpired}
+                    className={`p-2.5 rounded-xl transition-all ${isExpired ? 'cursor-not-allowed opacity-30' : ''} ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}
+                  >
+                    {offer.is_active ? <ToggleRight className="w-6 h-6" /> : <ToggleLeft className="w-6 h-6" />}
+                  </button>
+                  <button onClick={() => deleteOffer(offer)} className="p-2.5 rounded-xl bg-red-600/10 text-red-600 hover:bg-red-600 hover:text-white transition-all"><Trash2 className="w-5 h-5" /></button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
