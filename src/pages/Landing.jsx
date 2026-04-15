@@ -5,7 +5,6 @@ import {
   TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
-import Navbar from '../components/Navbar';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';

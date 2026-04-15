@@ -7,7 +7,6 @@ import { useAuth } from '@/lib/AuthContext';
 import { useTranslation } from '../lib/i18n';
 import imageCompression from 'browser-image-compression';
 import * as nsfwjs from 'nsfwjs';
-import * as tf from '@tensorflow/tfjs';
 
 // --- CONFIGURATION MODÉRATION ---
 const BANNED_WORDS = [

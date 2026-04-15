@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MapPin, Navigation, Utensils, Snowflake, Calendar, AlignLeft } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { useTranslation } from '../lib/i18n';

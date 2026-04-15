@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useTranslation } from '@/lib/i18n'; 

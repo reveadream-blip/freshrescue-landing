@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Check, Loader2, MapPin, Leaf, Globe, Store } from 'lucide-react'; 
+import { ArrowLeft, Check, Loader2, MapPin, Leaf, Globe } from 'lucide-react'; 
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase'; 
 import { useAuth } from '@/lib/AuthContext';
@@ -77,7 +77,10 @@ export default function MerchantSetup() {
     setLoading(true);
 
     try {
-      const coords = await getCoordsFromAddress(form.address);
+      // Prefer explicit GPS coordinates when available; fallback to address geocoding.
+      const coords = (form.lat && form.lng)
+        ? { lat: Number(form.lat), lng: Number(form.lng) }
+        : await getCoordsFromAddress(form.address);
       if (!coords) {
         alert("Impossible de localiser cette adresse. Essayez avec un lieu connu à proximité.");
         setLoading(false);

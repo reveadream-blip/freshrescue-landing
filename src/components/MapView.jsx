@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -29,8 +29,13 @@ const offerIcon = L.divIcon({
 
 function RecenterMap({ position }) {
   const map = useMap();
+  const hasCentered = useRef(false);
+
   useEffect(() => {
-    if (position) map.setView(position, 13);
+    if (position && !hasCentered.current) {
+      map.setView(position, 13);
+      hasCentered.current = true;
+    }
   }, [position, map]);
   return null;
 }
@@ -46,9 +51,9 @@ function getDistance(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-export default function MapView({ offers }) {
+export default function MapView({ offers, radiusKm = 10 }) {
   // On récupère t pour les traductions statiques et dt pour les données
-  const { t, dt } = useTranslation(); 
+  const { t, dt, lang } = useTranslation(); 
   const [userPos, setUserPos] = useState(null);
   const [locating, setLocating] = useState(true);
   const [error, setError] = useState(null);
@@ -70,7 +75,7 @@ export default function MapView({ offers }) {
         setLocating(false);
       }
     );
-  }, [t]); // Ajout de t dans les dépendances
+  }, [lang]);
 
   const nearbyOffers = offers.filter(o => o.lat && o.lng);
   const defaultCenter = userPos || [7.8804, 98.3923]; 
@@ -91,12 +96,20 @@ export default function MapView({ offers }) {
           <MapPin className="w-3 h-3 text-orange-500" /> {error}
         </div>
       )}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[1000] bg-card/90 backdrop-blur border border-border rounded-full px-4 py-2 text-[10px] font-bold uppercase italic text-muted-foreground">
+        Zoom: molette / pincer a 2 doigts
+      </div>
 
       <MapContainer 
         center={defaultCenter} 
         zoom={12} 
         style={{ height: '100%', width: '100%', background: '#1a1a1a' }} 
         zoomControl={false}
+        scrollWheelZoom
+        touchZoom
+        doubleClickZoom
+        dragging
+        attributionControl={false}
       >
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -112,7 +125,7 @@ export default function MapView({ offers }) {
             </Marker>
             <Circle
               center={userPos}
-              radius={10000}
+              radius={radiusKm * 1000}
               pathOptions={{ color: '#ff6b2b', fillColor: '#ff6b2b', fillOpacity: 0.05, weight: 1 }}
             />
           </>

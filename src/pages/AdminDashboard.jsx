@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, ShoppingBag, Store, Bell, 
   LogOut, TrendingUp, Package, 
-  Trash2, AlertCircle, RefreshCw, 
-  Mail, MapPin, DollarSign, Send, History, AlertTriangle, CreditCard, Users
+  Trash2, RefreshCw, 
+  Mail, MapPin, DollarSign, Send, History, AlertTriangle, CreditCard
 } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { supabase } from '@/lib/supabase';
