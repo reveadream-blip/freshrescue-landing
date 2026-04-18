@@ -7,9 +7,12 @@ import {
 import { useTranslation } from '../lib/i18n';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
-const BAKERY_IMG = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop';
-const FRUIT_IMG = 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?q=80&w=800&auto=format&fit=crop';
-const VEGGIE_IMG = 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?q=80&w=800&auto=format&fit=crop';
+
+/** Visuels « Comment ça marche » — fichiers dans `public/images/how/` */
+const howImg = (file) => `${import.meta.env.BASE_URL}images/how/${file}`;
+const HOW_STEP1_IMG = howImg('step-01.png');
+const HOW_STEP2_IMG = howImg('step-02.png');
+const HOW_STEP3_IMG = howImg('step-03.png');
 
 export default function Landing() {
   const { t, lang, setLanguage } = useTranslation();
@@ -284,7 +287,7 @@ export default function Landing() {
 
           <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {[
-              { num: '10', unit: 'km', label: t('notificationRadius') },
+              { num: '5', unit: 'km', label: t('notificationRadius') },
               { num: '0', unit: '%', label: t('commissionOnSales') },
               { num: '70', unit: '%', label: t('averageDiscount') },
             ].map((stat, i) => (
@@ -315,7 +318,7 @@ export default function Landing() {
                 num: '01',
                 title: t('step1Title'),
                 desc: t('step1Desc'),
-                img: BAKERY_IMG,
+                img: HOW_STEP1_IMG,
               },
               {
                 icon: <MapPin className="w-7 h-7 text-earth" />,
@@ -323,7 +326,7 @@ export default function Landing() {
                 num: '02',
                 title: t('step2Title'),
                 desc: t('step2Desc'),
-                img: FRUIT_IMG,
+                img: HOW_STEP2_IMG,
               },
               {
                 icon: <TrendingUp className="w-7 h-7 text-earth" />,
@@ -331,16 +334,20 @@ export default function Landing() {
                 num: '03',
                 title: t('step3Title'),
                 desc: t('step3Desc'),
-                img: VEGGIE_IMG,
+                img: HOW_STEP3_IMG,
               },
             ].map((step, i) => (
               <div 
                 key={i} 
                 className="group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-citrus/30 transition-all"
               >
-                <div className="h-48 overflow-hidden">
-                  <img src={step.img} alt={step.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80" />
-                  <div className="absolute inset-0 h-48 bg-gradient-to-b from-transparent to-card" />
+                <div className="relative h-52 sm:h-56 overflow-hidden bg-muted/30">
+                  <img
+                    src={step.img}
+                    alt=""
+                    className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/90" />
                 </div>
                 <div className="p-8">
                   <div className="flex items-center gap-4 mb-4">

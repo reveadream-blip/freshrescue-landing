@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
-import { isOfferInSwitzerland, SWISS_BOUNDS_CORNERS, distanceKm } from '../lib/swissGeo';
+import { SWISS_BOUNDS_CORNERS, distanceKm } from '../lib/swissGeo';
+import { MAP_RADIUS_KM as DEFAULT_MAP_RADIUS_KM } from '../lib/geoConstants';
 import SafeOfferImage from './SafeOfferImage';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -89,14 +90,16 @@ function FitMapView({ offers, localMode, localBounds }) {
   return null;
 }
 
-export default function MapView({ offers = [], userPosition = null, mapRadiusKm = 5 }) {
+export default function MapView({ offers = [], userPosition = null, mapRadiusKm = DEFAULT_MAP_RADIUS_KM }) {
   const { t, dt } = useTranslation();
 
   const nearbyOffers = offers.filter((o) => o.lat && o.lng);
-  const userInCh =
+  const userLatLng =
     userPosition &&
-    isOfferInSwitzerland(userPosition.lat, userPosition.lng);
-  const userLatLng = userInCh ? [userPosition.lat, userPosition.lng] : null;
+    Number.isFinite(userPosition.lat) &&
+    Number.isFinite(userPosition.lng)
+      ? [userPosition.lat, userPosition.lng]
+      : null;
 
   const localMode = Boolean(userLatLng && mapRadiusKm > 0);
 
@@ -142,6 +145,20 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
         />
 
         <FitMapView offers={nearbyOffers} localMode={localMode} localBounds={localBounds} />
+
+        {userLatLng && mapRadiusKm > 0 && (
+          <Circle
+            center={userLatLng}
+            radius={mapRadiusKm * 1000}
+            pathOptions={{
+              color: '#ff6b2b',
+              fillColor: '#ff6b2b',
+              fillOpacity: 0.12,
+              weight: 2,
+              opacity: 0.9,
+            }}
+          />
+        )}
 
         {userLatLng && (
           <Marker position={userLatLng} icon={userIcon}>

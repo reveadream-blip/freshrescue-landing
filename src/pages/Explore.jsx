@@ -9,11 +9,9 @@ import MapView from '../components/MapView';
 import { Link } from 'react-router-dom';
 import { MOCK_OFFERS } from '../data/mockSwissOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
+import { MAP_RADIUS_KM } from '../lib/geoConstants';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
-
-/** Rayon carte + liste des offres quand le GPS est disponible (en Suisse). */
-const MAP_RADIUS_KM = 5;
 
 export default function Explore() {
   const { t, dt, lang, setLanguage } = useTranslation();
@@ -81,7 +79,7 @@ export default function Explore() {
         setLocationBlocked(err.code === err.PERMISSION_DENIED);
         setUserCoords(null);
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 25000, maximumAge: 0 }
     );
   };
 
@@ -89,8 +87,31 @@ export default function Explore() {
     loadOffers();
   }, []);
 
+  /** Suivi GPS : dès que la position est connue, la carte et le rayon se mettent à jour (mobile). */
   useEffect(() => {
-    requestUserLocation();
+    if (!('geolocation' in navigator) || !window.isSecureContext) {
+      setLocationError(true);
+      return;
+    }
+
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+        setUserCoords({ lat, lng });
+        setLocationError(false);
+        setLocationBlocked(false);
+      },
+      (err) => {
+        setLocationError(true);
+        setLocationBlocked(err.code === err.PERMISSION_DENIED);
+        if (err.code === err.PERMISSION_DENIED) setUserCoords(null);
+      },
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
   const filtered = offers.filter((o) => {
@@ -116,7 +137,6 @@ export default function Explore() {
 
   const offersOnMap = useMemo(() => {
     if (!userCoords) return filtered;
-    if (!isOfferInSwitzerland(userCoords.lat, userCoords.lng)) return filtered;
     return filtered.filter((o) => {
       if (o.lat == null || o.lng == null || Number.isNaN(o.lat) || Number.isNaN(o.lng)) return false;
       return distanceKm(userCoords.lat, userCoords.lng, o.lat, o.lng) <= MAP_RADIUS_KM;
@@ -191,7 +211,7 @@ export default function Explore() {
             <h1 className="text-4xl md:text-5xl font-black mb-2 italic uppercase">
               {t('activeOffers')}{' '}
               <span className="text-citrus">
-                ({userCoords && isOfferInSwitzerland(userCoords.lat, userCoords.lng) ? offersOnMap.length : filtered.length})
+                ({userCoords ? offersOnMap.length : filtered.length})
               </span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">

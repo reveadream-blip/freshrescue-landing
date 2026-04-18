@@ -23,7 +23,7 @@ const translations = {
     step1Desc:
       "Scatta una foto dell’invenduto, imposta un prezzo flash e un orario limite: meno spreco, più valore per la tua clientela in Svizzera.",
     step2Title: "I clienti visualizzano",
-    step2Desc: "Le offerte vengono visualizzate entro un raggio di 10 km da te.",
+    step2Desc: "Le offerte vengono visualizzate entro un raggio di 5 km da te.",
     step3Title: "Ritira e gusta",
     step3Desc: "I clienti ritirano cibo fresco scontato prima dell'orario limite. Zero sprechi.",
     // Value
@@ -265,7 +265,7 @@ const translations = {
     step1Desc:
       "Snap surplus food, set a flash price and pickup time — less waste, more value for customers across Switzerland.",
     step2Title: "Customers are viewing",
-    step2Desc: "Offers are displayed within a 10km radius of you.",
+    step2Desc: "Offers are displayed within a 5 km radius of you.",
     step3Title: "Collect & Enjoy",
     step3Desc: "Customers pick up fresh food at a discount before the deadline. Zero waste.",
     // Value
@@ -506,7 +506,7 @@ const translations = {
     step1Desc:
       "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour vos clients en Suisse.",
     step2Title: "Les Clients consultent",
-    step2Desc: "Les offres s'affichent dans un rayon de 10km autour de vous.",
+    step2Desc: "Les offres s'affichent dans un rayon de 5 km autour de vous.",
     step3Title: "Récupérez & Savourez",
     step3Desc: "Les clients récupèrent des produits frais à prix réduit avant la date limite. Zéro déchet.",
     // Value
@@ -747,7 +747,7 @@ const translations = {
     step1Desc:
       "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für Kundinnen in der Schweiz.",
     step2Title: "Kunden sehen mit",
-    step2Desc: "Angebote werden in einem Radius von 10 km um Sie angezeigt.",
+    step2Desc: "Angebote werden in einem Radius von 5 km um Sie angezeigt.",
     step3Title: "Abholen und genießen",
     step3Desc: "Kunden holen frische Ware zum Sonderpreis vor Ablauf ab. Keine Verschwendung.",
     // Value
@@ -983,7 +983,7 @@ const translations = {
     step1Desc:
       "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для клиентов по всей Швейцарии.",
     step2Title: "Покупатели просматривают",
-    step2Desc: "Предложения отображаются в радиусе 10 км от вас.",
+    step2Desc: "Предложения отображаются в радиусе 5 км от вас.",
     step3Title: "Забирайте и наслаждайтесь",
     step3Desc: "Клиенты забирают свежие продукты со скидкой до дедлайна. Ноль отходов.",
     // Value
