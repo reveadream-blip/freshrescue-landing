@@ -194,20 +194,20 @@ export default function MerchantPost() {
       }
 
       // --- TRADUCTIONS DES TEXTES (AJOUT IT) ---
-      const [titleFr, titleEn, titleTh, titleRu, titleIt] = await Promise.all([
+      const [titleFr, titleEn, titleDe, titleRu, titleIt] = await Promise.all([
         translateText(form.title, 'fr'),
         translateText(form.title, 'en'),
-        translateText(form.title, 'th'),
+        translateText(form.title, 'de'),
         translateText(form.title, 'ru'),
         translateText(form.title, 'it')
       ]);
       
-      let descFr = "", descEn = "", descTh = "", descRu = "", descIt = "";
+      let descFr = "", descEn = "", descDe = "", descRu = "", descIt = "";
       if (form.description && form.description.trim() !== "") {
-        [descFr, descEn, descTh, descRu, descIt] = await Promise.all([
+        [descFr, descEn, descDe, descRu, descIt] = await Promise.all([
           translateText(form.description, 'fr'),
           translateText(form.description, 'en'),
-          translateText(form.description, 'th'),
+          translateText(form.description, 'de'),
           translateText(form.description, 'ru'),
           translateText(form.description, 'it')
         ]);
@@ -215,20 +215,20 @@ export default function MerchantPost() {
 
       // --- TRADUCTIONS DES MODES DE CONSO (AJOUT IT) ---
       const consModeBase = form.consumption_mode === 'takeaway' ? 'À emporter' : form.consumption_mode === 'onSite' ? 'Sur place' : 'Les deux';
-      const [consModeFr, consModeEn, consModeTh, consModeRu, consModeIt] = await Promise.all([
+      const [consModeFr, consModeEn, consModeDe, consModeRu, consModeIt] = await Promise.all([
         translateText(consModeBase, 'fr'),
         translateText(consModeBase, 'en'),
-        translateText(consModeBase, 'th'),
+        translateText(consModeBase, 'de'),
         translateText(consModeBase, 'ru'),
         translateText(consModeBase, 'it')
       ]);
 
       // --- TRADUCTIONS DES NOTICES (AJOUT IT) ---
       const bagNoticeBase = form.needs_cool_bag ? "Congelable" : "";
-      const [bagNoticeFr, bagNoticeEn, bagNoticeTh, bagNoticeRu, bagNoticeIt] = await Promise.all([
+      const [bagNoticeFr, bagNoticeEn, bagNoticeDe, bagNoticeRu, bagNoticeIt] = await Promise.all([
         translateText(bagNoticeBase, 'fr'),
         translateText(bagNoticeBase, 'en'),
-        translateText(bagNoticeBase, 'th'),
+        translateText(bagNoticeBase, 'de'),
         translateText(bagNoticeBase, 'ru'),
         translateText(bagNoticeBase, 'it')
       ]);
@@ -241,8 +241,8 @@ export default function MerchantPost() {
         description_fr: descFr,
         title_en: titleEn,
         description_en: descEn,
-        title_th: titleTh,
-        description_th: descTh,
+        title_de: titleDe,
+        description_de: descDe,
         title_ru: titleRu,
         description_ru: descRu,
         title_it: titleIt,
@@ -258,13 +258,13 @@ export default function MerchantPost() {
         expiry_date: form.expiry_date || null,
         consumption_mode_fr: consModeFr,
         consumption_mode_en: consModeEn,
-        consumption_mode_th: consModeTh,
+        consumption_mode_de: consModeDe,
         consumption_mode_ru: consModeRu,
         consumption_mode_it: consModeIt,
         needs_cool_bag: form.needs_cool_bag,
         bag_notice_fr: bagNoticeFr,
         bag_notice_en: bagNoticeEn,
-        bag_notice_th: bagNoticeTh,
+        bag_notice_de: bagNoticeDe,
         bag_notice_ru: bagNoticeRu,
         bag_notice_it: bagNoticeIt,
         lat: form.lat,
@@ -323,7 +323,7 @@ export default function MerchantPost() {
                 <option value="en" className="bg-earth text-white">EN</option>
                 <option value="fr" className="bg-earth text-white">FR</option>
                 <option value="it" className="bg-earth text-white">IT</option>
-                <option value="th" className="bg-earth text-white">TH</option>
+                <option value="de" className="bg-earth text-white">DE</option>
                 <option value="ru" className="bg-earth text-white">RU</option>
               </select>
               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />

@@ -7,7 +7,7 @@ export default function LanguageSwitcher() {
   const langs = [
     { code: 'en', label: 'EN' },
     { code: 'fr', label: 'FR' },
-    { code: 'th', label: 'TH' },
+    { code: 'de', label: 'DE' },
     { code: 'ru', label: 'RU' },
     { code: 'it', label: 'IT' },
       ];

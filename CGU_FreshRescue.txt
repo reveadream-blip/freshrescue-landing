@@ -60,6 +60,6 @@ Nom de l'Application    FreshRescue
 
 Éditeur                 FreshRescue Management
 
-Siège Social            Rawai, Phuket, Thaïlande
+Siège Social            Zürich, Suisse
 
 Contact Support         contact.applimanagement@gmail.com

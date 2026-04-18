@@ -48,19 +48,19 @@ const content = {
     ],
     customerText: "Scansiona per vedere le offerte e paga direttamente in negozio."
   },
-  th: {
-    merchantTitle: "สำหรับร้านค้า",
-    customerTitle: "สำหรับลูกค้า",
-    merchantDesc: "ทำตามขั้นตอนเหล่านี้เพื่อเผยแพร่ข้อเสนอ",
-    scanAction: "สแกน QR Code เพื่อเริ่มต้น",
-    promoAdvice: "อย่าลืมวางป้ายนี้ในร้านของคุณ เช่น บนเคาน์เตอร์ เพื่อให้ลูกค้าเห็นได้ชัดเจน! บอกลูกค้าทุกคนเกี่ยวกับแอปนี้เพื่อให้พวกเขาไม่พลาดโปรโมชั่นสุดพิเศษของคุณ!",
+  de: {
+    merchantTitle: "Händlerbereich",
+    customerTitle: "Kundenbereich",
+    merchantDesc: "Folgen Sie diesen Schritten, um ein Angebot zu veröffentlichen.",
+    scanAction: "QR-Code scannen zum Starten",
+    promoAdvice: "Hängen Sie dieses Plakat gut sichtbar in Ihrem Geschäft, z. B. an der Theke! Erzählen Sie Ihren Kunden von der App, damit sie Ihre Aktionen nutzen können!",
     steps: [
-      { t: "เข้าสู่ระบบ", d: "กรอกอีเมลและรหัสผ่านของคุณ", icon: "🔑" },
-      { t: "ตั้งค่า", d: "ไปที่ 'การตั้งค่าร้านค้า' เพื่อกรอกข้อมูลของคุณ", icon: "⚙️" },
-      { t: "สร้างข้อเสนอ", d: "คลิก 'เผยแพร่ข้อเสนอ' ถ่ายรูปหรืออัปโหลดรูปภาพ", icon: "📸" },
-      { t: "ยืนยัน", d: "กรอกข้อมูลและคลิก 'เผยแพร่' ข้อเสนอของคุณจะออนไลน์ทันที", icon: "✅" }
+      { t: "Anmelden", d: "E-Mail und Passwort eingeben.", icon: "🔑" },
+      { t: "Einrichtung", d: "Im Dashboard unter „Geschäftseinstellungen“ Ihre Daten eintragen.", icon: "⚙️" },
+      { t: "Erstellen", d: "„Angebot veröffentlichen“ wählen, Foto aufnehmen oder hochladen.", icon: "📸" },
+      { t: "Fertig", d: "Felder ausfüllen und „Veröffentlichen“ – Ihr Angebot ist online.", icon: "✅" }
     ],
-    customerText: "สแกนเพื่อดูข้อเสนอและชำระเงินโดยตรงที่ร้านค้า"
+    customerText: "Scannen Sie, um Angebote zu sehen und direkt im Geschäft zu bezahlen."
   },
   ru: {
     merchantTitle: "Для бизнеса",
@@ -80,7 +80,7 @@ const content = {
 
 const Instructions = () => {
   const navigate = useNavigate();
-  const { lang } = useTranslation(); // Récupère la langue actuelle (en, fr, th, ru)
+  const { lang } = useTranslation(); // Récupère la langue actuelle (en, fr, de, ru, it)
 
   // On s'assure que la langue existe dans notre objet content, sinon on met 'fr'
   const activeLang = content[lang] ? lang : 'fr';
@@ -91,7 +91,7 @@ const Instructions = () => {
         
         <Button variant="ghost" className="text-white mb-4 hover:bg-white/10" onClick={() => navigate(-1)}>
           <ChevronLeft className="mr-2 h-4 w-4" /> 
-          {activeLang === 'th' ? 'กลับ' : activeLang === 'ru' ? 'Назад' : activeLang === 'en' ? 'Back' : 'Retour'}
+          {activeLang === 'de' ? 'Zurück' : activeLang === 'ru' ? 'Назад' : activeLang === 'en' ? 'Back' : 'Retour'}
         </Button>
 
         {/* SECTION COMMERÇANT */}

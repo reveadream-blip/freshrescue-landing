@@ -1,6 +1,6 @@
 {
   "short_name": "FreshRescue",
-  "name": "FreshRescue - Save Food",
+  "name": "FreshRescue — Anti-gaspillage (Suisse)",
   "icons": [
     {
       "src": "favicon.ico",
@@ -23,6 +23,6 @@
   "display": "standalone",
   "theme_color": "#ff6b2b",
   "background_color": "#1a1c18",
-  "description": "Sauvez les invendus alimentaires et profitez de promotions de -50% minimum.",
+  "description": "Application anti-gaspillage pour la Suisse : invendus alimentaires, carte nationale, prix flash.",
   "orientation": "portrait"
 }

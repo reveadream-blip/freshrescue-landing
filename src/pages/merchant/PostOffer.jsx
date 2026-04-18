@@ -87,11 +87,11 @@ export default function PostOffer() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold mb-2">{t('originalPrice')}</label>
-            <input type="number" value={form.original_price} onChange={(e) => setForm({ ...form, original_price: e.target.value })} className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm" placeholder="฿" />
+            <input type="number" value={form.original_price} onChange={(e) => setForm({ ...form, original_price: e.target.value })} className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm" placeholder="CHF" />
           </div>
           <div>
             <label className="block text-sm font-semibold mb-2">{t('discountPrice')} *</label>
-            <input type="number" required value={form.discount_price} onChange={(e) => setForm({ ...form, discount_price: e.target.value })} className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm" placeholder="฿" />
+            <input type="number" required value={form.discount_price} onChange={(e) => setForm({ ...form, discount_price: e.target.value })} className="w-full bg-card border border-border rounded-xl px-4 py-3 text-sm" placeholder="CHF" />
           </div>
         </div>
 

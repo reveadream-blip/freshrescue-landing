@@ -1,0 +1,7 @@
+# https://supabase.com/docs/guides/cli/config
+
+[functions.admin-delete-offer]
+verify_jwt = false
+
+[functions.admin-delete-merchant]
+verify_jwt = false

@@ -39,7 +39,7 @@ export default function Navbar() {
             <option value="en" className="bg-[#1a1a1a]">EN</option>
             <option value="fr" className="bg-[#1a1a1a]">FR</option>
             <option value="it" className="bg-[#1a1a1a]">IT</option>
-            <option value="th" className="bg-[#1a1a1a]">TH</option>
+            <option value="de" className="bg-[#1a1a1a]">DE</option>
             <option value="ru" className="bg-[#1a1a1a]">RU</option>
           </select>
           <Globe className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-citrus" />

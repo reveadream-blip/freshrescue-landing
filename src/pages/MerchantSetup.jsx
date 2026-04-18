@@ -56,7 +56,7 @@ export default function MerchantSetup() {
     if (!addressText || addressText.length < 3) return null;
     try {
       const cleanAddress = addressText.trim();
-      const query = `${cleanAddress}, Phuket, Thailand`;
+      const query = `${cleanAddress}, Switzerland`;
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
         { headers: { 'User-Agent': 'FreshRescue-App-V2' } }
@@ -162,7 +162,7 @@ export default function MerchantSetup() {
                 <option value="en" className="bg-earth text-white">EN</option>
                 <option value="fr" className="bg-earth text-white">FR</option>
                 <option value="it" className="bg-earth text-white">IT</option>
-                <option value="th" className="bg-earth text-white">TH</option>
+                <option value="de" className="bg-earth text-white">DE</option>
                 <option value="ru" className="bg-earth text-white">RU</option>
               </select>
               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />

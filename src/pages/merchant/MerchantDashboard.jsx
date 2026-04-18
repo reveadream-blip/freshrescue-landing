@@ -4,6 +4,7 @@ import { useTranslation } from '../../lib/i18n';
 import { Link } from 'react-router-dom';
 import { Plus, ToggleLeft, ToggleRight, Trash2, Store } from 'lucide-react';
 import CountdownTimer from '../../components/CountdownTimer';
+import SafeOfferImage from '../../components/SafeOfferImage';
 
 export default function MerchantDashboard() {
   const { t } = useTranslation();
@@ -99,17 +100,22 @@ export default function MerchantDashboard() {
             }`}
           >
             {/* Photo */}
-            <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-              <img src={offer.photo} alt={offer.title} className="w-full h-full object-cover" />
+            <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 relative">
+              <SafeOfferImage offer={offer} alt={offer.title} className="w-full h-full object-cover" />
+              {(offer.is_demo === true || (typeof offer.id === 'string' && offer.id.startsWith('mock-'))) && (
+                <span className="absolute bottom-0 left-0 right-0 bg-earth/95 text-citrus text-[6px] font-black uppercase text-center py-0.5 leading-none">
+                  {t('demoOfferBadge')}
+                </span>
+              )}
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-sm truncate">{offer.title}</h3>
               <div className="flex items-center gap-3 mt-1">
-                <span className="text-primary font-bold text-sm">฿{offer.discount_price}</span>
+                <span className="text-primary font-bold text-sm">{offer.discount_price} CHF</span>
                 {offer.original_price && (
-                  <span className="text-xs text-muted-foreground line-through">฿{offer.original_price}</span>
+                  <span className="text-xs text-muted-foreground line-through">{offer.original_price} CHF</span>
                 )}
                 <CountdownTimer deadline={offer.collect_before} />
               </div>

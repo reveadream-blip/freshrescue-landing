@@ -10,9 +10,9 @@
       "type": "string",
       "description": "Product name in French"
     },
-    "title_th": {
+    "title_de": {
       "type": "string",
-      "description": "Product name in Thai"
+      "description": "Product name in German"
     },
     "description": {
       "type": "string",
@@ -22,9 +22,9 @@
       "type": "string",
       "description": "Product description in French"
     },
-    "description_th": {
+    "description_de": {
       "type": "string",
-      "description": "Product description in Thai"
+      "description": "Product description in German"
     },
     "photo": {
       "type": "string",
@@ -32,11 +32,11 @@
     },
     "original_price": {
       "type": "number",
-      "description": "Original price in THB"
+      "description": "Original price in CHF"
     },
     "discount_price": {
       "type": "number",
-      "description": "Discounted price in THB"
+      "description": "Discounted price in CHF"
     },
     "collect_before": {
       "type": "string",

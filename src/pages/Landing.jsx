@@ -19,7 +19,7 @@ export default function Landing() {
   const promoText = {
     fr: { free: '1 mois OFFERT', test: 'Essayer !', hundredFree: '100% GRATUIT' },
     it: { free: '1 mese OFFERTO', test: 'Prova!', hundredFree: '100% GRATUITO' },
-    th: { free: 'ฟรี 1 เดือน', test: 'ลองเลย !', hundredFree: 'ฟรี 100%' },
+    de: { free: '1 Monat GRATIS', test: 'Jetzt testen!', hundredFree: '100% GRATIS' },
     ru: { free: '1 месяц БЕСПЛАТНО', test: 'Попробуй !', hundredFree: '100% БЕСПЛАТНО' },
     en: { free: '1 month FREE', test: 'Test it !', hundredFree: '100% FREE' }
   }[lang] || { free: '1 month FREE', test: 'Test it !', hundredFree: '100% FREE' };
@@ -89,7 +89,7 @@ export default function Landing() {
     <option value="en" className="bg-earth text-white">EN</option>
     <option value="fr" className="bg-earth text-white">FR</option>
     <option value="it" className="bg-earth text-white">IT</option>
-    <option value="th" className="bg-earth text-white">TH</option>
+    <option value="de" className="bg-earth text-white">DE</option>
     <option value="ru" className="bg-earth text-white">RU</option>
   </select>
   <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
@@ -166,7 +166,7 @@ export default function Landing() {
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 bg-stem/10 border border-stem/30 rounded-full px-4 py-2 mb-8">
             <Leaf className="w-4 h-4 text-stem" />
-            <span className="text-sm font-semibold text-stem">FreshRescue</span>
+            <span className="text-sm font-semibold text-stem">{t('brandTagline')}</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight mb-8">
@@ -216,7 +216,7 @@ export default function Landing() {
               className="group flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors text-sm font-bold uppercase tracking-wider"
             >
               <HelpCircle className="w-5 h-5 group-hover:animate-bounce" />
-              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'th' ? 'มันทำงานอย่างไร?' : lang === 'ru' ? 'Как это работает?' : lang === 'it' ? 'Come funciona?' : 'How it works?'}
+              {lang === 'fr' ? 'Comment ça marche ?' : lang === 'de' ? 'Wie funktioniert das?' : lang === 'ru' ? 'Как это работает?' : lang === 'it' ? 'Come funciona?' : 'How it works?'}
             </Link>
           </div>
 
@@ -354,7 +354,7 @@ export default function Landing() {
 
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <span className="text-5xl font-black text-foreground">{plan.price}</span>
-                <span className="text-xl font-bold text-citrus">THB</span>
+                <span className="text-xl font-bold text-citrus">CHF</span>
               </div>
               <div className="text-citrus font-bold uppercase tracking-widest text-sm mt-1">
                 {t(plan.subtext)}

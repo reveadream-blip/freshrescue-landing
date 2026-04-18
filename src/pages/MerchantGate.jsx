@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { supabase } from '@/lib/supabase';
-import { useTranslation } from '@/lib/i18n'; 
+import { useTranslation } from '@/lib/i18n';
 import MerchantDashboard from './MerchantDashboard';
 
 export default function MerchantGate() {
@@ -103,6 +105,13 @@ export default function MerchantGate() {
   return (
     <div className="min-h-screen bg-earth flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-card border border-border p-8 rounded-[2.5rem] shadow-2xl">
+        <Link
+          to="/"
+          className="mb-6 flex items-center gap-2 text-[10px] font-black uppercase text-muted-foreground hover:text-citrus transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 shrink-0" />
+          {t('backToHome')}
+        </Link>
         <div className="text-center mb-8">
           <h2 className="text-4xl font-black uppercase italic leading-none text-foreground">
             {isLogin ? t('login') : t('signup')}

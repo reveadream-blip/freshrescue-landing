@@ -30,3 +30,9 @@ dist-ssr
 
 .env
 .vite
+
+# Cursor agent rules (local)
+.cursor/
+
+# Supabase CLI
+supabase/.temp/

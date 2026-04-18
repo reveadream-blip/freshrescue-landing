@@ -43,7 +43,7 @@ export default function SubscriptionSection() {
             {/* Price */}
             <div className="text-center">
               <div className="flex items-baseline justify-center gap-1">
-                <span className="text-sm text-muted-foreground">฿</span>
+                <span className="text-sm text-muted-foreground">CHF</span>
                 <span className="text-6xl font-black text-foreground tracking-tight">{t('subscriptionPrice')}</span>
               </div>
               <p className="text-muted-foreground text-sm mt-1">{t('subscriptionCurrency')}</p>

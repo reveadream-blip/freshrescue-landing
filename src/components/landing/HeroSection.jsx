@@ -94,7 +94,7 @@ export default function HeroSection({ heroImage, marketBg }) {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-foreground">Flash Deal!</p>
-                    <p className="text-xs text-muted-foreground">Artisan bread — ฿35 (was ฿120)</p>
+                    <p className="text-xs text-muted-foreground">Artisan bread — CHF 3.50 (was CHF 12)</p>
                   </div>
                 </div>
               </motion.div>

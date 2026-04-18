@@ -23,7 +23,7 @@ const apiInstance = {
           { 
             id: 'p1', 
             shop_name: 'FreshRescue Shop', 
-            address: 'Rawai, Phuket',
+            address: 'Zürich, Switzerland',
             created_by: 'contact.applimanagement@gmail.com'
           }
         ];

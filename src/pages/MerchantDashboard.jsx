@@ -8,26 +8,14 @@ import {
   Crown, Edit, ArrowLeft, Home, CheckCircle2, Globe, Leaf
 } from 'lucide-react';
 import CountdownTimer from '@/components/CountdownTimer';
+import SafeOfferImage from '@/components/SafeOfferImage';
+import { deletePhotoFromLogosBucket } from '@/lib/supabaseStorage';
 
 const STRIPE_RECURRING_URL = 'https://buy.stripe.com/3cIeV6bUrc37dym2oHcZa04';
 const STRIPE_MONTHLY_ONETIME = 'https://buy.stripe.com/fZucMYaQnd7b3XM2oHcZa05';
 const STRIPE_YEARLY_ONETIME = 'https://buy.stripe.com/00weV68If9UZama8N5cZa06';
 
 const TRIAL_DAYS = 30;
-
-const deletePhotoFromLogos = async (photoUrl) => {
-  if (!photoUrl) return;
-  try {
-    const parts = photoUrl.split('/logos/');
-    if (parts.length > 1) {
-      const filePath = parts[1].split('?')[0]; 
-      const { error } = await supabase.storage.from('logos').remove([filePath]);
-      if (error) console.error("Erreur Storage:", error.message);
-    }
-  } catch (err) {
-    console.error("Erreur extraction path photo:", err);
-  }
-};
 
 // --- COMPOSANT BANNIÈRE & SÉLECTEUR DE FORMULES ---
 function SubscriptionBanner({ profile }) {
@@ -78,7 +66,7 @@ function SubscriptionBanner({ profile }) {
           </h3>
           <p className="text-sm text-muted-foreground font-medium">
             {daysLeft > 0 
-              ? t('trialDesc') || "Profitez de l'offre pour booster votre visibilité en Thaïlande." 
+              ? t('trialDesc') || "Profitez de l'offre pour booster votre visibilité en Suisse." 
               : t('trialExpiredDesc') || "Votre visibilité est suspendue. Choisissez une formule pour reprendre."}
           </p>
         </div>
@@ -96,7 +84,7 @@ function SubscriptionBanner({ profile }) {
             <div className="flex items-baseline gap-1 mb-4">
               <span className="text-2xl font-black text-citrus italic tracking-tighter">1000</span>
               <span className="text-[9px] font-bold text-citrus/80 uppercase">
-                THB / {t('month') || 'MOIS'}
+                CHF / {t('month') || 'MOIS'}
               </span>
             </div>
           </div>
@@ -117,7 +105,7 @@ function SubscriptionBanner({ profile }) {
             <div className="flex items-baseline gap-1 mb-4">
               <span className="text-2xl font-black text-foreground italic tracking-tighter">1000</span>
               <span className="text-[9px] font-bold text-muted-foreground uppercase">
-                THB / 1 {t('month') || 'MOIS'}
+                CHF / 1 {t('month') || 'MOIS'}
               </span>
             </div>
           </div>
@@ -138,7 +126,7 @@ function SubscriptionBanner({ profile }) {
             <div className="flex items-baseline gap-1 mb-4">
               <span className="text-2xl font-black text-citrus italic tracking-tighter">9900</span>
               <span className="text-[9px] font-bold text-citrus/80 uppercase">
-                THB / {t('year') || 'AN'}
+                CHF / {t('year') || 'AN'}
               </span>
             </div>
           </div>
@@ -198,7 +186,7 @@ export default function MerchantDashboard() {
           
           if (expired.length > 0) {
             for (const off of expired) {
-              await deletePhotoFromLogos(off.photo_url || off.photo);
+              await deletePhotoFromLogosBucket(off.photo_url || off.photo);
               await supabase.from('offers').delete().eq('id', off.id);
             }
             setOffers(offersData.filter(o => new Date(o.collect_before) >= now));
@@ -223,7 +211,7 @@ export default function MerchantDashboard() {
 
   const deleteOffer = async (offer) => {
     if (!window.confirm("Supprimer cette offre ?")) return;
-    await deletePhotoFromLogos(offer.photo_url || offer.photo);
+    await deletePhotoFromLogosBucket(offer.photo_url || offer.photo);
     const { error } = await supabase.from('offers').delete().eq('id', offer.id);
     if (!error) setOffers((prev) => prev.filter((o) => o.id !== offer.id));
   };
@@ -253,7 +241,7 @@ export default function MerchantDashboard() {
                 <option value="en" className="bg-earth text-white">EN</option>
                 <option value="fr" className="bg-earth text-white">FR</option>
                 <option value="it" className="bg-earth text-white">IT</option>
-                <option value="th" className="bg-earth text-white">TH</option>
+                <option value="de" className="bg-earth text-white">DE</option>
                 <option value="ru" className="bg-earth text-white">RU</option>
               </select>
               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-citrus" />
@@ -301,12 +289,12 @@ export default function MerchantDashboard() {
             offers.map((offer) => (
               <div key={offer.id} className={`flex items-center gap-4 bg-card border rounded-2xl p-4 transition-all ${offer.is_active ? 'border-border/50' : 'border-border/10 opacity-60 bg-black/5'}`}>
                 <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-muted">
-                  <img src={offer.photo_url || offer.photo} alt={offer.title} className="w-full h-full object-cover" />
+                  <SafeOfferImage offer={offer} alt={offer.title} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-sm truncate uppercase italic mb-1">{offer.title}</h3>
                   <div className="flex items-center gap-3">
-                    <span className="text-citrus font-black text-sm italic">฿{offer.discount_price}</span>
+                    <span className="text-citrus font-black text-sm italic">{offer.discount_price} CHF</span>
                     <CountdownTimer deadline={offer.collect_before} />
                   </div>
                 </div>

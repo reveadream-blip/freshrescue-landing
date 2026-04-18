@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { MapPin, Navigation, Utensils, Snowflake, Calendar, AlignLeft } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import { useTranslation } from '../lib/i18n';
+import SafeOfferImage from './SafeOfferImage';
 
 export default function OfferCard({ offer }) {
   const { t, dt, lang } = useTranslation();
   const [hovered, setHovered] = useState(false);
+  const isDemoOffer = offer.is_demo === true || (typeof offer.id === 'string' && offer.id.startsWith('mock-'));
 
   const discount = offer.original_price
     ? Math.round(((offer.original_price - offer.discount_price) / offer.original_price) * 100)
@@ -29,6 +31,10 @@ export default function OfferCard({ offer }) {
     if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "Sul posto";
     else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "Da asporto";
     else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Entrambi";
+  } else if (lang === 'de') {
+    if (consumptionMode?.toLowerCase().includes('site')) consumptionMode = "Vor Ort";
+    else if (consumptionMode?.toLowerCase().includes('takeaway')) consumptionMode = "Zum Mitnehmen";
+    else if (consumptionMode?.toLowerCase().includes('both')) consumptionMode = "Beides";
   }
 
   // RÉCUPÉRATION DE LA NOTICE SAC / CONGÉLATION (CORRIGÉE)
@@ -45,7 +51,7 @@ export default function OfferCard({ offer }) {
         fr: "Congelable",
         ru: "замораживаемый",
         en: "Freezable",
-        th: "แช่แข็งได้",
+        de: "Einfrierbar",
         it: "Congelabile"
       };
       
@@ -58,13 +64,14 @@ export default function OfferCard({ offer }) {
     e.stopPropagation();
     const address = offer.shop_address;
     if (address) {
-      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Phuket")}`;
+      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Switzerland")}`;
       window.open(url, '_blank');
     } else {
       const errorMsgs = {
         fr: "Adresse non renseignée.",
         ru: "Адрес не указан.",
-        it: "Indirizzo non disponible.",
+        it: "Indirizzo non disponibile.",
+        de: "Keine Adresse angegeben.",
         en: "Address not provided."
       };
       alert(errorMsgs[lang] || errorMsgs.en);
@@ -79,19 +86,21 @@ export default function OfferCard({ offer }) {
     >
       {/* IMAGE */}
       <div className="relative h-40 flex-shrink-0 overflow-hidden bg-muted">
-        {offer.image_url || offer.photo ? (
-          <img
-            src={offer.image_url || offer.photo}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-muted text-4xl">🥗</div>
-        )}
+        <SafeOfferImage
+          offer={offer}
+          alt={title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        />
 
         {discount && (
           <div className="absolute top-3 left-3 bg-citrus text-earth text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg italic">
             -{discount}%
+          </div>
+        )}
+
+        {isDemoOffer && (
+          <div className="absolute top-3 right-3 bg-earth/95 text-citrus text-[9px] font-black px-2 py-1 rounded-md shadow-lg border border-citrus/40 uppercase tracking-tight max-w-[8rem] text-center leading-tight">
+            {t('demoOfferBadge')}
           </div>
         )}
 
@@ -141,7 +150,7 @@ export default function OfferCard({ offer }) {
           <div className="flex items-center gap-1.5">
             <MapPin className="w-3 h-3 text-citrus flex-shrink-0" />
             <p className="text-[10px] text-muted-foreground font-bold truncate">
-              {offer.shop_name} • <span className="font-medium opacity-70">{offer.shop_address || "Phuket"}</span>
+              {offer.shop_name} • <span className="font-medium opacity-70">{offer.shop_address || ""}</span>
             </p>
           </div>
         </div>
@@ -155,8 +164,8 @@ export default function OfferCard({ offer }) {
               </span>
               <span className="font-medium">
                 {new Date(offer.expiry_date).toLocaleDateString(
-                  lang === 'ru' ? 'ru-RU' : 
-                  lang === 'th' ? 'th-TH' : 
+                  lang === 'ru' ? 'ru-RU' :
+                  lang === 'de' ? 'de-DE' :
                   lang === 'it' ? 'it-IT' :
                   'fr-FR'
                 )}
@@ -173,12 +182,12 @@ export default function OfferCard({ offer }) {
                   <span className="text-xl font-black text-red-600 line-through decoration-2">
                     {offer.original_price}
                   </span>
-                  <span className="text-[8px] font-bold text-red-600 uppercase">THB</span>
+                  <span className="text-[8px] font-bold text-red-600 uppercase">{t('currencyCHF')}</span>
                 </div>
               )}
               <div className="flex items-baseline gap-1">
                 <span className="text-2xl font-black text-foreground tracking-tighter">{offer.discount_price}</span>
-                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">THB</span>
+                <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest">{t('currencyCHF')}</span>
               </div>
             </div>
             <div className="flex flex-col items-end">

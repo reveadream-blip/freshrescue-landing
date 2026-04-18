@@ -1,9 +1,14 @@
+import { useCallback } from 'react';
+import { adminTranslations } from './adminTranslations';
+
 const translations = {
  it: {
     // Landing
-    heroTitle: "Smetti di sprecare. Inizia a risparmiare.",
-    heroSubtitle: "Cibo fresco a prezzi imbattibili dai negozi locali vicino a te. I commercianti trasformano l'eccedenza in vendite. I consumatori ottengono qualità a meno.",
-    exploreCta: "Esplora le offerte vicino a te",
+    heroTitle: "Anti-spreco alimentare. Nata per la Svizzera.",
+    heroSubtitle:
+      "FreshRescue è l’app anti-spreco che collega negozi e persone in tutta la Svizzera: si salvano gli invenduti, si riduce lo spreco e si accede a prezzi flash equi.",
+    brandTagline: "Anti-spreco · Svizzera",
+    exploreCta: "Scopri le offerte in Svizzera",
     merchantCta: "Sono un commerciante",
     oneHundredFree: "100% GRATUITO",
     // Nav
@@ -15,7 +20,8 @@ const translations = {
     // How it works
     howItWorks: "Come funziona",
     step1Title: "Il commerciante pubblica",
-    step1Desc: "Scatta una foto del cibo in eccesso, imposta un prezzo flash e scegli un orario limite per il ritiro.",
+    step1Desc:
+      "Scatta una foto dell’invenduto, imposta un prezzo flash e un orario limite: meno spreco, più valore per la tua clientela in Svizzera.",
     step2Title: "I clienti visualizzano",
     step2Desc: "Le offerte vengono visualizzate entro un raggio di 10 km da te.",
     step3Title: "Ritira e gusta",
@@ -49,7 +55,7 @@ const translations = {
     inappropriateContentError: "Contenuto inappropriato rilevato. Per favore, modifica il testo",
     trialInProgress: "Periodo di prova",
     trialEnded: "Prova terminata",
-    trialDesc: "Approfitta di questa offerta per aumentare la tua visibilità in Thailandia.",
+    trialDesc: "Approfitta di questa offerta per aumentare la tua visibilità in Svizzera.",
     trialExpiredDesc: "La tua visibilità è sospesa. Scegli un piano per riprenderla.",
     planRecurring: "Mensile Automatico",
     planMonthly: "1 Mese Singolo",
@@ -73,7 +79,7 @@ const translations = {
     descSubscription: "Flessibilità totale per il tuo stabilimento.",
     descYearly: "Impegno a lungo termine per il massimo risparmio.",
     featureUnlimited: "Offerte illimitate",
-    featureGeo: "Geolocalizzazione delle offerte a 10km",
+    featureGeo: "Mappa e offerte in tutta la Svizzera",
     featureStock: "Controllo delle scorte in tempo reale",
     featureZeroComm: "Zero commissioni",
     featureSupport: "4 lingue",
@@ -135,9 +141,9 @@ const translations = {
     productName: "Nome del Prodotto",
     productDescription: "Descrizione (opzionale)",
     productDescPlaceholder: "Descrizione (Ingredienti, allergeni, quantità...)",
-    originalPrice: "Prezzo Originale (THB)",
-    discountPrice: "Prezzo Flash (THB)",
-    flashPrice: "Prezzo Flash (THB)",
+    originalPrice: "Prezzo Originale (CHF)",
+    discountPrice: "Prezzo Flash (CHF)",
+    flashPrice: "Prezzo Flash (CHF)",
     collectDeadline: "Ritirare Entro le",
     pickupBefore: "Ritirare Entro:",
     pickupLocation: "Luogo di Ritiro",
@@ -151,6 +157,7 @@ const translations = {
     edit: "Modifica",
     post: "Pubblica",
     backToHome: "Torna alla Home",
+    swissCitiesHint: "Città svizzere",
     // Categories & Options
     bakery: "Panetteria",
     fruits: "Frutta",
@@ -172,13 +179,14 @@ const translations = {
     expiryDate: "Data di Scadenza (DLC)",
     freezable: "Congelabile",
     // Footer
-    footerTagline: "Trasformiamo lo spreco alimentare in opportunità.",
+    footerTagline: "Anti-spreco alimentare in Svizzera — dagli invenduti alle opportunità.",
     footerRights: "Tutti i diritti riservati.",
     footerTerms: "Termini e Condizioni",
     termsMainTitle: "TERMINI E CONDIZIONI — FRESHRESCUE",
     termsLastUpdate: "Ultimo aggiornamento: 5 luglio 2026",
     termsSection1Title: "1. IL CONCETTO FRESHRESCUE",
-    termsSection1Content: "FreshRescue fornisce una piattaforma di collegamento che consente alle attività commerciali di vendere le proprie eccedenze alimentari a prezzi ridotti. L'uso dell'app facilita la localizzazione delle offerte vicino all'utente.",
+    termsSection1Content:
+      "FreshRescue fornisce in Svizzera una piattaforma anti-spreco che consente alle attività commerciali di vendere le eccedenze alimentari a prezzi ridotti. L'app facilita la scoperta delle offerte sul territorio svizzero.",
     termsSection2Title: "2. PRENOTAZIONE E RITIRO",
     termsSection2Sub1Title: "3.1 Processo",
     termsSection2Sub1Content: "L'Utente visualizza le offerte tramite l'App. Il cliente non ha bisogno di registrarsi o pagare online. FreshRescue non raccoglie alcuna informazione sull'utente.",
@@ -191,10 +199,10 @@ const translations = {
     termsLegalTitle: "INFORMAZIONI LEGALI",
     legalPublisher: "Editore",
     legalHeadquarters: "Sede legale",
-    legalThailand: "Thailandia",
+    legalThailand: "Svizzera",
     legalContact: "Contatto",
     legalLaw: "Legge applicabile",
-    legalThaiLaw: "Tailandese",
+    legalThaiLaw: "Diritto svizzero",
     // Misc
     km: "km",
     off: "di sconto",
@@ -214,15 +222,19 @@ const translations = {
     shopPhone: "Telefono",
     shopCategory: "Tipo di Negozio",
     shopPhoto: "Foto Negozio",
+    demoOfferBadge: "Offerta demo",
+    currencyCHF: "CHF",
     notificationRadius: "Raggio d'azione",
     commissionOnSales: "Commissione sulle vendite",
     averageDiscount: "Sconto medio",
 }, 
   en: {
     // Landing
-    heroTitle: "Stop Wasting. Start Saving.",
-    heroSubtitle: "Fresh food at unbeatable prices from local shops near you. Merchants turn surplus into sales. Consumers get quality for less.",
-    exploreCta: "Explore Deals Near You",
+    heroTitle: "Fight Food Waste. Built for Switzerland.",
+    heroSubtitle:
+      "FreshRescue is Switzerland’s anti-food-waste app: it connects shops and people nationwide to rescue surplus food, cut waste, and unlock fair flash prices.",
+    brandTagline: "Anti-waste · Switzerland",
+    exploreCta: "Browse offers in Switzerland",
     merchantCta: "I'm a Merchant",
     oneHundredFree: "100% FREE",
     // Nav
@@ -234,7 +246,8 @@ const translations = {
     // How it works
     howItWorks: "How It Works",
     step1Title: "Merchant Posts",
-    step1Desc: "Snap a photo of surplus food, set a flash price, and choose a pickup deadline.",
+    step1Desc:
+      "Snap surplus food, set a flash price and pickup time — less waste, more value for customers across Switzerland.",
     step2Title: "Customers are viewing",
     step2Desc: "Offers are displayed within a 10km radius of you.",
     step3Title: "Collect & Enjoy",
@@ -268,7 +281,7 @@ const translations = {
     inappropriateContentError: "Inappropriate content detected. Please modify your text",
     trialInProgress: "Trial period",
     trialEnded: "Trial ended",
-    trialDesc: "Take advantage of this offer to boost your visibility in Thailand.",
+    trialDesc: "Take advantage of this offer to boost your visibility in Switzerland.",
     trialExpiredDesc: "Your visibility is suspended. Choose a plan to resume.",
     planRecurring: "Monthly Auto",
     planMonthly: "1 Month One-time",
@@ -292,7 +305,7 @@ const translations = {
     descSubscription: "Total flexibility for your establishment.",
     descYearly: "Long-term commitment for maximum savings.",
     featureUnlimited: "Unlimited offers",
-    featureGeo: "Geolocation of offers 10km",
+    featureGeo: "Map & offers across Switzerland",
     featureStock: "Real-time stock control",
     featureZeroComm: "Zero commission",
     featureSupport: "4 languages",
@@ -354,9 +367,9 @@ const translations = {
     productName: "Product Name",
     productDescription: "Description (optional)",
     productDescPlaceholder: "Description (Ingredients, allergens, quantity...)",
-    originalPrice: "Original Price (THB)",
-    discountPrice: "Flash Price (THB)",
-    flashPrice: "Flash Price (THB)",
+    originalPrice: "Original Price (CHF)",
+    discountPrice: "Flash Price (CHF)",
+    flashPrice: "Flash Price (CHF)",
     collectDeadline: "Collect Before",
     pickupBefore: "Collect Before:",
     pickupLocation: "Pickup Location",
@@ -370,6 +383,7 @@ const translations = {
     edit: "Edit",
     post: "Post",
     backToHome: "Back to Home",
+    swissCitiesHint: "Swiss cities",
     // Categories & Options
     bakery: "Bakery",
     fruits: "Fruits",
@@ -391,13 +405,14 @@ const translations = {
     expiryDate: "Expiry Date (DLC)",
     freezable: "Freezable",
     // Footer
-    footerTagline: "Transforming food waste into opportunity.",
+    footerTagline: "Anti-food waste in Switzerland — turning surplus into opportunity.",
     footerRights: "All rights reserved.",
     footerTerms: "Terms & Conditions",
     termsMainTitle: "TERMS AND CONDITIONS — FRESHRESCUE",
     termsLastUpdate: "Last update: July 5, 2026",
     termsSection1Title: "1. THE FRESHRESCUE CONCEPT",
-    termsSection1Content: "FreshRescue provides a connecting platform allowing retail businesses to sell their food surplus at reduced prices. Using the app facilitates locating offers near the user.",
+    termsSection1Content:
+      "FreshRescue provides a Switzerland-focused anti-food-waste platform allowing retailers to sell surplus food at reduced prices. The app helps users find offers across Switzerland.",
     termsSection2Title: "2. RESERVATION AND COLLECTION",
     termsSection2Sub1Title: "3.1 Process",
     termsSection2Sub1Content: "The User views offers via the App. The customer does not need to log in or pay online. FreshRescue does not collect any user information.",
@@ -410,10 +425,10 @@ const translations = {
     termsLegalTitle: "LEGAL INFORMATION",
     legalPublisher: "Publisher",
     legalHeadquarters: "Headquarters",
-    legalThailand: "Thailand",
+    legalThailand: "Switzerland",
     legalContact: "Contact",
     legalLaw: "Applicable law",
-    legalThaiLaw: "Thai",
+    legalThaiLaw: "Swiss law",
     // Misc
     km: "km",
     off: "off",
@@ -433,15 +448,19 @@ const translations = {
     shopPhone: "Phone",
     shopCategory: "Shop Type",
     shopPhoto: "Shop Photo",
+    demoOfferBadge: "Demo offer",
+    currencyCHF: "CHF",
     notificationRadius: "Radius around your location",
     commissionOnSales: "Commission on sales",
     averageDiscount: "Average discount",
   },
   fr: {
     // Landing
-    heroTitle: "Stop au Gaspillage. Place aux Économies.",
-    heroSubtitle: "Des produits frais à prix imbattables dans les commerces près de chez vous. Les commerçants transforment leurs surplus en ventes. Les consommateurs profitent de la qualité à petit prix.",
-    exploreCta: "Découvrir les Offres",
+    heroTitle: "Anti-gaspillage alimentaire. Pensé pour la Suisse.",
+    heroSubtitle:
+      "FreshRescue est l’application suisse anti-gaspillage : elle relie commerçants et consommateurs partout en Suisse pour sauver les invendus, réduire le gaspillage et proposer des prix flash justes.",
+    brandTagline: "Anti-gaspillage · Suisse",
+    exploreCta: "Voir les offres en Suisse",
     merchantCta: "Je suis Commerçant",
     oneHundredFree: "100% GRATUIT",
     // Nav
@@ -452,7 +471,8 @@ const translations = {
     // How it works
     howItWorks: "Comment ça Marche",
     step1Title: "Le Commerçant Publie",
-    step1Desc: "Prenez en photo le produit excédentaire, fixez un prix flash et choisissez une heure limite.",
+    step1Desc:
+      "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour vos clients en Suisse.",
     step2Title: "Les Clients consultent",
     step2Desc: "Les offres s'affichent dans un rayon de 10km autour de vous.",
     step3Title: "Récupérez & Savourez",
@@ -488,7 +508,7 @@ const translations = {
     inappropriateContentError: "Contenu inapproprié détecté. Merci de modifier votre texte",
     trialInProgress: "Période d'essai",
     trialEnded: "Essai terminé",
-    trialDesc: "Profitez de l'offre pour booster votre visibilité en Thaïlande.",
+    trialDesc: "Profitez de l'offre pour booster votre visibilité en Suisse.",
     trialExpiredDesc: "Votre visibilité est suspendue. Choisissez une formule pour reprendre.",
     planRecurring: "Mensuel Auto",
     planMonthly: "1 Mois Unique",
@@ -512,7 +532,7 @@ const translations = {
     descSubscription: "La flexibilité totale pour votre établissement.",
     descYearly: "L'engagement durable pour un maximum d'économies.",
     featureUnlimited: "Offres illimitées",
-    featureGeo: "Géolocalisation des offres 10km",
+    featureGeo: "Carte et offres dans toute la Suisse",
     featureStock: "Contrôle du stock en temps réel",
     featureZeroComm: "Zéro commission",
     featureSupport: "4 langues",
@@ -575,9 +595,9 @@ const translations = {
     productName: "Nom du Produit",
     productDescription: "Description (optionnel)",
     productDescPlaceholder: "Description (Ingrédients, allergènes, quantité...)",
-    originalPrice: "Prix Original (THB)",
-    discountPrice: "Prix Flash (THB)",
-    flashPrice: "Prix Flash (THB)",
+    originalPrice: "Prix Original (CHF)",
+    discountPrice: "Prix Flash (CHF)",
+    flashPrice: "Prix Flash (CHF)",
     collectDeadline: "À récupérer avant",
     pickupBefore: "Récupération avant :",
     pickupLocation: "Lieu de retrait",
@@ -591,6 +611,7 @@ const translations = {
     edit: "Modifier",
     post: "Publier",
     backToHome: "Retour Accueil",
+    swissCitiesHint: "Villes suisses",
     // Categories & Options
     bakery: "Boulangerie",
     fruits: "Fruits",
@@ -612,13 +633,14 @@ const translations = {
     expiryDate: "Date de péremption (DLC)",
     freezable: "Congelable",
     // Footer
-    footerTagline: "Transformer le gaspillage alimentaire en opportunité.",
+    footerTagline: "Anti-gaspillage alimentaire en Suisse — des invendus à l’opportunité.",
     footerRights: "Tous droits réservés.",
     footerTerms: "Conditions Générales (CGU)",
     termsMainTitle: "CONDITIONS GÉNÉRALES D’UTILISATION — FRESHRESCUE",
     termsLastUpdate: "Dernière mise à jour : 5 juillet 2026",
     termsSection1Title: "1. LE CONCEPT FRESHRESCUE",
-    termsSection1Content: "FreshRescue fournit une plateforme de mise en relation permettant aux commerces de détail de vendre leurs surplus alimentaires à prix réduit. L'utilisation de l'application facilite la localisation des offres à proximité de l'utilisateur.",
+    termsSection1Content:
+      "FreshRescue fournit en Suisse une plateforme anti-gaspillage permettant aux commerces de détail de vendre leurs surplus alimentaires à prix réduit. L'application facilite la découverte des offres sur le territoire suisse.",
     termsSection2Title: "2. RÉSERVATION ET COLLECTE",
     termsSection2Sub1Title: "3.1 Processus",
     termsSection2Sub1Content: "L'Utilisateur consulte les offres via l'Application. Le client n'a ni besoin de se connecter ni besoin de payer en ligne. FreshRescue ne récolte aucune information des utilisateurs.",
@@ -631,10 +653,10 @@ const translations = {
     termsLegalTitle: "INFORMATIONS LÉGALES",
     legalPublisher: "Éditeur",
     legalHeadquarters: "Siège Social",
-    legalThailand: "Thaïlande",
+    legalThailand: "Suisse",
     legalContact: "Contact",
     legalLaw: "Droit applicable",
-    legalThaiLaw: "Thaïlandais",
+    legalThaiLaw: "Droit suisse",
     // Misc
     km: "km",
     off: "de réduction",
@@ -654,230 +676,236 @@ const translations = {
     shopPhone: "Téléphone",
     shopCategory: "Type de Commerce",
     shopPhoto: "Photo de la Boutique",
+    demoOfferBadge: "Offre démo",
+    currencyCHF: "CHF",
   },
-  th: {
+  de: {
     // Landing
-    heroTitle: "หยุดทิ้ง เริ่มประหยัด",
-    heroSubtitle: "อาหารสดในราคาสุดคุ้มจากร้านค้าใกล้คุณ ผู้ค้าเปลี่ยนของเหลือเป็นรายได้ ลูกค้าได้ของดีราคาถูก",
-    exploreCta: "ค้นหาดีลใกล้คุณ",
-    merchantCta: "ฉันเป็นผู้ค้า",
-    oneHundredFree: "ฟรี 100%",
+    heroTitle: "Weniger Lebensmittelverschwendung. Für die ganze Schweiz.",
+    heroSubtitle:
+      "FreshRescue ist die Schweizer Anti-Waste-App: Sie verbindet Händler und Kundinnen in der ganzen Schweiz, rettet Überschüsse, vermeidet Abfall und ermöglicht faire Blitzpreise.",
+    brandTagline: "Anti-Waste · Schweiz",
+    exploreCta: "Angebote in der Schweiz entdecken",
+    merchantCta: "Ich bin Händler",
+    oneHundredFree: "100% KOSTENLOS",
     // Nav
-    home: "หน้าแรก",
-    explore: "สำรวจ",
-    merchantLogin: "พอร์ทัลผู้ค้า",
-    logout: "ออกจากระบบ",
+    home: "Start",
+    explore: "Entdecken",
+    merchantLogin: "Händlerportal",
+    logout: "Abmelden",
     // How it works
-    howItWorks: "วิธีการทำงาน",
-    step1Title: "ผู้ค้าโพสต์",
-    step1Desc: "ถ่ายรูปอาหารส่วนเกิน ตั้งราคาแฟลช และเลือกเวลารับสินค้า",
-    step2Title: "ลูกค้ากำลังดู",
-    step2Desc: "ข้อเสนอต่างๆ จะแสดงขึ้นภายในรัศมี 10 กิโลเมตรจากคุณ",
-    step3Title: "รับสินค้าและเพลิดเพลิน",
-    step3Desc: "ลูกค้ารับอาหารสดในราคาลดก่อนเวลาหมด ไม่มีขยะอาหาร",
+    howItWorks: "So funktioniert's",
+    step1Title: "Händler veröffentlicht",
+    step1Desc:
+      "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für Kundinnen in der Schweiz.",
+    step2Title: "Kunden sehen mit",
+    step2Desc: "Angebote werden in einem Radius von 10 km um Sie angezeigt.",
+    step3Title: "Abholen und genießen",
+    step3Desc: "Kunden holen frische Ware zum Sonderpreis vor Ablauf ab. Keine Verschwendung.",
     // Value
-    forMerchants: "สำหรับผู้ค้า",
-    forCustomers: "สำหรับลูกค้า",
-    merchantBenefit1: "เปลี่ยนของเหลือเป็นรายได้",
-    merchantBenefit2: "ดึงดูดลูกค้าใหม่ในพื้นที่",
-    merchantBenefit3: "ไม่มีค่าคอมมิชชั่น",
-    merchantBenefit4: "ควบคุมเต็มที่ — ปิดได้ทุกเมื่อ",
-    customerBenefit1: "ไม่ต้องสมัครสมาชิก",
-    customerBenefit2: "อาหารสดลดสูงสุด 70%",
-    customerBenefit3: "ค้นพบร้านค้าใกล้บ้าน",
-    customerBenefit4: "ช่วยลดขยะอาหาร",
-    notificationRadius: "รัศมีรอบๆ ตำแหน่งของคุณ",
-    commissionOnSales: "ค่าธรรมเนียมการขาย",
-    averageDiscount: "ส่วนลดเฉลี่ย",
+    forMerchants: "Für Händler",
+    forCustomers: "Für Kunden",
+    merchantBenefit1: "Überschüsse in Umsatz verwandeln",
+    merchantBenefit2: "Neue lokale Kunden gewinnen",
+    merchantBenefit3: "Keine Provision auf Verkäufe",
+    merchantBenefit4: "Volle Kontrolle — jederzeit deaktivierbar",
+    customerBenefit1: "Keine Registrierung nötig",
+    customerBenefit2: "Frische Ware bis zu 70% günstiger",
+    customerBenefit3: "Lokale Geschäfte in der Nähe entdecken",
+    customerBenefit4: "Lebensmittelverschwendung reduzieren",
+    notificationRadius: "Radius um Ihren Standort",
+    commissionOnSales: "Provision auf Verkäufe",
+    averageDiscount: "Durchschnittlicher Rabatt",
     // Subscription
-    enterEmail: "กรุณาป้อนที่อยู่อีเมลของคุณ",
-    resetSent: "ส่งลิงก์รีเซ็ตแล้ว!",
-    otpSent: "ส่งรหัสทางอีเมลแล้ว!",
-    loading: "กำลังโหลด...",
-    forgotPassword: "ลืมรหัสผ่าน?",
-    noAccount: "ยังไม่ได้ลงทะเบียน !",
-    hasAccount: "ลงทะเบียนแล้ว !",
-    otpSent: "รหัสยืนยันถูกส่งไปยังอีเมลของคุณแล้ว",
-    verifyEmail: "การตรวจสอบสิทธิ์",
-    enterCode: "รหัสที่ได้รับทางอีเมล",
-    sendCode: "รับรหัสของฉัน",
-    verify: "ตรวจสอบ",
-    changeEmail: "เปลี่ยนอีเมล",
-    inappropriateContentError: "พบเนื้อหาที่ไม่เหมาะสม โปรดแก้ไขข้อความของคุณ",
-    trialInProgress: "ช่วงทดลองใช้งาน",
-    trialEnded: "สิ้นสุดช่วงทดลองใช้งาน",
-    trialDesc: "ใช้ประโยชน์จากข้อเสนอนี้เพื่อเพิ่มการมองเห็นของคุณในประเทศไทย",
-    trialExpiredDesc: "การมองเห็นของคุณถูกระงับ เลือกแผนเพื่อกลับมาใช้งานต่อ",
-    planRecurring: "รายเดือนอัตโนมัติ",
-    planMonthly: "1 เดือน (รายครั้ง)",
-    planYearly: "12 เดือน 💎",
-    descRecurring: "ตัดบัตรเครดิตอัตโนมัติรายเดือน",
-    month: "เดือน",
-    year: "ปี",
-    descMonthly: "ชำระรายครั้ง ไม่มีข้อผูกมัด",
-    descYearly: "ประหยัดกว่าด้วยรายปี ชำระครั้งเดียว",
-    promo: "โปรโมชั่น",
-    choose: "เลือก",
-    subscribe: "สมัครสมาชิก",
-    takeYear: "เลือกรายปี",
-    planSingleMonth: "บัตร FreshRescue 1 เดือน",
-    planSubscription: "บัตร FreshRescue สมัครสมาชิกรายเดือน",
-    planYearly: "บัตร FreshRescue 1 ปี",
-    oneMonth: "หนึ่งเดือน",
-    perMonth: "/เดือน",
-    twoMonthsFree: "ฟรี 2 เดือน",
-    descSingle: "เหมาะสำหรับการทดสอบผลกระทบต่อยอดขายของคุณ",
-    descSubscription: "ความยืดหยุ่นที่สมบูรณ์แบบสำหรับสถานประกอบการของคุณ",
-    descYearly: "ความมุ่งมั่นระยะยาวเพื่อการประหยัดสูงสุด",
-    featureUnlimited: "โพสต์ได้ไม่จำกัด",
-    featureGeo: "ระบุตำแหน่งข้อเสนอภายใน 10 กม.",
-    featureStock: "ควบคุมสต็อกเรียลไทม์",
-    featureZeroComm: "ไม่มีค่าคอมมิชชั่น",
-    featureSupport: "4 ภาษา",
-    trialDays: "เหลือวันทดลองใช้งาน",
-    trialDesc: "ขณะนี้คุณสามารถเข้าชมได้ฟรี",
-    becomePremium: "สมัครพรีเมียม",
-    premiumActive: "การสมัครสมาชิกพรีเมียมใช้งานได้ปกติ 🌴",
-    trialEnded: "สิ้นสุดระยะเวลาทดลองใช้ฟรี",
-    trialEndedDesc: "ร้านค้าของคุณไม่แสดงบนแผนที่อีกต่อไป",
-    activateAccess: "เปิดใช้งานการเข้าถึงของฉัน",
-    trialStatus: "ขณะนี้คุณสามารถเข้าชมได้ฟรี",
-    getStarted: "เริ่มต้นเลย",
-    login: "เข้าสู่ระบบ",
-    signup: "ลงทะเบียน",
-    loginRequired: "กรุณาเข้าสู่ระบบ",
-    forgotPasswordTitle: "ลืมรหัสผ่าน?",
-    forgotPasswordSubtitle: "กรอกอีเมลของคุณเพื่อรับลิงก์กู้คืนพาสเวิร์ด",
-    sendLink: "ส่งลิงก์",
-    emailSent: "ส่งอีเมลกู้คืนเรียบร้อยแล้ว!",
-    checkSpam: "อย่าลืมตรวจสอบในจดหมายขยะของคุณ!",
-    back: "กลับ",
-    password: "รหัสผ่าน",
+    enterEmail: "Bitte geben Sie Ihre E-Mail-Adresse ein.",
+    resetSent: "Link zum Zurücksetzen gesendet!",
+    otpSent: "Code per E-Mail gesendet!",
+    loading: "Laden...",
+    forgotPassword: "Passwort vergessen?",
+    noAccount: "Noch nicht registriert!",
+    hasAccount: "Bereits registriert!",
+    verifyEmail: "Verifizierung",
+    enterCode: "Code aus der E-Mail",
+    sendCode: "Code senden",
+    verify: "Bestätigen",
+    changeEmail: "E-Mail ändern",
+    inappropriateContentError: "Unangemessener Inhalt. Bitte Text anpassen.",
+    trialInProgress: "Testphase",
+    trialEnded: "Kostenlose Testphase beendet",
+    trialDesc: "Ihre Sichtbarkeit ist derzeit kostenlos.",
+    trialExpiredDesc: "Ihre Sichtbarkeit ist pausiert. Wählen Sie einen Tarif, um fortzufahren.",
+    planRecurring: "Monatlich automatisch",
+    planMonthly: "1 Monat einmalig",
+    planYearly: "12 Monate 💎",
+    descRecurring: "Automatische Abbuchung per Kreditkarte",
+    month: "MONAT",
+    year: "JAHR",
+    descMonthly: "Einmalzahlung, keine Bindung",
+    descYearly: "Mit Jahresplan sparen. Einmal zahlen.",
+    promo: "Aktion",
+    choose: "Wählen",
+    subscribe: "Abonnieren",
+    takeYear: "Jahresplan wählen",
+    planSingleMonth: "FreshRescue Pass 1 Monat",
+    planSubscription: "FreshRescue Pass Monatsabo",
+    planYearly: "FreshRescue Pass 1 Jahr",
+    oneMonth: "Monat",
+    perMonth: "/Monat",
+    twoMonthsFree: "2 Monate gratis",
+    descSingle: "Ideal, um die Wirkung auf Ihren Umsatz zu testen.",
+    descSubscription: "Volle Flexibilität für Ihren Betrieb.",
+    descYearly: "Langfristiges Engagement für maximale Ersparnis.",
+    featureUnlimited: "Unbegrenzte Angebote",
+    featureGeo: "Karte & Angebote in der ganzen Schweiz",
+    featureStock: "Echtzeit-Bestandskontrolle",
+    featureZeroComm: "Keine Provision",
+    featureSupport: "4 Sprachen",
+    trialDays: "VERBLEIBENDE TESTTAGE",
+    becomePremium: "PREMIUM WERDEN",
+    premiumActive: "Premium-Abonnement aktiv 🌴",
+    trialEndedDesc: "Ihr Geschäft wird nicht mehr auf der Karte angezeigt.",
+    activateAccess: "Zugang aktivieren",
+    trialStatus: "Ihre Sichtbarkeit ist derzeit kostenlos.",
+    getStarted: "Loslegen",
+    login: "Anmelden",
+    signup: "Registrieren",
+    loginRequired: "Bitte anmelden",
+    forgotPasswordTitle: "Vergessen?",
+    forgotPasswordSubtitle: "E-Mail eingeben, um einen Wiederherstellungslink zu erhalten.",
+    sendLink: "Link senden",
+    emailSent: "Wiederherstellungs-E-Mail wurde gesendet!",
+    checkSpam: "Bitte auch den Spam-Ordner prüfen!",
+    back: "Zurück",
+    password: "Passwort",
     // Explore
-    explore: "สำรวจ",
-    merchantLogin: "เข้าสู่ระบบร้านค้า",
-    locating: "กำลังระบุตำแหน่ง...",
-    posNotAccessible: "ไม่สามารถเข้าถึงตำแหน่งได้",
-    geoNotSupported: "เบราว์เซอร์ไม่รองรับการระบุตำแหน่ง",
-    youAreHere: "คุณอยู่ที่นี่",
-    searchPlaceholder: "ค้นหาข้อเสนอ...",
-    noOffers: "ไม่พบข้อเสนอ",
-    geoError: "กรุณาเปิดใช้งานการระบุตำแหน่ง !",
-    pwaInstallTitle: "ติดตั้งแอปพลิเคชัน",
-    pwaInstallBtn: "ติดตั้ง",
-    iosInstallTitle: "เปิดการแจ้งเตือนบน iPhone:",
-    iosInstallDesc: "กดปุ่มแชร์แล้วเลือก 'เพิ่มไปยังหน้าจอโฮม'",
-    activeOffers: "ข้อเสนอที่ใช้งานอยู่",
-    noOffers: "ยังไม่มีข้อเสนอในตอนนี้ กลับมาใหม่เร็วๆ นี้!",
-    collectBefore: "รับก่อน",
-    away: "ห่างจากคุณ",
-    soldOut: "หมดแล้ว",
-    getDirections: "เส้นทาง",
-    allCategories: "ทั้งหมด",
-    filterByCategory: "กรอง",
+    merchantLogin: "Händlerbereich",
+    locating: "Standort wird ermittelt...",
+    posNotAccessible: "Standort nicht verfügbar",
+    geoNotSupported: "Geolokalisierung nicht unterstützt",
+    youAreHere: "Sie sind hier",
+    searchPlaceholder: "Angebot suchen...",
+    noOffers: "Noch keine Angebote. Schauen Sie später wieder vorbei!",
+    geoError: "Bitte Geolokalisierung aktivieren!",
+    pwaInstallTitle: "App installieren",
+    pwaInstallBtn: "INSTALLIEREN",
+    iosInstallTitle: "Benachrichtigungen auf dem iPhone:",
+    iosInstallDesc: "Tippen Sie auf Teilen und dann „Zum Home-Bildschirm“.",
+    activeOffers: "Aktive Angebote",
+    collectBefore: "Abholen bis",
+    away: "entfernt",
+    soldOut: "Ausverkauft",
+    getDirections: "Route",
+    allCategories: "Alle",
+    filterByCategory: "Filtern",
     // Merchant
-    myOffers: "ข้อเสนอของฉัน",
-    postOffer: "โพสต์ข้อเสนอใหม่",
-    active: "ใช้งานอยู่",
-    inactive: "ปิดใช้งาน",
-    deactivate: "ปิดการใช้งาน",
-    reactivate: "เปิดใช้งานอีกครั้ง",
-    deleteOffer: "ลบ",
-    confirmDelete: "ลบข้อเสนอนี้หรือไม่?",
-    trialPeriod: "ระยะเวลาทดลองใช้งาน",
+    myOffers: "Meine Angebote",
+    postOffer: "Neues Angebot",
+    active: "Aktiv",
+    inactive: "Inaktiv",
+    deactivate: "Deaktivieren",
+    reactivate: "Reaktivieren",
+    deleteOffer: "Löschen",
+    confirmDelete: "Dieses Angebot löschen?",
+    trialPeriod: "Testphase",
     // Post form
-    inappropriateImageError: "รูปภาพถูกปฏิเสธ: พบเนื้อหาที่ไม่เหมาะสม",
-    inappropriateContentError: "โพสต์ของคุณมีคำที่ไม่ได้รับอนุญาต (เรื่องเพศ ยาเสพติด หรือคำหยาบคาย)",
-    camera: "กล้อง",
-    gallery: "แกลเลอรี่",
-    productName: "ชื่อสินค้า",
-    productDescription: "รายละเอียด (ไม่บังคับ)",
-    productDescPlaceholder: "รายละเอียด (ส่วนผสม, สารก่อภูมิแพ้, จำนวน...)",
-    originalPrice: "ราคาเดิม (บาท)",
-    discountPrice: "ราคาแฟลช (บาท)",
-    flashPrice: "ราคาแฟลช (บาท)",
-    collectDeadline: "รับก่อนเวลา",
-    pickupBefore: "รับสินค้าก่อนเวลา:",
-    pickupLocation: "สถานที่รับสินค้า",
-    category: "หมวดหมู่",
-    categoryLabel: "หมวดหมู่:",
-    takePhoto: "อัปโหลดรูปภาพ",
-    publish: "เผยแพร่ข้อเสนอ",
-    publishing: "กำลังเผยแพร่...",
-    published: "เผยแพร่แล้ว!",
-    updated: "แก้ไขแล้ว!",
-    edit: "แก้ไข",
-    post: "โพสต์",
-    backToHome: "กลับหน้าหลัก",
+    inappropriateImageError: "Bild abgelehnt: unangemessener Inhalt",
+    inappropriateContentError: "Ihr Beitrag enthält unzulässige Begriffe (Sex, Drogen oder Beleidigungen).",
+    camera: "KAMERA",
+    gallery: "GALERIE",
+    productName: "Produktname",
+    productDescription: "Beschreibung (optional)",
+    productDescPlaceholder: "Beschreibung (Zutaten, Allergene, Menge...)",
+    originalPrice: "Originalpreis (CHF)",
+    discountPrice: "Blitzpreis (CHF)",
+    flashPrice: "Blitzpreis (CHF)",
+    collectDeadline: "Abholen bis",
+    pickupBefore: "Abholen bis:",
+    pickupLocation: "Abholort",
+    category: "Kategorie",
+    categoryLabel: "Kategorie:",
+    takePhoto: "Foto hochladen",
+    publish: "Angebot veröffentlichen",
+    publishing: "Wird veröffentlicht...",
+    published: "Veröffentlicht!",
+    updated: "Aktualisiert!",
+    edit: "Bearbeiten",
+    post: "Veröffentlichen",
+    backToHome: "Zur Startseite",
+    swissCitiesHint: "Schweizer Städte",
     // Categories & Options
-    bakery: "เบเกอรี่",
-    fruits: "ผลไม้",
-    vegetables: "ผัก",
-    dairy: "นม",
-    meat: "เนื้อสัตว์",
-    seafood: "อาหารทะเล",
-    prepared: "อาหารปรุงสำเร็จ",
-    beverages: "เครื่องดื่ม",
-    main_course: "อาหารจานหลัก",
-    cheese: "ชีส",
-    bread: "ขนมปัง",
-    other: "อื่นๆ",
-    consumptionMode: "รูปแบบการทาน",
-    takeaway: "ซื้อกลับบ้าน",
-    onSite: "ทานที่ร้าน",
-    both: "ได้ทั้งสองอย่าง",
-    expiryLabel: "ควรบริโภคก่อน",
-    expiryDate: "วันหมดอายุ",
-    freezable: "แช่แข็งได้",
+    bakery: "Bäckerei",
+    fruits: "Obst",
+    vegetables: "Gemüse",
+    dairy: "Milchprodukte",
+    meat: "Fleisch",
+    seafood: "Fisch & Meeresfrüchte",
+    prepared: "Fertiggerichte",
+    beverages: "Getränke",
+    main_course: "Hauptgericht",
+    cheese: "Käse",
+    bread: "Brot",
+    other: "Sonstiges",
+    consumptionMode: "Verzehrart",
+    takeaway: "Zum Mitnehmen",
+    onSite: "Vor Ort",
+    both: "Beides",
+    expiryLabel: "Verbrauchen bis",
+    expiryDate: "Mindesthaltbarkeitsdatum",
+    freezable: "Einfrierbar",
     // Footer
-    footerTagline: "เปลี่ยนขยะอาหารเป็นโอกาส",
-    footerRights: "สงวนลิขสิทธิ์",
-    footerTerms: "ข้อกำหนดและเงื่อนไข (CGU)",
-    termsMainTitle: "ข้อกำหนดและเงื่อนไขการใช้งาน — FRESHRESCUE",
-    termsLastUpdate: "อัปเดตล่าสุด: 5 กรกฎาคม 2026",
-    termsSection1Title: "1. แนวคิด FRESHRESCUE",
-    termsSection1Content: "FreshRescue เป็นแพลตฟอร์มที่เชื่อมโยงร้านค้าปลีกเพื่อให้สามารถขายอาหารส่วนเกินในราคาพิเศษ การใช้แอปช่วยให้ผู้ใช้ค้นหาข้อเสนอใกล้ตัวได้ง่ายขึ้น",
-    termsSection2Title: "2. การจองและการรับสินค้า",
-    termsSection2Sub1Title: "3.1 กระบวนการ",
-    termsSection2Sub1Content: "ผู้ใช้ดูข้อเสนอผ่านแอป ลูกค้าไม่จำเป็นต้องเข้าสู่ระบบหรือชำระเงินออนไลน์ FreshRescue ไม่เก็บข้อมูลส่วนตัวของผู้ใช้",
-    termsSection2Sub2Title: "3.3 การยืนยัน",
-    termsSection2Sub2Content: "ผู้ใช้ต้องเดินทางไปรับสินค้าโดยเร็วที่สุดก่อนหมดเวลาที่กำหนด",
-    termsSection3Title: "3. ความรับผิดชอบและความปลอดภัย",
-    termsSection3Content: "ร้านค้าเป็นผู้รับผิดชอบต่อความสดใหม่และความถูกต้องของสินค้าแต่เพียงผู้เดียว",
-    termsSection3AllergiesTitle: "การแพ้อาหาร",
-    termsSection3AllergiesContent: "ผู้ใช้มีหน้าที่ตรวจสอบส่วนผสมกับทางร้านโดยตรง",
-    termsLegalTitle: "ข้อมูลทางกฎหมาย",
-    legalPublisher: "ผู้จัดทำ",
-    legalHeadquarters: "สำนักงานใหญ่",
-    legalThailand: "ประเทศไทย",
-    legalContact: "ติดต่อ",
-    legalLaw: "กฎหมายที่ใช้บังคับ",
-    legalThaiLaw: "กฎหมายไทย",
+    footerTagline: "Anti-Waste in der Schweiz — aus Überschüssen werden Chancen.",
+    footerRights: "Alle Rechte vorbehalten.",
+    footerTerms: "Allgemeine Geschäftsbedingungen",
+    termsMainTitle: "AGB — FRESHRESCUE",
+    termsLastUpdate: "Letzte Aktualisierung: 5. Juli 2026",
+    termsSection1Title: "1. DAS KONZEPT FRESHRESCUE",
+    termsSection1Content:
+      "FreshRescue ist eine Schweizer Plattform gegen Lebensmittelverschwendung: Einzelhandel kann Überschüsse zu reduzierten Preisen verkaufen. Die App erleichtert die Suche nach Angeboten in der Schweiz.",
+    termsSection2Title: "2. RESERVIERUNG UND ABHOLUNG",
+    termsSection2Sub1Title: "3.1 Ablauf",
+    termsSection2Sub1Content: "Der Nutzer sieht Angebote in der App. Es ist weder Anmeldung noch Online-Zahlung nötig. FreshRescue erhebt keine Nutzerdaten.",
+    termsSection2Sub2Title: "3.3 Bestätigung",
+    termsSection2Sub2Content: "Der Nutzer soll das Angebot möglichst schnell vor Ende des Zeitfensters abholen.",
+    termsSection3Title: "3. VERANTWORTUNG UND SICHERHEIT",
+    termsSection3Content: "Die Geschäfte sind allein für Frische und Verkehrsfähigkeit der Produkte verantwortlich.",
+    termsSection3AllergiesTitle: "Allergien",
+    termsSection3AllergiesContent: "Der Nutzer prüft Zutaten direkt beim Geschäft.",
+    termsLegalTitle: "RECHTLICHE HINWEISE",
+    legalPublisher: "Herausgeber",
+    legalHeadquarters: "Firmensitz",
+    legalThailand: "Schweiz",
+    legalContact: "Kontakt",
+    legalLaw: "Anwendbares Recht",
+    legalThaiLaw: "Schweizer Recht",
     // Misc
-    km: "กม.",
-    off: "ส่วนลด",
-    left: "เหลือ",
-    minutes: "นาที",
-    hours: "ชม.",
-    expired: "หมดเวลา",
-    language: "ภาษา",
-    dashboard: "แดชบอร์ด",
-    shopSettings: "ตั้งค่าร้านค้า",
-    noShopYet: "ตั้งค่าร้านค้าก่อน",
-    setupShop: "ตั้งค่าร้านค้า",
-    save: "บันทึก",
-    saving: "กำลังบันทึก...",
-    shopName: "ชื่อร้าน",
-    shopAddress: "ที่อยู่",
-    shopPhone: "โทรศัพท์",
-    shopCategory: "ประเภทร้านค้า",
-    shopPhoto: "รูปร้าน",
+    km: "km",
+    off: "Rabatt",
+    left: "übrig",
+    minutes: "Min.",
+    hours: "Std.",
+    expired: "Abgelaufen",
+    language: "Sprache",
+    dashboard: "Dashboard",
+    shopSettings: "Geschäftseinstellungen",
+    noShopYet: "Bitte zuerst Ihr Geschäft einrichten",
+    setupShop: "Geschäft einrichten",
+    save: "Speichern",
+    saving: "Speichern...",
+    shopName: "Geschäftsname",
+    shopAddress: "Adresse",
+    shopPhone: "Telefon",
+    shopCategory: "Geschäftsart",
+    shopPhoto: "Geschäftsfoto",
+    demoOfferBadge: "Demo-Angebot",
+    currencyCHF: "CHF",
   },
   ru: {
     // Landing
-    heroTitle: "Хватит выбрасывать. Начни экономить.",
-    heroSubtitle: "Свежие продукты по непревзойденным ценам в местных магазинах рядом с вами. Продавцы превращают излишки в продажи. Покупатели получают качество за меньшие деньги.",
-    exploreCta: "Посмотреть предложения рядом",
+    heroTitle: "Меньше пищевых отходов. Для всей Швейцарии.",
+    heroSubtitle:
+      "FreshRescue — швейцарское приложение против пищевых отходов: связывает магазины и покупателей по всей стране, спасает еду, сокращает отходы и предлагает честные флэш-цены.",
+    brandTagline: "Против отходов · Швейцария",
+    exploreCta: "Смотреть предложения в Швейцарии",
     merchantCta: "Я продавец",
     oneHundredFree: "100% БЕСПЛАТНО",
     // Nav
@@ -888,7 +916,8 @@ const translations = {
     // How it works
     howItWorks: "Как это работает",
     step1Title: "Продавец публикует",
-    step1Desc: "Сфотографируйте лишние продукты, установите флэш-цену и время выдачи.",
+    step1Desc:
+      "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для клиентов по всей Швейцарии.",
     step2Title: "Покупатели просматривают",
     step2Desc: "Предложения отображаются в радиусе 10 км от вас.",
     step3Title: "Забирайте и наслаждайтесь",
@@ -924,7 +953,7 @@ const translations = {
     inappropriateContentError: "Обнаружен недопустимый контент. Пожалуйста, измените текст",
     trialInProgress: "Пробный период",
     trialEnded: "Пробный период завершен",
-    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою видимость в Таиланде.",
+    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою видимость в Швейцарии.",
     trialExpiredDesc: "Ваша видимость приостановлена. Выберите план для возобновления.",
     planRecurring: "Ежемесячно авто",
     planMonthly: "1 месяц разово",
@@ -948,7 +977,7 @@ const translations = {
     descSubscription: "Полная гибкость для вашего заведения.",
     descYearly: "Долгосрочные обязательства для максимальной экономии.",
     featureUnlimited: "Неограниченное количество предложений",
-    featureGeo: "Геолокация предложений в радиусе 10 км",
+    featureGeo: "Карта и предложения по всей Швейцарии",
     featureStock: "Контроль запасов в реальном времени",
     featureZeroComm: "Нулевая комиссия",
     featureSupport: "4 языка",
@@ -1011,9 +1040,9 @@ const translations = {
     productName: "Название продукта",
     productDescription: "Описание (необязательно)",
     productDescPlaceholder: "Описание (ингредиенты, аллергены, количество...)",
-    originalPrice: "Обычная цена (THB)",
-    discountPrice: "Флэш-цена (THB)",
-    flashPrice: "Флэш-цена (THB)",
+    originalPrice: "Обычная цена (CHF)",
+    discountPrice: "Флэш-цена (CHF)",
+    flashPrice: "Флэш-цена (CHF)",
     collectDeadline: "Забрать до",
     pickupBefore: "Забрать до:",
     pickupLocation: "Место получения",
@@ -1027,6 +1056,7 @@ const translations = {
     edit: "Изменить",
     post: "Опубликовать",
     backToHome: "На главную",
+    swissCitiesHint: "Города Швейцарии",
     // Categories & Options
     bakery: "Выпечка",
     fruits: "Фрукты",
@@ -1048,13 +1078,14 @@ const translations = {
     expiryDate: "Срок годности (DLC)",
     freezable: "замораживаемый",
     // Footer
-    footerTagline: "Превращаем пищевые отходы в возможности.",
+    footerTagline: "Против пищевых отходов в Швейцарии — излишки в возможности.",
     footerRights: "Все права защищены.",
     footerTerms: "Условия использования",
     termsMainTitle: "УСЛОВИЯ И ПОЛОЖЕНИЯ — FRESHRESCUE",
     termsLastUpdate: "Последнее обновление: 5 июля 2026 г.",
     termsSection1Title: "1. КОНЦЕПЦИЯ FRESHRESCUE",
-    termsSection1Content: "FreshRescue предоставляет платформу для связи, позволяющую розничным предприятиям продавать излишки продуктов по сниженным ценам. Использование приложения облегчает поиск предложений рядом с пользователем.",
+    termsSection1Content:
+      "FreshRescue — швейцарская платформа против пищевых отходов: розница продаёт излишки по сниженным ценам. Приложение помогает находить предложения по всей Швейцарии.",
     termsSection2Title: "2. БРОНИРОВАНИЕ И ПОЛУЧЕНИЕ",
     termsSection2Sub1Title: "3.1 Процесс",
     termsSection2Sub1Content: "Пользователь просматривает предложения через приложение. Клиенту не нужно входить в систему или платить онлайн. FreshRescue не собирает информацию о пользователях.",
@@ -1067,10 +1098,10 @@ const translations = {
     termsLegalTitle: "ЮРИДИЧЕСКАЯ ИНФОРМАЦИЯ",
     legalPublisher: "Издатель",
     legalHeadquarters: "Штаб-квартира",
-    legalThailand: "Таиланд",
+    legalThailand: "Швейцария",
     legalContact: "Контакт",
     legalLaw: "Применимое право",
-    legalThaiLaw: "Тайское",
+    legalThaiLaw: "Швейцарское право",
     // Misc
     km: "км",
     off: "скидка",
@@ -1090,57 +1121,71 @@ const translations = {
     shopPhone: "Телефон",
     shopCategory: "Тип магазина",
     shopPhoto: "Фото магазина",
+    demoOfferBadge: "Демо-предложение",
+    currencyCHF: "CHF",
   }
 };
 
 export function useTranslation() {
-  // On récupère la langue de manière réactive
-  const lang = (typeof window !== 'undefined' 
-    ? localStorage.getItem('freshrescue_lang') 
+  // On récupère la langue de manière réactive (thai retiré → bascule vers allemand)
+  const rawLang = (typeof window !== 'undefined'
+    ? localStorage.getItem('freshrescue_lang')
     : 'en') || 'en';
+  const lang = rawLang === 'th' ? 'de' : rawLang;
+  if (typeof window !== 'undefined' && rawLang === 'th') {
+    localStorage.setItem('freshrescue_lang', 'de');
+  }
   
-  const t = (key) => {
+  const t = useCallback((key) => {
+    const admin = adminTranslations[lang];
+    if (admin && Object.prototype.hasOwnProperty.call(admin, key)) {
+      return admin[key];
+    }
+    if (Object.prototype.hasOwnProperty.call(adminTranslations.en, key)) {
+      return adminTranslations.en[key];
+    }
     return translations[lang]?.[key] || translations.en[key] || key;
-  };
+  }, [lang]);
 
   /**
    * Fonction pour traduire les données provenant de la DB
    */
-  const dt = (offer, field) => {
-    if (!offer) return "";
+  const dt = useCallback(
+    (offer, field) => {
+      if (!offer) return '';
 
-    const availableLangs = ['fr', 'en', 'th', 'ru', 'it'];
-    let finalValue = "";
+      const availableLangs = ['fr', 'en', 'de', 'ru', 'it'];
+      let finalValue = '';
 
-    // 1. PRIORITÉ : Chercher la colonne de la langue active (ex: title_it)
-    const localizedValue = offer[`${field}_${lang}`];
-    
-    if (localizedValue && localizedValue.trim() !== "" && localizedValue !== "undefined") {
-      finalValue = localizedValue;
-    } 
-    // 2. REPLI : Champ racine (ex: offer.title)
-    else if (offer[field] && typeof offer[field] === 'string' && offer[field].trim() !== "" && offer[field] !== "undefined") {
-      finalValue = offer[field];
-    }
-    // 3. ULTIME RECOURS : On boucle sur toutes les langues disponibles
-    else {
-      for (const l of availableLangs) {
-        const fallbackValue = offer[`${field}_${l}`];
-        if (fallbackValue && fallbackValue.trim() !== "" && fallbackValue !== "undefined") {
-          finalValue = fallbackValue;
-          break;
+      const localizedValue = offer[`${field}_${lang}`];
+
+      if (localizedValue && localizedValue.trim() !== '' && localizedValue !== 'undefined') {
+        finalValue = localizedValue;
+      } else if (
+        offer[field] &&
+        typeof offer[field] === 'string' &&
+        offer[field].trim() !== '' &&
+        offer[field] !== 'undefined'
+      ) {
+        finalValue = offer[field];
+      } else {
+        for (const l of availableLangs) {
+          const fallbackValue = offer[`${field}_${l}`];
+          if (fallbackValue && fallbackValue.trim() !== '' && fallbackValue !== 'undefined') {
+            finalValue = fallbackValue;
+            break;
+          }
         }
       }
-    }
 
-    // --- LOGIQUE CRITIQUE POUR "fREEZABLE" ---
-    // Si la valeur trouvée est "freezable", on ignore la DB et on utilise le dictionnaire i18n
-    if (finalValue && finalValue.toLowerCase().trim() === 'freezable') {
-      return t('freezable');
-    }
+      if (finalValue && finalValue.toLowerCase().trim() === 'freezable') {
+        return t('freezable');
+      }
 
-    return finalValue;
-  };
+      return finalValue;
+    },
+    [lang, t]
+  );
 
   const setLanguage = (newLang) => {
     if (typeof window !== 'undefined') {
