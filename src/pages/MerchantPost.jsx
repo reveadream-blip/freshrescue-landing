@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/AuthContext';
 // On n'importe plus Navbar car on va utiliser le header personnalisé
 import { useTranslation } from '../lib/i18n';
 import { ensureMerchantTrialRow, canMerchantPublish } from '@/lib/merchantSubscription';
+import { normalizeAppLocale, persistMerchantAppLocale } from '@/lib/merchantAppLocale';
 import { uploadOfferPhotoToStorage } from '@/lib/offerPhotoUpload';
 import imageCompression from 'browser-image-compression';
 import * as nsfwjs from 'nsfwjs';
@@ -145,6 +146,15 @@ export default function MerchantPost() {
       let merchantData = (await supabase.from('merchants').select('*').eq('user_id', activeUser.id).maybeSingle()).data;
       if (!merchantData) {
         merchantData = await ensureMerchantTrialRow(supabase, activeUser.id);
+      }
+      if (merchantData && !merchantData.app_locale) {
+        const loc = normalizeAppLocale(
+          typeof window !== 'undefined' ? localStorage.getItem('freshrescue_lang') : null
+        );
+        if (loc) {
+          await persistMerchantAppLocale(supabase, activeUser.id, loc);
+          merchantData = { ...merchantData, app_locale: loc };
+        }
       }
       setMerchantProfile(merchantData);
 
@@ -416,7 +426,11 @@ export default function MerchantPost() {
             <div className="relative group">
               <select
                 value={lang}
-                onChange={(e) => setLanguage(e.target.value)}
+                onChange={async (e) => {
+                  const v = e.target.value;
+                  await persistMerchantAppLocale(supabase, activeUser?.id, v);
+                  setLanguage(v);
+                }}
                 className="appearance-none bg-white/10 border border-white/20 rounded-full pl-10 pr-8 py-2 text-sm font-bold cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-citrus/50 text-foreground"
                 style={{ backgroundColor: '#1a1a1a', color: 'white' }}
               >

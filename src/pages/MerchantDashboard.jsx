@@ -19,6 +19,7 @@ import {
   ensureMerchantTrialRow,
 } from '@/lib/merchantSubscription';
 import { getStripePaymentLinkUrls } from '@/lib/stripePaymentLinks';
+import { normalizeAppLocale, persistMerchantAppLocale } from '@/lib/merchantAppLocale';
 
 function premiumRenewalHint(profile, t) {
   const plan = profile?.subscription_plan;
@@ -183,6 +184,16 @@ export default function MerchantDashboard() {
         }
 
         if (profileData) {
+          if (!profileData.app_locale) {
+            const loc = normalizeAppLocale(
+              typeof window !== 'undefined' ? localStorage.getItem('freshrescue_lang') : null
+            );
+            if (loc) {
+              await persistMerchantAppLocale(supabase, currentUser.id, loc);
+              profileData = { ...profileData, app_locale: loc };
+            }
+          }
+
           setProfile(profileData);
 
           if (!canMerchantPublish(profileData)) {
@@ -246,7 +257,11 @@ export default function MerchantDashboard() {
             <div className="relative group">
               <select
                 value={lang}
-                onChange={(e) => setLanguage(e.target.value)}
+                onChange={async (e) => {
+                  const v = e.target.value;
+                  await persistMerchantAppLocale(supabase, currentUser?.id, v);
+                  setLanguage(v);
+                }}
                 className="appearance-none bg-white/10 border border-white/20 rounded-full pl-10 pr-8 py-2 text-sm font-bold cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-citrus/50 text-foreground"
                 style={{ backgroundColor: '#1a1a1a', color: 'white' }}
               >

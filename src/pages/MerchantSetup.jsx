@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase'; 
 import { useAuth } from '@/lib/AuthContext';
 import { useTranslation } from '../lib/i18n';
+import { normalizeAppLocale, persistMerchantAppLocale } from '@/lib/merchantAppLocale';
 
 export default function MerchantSetup() {
   const { t, lang, setLanguage } = useTranslation();
@@ -103,6 +104,7 @@ export default function MerchantSetup() {
         lat: coords.lat,
         lng: coords.lng,
         updated_at: new Date().toISOString(),
+        app_locale: normalizeAppLocale(lang) ?? null,
       };
 
       if (!existingProfile?.trial_start_date) {
@@ -155,7 +157,11 @@ export default function MerchantSetup() {
             <div className="relative group">
               <select
                 value={lang}
-                onChange={(e) => setLanguage(e.target.value)}
+                onChange={async (e) => {
+                  const v = e.target.value;
+                  await persistMerchantAppLocale(supabase, currentUser?.id, v);
+                  setLanguage(v);
+                }}
                 className="appearance-none bg-white/10 border border-white/20 rounded-full pl-10 pr-8 py-2 text-sm font-bold cursor-pointer hover:bg-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-citrus/50 text-foreground"
                 style={{ backgroundColor: '#1a1a1a', color: 'white' }}
               >

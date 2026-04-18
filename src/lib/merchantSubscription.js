@@ -1,3 +1,5 @@
+import { normalizeAppLocale } from './merchantAppLocale';
+
 /** Durée d'essai gratuite (jours calendaires, jour 1 = jour de début). */
 export const TRIAL_DAYS = 30;
 
@@ -52,6 +54,11 @@ export function canMerchantPublish(profile) {
 export async function ensureMerchantTrialRow(supabase, userId) {
   const { data: existing } = await supabase.from('merchants').select('*').eq('user_id', userId).maybeSingle();
   if (existing) return existing;
+  const initialLocale =
+    typeof window !== 'undefined'
+      ? normalizeAppLocale(window.localStorage.getItem('freshrescue_lang'))
+      : null;
+
   const { data: created, error } = await supabase
     .from('merchants')
     .insert({
@@ -60,6 +67,7 @@ export async function ensureMerchantTrialRow(supabase, userId) {
       subscription_status: 'trial',
       shop_name: '',
       address: '',
+      ...(initialLocale ? { app_locale: initialLocale } : {}),
     })
     .select()
     .single();

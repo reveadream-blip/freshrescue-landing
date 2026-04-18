@@ -31,6 +31,7 @@ import { useTranslation } from '@/lib/i18n';
 import { supabase } from '@/lib/supabase';
 import { getOfferPhotoUrl } from '@/lib/offerPhoto';
 import { deletePhotoFromLogosBucket } from '@/lib/supabaseStorage';
+import { getRelanceMailStrings } from '@/lib/merchantAppLocale';
 
 const MERCHANT_CATEGORIES = ['bakery', 'restaurant', 'grocery', 'market', 'cafe', 'other'];
 
@@ -453,9 +454,19 @@ export default function AdminDashboard() {
   const activeOffersCount = offers.filter((o) => o.is_active).length;
 
   const relanceMailto = (m) => {
-    const subject = encodeURIComponent(t('adminRelanceMailSubject').replace('{{shop}}', m.shop_name || ''));
-    const body = encodeURIComponent(t('adminRelanceMailBody'));
-    window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+    const { subject: subjText, body: bodyText } = getRelanceMailStrings(m, lang);
+    const subject = encodeURIComponent(subjText.replace('{{shop}}', m.shop_name || ''));
+    const body = encodeURIComponent(bodyText);
+    const to = (m.email || '').trim();
+    const href = to
+      ? `mailto:${encodeURIComponent(to)}?subject=${subject}&body=${body}`
+      : `mailto:?subject=${subject}&body=${body}`;
+    const a = document.createElement('a');
+    a.href = href;
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   const StatCard = ({ title, value, icon: Icon, accent = 'citrus' }) => {
