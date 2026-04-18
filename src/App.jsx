@@ -15,6 +15,7 @@ import Terms from './pages/Terms';
 import ForgotPassword from './pages/forgot-password';
 import UpdatePassword from './pages/update-password';
 import Instructions from './pages/Instructions';
+import InstallRedirect from './pages/InstallRedirect';
 
 // --- NOUVEAUX IMPORTS POUR L'ADMIN ---
 import { AdminRoute } from '@/components/AdminRoute';
@@ -55,7 +56,8 @@ const AuthenticatedApp = () => {
     '/merchant', 
     '/', 
     '/explore',
-    '/instructions'
+    '/instructions',
+    '/install'
   ].includes(location.pathname) || location.pathname.startsWith('/admin');
 
   if ((isLoadingPublicSettings || isLoadingAuth) && !isPublicAuthRoute) {
@@ -73,6 +75,7 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/install" element={<InstallRedirect />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />

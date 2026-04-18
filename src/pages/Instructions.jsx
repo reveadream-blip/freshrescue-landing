@@ -152,16 +152,32 @@ const Instructions = () => {
             </p>
           </div>
           
-          <Card className="border-none bg-citrus/90 shadow-2xl p-2 mb-12">
-            <div className="bg-earth p-4 rounded-lg text-center">
-              <p className="text-white font-bold text-sm mb-4 leading-tight">
+          <Card className="border-none bg-citrus/90 shadow-2xl p-2 mb-12 overflow-hidden">
+            <div className="bg-earth p-2 sm:p-4 rounded-lg text-center">
+              <p className="text-white font-bold text-sm mb-3 leading-tight px-2">
                 {content[activeLang].customerText}
               </p>
-              <img 
-                src="/images/FreshRescueOFFERS.jpeg" 
-                alt="Scan Customer" 
-                className="w-full rounded-lg"
-              />
+              <div className="w-full overflow-hidden rounded-lg border border-white/10 bg-[#0a1628] shadow-inner">
+                <iframe
+                  title={
+                    activeLang === 'de'
+                      ? 'Plakat Angebote FR / DE / IT'
+                      : activeLang === 'it'
+                        ? 'Poster offerte FR / DE / IT'
+                        : 'Affiche offres FR / DE / IT'
+                  }
+                  src="/poster-offres.html"
+                  className="h-[min(88vh,920px)] w-full min-h-[560px] border-0"
+                  loading="lazy"
+                />
+              </div>
+              <p className="mt-3 text-[10px] text-white/60">
+                {activeLang === 'de'
+                  ? 'Zum Drucken: /poster-offres.html im Browser öffnen → Drucken.'
+                  : activeLang === 'it'
+                    ? 'Per stampare: apri /poster-offres.html nel browser → Stampa.'
+                    : 'Pour imprimer : ouvrez /poster-offres.html dans le navigateur → Imprimer.'}
+              </p>
             </div>
           </Card>
         </div>

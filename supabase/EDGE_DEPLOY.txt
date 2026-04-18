@@ -1,0 +1,27 @@
+Edge Functions — déploiement (FreshRescue)
+==========================================
+
+1) Créer supabase/edge.env
+   - Copier supabase/edge.env.example vers supabase/edge.env
+   - Remplir avec les MÊMES valeurs que ton .env / .env.local SAUF :
+     * STRIPE_SECRET_KEY = clé secrète Stripe (doit commencer par sk_test_ ou sk_live_)
+     * STRIPE_PRICE_* = IDs price_... (Stripe → Produits → Prix), PAS les liens https://buy.stripe.com/...
+
+2) Lier le projet (une fois) :
+   supabase login
+   supabase link --project-ref <ton-project-ref>
+
+3) Pousser les secrets vers Supabase :
+   npm run supabase:secrets
+   (équivalent : supabase secrets set --env-file supabase/edge.env)
+
+4) Déployer les fonctions :
+   supabase functions deploy stripe-webhook
+   supabase functions deploy admin-delete-offer
+   supabase functions deploy admin-delete-merchant
+
+5) Stripe Dashboard → Webhooks → URL :
+   https://<ton-project-ref>.supabase.co/functions/v1/stripe-webhook
+   Événements : checkout.session.completed, customer.subscription.updated, customer.subscription.deleted, invoice.paid
+
+Note : les secrets ne vont PAS dans le code source ; uniquement dans supabase/edge.env (local) et Supabase Secrets (cloud).

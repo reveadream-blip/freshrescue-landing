@@ -3,7 +3,7 @@ import { Search, MapPin, Loader2, Globe, Leaf } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
-import { isOfferInSwitzerland } from '../lib/swissGeo';
+import { isOfferInSwitzerland, distanceKm } from '../lib/swissGeo';
 import { getOfferPhotoUrl } from '../lib/offerPhoto';
 import MapView from '../components/MapView';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { MOCK_OFFERS } from '../data/mockSwissOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
+
+/** Rayon carte + liste des offres quand le GPS est disponible (en Suisse). */
+const MAP_RADIUS_KM = 5;
 
 export default function Explore() {
   const { t, dt, lang, setLanguage } = useTranslation();
@@ -111,6 +114,15 @@ export default function Explore() {
     return isNotExpired && matchCat && matchSearch && isOfferInSwitzerland(o.lat, o.lng);
   });
 
+  const offersOnMap = useMemo(() => {
+    if (!userCoords) return filtered;
+    if (!isOfferInSwitzerland(userCoords.lat, userCoords.lng)) return filtered;
+    return filtered.filter((o) => {
+      if (o.lat == null || o.lng == null || Number.isNaN(o.lat) || Number.isNaN(o.lng)) return false;
+      return distanceKm(userCoords.lat, userCoords.lng, o.lat, o.lng) <= MAP_RADIUS_KM;
+    });
+  }, [filtered, userCoords]);
+
   const handlePickCity = (cityName) => {
     setSearch(cityName);
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
@@ -177,7 +189,10 @@ export default function Explore() {
         <div className="mb-10 flex justify-between items-end flex-wrap gap-4">
           <div>
             <h1 className="text-4xl md:text-5xl font-black mb-2 italic uppercase">
-              {t('activeOffers')} <span className="text-citrus">({filtered.length})</span>
+              {t('activeOffers')}{' '}
+              <span className="text-citrus">
+                ({userCoords && isOfferInSwitzerland(userCoords.lat, userCoords.lng) ? offersOnMap.length : filtered.length})
+              </span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
               {t('brandTagline')}
@@ -254,7 +269,7 @@ export default function Explore() {
             </p>
           </div>
         ) : (
-          <MapView offers={filtered} userPosition={userCoords} />
+          <MapView offers={offersOnMap} userPosition={userCoords} mapRadiusKm={MAP_RADIUS_KM} />
         )}
       </div>
       <Navbar />

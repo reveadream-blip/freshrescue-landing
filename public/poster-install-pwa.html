@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FreshRescue — Installer l’app</title>
+  <style>
+    @page { size: A4 portrait; margin: 14mm; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(165deg, #0a1628 0%, #132238 100%);
+      color: #f1f5f9;
+      min-height: 100vh;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .poster { max-width: 480px; margin: 0 auto; padding: 1.5rem 1rem 2rem; }
+    .head { text-align: center; margin-bottom: 1.25rem; }
+    .head p {
+      font-weight: 800;
+      font-size: clamp(0.9rem, 3.8vw, 1.05rem);
+      line-height: 1.4;
+      color: #f4d03f;
+      margin: 0.4rem 0;
+    }
+    .head .muted { color: #cbd5e1; font-weight: 600; font-size: 0.82rem; }
+    .qr-wrap { display: flex; justify-content: center; margin: 0.5rem 0 1rem; }
+    .qr-frame {
+      background: linear-gradient(145deg, #f4d03f 0%, #d4a012 100%);
+      padding: 14px;
+      border-radius: 20px;
+      box-shadow: 0 0 0 4px rgba(244, 208, 63, 0.2), 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    .qr-frame img {
+      display: block;
+      width: min(260px, 72vw);
+      height: auto;
+      border-radius: 8px;
+    }
+    .hint {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 14px;
+      background: rgba(15, 30, 52, 0.85);
+      border: 1px solid rgba(244, 208, 63, 0.2);
+      font-size: 0.72rem;
+      line-height: 1.55;
+      color: #cbd5e1;
+    }
+    .hint strong { color: #f8fafc; display: block; margin-bottom: 0.35rem; }
+    .url {
+      text-align: center;
+      margin-top: 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #f4d03f;
+    }
+    @media print {
+      body { background: #0a1628; }
+      .poster { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+    <header class="head">
+      <p>Installez l’app en un scan</p>
+      <p class="muted">App mit einem Scan installieren</p>
+      <p class="muted">Installa l’app con una scansione</p>
+    </header>
+
+    <div class="qr-wrap">
+      <div class="qr-frame">
+        <img
+          src="/images/qr-pwa-install.png"
+          width="400"
+          height="400"
+          alt="QR vers freshrescue.app/install"
+        />
+      </div>
+    </div>
+
+    <div class="hint">
+      <strong>Android (Chrome)</strong>
+      FR — Après le scan, l’installation peut démarrer automatiquement ; sinon touchez « Installer ».<br />
+      DE — Nach dem Scan startet die Installation ggf. automatisch; sonst auf „Installieren“ tippen.<br />
+      IT — Dopo la scansione l’installazione può partire da sola; altrimenti tocca « Installa ».
+    </div>
+    <div class="hint" style="margin-top: 0.65rem">
+      <strong>iPhone / iPad (Safari)</strong>
+      FR — Ouvrez le lien, puis Partager → « Sur l’écran d’accueil ».<br />
+      DE — Link öffnen, dann Teilen → „Zum Home-Bildschirm“.<br />
+      IT — Apri il link, poi Condividi → « Aggiungi alla Home ».
+    </div>
+
+    <p class="url">freshrescue.app/install</p>
+  </div>
+</body>
+</html>

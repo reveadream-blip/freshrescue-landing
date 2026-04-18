@@ -4,7 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
-import { isOfferInSwitzerland, SWISS_BOUNDS_CORNERS } from '../lib/swissGeo';
+import { isOfferInSwitzerland, SWISS_BOUNDS_CORNERS, distanceKm } from '../lib/swissGeo';
 import SafeOfferImage from './SafeOfferImage';
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -39,29 +39,37 @@ const offerFoodIcon = L.divIcon({
   iconAnchor: [20, 20],
 });
 
-function getDistance(lat1, lon1, lat2, lon2) {
-  if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
-  const R = 6371;
-  const dLat = ((lat2 - lat1) * Math.PI) / 180;
-  const dLon = ((lon2 - lon1) * Math.PI) / 180;
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+/** Boîte englobante ~carrée autour d’un point (rayon km). */
+function boundsAroundPointKm(lat, lng, radiusKm) {
+  const dLat = radiusKm / 111;
+  const cos = Math.cos((lat * Math.PI) / 180);
+  const dLng = radiusKm / (111 * (Math.abs(cos) < 0.01 ? 1 : cos));
+  return L.latLngBounds([lat - dLat, lng - dLng], [lat + dLat, lng + dLng]);
 }
 
-function FitSwissOffers({ offers }) {
+function FitMapView({ offers, localMode, localBounds }) {
   const map = useMap();
   const prevKey = useRef(null);
 
   const key = useMemo(() => {
     const pts = offers.filter((o) => o.lat != null && o.lng != null && !Number.isNaN(o.lat) && !Number.isNaN(o.lng));
-    return pts.map((o) => `${o.id}:${o.lat},${o.lng}`).join('|');
-  }, [offers]);
+    const ptsKey = pts.map((o) => `${o.id}:${o.lat},${o.lng}`).join('|');
+    if (localMode && localBounds?.isValid?.()) {
+      const sw = localBounds.getSouthWest();
+      const ne = localBounds.getNorthEast();
+      return `L|${sw.lat},${sw.lng}|${ne.lat},${ne.lng}|${ptsKey}`;
+    }
+    return `S|${ptsKey}`;
+  }, [offers, localMode, localBounds]);
 
   useEffect(() => {
     if (prevKey.current === key && prevKey.current !== null) return;
     prevKey.current = key;
+
+    if (localMode && localBounds?.isValid?.()) {
+      map.fitBounds(localBounds, { padding: [28, 28], maxZoom: 15, animate: true });
+      return;
+    }
 
     const valid = offers.filter(
       (o) => o.lat != null && o.lng != null && !Number.isNaN(o.lat) && !Number.isNaN(o.lng)
@@ -76,12 +84,12 @@ function FitSwissOffers({ offers }) {
     }
     const b = L.latLngBounds(valid.map((o) => [o.lat, o.lng]));
     map.fitBounds(b, { padding: [56, 56], maxZoom: 12, animate: true });
-  }, [key, offers, map]);
+  }, [key, offers, map, localMode, localBounds]);
 
   return null;
 }
 
-export default function MapView({ offers = [], userPosition = null }) {
+export default function MapView({ offers = [], userPosition = null, mapRadiusKm = 5 }) {
   const { t, dt } = useTranslation();
 
   const nearbyOffers = offers.filter((o) => o.lat && o.lng);
@@ -90,19 +98,36 @@ export default function MapView({ offers = [], userPosition = null }) {
     isOfferInSwitzerland(userPosition.lat, userPosition.lng);
   const userLatLng = userInCh ? [userPosition.lat, userPosition.lng] : null;
 
+  const localMode = Boolean(userLatLng && mapRadiusKm > 0);
+
+  const localBounds = useMemo(() => {
+    if (!localMode || !userPosition) return null;
+    let b = boundsAroundPointKm(userPosition.lat, userPosition.lng, mapRadiusKm);
+    if (b.intersects(SWISS_BOUNDS)) {
+      const inter = b.intersect(SWISS_BOUNDS);
+      if (inter?.isValid?.()) return inter;
+    }
+    return b;
+  }, [localMode, userPosition, mapRadiusKm]);
+
+  const mapCenter = localMode && userPosition ? [userPosition.lat, userPosition.lng] : SWISS_CENTER;
+  const mapZoom = localMode ? 12 : 8;
+  const effectiveMaxBounds = localBounds?.isValid?.() ? localBounds : SWISS_BOUNDS;
+
   return (
     <div className="w-full min-h-[calc(100vh-14rem)] h-[min(70vh,720px)] rounded-3xl overflow-hidden border border-border relative bg-card">
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[1000] bg-card/90 backdrop-blur border border-border rounded-full px-4 py-2 text-[10px] font-bold uppercase italic text-muted-foreground">
-        Zoom: molette / pincer à 2 doigts
+        {localMode ? t('mapLocalRadiusHint') : 'Zoom: molette / pincer à 2 doigts'}
       </div>
 
       <MapContainer
-        center={SWISS_CENTER}
-        zoom={8}
-        minZoom={7}
+        key={localMode && userPosition ? `near-${userPosition.lat}-${userPosition.lng}` : 'ch-wide'}
+        center={mapCenter}
+        zoom={mapZoom}
+        minZoom={localMode ? 11 : 7}
         maxZoom={18}
-        maxBounds={SWISS_BOUNDS}
-        maxBoundsViscosity={0.85}
+        maxBounds={effectiveMaxBounds}
+        maxBoundsViscosity={localMode ? 1 : 0.85}
         style={{ height: '100%', width: '100%', background: '#1a1a1a' }}
         zoomControl={false}
         scrollWheelZoom
@@ -116,7 +141,7 @@ export default function MapView({ offers = [], userPosition = null }) {
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
 
-        <FitSwissOffers offers={nearbyOffers} />
+        <FitMapView offers={nearbyOffers} localMode={localMode} localBounds={localBounds} />
 
         {userLatLng && (
           <Marker position={userLatLng} icon={userIcon}>
@@ -150,7 +175,7 @@ export default function MapView({ offers = [], userPosition = null }) {
                   {userLatLng && (
                     <div className="text-teal-600 text-[10px] font-bold mt-2 pt-2 border-t border-gray-100">
                       📍{' '}
-                      {getDistance(userLatLng[0], userLatLng[1], offer.lat, offer.lng).toFixed(1)} km
+                      {distanceKm(userLatLng[0], userLatLng[1], offer.lat, offer.lng).toFixed(1)} km
                     </div>
                   )}
                 </div>

@@ -27,7 +27,7 @@ export default function MerchantGate() {
           onClick={() => logout()}
           className="fixed bottom-6 right-6 bg-red-600/20 hover:bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-5 py-2.5 rounded-full z-50 shadow-lg backdrop-blur-sm transition-all border border-red-600/30"
         >
-          {t('logout') || 'Déconnexion'}
+          {t('logout')}
         </button>
       </div>
     );
@@ -47,7 +47,7 @@ export default function MerchantGate() {
           data: { lang: activeLang } 
         },
       });
-      if (error) alert(error.message);
+      if (error) alert(t('errorWithMessage').replace('{message}', error.message));
       else {
         setStep('otp');
         alert(t('otpSent'));
@@ -61,8 +61,8 @@ export default function MerchantGate() {
           data: { lang: activeLang } 
         }
       });
-      if (error) alert(error.message);
-      else alert(t('signupSuccess') || "Inscription réussie !");
+      if (error) alert(t('errorWithMessage').replace('{message}', error.message));
+      else alert(t('signupSuccess'));
     }
     setLoading(false);
   };
@@ -75,13 +75,13 @@ export default function MerchantGate() {
       token: otp,
       type: 'magiclink',
     });
-    if (error) alert(error.message);
+    if (error) alert(t('errorWithMessage').replace('{message}', error.message));
     setLoading(false);
   };
 
   const handleResetPassword = async () => {
     if (!email) {
-      alert(t('enterEmail') || "Veuillez saisir votre email.");
+      alert(t('enterEmail'));
       return;
     }
     
@@ -96,8 +96,8 @@ export default function MerchantGate() {
       redirectTo: `${window.location.origin}/merchant-gate?lang=${activeLang}`,
     });
 
-    if (resetError) alert(resetError.message);
-    else alert(t('resetSent') || "Lien de réinitialisation envoyé !");
+    if (resetError) alert(t('errorWithMessage').replace('{message}', resetError.message));
+    else alert(t('resetSent'));
     
     setLoading(false);
   };

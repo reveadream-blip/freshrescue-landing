@@ -36,3 +36,5 @@ dist-ssr
 
 # Supabase CLI
 supabase/.temp/
+supabase/edge.env
+supabase/functions/.env

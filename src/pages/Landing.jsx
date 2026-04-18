@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { 
   CheckCircle, ArrowRight, Zap, MapPin, 
   TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
@@ -13,8 +13,11 @@ const VEGGIE_IMG = 'https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c
 
 export default function Landing() {
   const { t, lang, setLanguage } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
+  const installZoneRef = useRef(null);
+  const installFromQr = searchParams.get('install') === '1';
 
   const promoText = {
     fr: { free: '1 mois OFFERT', test: 'Essayer !', hundredFree: '100% GRATUIT' },
@@ -34,6 +37,58 @@ export default function Landing() {
     });
   }, []);
 
+  /** Lien /?install=1 (ex. QR) : même flux que le bandeau — scroll + ouverture de la boîte d’installation si le navigateur l’autorise */
+  useEffect(() => {
+    if (!installFromQr) return;
+    const scroll = () =>
+      installZoneRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const id = window.setTimeout(scroll, 80);
+    return () => clearTimeout(id);
+  }, [installFromQr]);
+
+  useEffect(() => {
+    if (!installFromQr || !deferredPrompt) return;
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      if (cancelled) return;
+      try {
+        await deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') setDeferredPrompt(null);
+      } catch {
+        /* Certains navigateurs exigent un geste utilisateur : le bandeau reste visible */
+      }
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete('install');
+          return next;
+        },
+        { replace: true }
+      );
+    }, 450);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [installFromQr, deferredPrompt, setSearchParams]);
+
+  /** Nettoie l’URL si aucune invite d’installation ne viendra (desktop, iOS, déjà installé…) */
+  useEffect(() => {
+    if (!installFromQr || deferredPrompt) return;
+    const timer = window.setTimeout(() => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete('install');
+          return next;
+        },
+        { replace: true }
+      );
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [installFromQr, deferredPrompt, setSearchParams]);
+
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
@@ -44,21 +99,21 @@ export default function Landing() {
   const pricingPlans = [
     {
       title: 'planSingleMonth',
-      price: "1000",
+      price: '29,9',
       subtext: 'oneMonth',
       description: 'descSingle',
       highlight: false
     },
     {
       title: 'planSubscription',
-      price: "1000",
+      price: '29,9',
       subtext: 'perMonth',
       description: 'descSubscription',
       highlight: true
     },
     {
       title: 'planYearly',
-      price: "9900",
+      price: '299',
       subtext: 'twoMonthsFree',
       description: 'descYearly',
       highlight: false
@@ -113,41 +168,48 @@ export default function Landing() {
       </header>
 
       <div className="pt-24 px-6 max-w-5xl mx-auto">
-        {deferredPrompt && (
-          <div className="bg-citrus rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-citrus/20 animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-earth rounded-xl flex items-center justify-center shadow-inner">
-                <Smartphone className="w-5 h-5 text-citrus" />
+        <div
+          ref={installZoneRef}
+          id="pwa-install-zone"
+          className="scroll-mt-28 space-y-3"
+        >
+          {deferredPrompt && (
+            <div className="bg-citrus rounded-2xl p-4 flex items-center justify-between shadow-lg shadow-citrus/20 animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-earth rounded-xl flex items-center justify-center shadow-inner">
+                  <Smartphone className="w-5 h-5 text-citrus" />
+                </div>
+                <div>
+                  <p className="text-earth font-black text-sm">{t('pwaInstallTitle')}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-earth font-black text-sm">{t('pwaInstallTitle')}</p>
-              </div>
+              <button
+                type="button"
+                onClick={handleInstallClick}
+                className="bg-earth text-citrus px-5 py-2 rounded-full font-black text-xs hover:scale-105 transition-transform uppercase"
+              >
+                {t('pwaInstallBtn')}
+              </button>
             </div>
-            <button 
-              onClick={handleInstallClick}
-              className="bg-earth text-citrus px-5 py-2 rounded-full font-black text-xs hover:scale-105 transition-transform uppercase"
-            >
-              {t('pwaInstallBtn')}
-            </button>
-          </div>
-        )}
+          )}
 
-        {isIOS && (
-          <div className="bg-muted/50 border border-border rounded-2xl p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
-            <div className="w-10 h-10 bg-citrus rounded-xl flex items-center justify-center flex-shrink-0">
-              <Smartphone className="w-5 h-5 text-earth" />
-            </div>
-            <div className="text-[11px] leading-tight">
-              <p className="font-bold text-foreground">{t('iosInstallTitle')}</p>
-              <div className="text-muted-foreground flex items-center flex-wrap gap-1">
-                {t('iosInstallDescBefore')}
-                <Share className="w-3 h-3 inline" />
-                {t('iosInstallDescAfter')}
-                <span className="font-bold text-citrus">"{t('iosInstallTarget')}"</span>.
+          {isIOS && (
+            <div className="bg-muted/50 border border-border rounded-2xl p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="w-10 h-10 bg-citrus rounded-xl flex items-center justify-center flex-shrink-0">
+                <Smartphone className="w-5 h-5 text-earth" />
+              </div>
+              <div className="text-[11px] leading-tight">
+                <p className="font-bold text-foreground">{t('iosInstallTitle')}</p>
+                <div className="text-muted-foreground flex items-center flex-wrap gap-1">
+                  {t('iosInstallDescBefore')}
+                  <Share className="w-3 h-3 inline" />
+                  {t('iosInstallDescAfter')}
+                  <span className="font-bold text-citrus">"{t('iosInstallTarget')}"</span>.
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">

@@ -10,45 +10,61 @@ import {
 import CountdownTimer from '@/components/CountdownTimer';
 import SafeOfferImage from '@/components/SafeOfferImage';
 import { deletePhotoFromLogosBucket } from '@/lib/supabaseStorage';
+import {
+  TRIAL_DAYS,
+  trialCurrentDay,
+  trialDaysRemaining,
+  hasActivePaidSubscription,
+  canMerchantPublish,
+  ensureMerchantTrialRow,
+} from '@/lib/merchantSubscription';
+import { getStripePaymentLinkUrls } from '@/lib/stripePaymentLinks';
 
-const STRIPE_RECURRING_URL = 'https://buy.stripe.com/3cIeV6bUrc37dym2oHcZa04';
-const STRIPE_MONTHLY_ONETIME = 'https://buy.stripe.com/fZucMYaQnd7b3XM2oHcZa05';
-const STRIPE_YEARLY_ONETIME = 'https://buy.stripe.com/00weV68If9UZama8N5cZa06';
-
-const TRIAL_DAYS = 30;
+function premiumRenewalHint(profile, t) {
+  const plan = profile?.subscription_plan;
+  if (plan === 'recurring_monthly') return t('premiumRenewsMonthly');
+  if (plan === 'yearly_subscription') return t('premiumRenewsYearly');
+  if (plan === 'one_month') return t('premiumOneMonthNote');
+  if (plan === 'yearly_onetime') return t('premiumYearlyOnetimeNote');
+  if (profile?.stripe_subscription_id) return t('premiumRenewsMonthly');
+  return t('premiumRenewalDefault');
+}
 
 // --- COMPOSANT BANNIÈRE & SÉLECTEUR DE FORMULES ---
 function SubscriptionBanner({ profile }) {
   const { t } = useTranslation();
+  const stripeLinks = getStripePaymentLinkUrls();
   if (!profile) return null;
-  
-  const status = profile.subscription_status || 'trial';
-  const trialStart = profile.trial_start_date ? new Date(profile.trial_start_date) : null;
+
   const subscriptionEnd = profile.subscription_end_date ? new Date(profile.subscription_end_date) : null;
-  
-  const isPremium = status === 'active' || (subscriptionEnd && subscriptionEnd > new Date());
+  const isPaid = hasActivePaidSubscription(profile);
   const ref = `?client_reference_id=${profile.user_id}`;
 
-  if (isPremium) {
+  if (isPaid) {
     return (
-      <div className="flex items-center justify-between p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-8">
-        <div className="flex items-center gap-3">
-          <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-          <p className="text-sm font-bold text-emerald-500 uppercase italic">
-            {t('premiumActive') || 'Abonnement Premium Actif 🌴'}
-          </p>
+      <div className="space-y-3 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+            <p className="text-sm font-bold text-emerald-500 uppercase italic">
+              {t('premiumActive')}
+            </p>
+          </div>
+          {subscriptionEnd && (
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-500 px-3 py-1 rounded-full font-bold w-fit">
+              {t('premiumValidUntil')} {subscriptionEnd.toLocaleDateString()}
+            </span>
+          )}
         </div>
-        {subscriptionEnd && (
-          <span className="text-[10px] bg-emerald-500/20 text-emerald-500 px-3 py-1 rounded-full font-bold">
-            Fin : {subscriptionEnd.toLocaleDateString()}
-          </span>
-        )}
+        <p className="text-[10px] text-muted-foreground font-medium leading-relaxed px-1">
+          {premiumRenewalHint(profile, t)}
+        </p>
       </div>
     );
   }
 
-  const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
-  const daysLeft = Math.max(0, TRIAL_DAYS - daysUsed);
+  const daysLeft = profile.trial_start_date ? trialDaysRemaining(profile.trial_start_date) : 0;
+  const dayNum = profile.trial_start_date ? trialCurrentDay(profile.trial_start_date) : 1;
 
   return (
     <div className="p-6 rounded-[2.5rem] bg-card border border-border mb-8 shadow-xl overflow-hidden relative">
@@ -62,18 +78,21 @@ function SubscriptionBanner({ profile }) {
         </div>
         <div>
           <h3 className="font-black uppercase italic text-lg leading-tight">
-            {daysLeft > 0 ? (t('trialInProgress') || "Période d'essai") : (t('trialEnded') || "Essai terminé")}
+            {daysLeft > 0 ? t('trialInProgress') : t('trialEnded')}
           </h3>
-          <p className="text-sm text-muted-foreground font-medium">
-            {daysLeft > 0 
-              ? t('trialDesc') || "Profitez de l'offre pour booster votre visibilité en Suisse." 
-              : t('trialExpiredDesc') || "Votre visibilité est suspendue. Choisissez une formule pour reprendre."}
+          <p className="text-[10px] font-bold text-citrus/90 uppercase tracking-widest mt-1">
+            {t('trialDayCounterFmt')
+              .replace('{day}', String(dayNum))
+              .replace('{total}', String(TRIAL_DAYS))}
+          </p>
+          <p className="text-sm text-muted-foreground font-medium mt-1">
+            {daysLeft > 0 ? t('trialDesc') : t('trialExpiredDesc')}
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href={`${STRIPE_RECURRING_URL}${ref}`} target="_blank" rel="noopener noreferrer"
+        <a href={`${stripeLinks.recurring}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-2">
@@ -82,9 +101,9 @@ function SubscriptionBanner({ profile }) {
             </div>
             <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-2">{t('descRecurring')}</p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-2xl font-black text-citrus italic tracking-tighter">1000</span>
+              <span className="text-2xl font-black text-citrus italic tracking-tighter">29,9</span>
               <span className="text-[9px] font-bold text-citrus/80 uppercase">
-                CHF / {t('month') || 'MOIS'}
+                {t('currencyCHF')} / {t('month')}
               </span>
             </div>
           </div>
@@ -94,18 +113,18 @@ function SubscriptionBanner({ profile }) {
           </div>
         </a>
 
-        <a href={`${STRIPE_MONTHLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
+        <a href={`${stripeLinks.monthlyOnetime}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border border-border hover:border-citrus transition-all bg-white/5 flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start mb-2">
               <p className="font-black italic uppercase text-sm">{t('planMonthly')}</p>
-              <div className="px-2 py-0.5 rounded text-[8px] bg-blue-500/20 text-blue-400 font-bold">PROMPTPAY</div>
+              <div className="px-2 py-0.5 rounded text-[8px] bg-blue-500/20 text-blue-400 font-bold">1×</div>
             </div>
             <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-2">{t('descMonthly')}</p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-2xl font-black text-foreground italic tracking-tighter">1000</span>
+              <span className="text-2xl font-black text-foreground italic tracking-tighter">29,9</span>
               <span className="text-[9px] font-bold text-muted-foreground uppercase">
-                CHF / 1 {t('month') || 'MOIS'}
+                {t('currencyCHF')} / 1 {t('month')}
               </span>
             </div>
           </div>
@@ -115,18 +134,21 @@ function SubscriptionBanner({ profile }) {
           </div>
         </a>
 
-        <a href={`${STRIPE_YEARLY_ONETIME}${ref}`} target="_blank" rel="noopener noreferrer"
+        <a href={`${stripeLinks.yearly}${ref}`} target="_blank" rel="noopener noreferrer"
            className="group p-5 rounded-3xl border-2 border-citrus/30 hover:border-citrus transition-all bg-citrus/5 flex flex-col justify-between relative overflow-hidden">
           <div className="absolute -right-6 -top-2 bg-citrus text-earth font-black text-[8px] px-8 py-1 rotate-45 uppercase">{t('promo')}</div>
           <div>
-            <div className="flex justify-between items-start mb-2">
-              <p className="font-black italic uppercase text-sm">{t('planYearly')}</p>
+            <div className="flex justify-between items-start gap-2 mb-2">
+              <p className="font-black italic uppercase text-sm leading-tight">{t('planYearly')}</p>
+              <span className="shrink-0 px-2 py-0.5 rounded-md text-[8px] bg-citrus/25 text-citrus font-black uppercase tracking-tight">
+                {t('twoMonthsFree')}
+              </span>
             </div>
-            <p className="text-[10px] text-muted-foreground uppercase font-bold leading-tight mb-2">{t('descYearly')}</p>
+            <p className="text-[10px] text-muted-foreground font-bold leading-snug mb-2">{t('descYearly')}</p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-2xl font-black text-citrus italic tracking-tighter">9900</span>
+              <span className="text-2xl font-black text-citrus italic tracking-tighter">299</span>
               <span className="text-[9px] font-bold text-citrus/80 uppercase">
-                CHF / {t('year') || 'AN'}
+                {t('currencyCHF')} / {t('year')}
               </span>
             </div>
           </div>
@@ -148,32 +170,22 @@ export default function MerchantDashboard() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
 
-  const isExpired = (() => {
-    if (!profile) return false;
-    if (profile.subscription_status === 'active') return false;
-    if (profile.subscription_end_date && new Date(profile.subscription_end_date) > new Date()) return false;
-    const trialStart = profile.trial_start_date ? new Date(profile.trial_start_date) : null;
-    const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
-    return daysUsed >= TRIAL_DAYS;
-  })();
+  const canPublish = profile ? canMerchantPublish(profile) : false;
 
   useEffect(() => {
     const loadAndCleanData = async () => {
       if (!currentUser?.id) return;
       try {
-        const { data: profileData } = await supabase.from('merchants').select('*').eq('user_id', currentUser.id).single();
-        
+        let profileData = (await supabase.from('merchants').select('*').eq('user_id', currentUser.id).maybeSingle()).data;
+
+        if (!profileData) {
+          profileData = await ensureMerchantTrialRow(supabase, currentUser.id);
+        }
+
         if (profileData) {
           setProfile(profileData);
-          const subEnd = profileData.subscription_end_date ? new Date(profileData.subscription_end_date) : null;
-          const trialStart = profileData.trial_start_date ? new Date(profileData.trial_start_date) : null;
-          const daysUsed = trialStart ? Math.floor((Date.now() - trialStart) / 86400000) : 0;
 
-          const reallyExpired = profileData.subscription_status !== 'active' && 
-                                (!subEnd || subEnd < new Date()) && 
-                                daysUsed >= TRIAL_DAYS;
-
-          if (reallyExpired) {
+          if (!canMerchantPublish(profileData)) {
             await supabase.from('offers').update({ is_active: false }).eq('user_id', currentUser.id);
           }
         }
@@ -204,19 +216,19 @@ export default function MerchantDashboard() {
   }, [currentUser]);
 
   const toggleOffer = async (offer) => {
-    if (isExpired) return; 
+    if (!canPublish) return; 
     const { error } = await supabase.from('offers').update({ is_active: !offer.is_active }).eq('id', offer.id);
     if (!error) setOffers((prev) => prev.map((o) => o.id === offer.id ? { ...o, is_active: !o.is_active } : o));
   };
 
   const deleteOffer = async (offer) => {
-    if (!window.confirm("Supprimer cette offre ?")) return;
+    if (!window.confirm(t('confirmDelete'))) return;
     await deletePhotoFromLogosBucket(offer.photo_url || offer.photo);
     const { error } = await supabase.from('offers').delete().eq('id', offer.id);
     if (!error) setOffers((prev) => prev.filter((o) => o.id !== offer.id));
   };
 
-  if (loading) return <div className="flex justify-center py-20 text-citrus italic font-black uppercase tracking-widest">{t('saving')}</div>;
+  if (loading) return <div className="flex justify-center py-20 text-citrus italic font-black uppercase tracking-widest">{t('loading')}</div>;
 
   return (
     <div className="min-h-screen bg-earth text-foreground">
@@ -258,7 +270,7 @@ export default function MerchantDashboard() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 space-y-8">
         <div className="flex items-center justify-between mb-4">
           <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors font-bold uppercase italic text-xs">
-            <ArrowLeft className="w-4 h-4" /> {t('backToHome') || 'Retour Accueil'}
+            <ArrowLeft className="w-4 h-4" /> {t('backToHome')}
           </button>
           <Link to="/" className="text-citrus"><Home className="w-5 h-5" /></Link>
         </div>
@@ -272,8 +284,8 @@ export default function MerchantDashboard() {
             <Link to="/merchant/setup" className="inline-flex items-center gap-2 bg-card border border-border hover:border-citrus/50 text-foreground font-bold px-4 py-2.5 rounded-xl text-xs uppercase transition-all shadow-sm">
               <Store className="w-4 h-4" /> {t('shopSettings')}
             </Link>
-            <Link to="/merchant/post" className={isExpired ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}>
-               <button disabled={isExpired} className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20">
+            <Link to="/merchant/post" className={!canPublish ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}>
+               <button disabled={!canPublish} className="inline-flex items-center gap-2 bg-citrus hover:brightness-110 text-earth font-black px-5 py-2.5 rounded-xl text-xs uppercase italic transition-all shadow-lg shadow-citrus/20 disabled:opacity-50">
                  <Plus className="w-4 h-4" /> {t('postOffer')}
                </button>
             </Link>
@@ -284,7 +296,7 @@ export default function MerchantDashboard() {
 
         <div className="grid gap-4">
           {offers.length === 0 ? (
-            <p className="text-center py-10 text-muted-foreground italic uppercase text-xs font-bold tracking-widest opacity-50">Aucune offre active</p>
+            <p className="text-center py-10 text-muted-foreground italic uppercase text-xs font-bold tracking-widest opacity-50">{t('merchantNoActiveOffers')}</p>
           ) : (
             offers.map((offer) => (
               <div key={offer.id} className={`flex items-center gap-4 bg-card border rounded-2xl p-4 transition-all ${offer.is_active ? 'border-border/50' : 'border-border/10 opacity-60 bg-black/5'}`}>
@@ -294,16 +306,21 @@ export default function MerchantDashboard() {
                 <div className="flex-1 min-w-0">
                   <h3 className="font-black text-sm truncate uppercase italic mb-1">{offer.title}</h3>
                   <div className="flex items-center gap-3">
-                    <span className="text-citrus font-black text-sm italic">{offer.discount_price} CHF</span>
+                    <span className="text-citrus font-black text-sm italic">{offer.discount_price} {t('currencyCHF')}</span>
                     <CountdownTimer deadline={offer.collect_before} />
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Link to={`/merchant/edit/${offer.id}`} className="p-2.5 rounded-xl bg-card border border-border hover:border-citrus/50 text-foreground transition-all shadow-sm"><Edit className="w-5 h-5" /></Link>
+                  <Link
+                    to={`/merchant/edit/${offer.id}`}
+                    className={`p-2.5 rounded-xl bg-card border border-border hover:border-citrus/50 text-foreground transition-all shadow-sm ${!canPublish ? 'pointer-events-none opacity-40' : ''}`}
+                  >
+                    <Edit className="w-5 h-5" />
+                  </Link>
                   <button 
                     onClick={() => toggleOffer(offer)} 
-                    disabled={isExpired}
-                    className={`p-2.5 rounded-xl transition-all ${isExpired ? 'cursor-not-allowed opacity-30' : ''} ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}
+                    disabled={!canPublish}
+                    className={`p-2.5 rounded-xl transition-all ${!canPublish ? 'cursor-not-allowed opacity-30' : ''} ${offer.is_active ? 'bg-citrus/10 text-citrus' : 'bg-muted text-muted-foreground'}`}
                   >
                     {offer.is_active ? <ToggleRight className="w-6 h-6" /> : <ToggleLeft className="w-6 h-6" />}
                   </button>

@@ -82,7 +82,7 @@ export default function MerchantSetup() {
         ? { lat: Number(form.lat), lng: Number(form.lng) }
         : await getCoordsFromAddress(form.address);
       if (!coords) {
-        alert("Impossible de localiser cette adresse. Essayez avec un lieu connu à proximité.");
+        alert(t('geocodeAddressFailed'));
         setLoading(false);
         return;
       }
@@ -129,7 +129,7 @@ export default function MerchantSetup() {
       setTimeout(() => navigate('/merchant'), 1500);
 
     } catch (err) {
-      alert("Erreur : " + err.message);
+      alert(t('errorWithMessage').replace('{message}', err.message));
     } finally {
       setLoading(false);
     }
@@ -196,7 +196,7 @@ export default function MerchantSetup() {
               <input 
                 required 
                 type="text" 
-                placeholder="Ex: Soi Saiyuan, Rawai"
+                placeholder={t('addressPlaceholderExample')}
                 value={form.address} 
                 onChange={e => set('address', e.target.value)} 
                 className={inputClass} 
