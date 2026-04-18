@@ -200,7 +200,7 @@ export default function Explore() {
                 onClick={() => requestUserLocation()}
                 className="px-3 py-1 rounded-full border border-orange-500/30 hover:border-orange-500/60 text-[10px] tracking-wider"
               >
-                ACTIVER GPS
+                {t('enableGpsButton')}
               </button>
             )}
           </div>

@@ -164,7 +164,7 @@ export default function Landing() {
               className="hidden sm:flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full text-sm font-bold transition-all border border-white/10"
             >
               <Store className="w-4 h-4 text-citrus" />
-              {t('merchantPortal') || 'Portale Commercianti'}
+              {t('merchantLogin')}
             </Link>
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function Landing() {
             {[
               { num: '5', unit: 'km', label: t('notificationRadius') },
               { num: '0', unit: '%', label: t('commissionOnSales') },
-              { num: '70', unit: '%', label: t('averageDiscount') },
+              { num: '35', unit: '%', label: t('averageDiscount') },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-3xl md:text-4xl font-black text-citrus">

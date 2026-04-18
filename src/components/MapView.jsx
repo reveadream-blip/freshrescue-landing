@@ -120,7 +120,7 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
   return (
     <div className="w-full min-h-[calc(100vh-14rem)] h-[min(70vh,720px)] rounded-3xl overflow-hidden border border-border relative bg-card">
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-[1000] bg-card/90 backdrop-blur border border-border rounded-full px-4 py-2 text-[10px] font-bold uppercase italic text-muted-foreground">
-        {localMode ? t('mapLocalRadiusHint') : 'Zoom: molette / pincer à 2 doigts'}
+        {localMode ? t('mapLocalRadiusHint') : t('mapZoomHint')}
       </div>
 
       <MapContainer
@@ -162,7 +162,7 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
 
         {userLatLng && (
           <Marker position={userLatLng} icon={userIcon}>
-            <Popup>📍 {t('youAreHere') || 'Vous êtes ici'}</Popup>
+            <Popup>📍 {t('youAreHere')}</Popup>
           </Marker>
         )}
 

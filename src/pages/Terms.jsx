@@ -53,9 +53,9 @@ export default function Terms() {
           <h3 className="text-lg font-semibold mb-3">{t('termsLegalTitle')}</h3>
           <div className="bg-card rounded-xl p-4 text-sm space-y-2">
             <p><span className="text-muted-foreground">{t('legalPublisher')} :</span> FreshRescue Management</p>
-            <p><span className="text-muted-foreground">{t('legalHeadquarters')} :</span> Zürich, {t('legalThailand')}</p>
+            <p><span className="text-muted-foreground">{t('legalHeadquarters')} :</span> Zürich, {t('legalCountry')}</p>
             <p><span className="text-muted-foreground">{t('legalContact')} :</span> contact.applimanagement@gmail.com</p>
-            <p><span className="text-muted-foreground">{t('legalLaw')} :</span> {t('legalThaiLaw')}</p>
+            <p><span className="text-muted-foreground">{t('legalLaw')} :</span> {t('legalSwissLaw')}</p>
           </div>
         </section>
       </div>
