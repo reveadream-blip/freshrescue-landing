@@ -23,6 +23,8 @@ import {
   AlertCircle,
   Pencil,
   Globe,
+  Menu,
+  X,
 } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 import { useTranslation } from '@/lib/i18n';
@@ -71,6 +73,7 @@ export default function AdminDashboard() {
   const { lang, setLanguage, t } = useTranslation();
   const adminLocale = ADMIN_LOCALE[lang] || 'en-CH';
   const [activeTab, setActiveTab] = useState('overview');
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fetchErrors, setFetchErrors] = useState([]);
 
@@ -132,6 +135,32 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchAdminData();
   }, [fetchAdminData]);
+
+  const goTab = useCallback((tab) => {
+    setActiveTab(tab);
+    setMobileNavOpen(false);
+  }, []);
+
+  const activeSectionTitle = useMemo(() => {
+    const map = {
+      overview: 'adminNationalDashboard',
+      revenue: 'adminNavRevenue',
+      engagement: 'adminNavEngagement',
+      push: 'adminNavNotifications',
+      offers: 'adminNavOffers',
+      merchants: 'adminNavMerchants',
+    };
+    return t(map[activeTab] || 'adminNationalDashboard');
+  }, [activeTab, t]);
+
+  useEffect(() => {
+    if (!mobileNavOpen) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMobileNavOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobileNavOpen]);
 
   const deleteOffer = async (id) => {
     if (!window.confirm(t('adminConfirmDeleteOffer'))) return;
@@ -443,7 +472,7 @@ export default function AdminDashboard() {
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{title}</p>
-            <p className="mt-2 text-3xl font-black tracking-tight text-foreground">{value}</p>
+            <p className="mt-2 text-2xl font-black tracking-tight text-foreground sm:text-3xl">{value}</p>
           </div>
           <div className="rounded-2xl bg-earth/80 p-3 text-citrus shadow-inner">
             <Icon className="h-6 w-6" />
@@ -456,7 +485,7 @@ export default function AdminDashboard() {
   const renderOverview = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
       <div>
-        <h2 className="text-3xl font-black italic tracking-tight text-foreground">{t('adminOverviewTitle')}</h2>
+        <h2 className="text-2xl font-black italic tracking-tight text-foreground sm:text-3xl">{t('adminOverviewTitle')}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{t('adminOverviewSubtitle')}</p>
       </div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -979,8 +1008,101 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
-    <div className="flex h-screen overflow-hidden bg-earth font-sans text-foreground">
-      <aside className="flex w-72 shrink-0 flex-col border-r border-white/10 bg-earth/95 backdrop-blur-md">
+    <div className="flex h-[100dvh] max-h-[100dvh] min-h-0 overflow-hidden bg-earth font-sans text-foreground">
+      {mobileNavOpen && (
+        <>
+          <button
+            type="button"
+            className="fixed inset-0 z-[80] bg-black/60 lg:hidden"
+            aria-label={t('adminCloseMenuAria')}
+            onClick={() => setMobileNavOpen(false)}
+          />
+          <aside
+            className="fixed inset-y-0 left-0 z-[90] flex w-[min(20rem,88vw)] max-w-[100vw] flex-col border-r border-white/10 bg-earth shadow-2xl backdrop-blur-md lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('adminBackOffice')}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 p-4">
+              <div className="flex min-w-0 items-center gap-2">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-citrus shadow-lg shadow-citrus/20">
+                  <Leaf className="h-5 w-5 text-earth" />
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate font-black italic text-sm text-foreground">
+                    Fresh<span className="text-citrus">Rescue</span>
+                  </p>
+                  <span className="mt-0.5 inline-block rounded-md bg-citrus/20 px-1.5 py-0.5 text-[8px] font-black uppercase tracking-widest text-citrus">
+                    {t('adminBadgeAdmin')}
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileNavOpen(false)}
+                className="shrink-0 touch-manipulation rounded-xl p-2 text-muted-foreground transition hover:bg-white/10 hover:text-foreground"
+                aria-label={t('adminCloseMenuAria')}
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <nav className="flex-1 space-y-1 overflow-y-auto overscroll-contain px-3 py-4">
+              <NavItem
+                icon={<LayoutDashboard size={20} />}
+                label={t('adminNavOverview')}
+                active={activeTab === 'overview'}
+                onClick={() => goTab('overview')}
+              />
+              <NavItem
+                icon={<DollarSign size={20} />}
+                label={t('adminNavRevenue')}
+                active={activeTab === 'revenue'}
+                onClick={() => goTab('revenue')}
+              />
+              <NavItem
+                icon={<AlertTriangle size={20} />}
+                label={t('adminNavEngagement')}
+                active={activeTab === 'engagement'}
+                onClick={() => goTab('engagement')}
+              />
+              <NavItem
+                icon={<Bell size={20} />}
+                label={t('adminNavNotifications')}
+                active={activeTab === 'push'}
+                onClick={() => goTab('push')}
+              />
+              <div className="mx-2 my-4 h-px bg-white/10" />
+              <NavItem
+                icon={<ShoppingBag size={20} />}
+                label={t('adminNavOffers')}
+                active={activeTab === 'offers'}
+                onClick={() => goTab('offers')}
+              />
+              <NavItem
+                icon={<Store size={20} />}
+                label={t('adminNavMerchants')}
+                active={activeTab === 'merchants'}
+                onClick={() => goTab('merchants')}
+              />
+            </nav>
+            <div className="border-t border-white/10 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileNavOpen(false);
+                  logout();
+                }}
+                className="flex w-full touch-manipulation items-center gap-3 rounded-2xl p-3.5 text-sm font-black uppercase tracking-wide text-red-400 transition hover:bg-red-500/10"
+              >
+                <LogOut size={20} />
+                {t('adminLogout')}
+              </button>
+            </div>
+          </aside>
+        </>
+      )}
+
+      <aside className="hidden w-72 shrink-0 flex-col border-r border-white/10 bg-earth/95 backdrop-blur-md lg:flex">
         <div className="border-b border-white/10 p-8">
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-citrus shadow-lg shadow-citrus/20">
@@ -1001,38 +1123,38 @@ export default function AdminDashboard() {
             icon={<LayoutDashboard size={20} />}
             label={t('adminNavOverview')}
             active={activeTab === 'overview'}
-            onClick={() => setActiveTab('overview')}
+            onClick={() => goTab('overview')}
           />
           <NavItem
             icon={<DollarSign size={20} />}
             label={t('adminNavRevenue')}
             active={activeTab === 'revenue'}
-            onClick={() => setActiveTab('revenue')}
+            onClick={() => goTab('revenue')}
           />
           <NavItem
             icon={<AlertTriangle size={20} />}
             label={t('adminNavEngagement')}
             active={activeTab === 'engagement'}
-            onClick={() => setActiveTab('engagement')}
+            onClick={() => goTab('engagement')}
           />
           <NavItem
             icon={<Bell size={20} />}
             label={t('adminNavNotifications')}
             active={activeTab === 'push'}
-            onClick={() => setActiveTab('push')}
+            onClick={() => goTab('push')}
           />
           <div className="mx-2 my-4 h-px bg-white/10" />
           <NavItem
             icon={<ShoppingBag size={20} />}
             label={t('adminNavOffers')}
             active={activeTab === 'offers'}
-            onClick={() => setActiveTab('offers')}
+            onClick={() => goTab('offers')}
           />
           <NavItem
             icon={<Store size={20} />}
             label={t('adminNavMerchants')}
             active={activeTab === 'merchants'}
-            onClick={() => setActiveTab('merchants')}
+            onClick={() => goTab('merchants')}
           />
         </nav>
         <div className="border-t border-white/10 p-4">
@@ -1047,12 +1169,51 @@ export default function AdminDashboard() {
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1 overflow-y-auto">
-        <div className="border-b border-white/10 bg-earth/80 px-6 py-4 backdrop-blur-md md:px-10">
+      <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="sticky top-0 z-30 flex shrink-0 items-center gap-2 border-b border-white/10 bg-earth/95 px-3 py-2.5 pt-[max(0.5rem,env(safe-area-inset-top))] backdrop-blur-md lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(true)}
+            className="touch-manipulation rounded-xl p-2.5 text-foreground transition hover:bg-white/10"
+            aria-expanded={mobileNavOpen}
+            aria-label={t('adminMenuAria')}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-black uppercase tracking-widest text-citrus">{t('adminBackOffice')}</p>
+            <p className="truncate text-sm font-bold text-foreground">{activeSectionTitle}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => fetchAdminData()}
+            className="touch-manipulation rounded-full border border-border bg-card p-2.5 text-foreground transition hover:border-citrus/50"
+            aria-label={t('adminRefreshAll')}
+          >
+            <RefreshCw size={18} className={loading ? 'animate-spin text-citrus' : ''} />
+          </button>
+          <div className="relative shrink-0">
+            <select
+              value={lang}
+              onChange={(e) => setLanguage(e.target.value)}
+              aria-label={t('adminLanguageAria')}
+              className="appearance-none rounded-full border border-border bg-card py-2 pl-8 pr-6 text-[10px] font-black uppercase tracking-wider text-foreground transition hover:border-citrus/50 focus:outline-none focus:ring-2 focus:ring-citrus/30"
+            >
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+              <option value="it">IT</option>
+              <option value="de">DE</option>
+              <option value="ru">RU</option>
+            </select>
+            <Globe className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-citrus" />
+          </div>
+        </header>
+
+        <div className="hidden border-b border-white/10 bg-earth/80 px-6 py-4 backdrop-blur-md lg:block md:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-citrus">{t('adminBackOffice')}</p>
-              <p className="text-lg font-bold text-foreground">{t('adminNationalDashboard')}</p>
+              <p className="text-lg font-bold text-foreground">{activeSectionTitle}</p>
             </div>
             <div className="flex flex-wrap items-center justify-end gap-3">
               <div className="relative">
@@ -1087,7 +1248,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="p-6 md:p-10">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain px-4 py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4 md:px-10 md:py-10">
           {fetchErrors.length > 0 && (
             <div className="mb-8 flex gap-3 rounded-2xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
               <AlertCircle className="h-5 w-5 shrink-0 text-amber-400" />
@@ -1129,7 +1290,7 @@ function NavItem({ icon, label, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold transition-all ${
+      className={`touch-manipulation flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold transition-all ${
         active
           ? 'bg-citrus text-earth shadow-lg shadow-citrus/20'
           : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
