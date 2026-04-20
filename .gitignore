@@ -34,6 +34,9 @@ dist-ssr
 # Cursor agent rules (local)
 .cursor/
 
+# Cloudflare Wrangler
+.wrangler/
+
 # Supabase CLI
 supabase/.temp/
 supabase/edge.env

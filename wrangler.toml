@@ -1,0 +1,5 @@
+# Cloudflare Pages — doit correspondre au nom du projet dans le dashboard Pages.
+# Build : npm run build  → dossier dist/
+name = "freshrescue-app"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
