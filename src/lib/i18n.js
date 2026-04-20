@@ -14,6 +14,8 @@ const translations = {
     // Nav
     geoError: "Per favore, abilita la geolocalizzazione!",
     enableGpsButton: "ATTIVA GPS",
+    geoPermissionDeniedHint:
+      "Hai negato l’accesso: clicca sul lucchetto nella barra degli indirizzi e consenti la posizione per questo sito.",
     home: "Home",
     explore: "Esplora",
     merchantLogin: "Portale Commercianti",
@@ -264,6 +266,8 @@ const translations = {
     // Nav
     geoError: "Please enable geolocation !",
     enableGpsButton: "ENABLE GPS",
+    geoPermissionDeniedHint:
+      "Access was blocked: click the lock in the address bar and allow location for this site.",
     home: "Home",
     explore: "Explore",
     merchantLogin: "Merchant Portal",
@@ -624,6 +628,8 @@ const translations = {
     noOffers: "Aucune offre trouvée",
     geoError: "Veuillez activer la géolocalisation !",
     enableGpsButton: "ACTIVER LE GPS",
+    geoPermissionDeniedHint:
+      "Accès refusé : cliquez sur le cadenas dans la barre d’adresse, puis autorisez la localisation pour ce site.",
     pwaInstallTitle: "Installer l'application",
     pwaInstallBtn: "INSTALLER",
     iosInstallTitle: "Activez les notifications sur iPhone :",
@@ -869,6 +875,8 @@ const translations = {
     noOffers: "Noch keine Angebote. Schauen Sie später wieder vorbei!",
     geoError: "Bitte Geolokalisierung aktivieren!",
     enableGpsButton: "GPS AKTIVIEREN",
+    geoPermissionDeniedHint:
+      "Zugriff verweigert: Klicken Sie auf das Schloss in der Adressleiste und erlauben Sie den Standort für diese Seite.",
     pwaInstallTitle: "App installieren",
     pwaInstallBtn: "INSTALLIEREN",
     iosInstallTitle: "Benachrichtigungen auf dem iPhone:",
@@ -1117,6 +1125,8 @@ const translations = {
     noOffers: "Предложений не найдено",
     geoError: "Пожалуйста, включите геолокацию !",
     enableGpsButton: "ВКЛЮЧИТЬ GPS",
+    geoPermissionDeniedHint:
+      "Доступ запрещён: нажмите на замок в адресной строке и разрешите геолокацию для этого сайта.",
     pwaInstallTitle: "Установить приложение",
     pwaInstallBtn: "УСТАНОВИТЬ",
     iosInstallTitle: "Включите уведомления на iPhone:",

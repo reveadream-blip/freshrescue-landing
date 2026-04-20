@@ -14,6 +14,9 @@ import { MAP_RADIUS_KM } from '../lib/geoConstants';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
+/** GeolocationPositionError.PERMISSION_DENIED — utiliser le code numérique (err.PERMISSION_DENIED est souvent undefined). */
+const GEO_PERMISSION_DENIED = 1;
+
 export default function Explore() {
   const { t, dt, lang, setLanguage } = useTranslation();
   const [offers, setOffers] = useState([]);
@@ -24,6 +27,7 @@ export default function Explore() {
   const [locationBlocked, setLocationBlocked] = useState(false);
   const [userCoords, setUserCoords] = useState(null);
   const [searchFocused, setSearchFocused] = useState(false);
+  const [gpsRequesting, setGpsRequesting] = useState(false);
   const blurTimeoutRef = useRef(null);
 
   const citySuggestions = useMemo(() => filterSwissCities(search, 14), [search]);
@@ -67,6 +71,7 @@ export default function Explore() {
       return;
     }
 
+    setGpsRequesting(true);
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = position.coords.latitude;
@@ -74,11 +79,13 @@ export default function Explore() {
         setUserCoords({ lat, lng });
         setLocationError(false);
         setLocationBlocked(false);
+        setGpsRequesting(false);
       },
       (err) => {
         setLocationError(true);
-        setLocationBlocked(err.code === err.PERMISSION_DENIED);
+        setLocationBlocked(Number(err?.code) === GEO_PERMISSION_DENIED);
         setUserCoords(null);
+        setGpsRequesting(false);
       },
       { enableHighAccuracy: true, timeout: 25000, maximumAge: 0 }
     );
@@ -106,8 +113,8 @@ export default function Explore() {
       },
       (err) => {
         setLocationError(true);
-        setLocationBlocked(err.code === err.PERMISSION_DENIED);
-        if (err.code === err.PERMISSION_DENIED) setUserCoords(null);
+        setLocationBlocked(Number(err?.code) === GEO_PERMISSION_DENIED);
+        if (Number(err?.code) === GEO_PERMISSION_DENIED) setUserCoords(null);
       },
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
     );
@@ -193,40 +200,50 @@ export default function Explore() {
       <div className="pt-28 pb-16 px-6 max-w-7xl mx-auto">
         
         {locationError && (
-          <div className="mb-6 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-orange-500 text-sm flex items-center justify-between gap-3 font-bold italic uppercase">
-            <div className="flex items-center gap-3">
-            <MapPin className="w-4 h-4" />
-            {t('geoError')}
+          <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-orange-500/20 bg-orange-500/10 p-4 text-orange-500 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+            <div className="flex min-w-0 flex-1 gap-3">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+              <div className="min-w-0">
+                <p className="text-sm font-bold italic uppercase leading-snug">{t('geoError')}</p>
+                {locationBlocked && (
+                  <p className="mt-2 text-xs font-medium normal-case not-italic leading-relaxed text-orange-500/95">
+                    {t('geoPermissionDeniedHint')}
+                  </p>
+                )}
+              </div>
             </div>
-            {locationBlocked && (
-              <button
-                type="button"
-                onClick={() => requestUserLocation()}
-                className="px-3 py-1 rounded-full border border-orange-500/30 hover:border-orange-500/60 text-[10px] tracking-wider"
-              >
+            <button
+              type="button"
+              onClick={requestUserLocation}
+              disabled={gpsRequesting}
+              aria-busy={gpsRequesting}
+              className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full border border-orange-500/40 bg-orange-500/20 px-4 py-2 text-[10px] font-black uppercase tracking-wider transition-colors hover:border-orange-500/70 hover:bg-orange-500/30 disabled:cursor-wait disabled:opacity-80"
+            >
+              <span className="inline-flex items-center gap-2">
+                {gpsRequesting ? <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden /> : null}
                 {t('enableGpsButton')}
-              </button>
-            )}
+              </span>
+            </button>
           </div>
         )}
 
-        <div className="mb-10 flex justify-between items-end flex-wrap gap-4">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-black mb-2 italic uppercase">
+        <div className="mb-10 flex w-full flex-col items-center text-center">
+          <h1 className="mb-2 max-w-full px-1 text-2xl font-black italic uppercase tracking-tight sm:text-4xl md:text-5xl">
+            <span className="inline-block whitespace-nowrap">
               {t('activeOffers')}{' '}
-              <span className="text-citrus">({displayOffers.length})</span>
-            </h1>
-            <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
-              {t('brandTagline')}
-            </p>
-            <a
-              href="#explore-map"
-              className="mt-4 inline-flex w-fit max-w-full items-center gap-2.5 rounded-2xl border border-citrus/35 bg-card/70 px-4 py-2.5 text-sm font-black uppercase tracking-wide text-citrus shadow-sm transition-all hover:border-citrus/55 hover:bg-citrus/10 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-citrus/50"
-            >
-              <Map className="h-5 w-5 shrink-0 text-citrus" aria-hidden />
-              <span className="leading-tight">{t('exploreShortcutToMap')}</span>
-            </a>
-          </div>
+              <span className="text-citrus tabular-nums">({displayOffers.length})</span>
+            </span>
+          </h1>
+          <p className="text-muted-foreground max-w-md text-xs font-bold uppercase tracking-widest italic">
+            {t('brandTagline')}
+          </p>
+          <a
+            href="#explore-map"
+            className="mt-4 inline-flex max-w-[min(100%,22rem)] items-center justify-center gap-2.5 rounded-2xl border border-citrus/35 bg-card/70 px-4 py-2.5 text-center text-sm font-black uppercase leading-snug tracking-wide text-citrus shadow-sm transition-all hover:border-citrus/55 hover:bg-citrus/10 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-citrus/50"
+          >
+            <Map className="h-5 w-5 shrink-0 text-citrus" aria-hidden />
+            <span>{t('exploreShortcutToMap')}</span>
+          </a>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mb-10">
