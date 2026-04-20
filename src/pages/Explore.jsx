@@ -167,11 +167,16 @@ export default function Explore() {
         
         {locationError && (
           <div
-            className="mb-6 flex items-center gap-3 rounded-2xl border border-orange-500/20 bg-orange-500/10 p-4 text-orange-500"
+            className="mb-6 flex w-full min-w-0 flex-nowrap items-center justify-center gap-2 overflow-x-auto rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/20 via-orange-400/15 to-orange-500/20 px-3 py-3 text-orange-400 shadow-[0_0_18px_rgba(249,115,22,0.2)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-3 sm:px-4 animate-geo-banner-glow"
             role="status"
           >
-            <MapPin className="h-4 w-4 shrink-0" aria-hidden />
-            <p className="text-sm font-bold italic uppercase leading-snug">{t('geoError')}</p>
+            <MapPin
+              className="h-4 w-4 shrink-0 text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.9)] sm:h-5 sm:w-5"
+              aria-hidden
+            />
+            <p className="whitespace-nowrap text-[clamp(0.5625rem,2.85vw,0.875rem)] font-black italic uppercase leading-none tracking-tight text-orange-300 drop-shadow-[0_0_8px_rgba(253,186,116,0.45)] sm:tracking-wide">
+              {t('geoError')}
+            </p>
           </div>
         )}
 
