@@ -14,9 +14,6 @@ import { MAP_RADIUS_KM } from '../lib/geoConstants';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
-/** GeolocationPositionError.PERMISSION_DENIED — utiliser le code numérique (err.PERMISSION_DENIED est souvent undefined). */
-const GEO_PERMISSION_DENIED = 1;
-
 export default function Explore() {
   const { t, dt, lang, setLanguage } = useTranslation();
   const [offers, setOffers] = useState([]);
@@ -24,10 +21,8 @@ export default function Explore() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [locationError, setLocationError] = useState(false);
-  const [locationBlocked, setLocationBlocked] = useState(false);
   const [userCoords, setUserCoords] = useState(null);
   const [searchFocused, setSearchFocused] = useState(false);
-  const [gpsRequesting, setGpsRequesting] = useState(false);
   const blurTimeoutRef = useRef(null);
 
   const citySuggestions = useMemo(() => filterSwissCities(search, 14), [search]);
@@ -64,33 +59,6 @@ export default function Explore() {
     }
   };
 
-  const requestUserLocation = () => {
-    if (!('geolocation' in navigator) || !window.isSecureContext) {
-      setLocationError(true);
-      setLocationBlocked(false);
-      return;
-    }
-
-    setGpsRequesting(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        setUserCoords({ lat, lng });
-        setLocationError(false);
-        setLocationBlocked(false);
-        setGpsRequesting(false);
-      },
-      (err) => {
-        setLocationError(true);
-        setLocationBlocked(Number(err?.code) === GEO_PERMISSION_DENIED);
-        setUserCoords(null);
-        setGpsRequesting(false);
-      },
-      { enableHighAccuracy: true, timeout: 25000, maximumAge: 0 }
-    );
-  };
-
   useEffect(() => {
     loadOffers();
   }, []);
@@ -109,12 +77,10 @@ export default function Explore() {
         if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
         setUserCoords({ lat, lng });
         setLocationError(false);
-        setLocationBlocked(false);
       },
       (err) => {
         setLocationError(true);
-        setLocationBlocked(Number(err?.code) === GEO_PERMISSION_DENIED);
-        if (Number(err?.code) === GEO_PERMISSION_DENIED) setUserCoords(null);
+        if (Number(err?.code) === 1) setUserCoords(null);
       },
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
     );
@@ -200,30 +166,12 @@ export default function Explore() {
       <div className="pt-28 pb-16 px-6 max-w-7xl mx-auto">
         
         {locationError && (
-          <div className="mb-6 flex flex-col gap-3 rounded-2xl border border-orange-500/20 bg-orange-500/10 p-4 text-orange-500 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-            <div className="flex min-w-0 flex-1 gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-              <div className="min-w-0">
-                <p className="text-sm font-bold italic uppercase leading-snug">{t('geoError')}</p>
-                {locationBlocked && (
-                  <p className="mt-2 text-xs font-medium normal-case not-italic leading-relaxed text-orange-500/95">
-                    {t('geoPermissionDeniedHint')}
-                  </p>
-                )}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={requestUserLocation}
-              disabled={gpsRequesting}
-              aria-busy={gpsRequesting}
-              className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full border border-orange-500/40 bg-orange-500/20 px-4 py-2 text-[10px] font-black uppercase tracking-wider transition-colors hover:border-orange-500/70 hover:bg-orange-500/30 disabled:cursor-wait disabled:opacity-80"
-            >
-              <span className="inline-flex items-center gap-2">
-                {gpsRequesting ? <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden /> : null}
-                {t('enableGpsButton')}
-              </span>
-            </button>
+          <div
+            className="mb-6 flex items-center gap-3 rounded-2xl border border-orange-500/20 bg-orange-500/10 p-4 text-orange-500"
+            role="status"
+          >
+            <MapPin className="h-4 w-4 shrink-0" aria-hidden />
+            <p className="text-sm font-bold italic uppercase leading-snug">{t('geoError')}</p>
           </div>
         )}
 
