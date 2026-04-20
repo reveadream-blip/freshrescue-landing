@@ -1,9 +1,22 @@
-# SEO : dans Netlify > Site settings > Environment variables, ajoutez VITE_SITE_URL = https://votre-domaine-canonical
-# (canonical Open Graph + sitemap au build ; sinon Netlify fournit souvent URL au build)
+# SEO / Google Search Console :
+# - Variable Netlify : VITE_SITE_URL = https://www.ton-domaine.ch (domaine canonique affiché dans le sitemap)
+# - Sinon Netlify injecte souvent URL (ex. https://xxx.netlify.app) au build — sitemap valide quand même
+# - Ou remplir siteUrl dans site.config.json à la racine du repo
 
 [build]
   command = "npm run build"
   publish = "dist"
+
+# Fichiers statiques (sitemap, robots) sont servis avant la règle SPA ci-dessous
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
 
 [[redirects]]
   from = "/*"

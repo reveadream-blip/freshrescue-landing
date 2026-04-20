@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { Search, MapPin, Loader2, Globe, Leaf } from 'lucide-react';
+import { Search, MapPin, Map, Loader2, Globe, Leaf } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
 import { isOfferInSwitzerland, distanceKm } from '../lib/swissGeo';
 import { getOfferPhotoUrl } from '../lib/offerPhoto';
 import MapView from '../components/MapView';
+import OfferCard from '../components/OfferCard';
 import { Link } from 'react-router-dom';
 import { MOCK_OFFERS } from '../data/mockSwissOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
@@ -143,6 +144,9 @@ export default function Explore() {
     });
   }, [filtered, userCoords]);
 
+  /** Même logique que le compteur du titre : liste des offres affichées en premier (pas la carte seule). */
+  const displayOffers = userCoords ? offersOnMap : filtered;
+
   const handlePickCity = (cityName) => {
     setSearch(cityName);
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
@@ -210,13 +214,18 @@ export default function Explore() {
           <div>
             <h1 className="text-4xl md:text-5xl font-black mb-2 italic uppercase">
               {t('activeOffers')}{' '}
-              <span className="text-citrus">
-                ({userCoords ? offersOnMap.length : filtered.length})
-              </span>
+              <span className="text-citrus">({displayOffers.length})</span>
             </h1>
             <p className="text-muted-foreground text-xs font-bold uppercase tracking-widest italic">
               {t('brandTagline')}
             </p>
+            <a
+              href="#explore-map"
+              className="mt-4 inline-flex w-fit max-w-full items-center gap-2.5 rounded-2xl border border-citrus/35 bg-card/70 px-4 py-2.5 text-sm font-black uppercase tracking-wide text-citrus shadow-sm transition-all hover:border-citrus/55 hover:bg-citrus/10 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-citrus/50"
+            >
+              <Map className="h-5 w-5 shrink-0 text-citrus" aria-hidden />
+              <span className="leading-tight">{t('exploreShortcutToMap')}</span>
+            </a>
           </div>
         </div>
 
@@ -289,7 +298,44 @@ export default function Explore() {
             </p>
           </div>
         ) : (
-          <MapView offers={offersOnMap} userPosition={userCoords} mapRadiusKm={MAP_RADIUS_KM} />
+          <>
+            <section
+              id="explore-offers"
+              aria-label={t('activeOffers')}
+              className="mb-14 scroll-mt-28"
+            >
+              {displayOffers.length === 0 ? (
+                <p className="text-center text-muted-foreground font-bold py-12 px-4 rounded-2xl border border-border bg-card/50">
+                  {t('noOffers')}
+                </p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {displayOffers.map((offer) => (
+                    <OfferCard key={offer.id} offer={offer} />
+                  ))}
+                </div>
+              )}
+            </section>
+
+            <section
+              id="explore-map"
+              className="scroll-mt-28 pt-4 border-t border-border/60"
+              aria-label={t('exploreMapHeading')}
+            >
+              <div className="mb-8 flex w-full flex-row flex-nowrap items-center justify-between gap-3">
+                <h2 className="text-xl font-black italic uppercase text-foreground sm:text-2xl md:text-3xl">
+                  {t('exploreMapHeading')}
+                </h2>
+                <a
+                  href="#explore-offers"
+                  className="inline-flex shrink-0 items-center justify-center rounded-full border border-orange-500/50 bg-orange-500/15 px-3 py-2 text-center text-[10px] font-black uppercase leading-snug tracking-wide text-orange-500 shadow-sm transition-all hover:bg-orange-500/25 hover:border-orange-500/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/50 sm:px-4 sm:py-2.5 sm:text-xs"
+                >
+                  {t('exploreBackToOffers')}
+                </a>
+              </div>
+              <MapView offers={offersOnMap} userPosition={userCoords} mapRadiusKm={MAP_RADIUS_KM} />
+            </section>
+          </>
         )}
       </div>
       <Navbar />

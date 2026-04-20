@@ -8,7 +8,7 @@ const translations = {
     heroSubtitle:
       "FreshRescue è l’app anti-spreco che collega negozi e persone in tutta la Svizzera: si salvano gli invenduti, si riduce lo spreco e si accede a prezzi flash equi.",
     brandTagline: "Anti-spreco · Svizzera",
-    exploreCta: "Scopri le offerte in Svizzera",
+    exploreCta: "Offerte nelle vicinanze",
     merchantCta: "Sono un commerciante",
     oneHundredFree: "100% GRATUITO",
     // Nav
@@ -130,6 +130,9 @@ const translations = {
     iosInstallDescAfter: " Condividi e poi ",
     iosInstallTarget: "Aggiungi alla schermata Home",
     activeOffers: "Offerte Attive",
+    exploreMapHeading: "Mappa",
+    exploreShortcutToMap: "Vedi le offerte attive sulla mappa",
+    exploreBackToOffers: "Torna alle offerte attive",
     mapLocalRadiusHint: "≤ 5 km intorno a te — zoom e sposta la mappa",
     mapZoomHint: "Zoom: rotella / pizzica con due dita",
     noOffers: "Nessuna offerta disponibile al momento. Torna presto!",
@@ -255,7 +258,7 @@ const translations = {
     heroSubtitle:
       "FreshRescue is Switzerland’s anti-food-waste app: it connects shops and people nationwide to rescue surplus food, cut waste, and unlock fair flash prices.",
     brandTagline: "Anti-waste · Switzerland",
-    exploreCta: "Browse offers in Switzerland",
+    exploreCta: "Nearby offers",
     merchantCta: "I'm a Merchant",
     oneHundredFree: "100% FREE",
     // Nav
@@ -377,6 +380,9 @@ const translations = {
     iosInstallDescAfter: " button then ",
     iosInstallTarget: "Add to Home Screen",
     activeOffers: "Active Offers",
+    exploreMapHeading: "Map",
+    exploreShortcutToMap: "See active offers on the map",
+    exploreBackToOffers: "Back to active offers",
     mapLocalRadiusHint: "≤ 5 km around you — zoom & pan the map",
     mapZoomHint: "Zoom: scroll wheel / pinch with two fingers",
     noOffers: "No offers available right now. Check back soon!",
@@ -502,7 +508,7 @@ const translations = {
     heroSubtitle:
       "FreshRescue est l’application suisse anti-gaspillage : elle relie commerçants et consommateurs partout en Suisse pour sauver les invendus, réduire le gaspillage et proposer des prix flash justes.",
     brandTagline: "Anti-gaspillage · Suisse",
-    exploreCta: "Voir les offres en Suisse",
+    exploreCta: "Offres à proximité",
     merchantCta: "Je suis Commerçant",
     oneHundredFree: "100% GRATUIT",
     // Nav
@@ -626,6 +632,9 @@ const translations = {
     iosInstallDescAfter: " puis sur ",
     iosInstallTarget: "Sur l'écran d'accueil",
     activeOffers: "Offres Actives",
+    exploreMapHeading: "Carte",
+    exploreShortcutToMap: "Voir les offres actives sur la carte",
+    exploreBackToOffers: "Retour sur les offres actives",
     mapLocalRadiusHint: "≤ 5 km autour de vous — zoomez et déplacez la carte",
     mapZoomHint: "Zoom : molette / pincer à deux doigts",
     noOffers: "Aucune offre disponible pour le moment. Revenez bientôt !",
@@ -748,7 +757,7 @@ const translations = {
     heroSubtitle:
       "FreshRescue ist die Schweizer Anti-Waste-App: Sie verbindet Händler und Kundinnen in der ganzen Schweiz, rettet Überschüsse, vermeidet Abfall und ermöglicht faire Blitzpreise.",
     brandTagline: "Anti-Waste · Schweiz",
-    exploreCta: "Angebote in der Schweiz entdecken",
+    exploreCta: "Angebote in der Nähe",
     merchantCta: "Ich bin Händler",
     oneHundredFree: "100% KOSTENLOS",
     // Nav
@@ -868,6 +877,9 @@ const translations = {
     iosInstallDescAfter: " und dann auf „",
     iosInstallTarget: "Zum Home-Bildschirm",
     activeOffers: "Aktive Angebote",
+    exploreMapHeading: "Karte",
+    exploreShortcutToMap: "Aktive Angebote auf der Karte ansehen",
+    exploreBackToOffers: "Zurück zu den aktiven Angeboten",
     mapLocalRadiusHint: "≤ 5 km um Sie — zoomen und Karte verschieben",
     mapZoomHint: "Zoom: Mausrad / mit zwei Fingern zoomen",
     collectBefore: "Abholen bis",
@@ -989,7 +1001,7 @@ const translations = {
     heroSubtitle:
       "FreshRescue — швейцарское приложение против пищевых отходов: связывает магазины и покупателей по всей стране, спасает еду, сокращает отходы и предлагает честные флэш-цены.",
     brandTagline: "Против отходов · Швейцария",
-    exploreCta: "Смотреть предложения в Швейцарии",
+    exploreCta: "Предложения рядом",
     merchantCta: "Я продавец",
     oneHundredFree: "100% БЕСПЛАТНО",
     // Nav
@@ -1113,6 +1125,9 @@ const translations = {
     iosInstallDescAfter: ", затем ",
     iosInstallTarget: "На экран «Домой»",
     activeOffers: "Активные предложения",
+    exploreMapHeading: "Карта",
+    exploreShortcutToMap: "Активные предложения на карте",
+    exploreBackToOffers: "К активным предложениям",
     mapLocalRadiusHint: "≤ 5 км вокруг вас — масштаб и перемещение карты",
     mapZoomHint: "Масштаб: колёсико / сжатие двумя пальцами",
     noOffers: "На данный момент предложений нет. Зайдите позже!",
