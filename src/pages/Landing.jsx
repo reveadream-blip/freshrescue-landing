@@ -477,11 +477,24 @@ export default function Landing() {
           <div className="flex flex-col items-center md:items-end gap-3">
             <div className="flex gap-6">
               <Link 
+                to="/blog" 
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('footerBlog')}
+              </Link>
+              <Link 
                 to="/terms" 
                 className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
               >
                 {t('footerTerms')}
               </Link>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new Event('openCookieSettings'))}
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('footerCookies')}
+              </button>
             </div>
             <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest opacity-60">
               © 2026 FreshRescue. {t('footerRights')}

@@ -49,6 +49,46 @@ export default function Terms() {
           </p>
         </section>
 
+        <section className="mb-8">
+          <h3 className="text-lg font-semibold mb-3 text-primary">{t('termsCookiesTitle')}</h3>
+          <p className="text-sm leading-relaxed mb-4">
+            {t('termsCookiesIntroContent')}
+          </p>
+
+          <div className="space-y-3 mb-4">
+            <div className="bg-card rounded-xl p-4">
+              <p className="text-sm font-semibold mb-1">{t('termsCookiesNecessaryTitle')}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t('termsCookiesNecessaryContent')}
+              </p>
+            </div>
+            <div className="bg-card rounded-xl p-4">
+              <p className="text-sm font-semibold mb-1">{t('termsCookiesAnalyticsTitle')}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t('termsCookiesAnalyticsContent')}
+              </p>
+            </div>
+            <div className="bg-card rounded-xl p-4">
+              <p className="text-sm font-semibold mb-1">{t('termsCookiesMarketingTitle')}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t('termsCookiesMarketingContent')}
+              </p>
+            </div>
+          </div>
+
+          <p className="text-sm leading-relaxed mb-4">
+            <strong>{t('termsCookiesRightsTitle')} :</strong> {t('termsCookiesRightsContent')}
+          </p>
+
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('openCookieSettings'))}
+            className="inline-flex items-center px-5 py-2.5 rounded-full bg-citrus text-black text-sm font-semibold hover:opacity-90 transition"
+          >
+            {t('termsCookiesManageButton')}
+          </button>
+        </section>
+
         <section className="mb-8 border-t border-border pt-6">
           <h3 className="text-lg font-semibold mb-3">{t('termsLegalTitle')}</h3>
           <div className="bg-card rounded-xl p-4 text-sm space-y-2">

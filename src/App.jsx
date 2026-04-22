@@ -17,6 +17,9 @@ import ForgotPassword from './pages/forgot-password';
 import UpdatePassword from './pages/update-password';
 import Instructions from './pages/Instructions';
 import InstallRedirect from './pages/InstallRedirect';
+import Blog from './pages/Blog';
+import BlogArticle from './pages/BlogArticle';
+import CookieBanner from '@/components/CookieBanner';
 
 // --- NOUVEAUX IMPORTS POUR L'ADMIN ---
 import { AdminRoute } from '@/components/AdminRoute';
@@ -59,7 +62,9 @@ const AuthenticatedApp = () => {
     '/explore',
     '/instructions',
     '/install'
-  ].includes(location.pathname) || location.pathname.startsWith('/admin');
+  ].includes(location.pathname)
+    || location.pathname.startsWith('/admin')
+    || location.pathname.startsWith('/blog');
 
   if ((isLoadingPublicSettings || isLoadingAuth) && !isPublicAuthRoute) {
     return (
@@ -83,6 +88,8 @@ const AuthenticatedApp = () => {
       <Route path="/update-password" element={<UpdatePassword />} />
       <Route path="/merchant" element={<MerchantGate />} />
       <Route path="/instructions" element={<Instructions />} /> 
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/:slug" element={<BlogArticle />} />
       
       {/* --- ROUTE ADMIN PROTÉGÉE --- */}
       <Route 
@@ -119,6 +126,7 @@ function App() {
         <AuthProvider>
           <Seo />
           <AuthenticatedApp />
+          <CookieBanner />
           <Toaster />
         </AuthProvider>
       </Router>
