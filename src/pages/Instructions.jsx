@@ -181,6 +181,15 @@ const Instructions = () => {
             </div>
           </Card>
         </div>
+
+        <div className="mt-6">
+          <img
+            src="/images/comment-ca-marche.png"
+            alt="Comment ca marche"
+            className="w-full rounded-2xl shadow-2xl"
+            loading="lazy"
+          />
+        </div>
       </div>
     </div>
   );
