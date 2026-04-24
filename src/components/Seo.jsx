@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getSiteUrl } from '@/lib/siteUrl';
 import { getSeoForPath, SEO_DEFAULT_OG_IMAGE } from '@/lib/seoConfig';
+import { getBlogPageSeo } from '@/lib/blogSeoData';
 
 function setMeta(attrName, value, useProperty = false) {
   const attr = useProperty ? 'property' : 'name';
@@ -46,7 +47,7 @@ export default function Seo() {
     const canonicalPath = pathOnly.endsWith('/') && pathOnly.length > 1 ? pathOnly.slice(0, -1) : pathOnly;
     const canonical = base ? `${base}${canonicalPath === '/' ? '/' : canonicalPath}` : '';
 
-    const seo = getSeoForPath(pathname);
+    const seo = getBlogPageSeo(canonicalPath) || getSeoForPath(pathname);
 
     document.title = seo.title;
 
@@ -60,7 +61,7 @@ export default function Seo() {
     setMeta('og:description', seo.description, true);
     setMeta('og:type', 'website', true);
     if (ogUrl) setMeta('og:url', ogUrl, true);
-    setMeta('og:locale', 'fr_CH', true);
+    setMeta('og:locale', seo.ogLocale || 'fr_CH', true);
     if (ogImage) setMeta('og:image', ogImage, true);
 
     setMeta('twitter:card', 'summary_large_image');

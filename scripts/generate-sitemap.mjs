@@ -1,15 +1,17 @@
 /**
  * Après `vite build`, génère dist/sitemap.xml et dist/robots.txt (URLs absolues, requis par Google Search Console).
  *
- * Ordre de priorité pour l’URL canonique :
- * 1. VITE_SITE_URL (Netlify > Environment variables)
- * 2. siteUrl dans site.config.json (domaine fixe dans le dépôt)
- * 3. URL (injecté par Netlify au build, ex. https://xxx.netlify.app)
- * 4. DEPLOY_PRIME_URL, DEPLOY_URL
+ * URL canonique (ordre) : VITE_SITE_URL → site.config.json → URL / DEPLOY_* (Cloudflare Pages, etc.).
  *
- * Contient aussi :
- *  - les pages statiques du site
- *  - les articles du blog (lus dynamiquement dans ../blog/*.md) avec la balise hreflang
+ * Pages indexées (aligné sur `src/App.jsx` + SEO indexable) :
+ *   /, /explore, /blog, /blog/:slug, /terms, /instructions, /install, /merchant
+ *
+ * Exclues du sitemap (noindex / zones privées) :
+ *   /admin/*, /forgot-password, /update-password, /merchant/post, /merchant/edit/*, /merchant/setup
+ *
+ * Contenu :
+ *   - pages statiques ci-dessous (+ lastmod = date de build)
+ *   - articles blog depuis ../blog/*.md (lastmod = date front-matter si présente, hreflang selon lang)
  */
 import { writeFileSync, existsSync, readFileSync, readdirSync } from 'fs';
 import { resolve, dirname, basename } from 'path';
@@ -114,11 +116,15 @@ function main() {
 
   if (!base) {
     console.warn(
-      '[generate-sitemap] Aucune URL canonique : définis VITE_SITE_URL (Netlify), ou remplis siteUrl dans site.config.json, ou build sur Netlify (URL). Placeholder utilisé — à corriger pour Google Search Console.'
+      '[generate-sitemap] Aucune URL canonique : définis VITE_SITE_URL, ou remplis siteUrl dans site.config.json, ou build sur Cloudflare (URL). Placeholder utilisé — à corriger pour Google Search Console.'
     );
   }
 
   const origin = base || 'https://REMPLACE-PAR-TON-DOMAINE.ch';
+
+  const buildLastmod = process.env.SOURCE_DATE_EPOCH
+    ? new Date(Number(process.env.SOURCE_DATE_EPOCH) * 1000).toISOString().slice(0, 10)
+    : new Date().toISOString().slice(0, 10);
 
   const blogPosts = readBlogPosts();
   const blogEntries = blogPosts.map((p) =>
@@ -127,13 +133,19 @@ function main() {
       loc: p.loc,
       priority: '0.7',
       changefreq: 'monthly',
-      lastmod: p.lastmod,
+      lastmod: p.lastmod || buildLastmod,
       lang: p.lang,
     })
   );
 
   const staticEntries = staticPaths.map((p) =>
-    xmlUrl({ origin, loc: p.loc, priority: p.priority, changefreq: p.changefreq })
+    xmlUrl({
+      origin,
+      loc: p.loc,
+      priority: p.priority,
+      changefreq: p.changefreq,
+      lastmod: buildLastmod,
+    })
   );
 
   const urlEntries = [...staticEntries, ...blogEntries].join('\n');
@@ -159,8 +171,9 @@ Sitemap: ${origin}/sitemap.xml
 
   writeFileSync(resolve(distDir, 'sitemap.xml'), sitemap, 'utf8');
   writeFileSync(resolve(distDir, 'robots.txt'), robots, 'utf8');
+  const total = staticPaths.length + blogPosts.length;
   console.log(
-    `[generate-sitemap] OK — ${staticPaths.length} pages + ${blogPosts.length} articles blog → ${origin}/sitemap.xml`
+    `[generate-sitemap] OK — ${total} URLs (${staticPaths.length} statiques + ${blogPosts.length} blog) → ${origin}/sitemap.xml`
   );
 }
 
