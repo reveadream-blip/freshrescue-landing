@@ -1306,14 +1306,21 @@ const translations = {
   }
 };
 
+const UI_LANGS = ['fr', 'en', 'de', 'it', 'ru'];
+
 export function useTranslation() {
-  // On récupère la langue de manière réactive (thai retiré → bascule vers allemand)
-  const rawLang = (typeof window !== 'undefined'
-    ? localStorage.getItem('freshrescue_lang')
-    : 'en') || 'en';
-  const lang = rawLang === 'th' ? 'de' : rawLang;
-  if (typeof window !== 'undefined' && rawLang === 'th') {
-    localStorage.setItem('freshrescue_lang', 'de');
+  // Langue persistée ; sans choix (Googlebot, première visite) → fr-CH par défaut (marché + SEO),
+  // et non plus « en » qui faisait indexer des snippets anglais sur google.ch.
+  let lang = 'fr';
+  if (typeof window !== 'undefined') {
+    let stored = localStorage.getItem('freshrescue_lang');
+    if (stored === 'th') {
+      localStorage.setItem('freshrescue_lang', 'de');
+      stored = 'de';
+    }
+    if (stored && UI_LANGS.includes(stored)) {
+      lang = stored;
+    }
   }
   
   const t = useCallback((key) => {
