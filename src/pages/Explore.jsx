@@ -13,6 +13,7 @@ import { MOCK_FRANCE_OFFERS } from '../data/mockFranceOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
 import { MAP_RADIUS_KM } from '../lib/geoConstants';
 import { getCountry, getCountrySync } from '../lib/country';
+import { isPointInCountry } from '../lib/countryGeo';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
@@ -135,7 +136,20 @@ export default function Explore() {
   }, [filtered, userCoords]);
 
   /** Même logique que le compteur du titre : liste des offres affichées en premier (pas la carte seule). */
-  const displayOffers = userCoords ? offersOnMap : filtered;
+  const baseDisplayOffers = userCoords ? offersOnMap : filtered;
+
+  /** Sans GPS : on remonte les offres du pays détecté (Cloudflare/IP) en tête de
+   *  liste, le reste en queue. Avec GPS, l'ordre vient déjà de la distance. */
+  const displayOffers = useMemo(() => {
+    if (userCoords) return baseDisplayOffers;
+    const inCountry = [];
+    const others = [];
+    for (const o of baseDisplayOffers) {
+      if (isPointInCountry(o.lat, o.lng, country)) inCountry.push(o);
+      else others.push(o);
+    }
+    return [...inCountry, ...others];
+  }, [baseDisplayOffers, country, userCoords]);
 
   const handlePickCity = (cityName) => {
     setSearch(cityName);

@@ -78,6 +78,22 @@ export function getCountryMapView(country) {
 }
 
 /**
+ * Indique si un point (lat, lng) tombe dans la bbox du pays passé en argument.
+ * Utilisé pour prioriser les offres du pays du visiteur dans la liste.
+ * @param {number} lat
+ * @param {number} lng
+ * @param {string|null|undefined} country
+ */
+export function isPointInCountry(lat, lng, country) {
+  const la = parseFloat(lat);
+  const ln = parseFloat(lng);
+  if (Number.isNaN(la) || Number.isNaN(ln)) return false;
+  const view = getCountryMapView(country);
+  const [[s, w], [n, e]] = view.bounds;
+  return la >= s && la <= n && ln >= w && ln <= e;
+}
+
+/**
  * Union approximative des bounds des pays supportés : utilisée pour `maxBounds`
  * quand on veut autoriser un large pan-européen (ex. visiteur sans pays connu).
  */
