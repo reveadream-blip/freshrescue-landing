@@ -13,8 +13,12 @@
  *        (devise, mentions visibles, options pays-spécifiques).
  */
 
-const CACHE_KEY = 'freshrescue_country_v1';
+const CACHE_KEY = 'freshrescue_country_v2';
 const DEFAULT_COUNTRY = 'FR';
+
+const SUPPORTED_COUNTRIES = new Set([
+  'FR', 'CH', 'BE', 'LU', 'DE', 'IT', 'ES', 'GB', 'PT', 'NL', 'AT',
+]);
 
 let inflight = null;
 let memo = null;
@@ -83,10 +87,14 @@ export function getCountry() {
   if (!inflight) {
     inflight = (async () => {
       const cf = await fromCloudflareTrace();
-      const fallback = cf || fromNavigatorLanguage() || DEFAULT_COUNTRY;
-      writeCache(fallback);
-      memo = fallback;
-      return fallback;
+      // Cloudflare est notre source la plus fiable. navigator.language n'est
+      // utilisé qu'en dernier recours (en dev local notamment) car il reflète
+      // la langue de l'OS et non la position réelle de l'utilisateur.
+      const candidate = cf || fromNavigatorLanguage() || DEFAULT_COUNTRY;
+      const resolved = SUPPORTED_COUNTRIES.has(candidate) ? candidate : DEFAULT_COUNTRY;
+      writeCache(resolved);
+      memo = resolved;
+      return resolved;
     })();
   }
   return inflight;

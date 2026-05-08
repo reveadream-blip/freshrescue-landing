@@ -138,17 +138,15 @@ export default function Explore() {
   /** Même logique que le compteur du titre : liste des offres affichées en premier (pas la carte seule). */
   const baseDisplayOffers = userCoords ? offersOnMap : filtered;
 
-  /** Sans GPS : on remonte les offres du pays détecté (Cloudflare/IP) en tête de
-   *  liste, le reste en queue. Avec GPS, l'ordre vient déjà de la distance. */
+  /** Sans GPS : on filtre strictement sur le pays détecté (Cloudflare/IP), pour
+   *  qu'un visiteur français voie les offres FR (et un visiteur suisse les CH).
+   *  Si la détection ne donne rien d'utilisable, on retombe sur la liste complète. */
   const displayOffers = useMemo(() => {
     if (userCoords) return baseDisplayOffers;
-    const inCountry = [];
-    const others = [];
-    for (const o of baseDisplayOffers) {
-      if (isPointInCountry(o.lat, o.lng, country)) inCountry.push(o);
-      else others.push(o);
-    }
-    return [...inCountry, ...others];
+    const inCountry = baseDisplayOffers.filter((o) =>
+      isPointInCountry(o.lat, o.lng, country)
+    );
+    return inCountry.length > 0 ? inCountry : baseDisplayOffers;
   }, [baseDisplayOffers, country, userCoords]);
 
   const handlePickCity = (cityName) => {
@@ -335,7 +333,7 @@ export default function Explore() {
                 </a>
               </div>
               <MapView
-                offers={offersOnMap}
+                offers={displayOffers}
                 userPosition={userCoords}
                 mapRadiusKm={MAP_RADIUS_KM}
                 fallbackCountry={country}
