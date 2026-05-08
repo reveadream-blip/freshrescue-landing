@@ -64,13 +64,13 @@ export default function Blog() {
           slug: getSlugFromPath(path),
           title: data.title || getSlugFromPath(path),
           description: data.description || '',
-          canton: data.canton || '',
+          locality: data.department || data.region || data.audience || '',
           region: data.region || '',
           lang: data.lang || 'fr',
           date: data.date || '',
         };
       })
-      .sort((a, b) => a.canton.localeCompare(b.canton, 'fr'));
+      .sort((a, b) => a.locality.localeCompare(b.locality, 'fr'));
   }, []);
 
   const counts = useMemo(() => {
@@ -86,9 +86,9 @@ export default function Blog() {
 
   const cleanTitle = (title) =>
     title
-      .replace(/^FreshRescue\.app dans le canton de /, '')
-      .replace(/^FreshRescue\.app im Kanton /, '')
-      .replace(/^FreshRescue\.app nel Cantone /, '');
+      .replace(/^FreshRescue\.app dans le département /, '')
+      .replace(/^FreshRescue\.app dans la r[eé]gion /, '')
+      .replace(/^FreshRescue\.app pour les /, '');
 
   return (
     <div className="min-h-screen bg-earth text-white">
@@ -147,7 +147,7 @@ export default function Blog() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-full bg-citrus/15 text-citrus text-xs font-semibold">
-                      {a.canton || a.region || 'Local'}
+                      {a.locality || 'Local'}
                     </span>
                     {a.region && (
                       <span className="text-xs text-white/50">{a.region}</span>

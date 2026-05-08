@@ -1,11 +1,50 @@
 /**
  * Liste de villes pour suggestions de recherche (noms d'affichage + recherche sans accents).
  *
- * NOTE : initialement villes suisses (héritage). À enrichir avec les villes
- *        françaises au fur et à mesure que des commerçants y sont actifs.
- *        Le filtrage géographique réel est dans `swissGeo.js`.
+ * NOTE : nom de fichier historique. La liste couvre désormais les principales
+ *        villes françaises et quelques villes frontalières utiles.
+ *        Le filtrage géographique réel est dans le module de limites carte historique.
  */
 const CITIES = [
+  'Aix-en-Provence',
+  'Amiens',
+  'Angers',
+  'Annecy',
+  'Avignon',
+  'Besançon',
+  'Bordeaux',
+  'Boulogne-Billancourt',
+  'Brest',
+  'Caen',
+  'Cannes',
+  'Clermont-Ferrand',
+  'Dijon',
+  'Grenoble',
+  'Le Havre',
+  'Le Mans',
+  'Lille',
+  'Limoges',
+  'Lyon',
+  'Marseille',
+  'Metz',
+  'Montpellier',
+  'Mulhouse',
+  'Nancy',
+  'Nantes',
+  'Nice',
+  'Nîmes',
+  'Orléans',
+  'Paris',
+  'Perpignan',
+  'Reims',
+  'Rennes',
+  'Rouen',
+  'Saint-Étienne',
+  'Strasbourg',
+  'Toulon',
+  'Toulouse',
+  'Tours',
+  'Villeurbanne',
   'Aarau',
   'Baden',
   'Basel',

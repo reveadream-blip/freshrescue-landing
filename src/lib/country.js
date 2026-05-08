@@ -5,8 +5,8 @@
  *   1) Cache `sessionStorage` pour éviter un round-trip à chaque navigation.
  *   2) Lecture du `loc=XX` exposé par Cloudflare via /cdn-cgi/trace
  *      (zéro coût, déjà sur le même domaine).
- *   3) Fallback : analyse de `navigator.language` (`fr-CH`, `fr-FR`, `it-CH`…).
- *   4) Défaut : 'FR' (marché principal post-Suisse).
+ *   3) Fallback : analyse de `navigator.language` (`fr-FR`, `fr-BE`, `fr-LU`…).
+ *   4) Défaut : 'FR' (marché francophone principal).
  *
  * NOTE : volontairement *non* utilisé pour le SEO côté Googlebot — les balises
  *        meta et JSON-LD restent stables. Ce module sert l'UI dynamique
@@ -104,18 +104,8 @@ export function getCountrySync() {
 }
 
 /** Devise par défaut visible côté UI selon le pays détecté. */
-export function getCurrencyCode(country = getCountrySync()) {
-  switch (country) {
-    case 'CH':
-    case 'LI':
-      return 'CHF';
-    case 'GB':
-      return 'GBP';
-    case 'US':
-      return 'USD';
-    default:
-      return 'EUR';
-  }
+export function getCurrencyCode() {
+  return 'EUR';
 }
 
 /** Symbole compact pour affichage simple (ex. dans un prix produit). */
@@ -124,8 +114,6 @@ export function getCurrencySymbol(country = getCountrySync()) {
   switch (code) {
     case 'EUR':
       return '€';
-    case 'CHF':
-      return 'CHF';
     case 'GBP':
       return '£';
     case 'USD':
@@ -133,6 +121,59 @@ export function getCurrencySymbol(country = getCountrySync()) {
     default:
       return code;
   }
+}
+
+const COUNTRY_NAMES = {
+  fr: {
+    FR: 'France',
+    CH: 'Suisse',
+    BE: 'Belgique',
+    LU: 'Luxembourg',
+    IT: 'Italie',
+    DE: 'Allemagne',
+    ES: 'Espagne',
+    GB: 'Royaume-Uni',
+    US: 'États-Unis',
+  },
+  en: {
+    FR: 'France',
+    CH: 'Switzerland',
+    BE: 'Belgium',
+    LU: 'Luxembourg',
+    IT: 'Italy',
+    DE: 'Germany',
+    ES: 'Spain',
+    GB: 'United Kingdom',
+    US: 'United States',
+  },
+  de: {
+    FR: 'Frankreich',
+    CH: 'Schweiz',
+    BE: 'Belgien',
+    LU: 'Luxemburg',
+    IT: 'Italien',
+    DE: 'Deutschland',
+    ES: 'Spanien',
+    GB: 'Vereinigtes Königreich',
+    US: 'Vereinigte Staaten',
+  },
+  it: {
+    FR: 'Francia',
+    CH: 'Svizzera',
+    BE: 'Belgio',
+    LU: 'Lussemburgo',
+    IT: 'Italia',
+    DE: 'Germania',
+    ES: 'Spagna',
+    GB: 'Regno Unito',
+    US: 'Stati Uniti',
+  },
+};
+
+export function getCountryName(country = getCountrySync(), lang = 'fr') {
+  const code = String(country || DEFAULT_COUNTRY).toUpperCase();
+  const pack = COUNTRY_NAMES[lang] || COUNTRY_NAMES.fr;
+  return pack[code] || code;
 }
 
 /** Pré-charge la détection au démarrage de l'app (à appeler une fois). */

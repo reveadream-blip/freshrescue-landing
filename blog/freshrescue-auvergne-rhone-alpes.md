@@ -1,50 +1,35 @@
 ---
-title: "FreshRescue.app en Auvergne-Rhône-Alpes : sauver les invendus à Lyon, Grenoble et Clermont"
-description: "Comment FreshRescue aide commerçants et consommateurs d'Auvergne-Rhône-Alpes à sauver les invendus alimentaires avec des prix flash justes, dans un rayon de 5 km autour d'eux."
+title: "FreshRescue.app dans la région Auvergne-Rhone-Alpes : une carte locale contre le gaspillage"
+description: "FreshRescue aide les commerces d Auvergne-Rhone-Alpes à publier leurs surplus et les consommateurs a trouver des offres proches, sans paiement en ligne obligatoire."
 slug: "freshrescue-auvergne-rhone-alpes"
-canton: "Auvergne-Rhône-Alpes"
-region: "Centre-Est de la France"
+region: "Auvergne-Rhone-Alpes"
+region: "Rhone, Isere, Haute-Savoie, Loire"
 lang: "fr"
 date: "2026-05-08"
-author: "L'équipe FreshRescue"
-tags: ["FreshRescue", "anti-gaspillage", "Auvergne-Rhône-Alpes", "Lyon", "Grenoble", "Clermont-Ferrand", "invendus", "prix flash"]
+author: "L’équipe FreshRescue"
+tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
-# FreshRescue.app en Auvergne-Rhône-Alpes : sauver les invendus de Lyon à Clermont
+# FreshRescue.app dans la région Auvergne-Rhone-Alpes : une carte locale contre le gaspillage
 
-La région **Auvergne-Rhône-Alpes** est la deuxième plus peuplée de France, avec plus de 8 millions d'habitants. Entre les bouchons lyonnais, les boulangeries grenobloises, les fromageries auvergnates, les marchés de **Saint-Étienne** et les commerces de proximité de **Chambéry** ou **Annecy**, ce sont des tonnes de produits encore consommables qui risquent chaque soir de partir à la poubelle. **FreshRescue.app** est l'application anti-gaspillage qui connecte ces commerçants à leurs clients de quartier pour sauver ces invendus grâce à des **prix flash** justes.
+Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
 
-## Un défi anti-gaspi à l'échelle de la région
+## Comment FreshRescue fonctionne localement
 
-À **Lyon**, capitale gastronomique, on trouve des centaines de boulangeries, restaurants et bouchons traditionnels. À **Grenoble**, **Clermont-Ferrand**, **Annecy** ou **Valence**, ce sont les supermarchés de proximité, les primeurs et les épiceries fines qui se retrouvent avec des invendus de fin de journée : pain, viennoiseries, fromages, charcuteries, plats préparés, fruits et légumes parfaits mais arrivés au seuil de leur DLC. Tout cela peut être sauvé.
+Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
 
-## Comment FreshRescue.app fonctionne en Auvergne-Rhône-Alpes
+## Pour les commerçants
 
-L'application est gratuite pour les clients et disponible via **[FreshRescue.app](https://freshrescue.app)**. Trois étapes :
+FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
 
-### 1. Le commerçant publie
+## Pour les consommateurs
 
-Photographiez l'invendu, fixez un **prix flash** et une heure limite : moins de gaspillage, plus de valeur pour vos clients locaux. Une boulangerie de la **Croix-Rousse**, une fromagerie de **Vichy**, un primeur de **Bourgoin-Jallieu** ou un traiteur de la **Part-Dieu** peut publier une offre en moins d'une minute.
+Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
 
-### 2. Les clients consultent
+## Pourquoi cette approche est adaptée a Rhone, Isere, Haute-Savoie, Loire
 
-Les offres apparaissent dans un rayon de **5 km** autour de l'utilisateur. À **Lyon**, à **Grenoble**, à **Saint-Étienne** ou à **Aurillac**, on voit en temps réel les invendus disponibles à proximité.
+A Rhone, Isere, Haute-Savoie, Loire, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
 
-### 3. Récupération en boutique
+## En résumé
 
-Le client se déplace, paie en magasin et repart avec son achat. **Zéro commission**, paiement direct au commerçant.
-
-## Pourquoi les commerçants choisissent FreshRescue
-
-- **Zéro commission** : la totalité du prix flash revient au commerçant.
-- **Une visibilité locale** auprès de clients qui n'auraient peut-être jamais poussé la porte.
-- **Une mise en place rapide** : 10 minutes pour créer le compte et publier la première offre.
-- **Une réponse concrète au gaspillage**, sans bouleverser l'organisation du commerce.
-
-## Pour les habitants : économies réelles, geste utile
-
-Les habitants d'**Auvergne-Rhône-Alpes** retrouvent sur FreshRescue de quoi mieux consommer : pain de la journée, plats du jour, fromages AOP, fruits et légumes locaux, à prix réduit. Un coup de pouce sur le budget, et un geste concret pour la planète.
-
-## Conclusion
-
-Que vous soyez commerçant à **Lyon**, **Grenoble**, **Clermont-Ferrand** ou **Annecy**, ou consommateur quelque part entre **Vienne** et **Le Puy-en-Velay**, FreshRescue.app est l'outil le plus simple pour agir contre le gaspillage alimentaire. **Téléchargez l'application** et découvrez dès ce soir les invendus disponibles dans un rayon de 5 km autour de vous. Plus d'informations sur **[FreshRescue.app](https://freshrescue.app)**.
+FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Rhone, Isere, Haute-Savoie, Loire, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.

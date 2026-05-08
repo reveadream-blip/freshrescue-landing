@@ -1,50 +1,35 @@
 ---
-title: "FreshRescue.app dans les Hauts-de-France : sauver les invendus de Lille, Amiens et Calais"
-description: "Comment FreshRescue aide commerçants et consommateurs des Hauts-de-France — Lille, Amiens, Calais, Roubaix — à sauver les invendus alimentaires grâce à des prix flash, dans un rayon de 5 km."
+title: "FreshRescue.app dans la région Hauts-de-France : une solution locale contre les invendus"
+description: "Dans les Hauts-de-France, FreshRescue donne une visibilité rapide aux commerces qui veulent éviter le gaspillage alimentaire quotidien."
 slug: "freshrescue-hauts-de-france"
-canton: "Hauts-de-France"
-region: "Nord de la France"
+region: "Hauts-de-France"
+region: "Nord, Pas-de-Calais, Somme"
 lang: "fr"
 date: "2026-05-08"
-author: "L'équipe FreshRescue"
-tags: ["FreshRescue", "anti-gaspillage", "Hauts-de-France", "Lille", "Amiens", "Calais", "invendus", "prix flash"]
+author: "L’équipe FreshRescue"
+tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
-# FreshRescue.app dans les Hauts-de-France : moins d'invendus, plus de pouvoir d'achat
+# FreshRescue.app dans la région Hauts-de-France : une solution locale contre les invendus
 
-La région des **Hauts-de-France** compte près de 6 millions d'habitants, des centaines de boulangeries traditionnelles, des marchés flamands et picards, des estaminets, des supermarchés de proximité et des fromageries du **Nord** et de l'**Aisne**. Chaque soir, beaucoup de produits parfaitement consommables sont à deux doigts de finir à la poubelle. **FreshRescue.app** est l'application anti-gaspillage qui connecte commerçants et consommateurs de **Lille**, **Roubaix**, **Tourcoing**, **Amiens**, **Calais**, **Dunkerque** ou **Arras** pour les sauver grâce à des **prix flash** justes.
+Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
 
-## Le gaspillage alimentaire dans le Nord et la Picardie
+## Comment FreshRescue fonctionne localement
 
-Sur la **Grand-Place de Lille**, dans les **estaminets** flamands, sur les marchés d'**Amiens** ou dans les boulangeries de **Calais**, on retrouve chaque soir du pain frais, des gaufres, des plats traditionnels (carbonade, potjevleesch, ficelle picarde…) et des produits laitiers qui ne pourront pas être vendus le lendemain. Pour le commerçant, c'est une perte. Pour le client attentif au budget, c'est une opportunité manquée.
+Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
 
-## Comment FreshRescue.app fonctionne dans les Hauts-de-France
+## Pour les commerçants
 
-L'application est gratuite côté client et accessible via **[FreshRescue.app](https://freshrescue.app)**. Trois étapes simples :
+FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
 
-### 1. Le commerçant publie
+## Pour les consommateurs
 
-Photographiez l'invendu, fixez un **prix flash** et une heure limite : moins de gaspillage, plus de valeur pour vos clients de proximité. Une boulangerie de **Wattignies**, un traiteur de la **Vieille-Bourse** lilloise, un primeur de **Saint-Quentin** ou une fromagerie du **Boulonnais** peut publier une offre en moins d'une minute.
+Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
 
-### 2. Les clients consultent
+## Pourquoi cette approche est adaptée a Nord, Pas-de-Calais, Somme
 
-Les offres apparaissent dans un rayon de **5 km** autour de l'utilisateur. À **Lille**, à **Béthune**, à **Compiègne** ou à **Boulogne-sur-Mer**, on voit en direct les invendus disponibles juste à côté.
+A Nord, Pas-de-Calais, Somme, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
 
-### 3. Récupération en boutique
+## En résumé
 
-Le client se déplace, paie sur place et repart avec son achat. **Zéro commission**, paiement direct au commerçant.
-
-## Les avantages pour les commerçants des Hauts-de-France
-
-- **Zéro commission** sur les ventes flash.
-- **Une visibilité locale immédiate** auprès d'une clientèle de quartier souvent attentive aux bons plans.
-- **Une mise en route rapide**, sans formation, depuis un simple smartphone.
-- **Un outil utile pour le tissu commercial du Nord**, où la proximité fait une grande partie de la valeur.
-
-## Pour les habitants : budget plus malin, gaspillage réduit
-
-Les habitants des **Hauts-de-France** trouvent sur FreshRescue de quoi se faire plaisir avec des produits régionaux à prix réduit, tout en participant concrètement à la lutte contre le gaspillage alimentaire.
-
-## Conclusion
-
-Que vous soyez commerçant à **Lille**, **Amiens**, **Calais** ou **Saint-Quentin**, ou consommateur quelque part entre la **Côte d'Opale** et la **Thiérache**, FreshRescue.app est l'outil le plus simple pour agir au quotidien contre le gaspillage alimentaire. **Téléchargez l'application** et découvrez dès ce soir les invendus disponibles dans un rayon de 5 km. Plus d'informations sur **[FreshRescue.app](https://freshrescue.app)**.
+FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Nord, Pas-de-Calais, Somme, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.

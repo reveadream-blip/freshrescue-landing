@@ -1,16 +1,16 @@
 ---
-title: "FreshRescue.app dans la région Provence-Alpes-Cote d Azur : moins d’invendus, plus de clients locaux"
-description: "FreshRescue accompagne les commerces de Provence-Alpes-Cote d Azur pour publier rapidement leurs surplus et attirer une clientele proche."
-slug: "freshrescue-provence-alpes-cote-azur"
-region: "Provence-Alpes-Cote d Azur"
-region: "Bouches-du-Rhone, Var, Alpes-Maritimes"
+title: "FreshRescue.app dans le département Ille-et-Vilaine : offres anti-gaspi a Rennes"
+description: "FreshRescue connecte les commerçants d Ille-et-Vilaine avec les habitants proches pour réduire les pertes et creer de nouveaux passages en boutique."
+slug: "freshrescue-ille-et-vilaine-rennes"
+region: "Bretagne"
+department: "Ille-et-Vilaine"
 lang: "fr"
 date: "2026-05-08"
 author: "L’équipe FreshRescue"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
-# FreshRescue.app dans la région Provence-Alpes-Cote d Azur : moins d’invendus, plus de clients locaux
+# FreshRescue.app dans le département Ille-et-Vilaine : offres anti-gaspi a Rennes
 
 Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
 
@@ -26,10 +26,10 @@ FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs 
 
 Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
 
-## Pourquoi cette approche est adaptée a Bouches-du-Rhone, Var, Alpes-Maritimes
+## Pourquoi cette approche est adaptée a Ille-et-Vilaine
 
-A Bouches-du-Rhone, Var, Alpes-Maritimes, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+A Ille-et-Vilaine, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
 
 ## En résumé
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Bouches-du-Rhone, Var, Alpes-Maritimes, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Ille-et-Vilaine, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.

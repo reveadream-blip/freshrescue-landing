@@ -57,7 +57,7 @@ export function getBlogPageSeo(normalized) {
     return {
       title: `Blog — ${BRAND}`,
       description:
-        'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.',
+        'Articles FreshRescue par région, département et usage : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.',
       robots: 'index, follow',
       jsonLd: null,
       ogLocale: 'fr_FR',

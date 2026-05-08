@@ -1,50 +1,35 @@
 ---
-title: "FreshRescue.app en Nouvelle-Aquitaine : sauver les invendus à Bordeaux, La Rochelle et Limoges"
-description: "Comment FreshRescue aide commerçants et consommateurs de Nouvelle-Aquitaine à sauver les invendus alimentaires avec des prix flash justes, dans un rayon de 5 km autour d'eux."
+title: "FreshRescue.app dans la région Nouvelle-Aquitaine : sauver les invendus près de chez vous"
+description: "FreshRescue accompagne les commerces de Nouvelle-Aquitaine avec une publication rapide des offres et une récupération simple en boutique."
 slug: "freshrescue-nouvelle-aquitaine"
-canton: "Nouvelle-Aquitaine"
-region: "Sud-Ouest de la France"
+region: "Nouvelle-Aquitaine"
+region: "Gironde, Pyrenees-Atlantiques, Charente-Maritime"
 lang: "fr"
 date: "2026-05-08"
-author: "L'équipe FreshRescue"
-tags: ["FreshRescue", "anti-gaspillage", "Nouvelle-Aquitaine", "Bordeaux", "La Rochelle", "Limoges", "Pau", "invendus", "prix flash"]
+author: "L’équipe FreshRescue"
+tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
-# FreshRescue.app en Nouvelle-Aquitaine : sauver les invendus du Sud-Ouest
+# FreshRescue.app dans la région Nouvelle-Aquitaine : sauver les invendus près de chez vous
 
-La **Nouvelle-Aquitaine** est la plus vaste région de France, avec ses vignobles, ses marchés, ses boulangeries de bord de mer et ses producteurs locaux. Entre **Bordeaux**, **La Rochelle**, **Limoges**, **Poitiers**, **Pau** ou **Bayonne**, ce sont chaque jour des centaines de produits encore consommables qui risquent de partir à la poubelle. **FreshRescue.app** est l'application anti-gaspillage qui relie directement commerçants et consommateurs de la région pour les sauver grâce à des **prix flash** justes.
+Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
 
-## Un gaspillage alimentaire qui touche tout le Sud-Ouest
+## Comment FreshRescue fonctionne localement
 
-À **Bordeaux**, autour des **Quais** et de la **place de la Victoire**, comme dans les marchés de **La Rochelle**, **Niort**, **Limoges** ou **Périgueux**, on retrouve chaque soir des invendus : baguettes, cannelés, plats du jour, fromages, charcuteries du **Pays basque**, spécialités du **Périgord**, fruits et légumes mûrs. Une perte économique pour le commerçant, et une opportunité manquée pour les habitants attentifs à leur budget et à l'environnement.
+Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
 
-## Comment FreshRescue.app fonctionne en Nouvelle-Aquitaine
+## Pour les commerçants
 
-L'application est gratuite pour le client et disponible via **[FreshRescue.app](https://freshrescue.app)**. Trois étapes simples :
+FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
 
-### 1. Le commerçant publie
+## Pour les consommateurs
 
-Photographiez l'invendu, fixez un **prix flash** et une heure limite : moins de gaspillage, plus de valeur pour vos clients du quartier. Un boulanger de **Saint-Émilion**, un caviste de **Bordeaux**, un primeur de **Biarritz** ou un traiteur de **Limoges** peut publier une offre en moins d'une minute.
+Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
 
-### 2. Les clients consultent
+## Pourquoi cette approche est adaptée a Gironde, Pyrenees-Atlantiques, Charente-Maritime
 
-Les offres s'affichent dans un rayon de **5 km** autour de l'utilisateur. À **Bordeaux**, à **Bayonne**, à **Pau** ou à **La Rochelle**, on voit en temps réel ce qui est disponible juste à côté.
+A Gironde, Pyrenees-Atlantiques, Charente-Maritime, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
 
-### 3. Récupération en boutique
+## En résumé
 
-Le client se déplace, paie en boutique et repart avec son produit. **Zéro commission**, paiement direct au commerçant.
-
-## Ce que FreshRescue apporte aux commerçants néo-aquitains
-
-- **Zéro commission** : ce que le client paie revient au commerçant.
-- **Une nouvelle clientèle locale** : étudiants, jeunes actifs, retraités, touristes en saison.
-- **Une mise en place express** : compte ouvert, photo, prix, c'est en ligne en 10 minutes.
-- **Un outil utile pour la diversité du Sud-Ouest**, des centres-villes aux communes rurales.
-
-## Pour les habitants : moins de gaspillage, des produits du terroir à prix doux
-
-Les habitants de **Nouvelle-Aquitaine** retrouvent sur FreshRescue les saveurs régionales à prix réduit : pain frais, plats régionaux, vins et produits AOP à seuil de DLC. Un coup de pouce sur le budget, et un acte concret contre le gaspillage alimentaire.
-
-## Conclusion
-
-Que vous soyez commerçant à **Bordeaux**, **La Rochelle**, **Limoges**, **Pau** ou **Bayonne**, ou consommateur quelque part entre les **Pyrénées** et le **Marais poitevin**, FreshRescue.app est l'outil le plus simple pour agir contre le gaspillage alimentaire au quotidien. **Téléchargez l'application** et découvrez dès ce soir les invendus disponibles dans un rayon de 5 km. Plus d'informations sur **[FreshRescue.app](https://freshrescue.app)**.
+FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Gironde, Pyrenees-Atlantiques, Charente-Maritime, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.

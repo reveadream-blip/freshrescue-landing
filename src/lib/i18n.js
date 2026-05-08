@@ -1,14 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { adminTranslations } from './adminTranslations';
-import { getCurrencySymbol } from './country';
+import { getCountry, getCountryName, getCountrySync, getCurrencySymbol } from './country';
 
 const translations = {
  it: {
     // Landing
     heroTitle: "Anti-spreco alimentare. Vicino a te.",
     heroSubtitle:
-      "FreshRescue è l’app anti-spreco che collega negozi e persone nel tuo quartiere: salviamo gli invenduti, riduciamo lo spreco e accediamo a prezzi flash equi.",
-    brandTagline: "Anti-spreco · A km zero",
+      "FreshRescue è l’app anti-spreco che collega negozi e persone vicino a te: salva gli invenduti, riduce lo spreco e rende accessibili prezzi flash equi.",
+    brandTagline: "Anti-spreco · Locale",
     exploreCta: "Offerte nelle vicinanze",
     merchantCta: "Sono un commerciante",
     oneHundredFree: "100% GRATUITO",
@@ -77,7 +77,7 @@ const translations = {
     twoMonthsFree: "2 mesi gratis",
     descSingle: "Ideale per testare l'impatto sulle tue vendite.",
     descSubscription: "Flessibilità totale per il tuo stabilimento.",
-    descYearly: "2 mesi gratis rispetto al mensile (come 10 mesi pagati per 12). Unica rata annuale 299 €.",
+    descYearly: "2 mesi gratis rispetto al mensile (come 10 mesi pagati per 12). Unica rata annuale 299 ?.",
     featureUnlimited: "Offerte illimitate",
     featureGeo: "Mappa e offerte vicino ai tuoi clienti",
     featureStock: "Controllo delle scorte in tempo reale",
@@ -203,7 +203,7 @@ const translations = {
     expiryDate: "Data di Scadenza (DLC)",
     freezable: "Congelabile",
     // Footer
-    footerTagline: "Anti-spreco alimentare — dagli invenduti alle opportunità.",
+    footerTagline: "Anti-spreco alimentare ? dagli invenduti alle opportunit?.",
     footerRights: "Tutti i diritti riservati.",
     footerTerms: "Termini e Condizioni",
     footerBlog: "Blog",
@@ -212,7 +212,7 @@ const translations = {
     termsLastUpdate: "Ultimo aggiornamento: 5 luglio 2026",
     termsSection1Title: "1. IL CONCETTO FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue fornisce una piattaforma anti-spreco che consente alle attività commerciali di vendere le eccedenze alimentari a prezzi ridotti. L'app facilita la scoperta delle offerte vicino a te.",
+      "FreshRescue fornisce una piattaforma anti-spreco che consente alle attivit? commerciali di vendere le eccedenze alimentari a prezzi ridotti. L'app facilita la scoperta delle offerte vicino all'utente.",
     termsSection2Title: "2. PRENOTAZIONE E RITIRO",
     termsSection2Sub1Title: "3.1 Processo",
     termsSection2Sub1Content: "L'Utente visualizza le offerte tramite l'App. Il cliente non ha bisogno di registrarsi o pagare online. FreshRescue non raccoglie alcuna informazione sull'utente.",
@@ -223,7 +223,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergie",
     termsSection3AllergiesContent: "È responsabilità dell'Utente verificare gli ingredienti direttamente con il Negozio.",
     termsCookiesTitle: "4. COOKIE E MISURAZIONE AUDIENCE",
-    termsCookiesIntroContent: "FreshRescue.app utilizza cookie e tecnologie simili per garantire il funzionamento del sito, memorizzare le tue preferenze e misurare l'audience tramite Google Analytics (ID: G-VDSJYFKB65). Conformemente al GDPR (UE), il tuo consenso è richiesto prima di qualsiasi deposito di cookie non essenziali.",
+    termsCookiesIntroContent: "FreshRescue.app utilizza cookie e tecnologie simili per garantire il funzionamento del sito, memorizzare le tue preferenze e misurare l'audience tramite Google Analytics (ID: G-VDSJYFKB65). Conformemente al RGPD (UE), il tuo consenso è richiesto prima di qualsiasi deposito di cookie non essenziali.",
     termsCookiesNecessaryTitle: "Cookie necessari",
     termsCookiesNecessaryContent: "Indispensabili al funzionamento del sito (sicurezza, preferenze linguistiche, consenso cookie). Non richiedono il tuo consenso.",
     termsCookiesAnalyticsTitle: "Misurazione audience (Google Analytics)",
@@ -236,10 +236,10 @@ const translations = {
     termsLegalTitle: "INFORMAZIONI LEGALI",
     legalPublisher: "Editore",
     legalHeadquarters: "Sede legale",
-    legalCountry: "—",
+    legalCountry: "?",
     legalContact: "Contatto",
     legalLaw: "Legge applicabile",
-    legalSwissLaw: "Da definire",
+    legalSwissLaw: "Diritto svizzero",
     // Misc
     km: "km",
     off: "di sconto",
@@ -260,16 +260,16 @@ const translations = {
     shopCategory: "Tipo di Negozio",
     shopPhoto: "Foto Negozio",
     demoOfferBadge: "Offerta demo",
-    currencyCHF: "€",
+    currencyCHF: "EUR",
     notificationRadius: "Raggio d'azione",
     commissionOnSales: "Commissione sulle vendite",
     averageDiscount: "Sconto medio",
 }, 
   en: {
     // Landing
-    heroTitle: "Fight Food Waste. Right next door.",
+    heroTitle: "Fight Food Waste. Built locally.",
     heroSubtitle:
-      "FreshRescue is the anti-food-waste app that connects local shops and people: rescue surplus food, cut waste, and unlock fair flash prices in your neighborhood.",
+      "FreshRescue connects local shops and people to rescue surplus food, cut waste, and unlock fair flash prices nearby.",
     brandTagline: "Anti-waste · Local",
     exploreCta: "Nearby offers",
     merchantCta: "I'm a Merchant",
@@ -284,7 +284,7 @@ const translations = {
     howItWorks: "How It Works",
     step1Title: "Merchant Posts",
     step1Desc:
-      "Snap surplus food, set a flash price and pickup time — less waste, more value for your local customers.",
+      "Snap surplus food, set a flash price and pickup time — less waste, more value for customers nearby.",
     step2Title: "Customers are viewing",
     step2Desc: "Offers are displayed within a 5 km radius of you.",
     step3Title: "Collect & Enjoy",
@@ -318,7 +318,7 @@ const translations = {
     inappropriateContentError: "Inappropriate content detected. Please modify your text",
     trialInProgress: "Trial period",
     trialEnded: "Trial ended",
-    trialDesc: "Take advantage of this offer to boost your local visibility.",
+    trialDesc: "Take advantage of this offer to boost your visibility locally.",
     trialExpiredDesc: "Your visibility is suspended. Choose a plan to resume.",
     planRecurring: "Monthly Auto",
     planMonthly: "1 Month One-time",
@@ -339,9 +339,9 @@ const translations = {
     twoMonthsFree: "2 months free",
     descSingle: "Ideal for testing the impact on your sales.",
     descSubscription: "Total flexibility for your establishment.",
-    descYearly: "2 months free vs monthly billing (pay for ~10 months, get 12). One annual payment of €299.",
+    descYearly: "2 months free vs monthly billing (pay for ~10 months, get 12). One annual payment 299 ?.",
     featureUnlimited: "Unlimited offers",
-    featureGeo: "Local map & nearby offers",
+    featureGeo: "Map & offers nearby",
     featureStock: "Real-time stock control",
     featureZeroComm: "Zero commission",
     featureSupport: "5 languages",
@@ -465,7 +465,7 @@ const translations = {
     expiryDate: "Expiry Date (DLC)",
     freezable: "Freezable",
     // Footer
-    footerTagline: "Anti-food waste — turning surplus into opportunity.",
+    footerTagline: "Anti-food waste locally — turning surplus into opportunity.",
     footerRights: "All rights reserved.",
     footerTerms: "Terms & Conditions",
     footerBlog: "Blog",
@@ -485,7 +485,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergies",
     termsSection3AllergiesContent: "It is the User's responsibility to check ingredients directly with the Shop.",
     termsCookiesTitle: "4. COOKIES AND ANALYTICS",
-    termsCookiesIntroContent: "FreshRescue.app uses cookies and similar technologies to ensure the site works, remember your preferences, and measure audience through Google Analytics (ID: G-VDSJYFKB65). In accordance with the GDPR (EU), your consent is required before any non-essential cookies are set.",
+    termsCookiesIntroContent: "FreshRescue.app uses cookies and similar technologies to ensure the site works, remember your preferences, and measure audience through Google Analytics (ID: G-VDSJYFKB65). In accordance with GDPR (EU), your consent is required before any non-essential cookies are set.",
     termsCookiesNecessaryTitle: "Necessary cookies",
     termsCookiesNecessaryContent: "Required for the site to work (security, language preferences, cookie consent). No consent needed.",
     termsCookiesAnalyticsTitle: "Audience measurement (Google Analytics)",
@@ -498,10 +498,10 @@ const translations = {
     termsLegalTitle: "LEGAL INFORMATION",
     legalPublisher: "Publisher",
     legalHeadquarters: "Headquarters",
-    legalCountry: "—",
+    legalCountry: "?",
     legalContact: "Contact",
     legalLaw: "Applicable law",
-    legalSwissLaw: "To be defined",
+    legalSwissLaw: "Swiss law",
     // Misc
     km: "km",
     off: "off",
@@ -522,7 +522,7 @@ const translations = {
     shopCategory: "Shop Type",
     shopPhoto: "Shop Photo",
     demoOfferBadge: "Demo offer",
-    currencyCHF: "€",
+    currencyCHF: "EUR",
     notificationRadius: "Radius around your location",
     commissionOnSales: "Commission on sales",
     averageDiscount: "Average discount",
@@ -531,7 +531,7 @@ const translations = {
     // Landing
     heroTitle: "Anti-gaspillage alimentaire. Près de chez vous.",
     heroSubtitle:
-      "FreshRescue est l’application anti-gaspillage qui relie commerçants et consommateurs de votre quartier : sauvez les invendus, réduisez le gaspillage et profitez de prix flash justes à deux pas de chez vous.",
+      "FreshRescue relie les commer?ants et les consommateurs pr?s de chez eux pour sauver les invendus, r?duire le gaspillage et proposer des prix flash justes.",
     brandTagline: "Anti-gaspillage · Local",
     exploreCta: "Offres à proximité",
     merchantCta: "Je suis Commerçant",
@@ -545,7 +545,7 @@ const translations = {
     howItWorks: "Comment ça Marche",
     step1Title: "Le Commerçant Publie",
     step1Desc:
-      "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour votre clientèle locale.",
+      "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour vos clients locaux.",
     step2Title: "Les Clients consultent",
     step2Desc: "Les offres s'affichent dans un rayon de 5 km autour de vous.",
     step3Title: "Récupérez & Savourez",
@@ -602,9 +602,9 @@ const translations = {
     twoMonthsFree: "2 mois offerts",
     descSingle: "Idéal pour tester l'impact sur vos ventes.",
     descSubscription: "La flexibilité totale pour votre établissement.",
-    descYearly: "2 mois offerts par rapport au mensuel (équivalent : 10 mois payés pour 12). Paiement unique 299 €/an.",
+    descYearly: "2 mois offerts par rapport au mensuel (équivalent : 10 mois payés pour 12). Paiement unique 299 ?/an.",
     featureUnlimited: "Offres illimitées",
-    featureGeo: "Carte et offres autour de votre commerce",
+    featureGeo: "Carte et offres pr?s de vos clients",
     featureStock: "Contrôle du stock en temps réel",
     featureZeroComm: "Zéro commission",
     featureSupport: "5 langues",
@@ -729,7 +729,7 @@ const translations = {
     expiryDate: "Date de péremption (DLC)",
     freezable: "Congelable",
     // Footer
-    footerTagline: "Anti-gaspillage alimentaire — des invendus à l’opportunité.",
+    footerTagline: "Anti-gaspillage alimentaire ? des invendus ? l?opportunit?.",
     footerRights: "Tous droits réservés.",
     footerTerms: "Conditions Générales (CGU)",
     footerBlog: "Blog",
@@ -738,7 +738,7 @@ const translations = {
     termsLastUpdate: "Dernière mise à jour : 5 juillet 2026",
     termsSection1Title: "1. LE CONCEPT FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue fournit une plateforme anti-gaspillage permettant aux commerces de détail de vendre leurs surplus alimentaires à prix réduit. L'application facilite la découverte des offres près de chez vous.",
+      "FreshRescue fournit une plateforme anti-gaspillage permettant aux commerces de d?tail de vendre leurs surplus alimentaires ? prix r?duit. L'application facilite la d?couverte des offres pr?s de l'utilisateur.",
     termsSection2Title: "2. RÉSERVATION ET COLLECTE",
     termsSection2Sub1Title: "3.1 Processus",
     termsSection2Sub1Content: "L'Utilisateur consulte les offres via l'Application. Le client n'a ni besoin de se connecter ni besoin de payer en ligne. FreshRescue ne récolte aucune information des utilisateurs.",
@@ -762,10 +762,10 @@ const translations = {
     termsLegalTitle: "INFORMATIONS LÉGALES",
     legalPublisher: "Éditeur",
     legalHeadquarters: "Siège Social",
-    legalCountry: "—",
+    legalCountry: "?",
     legalContact: "Contact",
     legalLaw: "Droit applicable",
-    legalSwissLaw: "À définir",
+    legalSwissLaw: "Droit applicable",
     // Misc
     km: "km",
     off: "de réduction",
@@ -786,13 +786,13 @@ const translations = {
     shopCategory: "Type de Commerce",
     shopPhoto: "Photo de la Boutique",
     demoOfferBadge: "Offre démo",
-    currencyCHF: "€",
+    currencyCHF: "EUR",
   },
   de: {
     // Landing
-    heroTitle: "Weniger Lebensmittelverschwendung. Direkt nebenan.",
+    heroTitle: "Weniger Lebensmittelverschwendung. In deiner Nähe.",
     heroSubtitle:
-      "FreshRescue ist die Anti-Waste-App, die lokale Händler und Kundinnen verbindet: Überschüsse retten, Abfall vermeiden und faire Blitzpreise direkt in deiner Nachbarschaft entdecken.",
+      "FreshRescue verbindet H?ndler und Kundinnen in der N?he, rettet ?bersch?sse, vermeidet Abfall und erm?glicht faire Blitzpreise.",
     brandTagline: "Anti-Waste · Lokal",
     exploreCta: "Angebote in der Nähe",
     merchantCta: "Ich bin Händler",
@@ -806,7 +806,7 @@ const translations = {
     howItWorks: "So funktioniert's",
     step1Title: "Händler veröffentlicht",
     step1Desc:
-      "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für Ihre lokale Kundschaft.",
+      "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für lokale Kundinnen.",
     step2Title: "Kunden sehen mit",
     step2Desc: "Angebote werden in einem Radius von 5 km um Sie angezeigt.",
     step3Title: "Abholen und genießen",
@@ -862,9 +862,9 @@ const translations = {
     twoMonthsFree: "2 Monate gratis",
     descSingle: "Ideal, um die Wirkung auf Ihren Umsatz zu testen.",
     descSubscription: "Volle Flexibilität für Ihren Betrieb.",
-    descYearly: "2 Monate gratis gegenüber Monatsabo (wie 10 Monate zahlen, 12 nutzen). Einmalzahlung 299 €/Jahr.",
+    descYearly: "2 Monate gratis gegenüber Monatsabo (wie 10 Monate zahlen, 12 nutzen). Einmalzahlung 299 ?/Jahr.",
     featureUnlimited: "Unbegrenzte Angebote",
-    featureGeo: "Lokale Karte & Angebote in der Nähe",
+    featureGeo: "Karte & Angebote nahe Ihren Kunden",
     featureStock: "Echtzeit-Bestandskontrolle",
     featureZeroComm: "Keine Provision",
     featureSupport: "5 Sprachen",
@@ -985,7 +985,7 @@ const translations = {
     expiryDate: "Mindesthaltbarkeitsdatum",
     freezable: "Einfrierbar",
     // Footer
-    footerTagline: "Anti-Waste — aus Überschüssen werden Chancen.",
+    footerTagline: "Anti-Waste ? aus ?bersch?ssen werden Chancen.",
     footerRights: "Alle Rechte vorbehalten.",
     footerTerms: "Allgemeine Geschäftsbedingungen",
     footerBlog: "Blog",
@@ -994,7 +994,7 @@ const translations = {
     termsLastUpdate: "Letzte Aktualisierung: 5. Juli 2026",
     termsSection1Title: "1. DAS KONZEPT FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue ist eine Plattform gegen Lebensmittelverschwendung: Einzelhandel kann Überschüsse zu reduzierten Preisen verkaufen. Die App erleichtert die Suche nach Angeboten in Ihrer Nähe.",
+      "FreshRescue ist eine Plattform gegen Lebensmittelverschwendung: Einzelhandel kann ?bersch?sse zu reduzierten Preisen verkaufen. Die App erleichtert die Suche nach Angeboten in der N?he.",
     termsSection2Title: "2. RESERVIERUNG UND ABHOLUNG",
     termsSection2Sub1Title: "3.1 Ablauf",
     termsSection2Sub1Content: "Der Nutzer sieht Angebote in der App. Es ist weder Anmeldung noch Online-Zahlung nötig. FreshRescue erhebt keine Nutzerdaten.",
@@ -1018,10 +1018,10 @@ const translations = {
     termsLegalTitle: "RECHTLICHE HINWEISE",
     legalPublisher: "Herausgeber",
     legalHeadquarters: "Firmensitz",
-    legalCountry: "—",
+    legalCountry: "?",
     legalContact: "Kontakt",
     legalLaw: "Anwendbares Recht",
-    legalSwissLaw: "Noch zu definieren",
+    legalSwissLaw: "Anwendbares Recht",
     // Misc
     km: "km",
     off: "Rabatt",
@@ -1042,14 +1042,14 @@ const translations = {
     shopCategory: "Geschäftsart",
     shopPhoto: "Geschäftsfoto",
     demoOfferBadge: "Demo-Angebot",
-    currencyCHF: "€",
+    currencyCHF: "EUR",
   },
   ru: {
     // Landing
-    heroTitle: "Меньше пищевых отходов. Совсем рядом.",
+    heroTitle: "Меньше пищевых отходов. Для всей Швейцарии.",
     heroSubtitle:
-      "FreshRescue — приложение против пищевых отходов, которое связывает местные магазины и покупателей: спасайте излишки, сокращайте отходы и пользуйтесь честными флэш-ценами в своём районе.",
-    brandTagline: "Против отходов · Локально",
+      "FreshRescue — швейцарское приложение против пищевых отходов: связывает магазины и покупателей по всей стране, спасает еду, сокращает отходы и предлагает честные флэш-цены.",
+    brandTagline: "Против отходов · Швейцария",
     exploreCta: "Предложения рядом",
     merchantCta: "Я продавец",
     oneHundredFree: "100% БЕСПЛАТНО",
@@ -1062,7 +1062,7 @@ const translations = {
     howItWorks: "Как это работает",
     step1Title: "Продавец публикует",
     step1Desc:
-      "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для ваших местных клиентов.",
+      "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для клиентов по всей Швейцарии.",
     step2Title: "Покупатели просматривают",
     step2Desc: "Предложения отображаются в радиусе 5 км от вас.",
     step3Title: "Забирайте и наслаждайтесь",
@@ -1098,7 +1098,7 @@ const translations = {
     inappropriateContentError: "Обнаружен недопустимый контент. Пожалуйста, измените текст",
     trialInProgress: "Пробный период",
     trialEnded: "Пробный период завершен",
-    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою локальную видимость.",
+    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою видимость в Швейцарии.",
     trialExpiredDesc: "Ваша видимость приостановлена. Выберите план для возобновления.",
     planRecurring: "Ежемесячно авто",
     planMonthly: "1 месяц разово",
@@ -1119,9 +1119,9 @@ const translations = {
     twoMonthsFree: "2 месяца бесплатно",
     descSingle: "Идеально подходит для проверки влияния на ваши продажи.",
     descSubscription: "Полная гибкость для вашего заведения.",
-    descYearly: "2 месяца бесплатно по сравнению с помесячной оплатой (как 10 месяцев за 12). Разовый годовой платёж 299 €.",
+    descYearly: "2 месяца бесплатно по сравнению с помесячной оплатой (как 10 месяцев за 12). Разовый годовой платёж 299 ?.",
     featureUnlimited: "Неограниченное количество предложений",
-    featureGeo: "Локальная карта и предложения рядом",
+    featureGeo: "Карта и предложения по всей Швейцарии",
     featureStock: "Контроль запасов в реальном времени",
     featureZeroComm: "Нулевая комиссия",
     featureSupport: "5 языков",
@@ -1208,9 +1208,9 @@ const translations = {
     productName: "Название продукта",
     productDescription: "Описание (необязательно)",
     productDescPlaceholder: "Описание (ингредиенты, аллергены, количество...)",
-    originalPrice: "Обычная цена",
-    discountPrice: "Флэш-цена",
-    flashPrice: "Флэш-цена",
+    originalPrice: "Обычная цена ",
+    discountPrice: "Флэш-цена ",
+    flashPrice: "Флэш-цена ",
     collectDeadline: "Забрать до",
     pickupBefore: "Забрать до:",
     pickupLocation: "Место получения",
@@ -1246,7 +1246,7 @@ const translations = {
     expiryDate: "Срок годности (DLC)",
     freezable: "замораживаемый",
     // Footer
-    footerTagline: "Против пищевых отходов — излишки в возможности.",
+    footerTagline: "Против пищевых отходов в Швейцарии — излишки в возможности.",
     footerRights: "Все права защищены.",
     footerTerms: "Условия использования",
     footerBlog: "Блог",
@@ -1255,7 +1255,7 @@ const translations = {
     termsLastUpdate: "Последнее обновление: 5 июля 2026 г.",
     termsSection1Title: "1. КОНЦЕПЦИЯ FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue — платформа против пищевых отходов: розница продаёт излишки по сниженным ценам. Приложение помогает находить предложения рядом с вами.",
+      "FreshRescue — швейцарская платформа против пищевых отходов: розница продаёт излишки по сниженным ценам. Приложение помогает находить предложения по всей Швейцарии.",
     termsSection2Title: "2. БРОНИРОВАНИЕ И ПОЛУЧЕНИЕ",
     termsSection2Sub1Title: "3.1 Процесс",
     termsSection2Sub1Content: "Пользователь просматривает предложения через приложение. Клиенту не нужно входить в систему или платить онлайн. FreshRescue не собирает информацию о пользователях.",
@@ -1279,10 +1279,10 @@ const translations = {
     termsLegalTitle: "ЮРИДИЧЕСКАЯ ИНФОРМАЦИЯ",
     legalPublisher: "Издатель",
     legalHeadquarters: "Штаб-квартира",
-    legalCountry: "—",
+    legalCountry: "Швейцария",
     legalContact: "Контакт",
     legalLaw: "Применимое право",
-    legalSwissLaw: "Будет уточнено",
+    legalSwissLaw: "Швейцарское право",
     // Misc
     km: "км",
     off: "скидка",
@@ -1303,15 +1303,15 @@ const translations = {
     shopCategory: "Тип магазина",
     shopPhoto: "Фото магазина",
     demoOfferBadge: "Демо-предложение",
-    currencyCHF: "€",
+    currencyCHF: "EUR",
   }
 };
 
 const UI_LANGS = ['fr', 'en', 'de', 'it', 'ru'];
 
 export function useTranslation() {
-  // Langue persistée ; sans choix (Googlebot, première visite) → français par défaut
-  // (marché principal post-internationalisation, aligné sur seoConfig).
+  // Langue persistée ; sans choix (Googlebot, première visite) → fr par défaut (marché francophone + SEO),
+  // et non plus « en » qui faisait indexer des snippets anglais sur Google.
   let lang = 'fr';
   if (typeof window !== 'undefined') {
     let stored = localStorage.getItem('freshrescue_lang');
@@ -1323,11 +1323,35 @@ export function useTranslation() {
       lang = stored;
     }
   }
+
+  const [country, setCountry] = useState(() => getCountrySync());
+  useEffect(() => {
+    let mounted = true;
+    Promise.resolve(getCountry())
+      .then((detectedCountry) => {
+        if (mounted) setCountry(detectedCountry);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
   
   const t = useCallback((key) => {
-    // Devise dynamique selon le pays du visiteur (€ par défaut, CHF pour CH/LI…).
-    if (key === 'currencyCHF') return getCurrencySymbol();
-
+    if (key === 'currencyCHF') {
+      return getCurrencySymbol(country);
+    }
+    if (key === 'brandTagline') {
+      const countryName = getCountryName(country, lang);
+      const prefixes = {
+        fr: 'Anti-gaspillage',
+        en: 'Anti-waste',
+        de: 'Anti-Waste',
+        it: 'Anti-spreco',
+        ru: 'Анти-фудвейст',
+      };
+      return `${prefixes[lang] || prefixes.fr} · ${countryName}`;
+    }
     const admin = adminTranslations[lang];
     if (admin && Object.prototype.hasOwnProperty.call(admin, key)) {
       return admin[key];
@@ -1336,7 +1360,7 @@ export function useTranslation() {
       return adminTranslations.en[key];
     }
     return translations[lang]?.[key] || translations.en[key] || key;
-  }, [lang]);
+  }, [country, lang]);
 
   /**
    * Fonction pour traduire les données provenant de la DB

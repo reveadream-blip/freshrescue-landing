@@ -32,11 +32,11 @@
     },
     "original_price": {
       "type": "number",
-      "description": "Original price in CHF"
+      "description": "Original price in the local display currency"
     },
     "discount_price": {
       "type": "number",
-      "description": "Discounted price in CHF"
+      "description": "Discounted price in the local display currency"
     },
     "collect_before": {
       "type": "string",

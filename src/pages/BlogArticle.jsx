@@ -77,9 +77,8 @@ const UI = {
 const cleanTitle = (title) =>
   (title || '')
     .replace(/^FreshRescue\.app dans la r[eé]gion /, '')
-    .replace(/^FreshRescue\.app dans le canton de /, '')
-    .replace(/^FreshRescue\.app im Kanton /, '')
-    .replace(/^FreshRescue\.app nel Cantone /, '');
+    .replace(/^FreshRescue\.app dans le département /, '')
+    .replace(/^FreshRescue\.app pour les /, '');
 
 export default function BlogArticle() {
   const { slug } = useParams();
@@ -120,9 +119,9 @@ export default function BlogArticle() {
             {t.allArticles}
           </Link>
           <div className="flex flex-wrap items-center gap-3 mt-6 text-xs">
-            {data.canton && (
+            {(data.department || data.region || data.audience) && (
               <span className="px-2.5 py-1 rounded-full bg-citrus/15 text-citrus font-semibold">
-                {data.canton}
+                {data.department || data.audience || data.region}
               </span>
             )}
             {data.region && <span className="text-white/60">{data.region}</span>}

@@ -1,50 +1,35 @@
 ---
-title: "FreshRescue.app en Île-de-France : sauver les invendus alimentaires de Paris à la grande couronne"
-description: "Comment FreshRescue, l'application anti-gaspillage, aide commerçants et consommateurs d'Île-de-France à sauver les invendus avec des prix flash justes, dans un rayon de 5 km."
+title: "FreshRescue.app dans la région Ile-de-France : sauver les invendus alimentaires près de chez soi"
+description: "Comment FreshRescue aide les commerces d’Ile-de-France et leurs clients à publier, trouver et récupérer des invendus alimentaires à prix flash près de chez eux."
 slug: "freshrescue-ile-de-france"
-canton: "Île-de-France"
-region: "France métropolitaine"
+region: "Ile-de-France"
+region: "Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne"
 lang: "fr"
 date: "2026-05-08"
-author: "L'équipe FreshRescue"
-tags: ["FreshRescue", "anti-gaspillage", "Île-de-France", "Paris", "invendus", "prix flash"]
+author: "L’équipe FreshRescue"
+tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
-# FreshRescue.app en Île-de-France : sauver les invendus alimentaires, du cœur de Paris à la grande couronne
+# FreshRescue.app dans la région Ile-de-France : sauver les invendus alimentaires près de chez soi
 
-Chaque année, près de 10 millions de tonnes de nourriture encore consommable finissent à la poubelle en France. En **Île-de-France**, première région du pays par sa population, une part importante de ce gaspillage provient des invendus de boulangeries, d'épiceries, de traiteurs et de restaurants. **FreshRescue.app** est l'application anti-gaspillage qui relie directement les commerçants de **Paris**, **Boulogne-Billancourt**, **Saint-Denis**, **Versailles** ou **Évry** aux consommateurs pour sauver ces invendus grâce à des **prix flash** justes. Dans cet article, nous expliquons comment la plateforme transforme le quotidien anti-gaspi des Franciliens.
+Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
 
-## Le gaspillage alimentaire en Île-de-France : un enjeu à grande échelle
+## Comment FreshRescue fonctionne localement
 
-L'Île-de-France concentre plus de 12 millions d'habitants et des dizaines de milliers de points de vente alimentaires. Les boulangeries de quartier, les supérettes de la petite couronne, les marchés franciliens et les restos du périphérique se retrouvent chaque soir avec des produits parfaitement consommables qui ne peuvent pas être vendus le lendemain : pains de la journée, plats préparés, fruits et légumes mûrs, fromages au seuil de la DLC. À **Paris** intra-muros comme à **Cergy-Pontoise**, à **Meaux** ou à **Rambouillet**, ces invendus finissent trop souvent en biodéchet, ce qui représente une perte économique pour le commerçant et un impact environnemental considérable (eau, énergie, CO₂).
+Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
 
-## Comment FreshRescue.app fonctionne en Île-de-France
+## Pour les commerçants
 
-FreshRescue.app est gratuit pour le client et accessible depuis n'importe quel smartphone via **[FreshRescue.app](https://freshrescue.app)**. Le concept repose sur trois étapes simples :
+FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
 
-### 1. Le commerçant publie
+## Pour les consommateurs
 
-Photographiez l'invendu, fixez un **prix flash** et une heure limite : moins de gaspillage, plus de valeur pour vos clients de proximité. Une boulangerie de **Vincennes**, un primeur de **Levallois-Perret** ou un traiteur du **Marais** peut mettre une offre en ligne en moins d'une minute, sans matériel particulier.
+Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
 
-### 2. Les clients consultent
+## Pourquoi cette approche est adaptée a Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne
 
-Les offres apparaissent sur une carte centrée sur la position de l'utilisateur, dans un rayon de **5 km**. À **Boulogne**, à **Issy-les-Moulineaux** ou à **Saint-Mandé**, on voit en temps réel ce qui est disponible juste à côté.
+À Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
 
-### 3. Récupération en boutique
+## En résumé
 
-Le client se déplace, paie en magasin et repart avec le produit. Aucun frais caché, aucune commission sur la vente.
-
-## Pourquoi les commerçants franciliens adoptent FreshRescue
-
-- **Zéro commission** sur les ventes : ce que le client paie revient au commerçant.
-- **Visibilité hyper-locale** auprès des résidents et des navetteurs.
-- **Mise en route en moins de 10 minutes** : ouverture de compte, photo, prix, c'est en ligne.
-- Un outil pensé pour la **densité francilienne** : marchés de quartier, rues commerçantes, galeries marchandes.
-
-## Pour les Franciliens : moins de gaspillage, plus de pouvoir d'achat
-
-Les habitants d'**Île-de-France** trouvent sur FreshRescue de quoi nourrir leur famille à prix réduit, près du métro ou du RER, en sortant du bureau ou en rentrant de l'école. C'est aussi un geste écologique direct : chaque produit sauvé, c'est de la nourriture qui ne finit pas en déchet.
-
-## Conclusion
-
-Que vous soyez commerçant à **Paris** ou consommateur quelque part en **petite ou grande couronne**, FreshRescue.app est l'outil le plus simple pour agir chaque jour contre le gaspillage alimentaire. **Téléchargez l'application**, créez votre compte en quelques secondes, et découvrez dès ce soir les invendus disponibles dans un rayon de 5 km autour de vous. Ensemble, transformons les surplus en opportunités. Plus d'informations et inscription sur **[FreshRescue.app](https://freshrescue.app)**.
+FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.

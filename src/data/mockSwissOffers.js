@@ -1,5 +1,5 @@
 /**
- * Offres démo (héritage : 10 annonces par grande ville, données initiales en CHF).
+ * Offres démo (nom de fichier historique ; données initiales affichées avec la devise locale).
  *
  * NOTE : en cours de transition vers une couverture multi-pays.
  *        Ces données restent injectées en attendant le seed Supabase.

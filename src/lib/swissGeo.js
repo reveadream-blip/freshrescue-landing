@@ -1,9 +1,9 @@
 /**
  * Boîte englobante par défaut pour le filtrage des offres et le centrage carte.
  *
- * NOTE : couvre actuellement Suisse + une grande partie de la France métropolitaine
+ * NOTE : couvre actuellement la France métropolitaine et les zones frontalières
  *        (lat 41–51, lng -5–10). À ajuster selon la liste des pays opérés.
- *        Le SWISS_BOUNDS_CORNERS legacy reste exporté pour compat ascendante.
+ *        Les exports legacy restent pour compatibilité avec les composants existants.
  */
 export const APP_BOUNDS_CORNERS = [
   [41.0, -5.5],
@@ -23,9 +23,6 @@ export function isOfferInBounds(lat, lng) {
     ln <= APP_BOUNDS_CORNERS[1][1]
   );
 }
-
-/** @deprecated nom historique : utiliser `isOfferInBounds`. */
-export const isOfferInSwitzerland = isOfferInBounds;
 
 /** Distance à vol d’oiseau (km) entre deux points WGS84. */
 export function distanceKm(lat1, lon1, lat2, lon2) {

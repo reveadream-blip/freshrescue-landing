@@ -2,8 +2,8 @@
  * Liens Stripe Payment Link (mode test ou live selon votre compte Stripe).
  * Définissez les variables VITE_* dans Cloudflare Pages / .env pour ne pas coder les URLs en dur.
  *
- * TODO devise : ces Payment Links sont historiquement en CHF (héritage suisse).
- *               À recréer en EUR côté Stripe puis remplacer les URLs ci-dessous
+ * TODO devise : ces Payment Links doivent être vérifiés côté Stripe pour l'ouverture France.
+ *               À recréer en EUR si nécessaire puis remplacer les URLs ci-dessous
  *               (ou exposer via VITE_STRIPE_PAYMENT_LINK_*) avant ouverture FR.
  *
  * Configuration Stripe à vérifier pour chaque lien :
