@@ -1,13 +1,13 @@
 /**
- * Boîte englobante par défaut pour le filtrage des offres et le centrage carte.
+ * Boîte englobante par défaut pour le filtrage géographique des offres.
  *
- * NOTE : couvre actuellement la France métropolitaine et les zones frontalières
- *        (lat 41–51, lng -5–10). À ajuster selon la liste des pays opérés.
- *        Les exports legacy restent pour compatibilité avec les composants existants.
+ * Couvre l'Europe occidentale opérée par l'app (FR, CH, BE, LU, DE, IT, ES, PT,
+ * NL, AT, GB) ; voir `countryGeo.js` pour le détail par pays. Le centrage carte
+ * se fait par pays (cf. `getCountryMapView`) et n'utilise plus ces bornes.
  */
 export const APP_BOUNDS_CORNERS = [
-  [41.0, -5.5],
-  [51.5, 10.55],
+  [35.0, -10.5],
+  [60.5, 19.0],
 ];
 
 export const SWISS_BOUNDS_CORNERS = APP_BOUNDS_CORNERS;

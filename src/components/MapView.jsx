@@ -4,7 +4,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { MapPin } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
-import { SWISS_BOUNDS_CORNERS, distanceKm } from '../lib/swissGeo';
+import { distanceKm } from '../lib/swissGeo';
+import { getCountryMapView } from '../lib/countryGeo';
 import { MAP_RADIUS_KM as DEFAULT_MAP_RADIUS_KM } from '../lib/geoConstants';
 import SafeOfferImage from './SafeOfferImage';
 
@@ -14,9 +15,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
-
-const SWISS_CENTER = [46.85, 8.25];
-const SWISS_BOUNDS = L.latLngBounds(SWISS_BOUNDS_CORNERS[0], SWISS_BOUNDS_CORNERS[1]);
 
 const userIcon = L.divIcon({
   html: `<div style="background:#ff6b2b;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.5)"></div>`,
@@ -48,7 +46,7 @@ function boundsAroundPointKm(lat, lng, radiusKm) {
   return L.latLngBounds([lat - dLat, lng - dLng], [lat + dLat, lng + dLng]);
 }
 
-function FitMapView({ offers, localMode, localBounds }) {
+function FitMapView({ offers, localMode, localBounds, countryBounds, countryZoom }) {
   const map = useMap();
   const prevKey = useRef(null);
 
@@ -60,8 +58,13 @@ function FitMapView({ offers, localMode, localBounds }) {
       const ne = localBounds.getNorthEast();
       return `L|${sw.lat},${sw.lng}|${ne.lat},${ne.lng}|${ptsKey}`;
     }
+    if (countryBounds?.isValid?.()) {
+      const sw = countryBounds.getSouthWest();
+      const ne = countryBounds.getNorthEast();
+      return `C|${sw.lat},${sw.lng}|${ne.lat},${ne.lng}|${ptsKey}`;
+    }
     return `S|${ptsKey}`;
-  }, [offers, localMode, localBounds]);
+  }, [offers, localMode, localBounds, countryBounds]);
 
   useEffect(() => {
     if (prevKey.current === key && prevKey.current !== null) return;
@@ -76,7 +79,9 @@ function FitMapView({ offers, localMode, localBounds }) {
       (o) => o.lat != null && o.lng != null && !Number.isNaN(o.lat) && !Number.isNaN(o.lng)
     );
     if (valid.length === 0) {
-      map.fitBounds(SWISS_BOUNDS, { padding: [40, 40], maxZoom: 9, animate: true });
+      if (countryBounds?.isValid?.()) {
+        map.fitBounds(countryBounds, { padding: [40, 40], maxZoom: countryZoom || 9, animate: true });
+      }
       return;
     }
     if (valid.length === 1) {
@@ -85,12 +90,25 @@ function FitMapView({ offers, localMode, localBounds }) {
     }
     const b = L.latLngBounds(valid.map((o) => [o.lat, o.lng]));
     map.fitBounds(b, { padding: [56, 56], maxZoom: 12, animate: true });
-  }, [key, offers, map, localMode, localBounds]);
+  }, [key, offers, map, localMode, localBounds, countryBounds, countryZoom]);
 
   return null;
 }
 
-export default function MapView({ offers = [], userPosition = null, mapRadiusKm = DEFAULT_MAP_RADIUS_KM }) {
+/**
+ * @param {object} props
+ * @param {Array} [props.offers]
+ * @param {{lat:number,lng:number}|null} [props.userPosition] coords GPS connues, sinon `null`
+ * @param {number} [props.mapRadiusKm]
+ * @param {string|null} [props.fallbackCountry] code ISO-3166 (ex. "FR") utilisé pour
+ *   centrer la carte quand la géolocalisation n'est pas accordée.
+ */
+export default function MapView({
+  offers = [],
+  userPosition = null,
+  mapRadiusKm = DEFAULT_MAP_RADIUS_KM,
+  fallbackCountry = null,
+}) {
   const { t, dt } = useTranslation();
 
   const nearbyOffers = offers.filter((o) => o.lat && o.lng);
@@ -103,19 +121,21 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
 
   const localMode = Boolean(userLatLng && mapRadiusKm > 0);
 
+  const countryView = useMemo(() => getCountryMapView(fallbackCountry), [fallbackCountry]);
+  const countryBounds = useMemo(
+    () => L.latLngBounds(countryView.bounds[0], countryView.bounds[1]),
+    [countryView]
+  );
+
   const localBounds = useMemo(() => {
     if (!localMode || !userPosition) return null;
-    let b = boundsAroundPointKm(userPosition.lat, userPosition.lng, mapRadiusKm);
-    if (b.intersects(SWISS_BOUNDS)) {
-      const inter = b.intersect(SWISS_BOUNDS);
-      if (inter?.isValid?.()) return inter;
-    }
-    return b;
+    return boundsAroundPointKm(userPosition.lat, userPosition.lng, mapRadiusKm);
   }, [localMode, userPosition, mapRadiusKm]);
 
-  const mapCenter = localMode && userPosition ? [userPosition.lat, userPosition.lng] : SWISS_CENTER;
-  const mapZoom = localMode ? 12 : 8;
-  const effectiveMaxBounds = localBounds?.isValid?.() ? localBounds : SWISS_BOUNDS;
+  const mapCenter =
+    localMode && userPosition ? [userPosition.lat, userPosition.lng] : countryView.center;
+  const mapZoom = localMode ? 12 : countryView.zoom || 8;
+  const effectiveMaxBounds = localBounds?.isValid?.() ? localBounds : countryBounds;
 
   return (
     <div className="w-full min-h-[calc(100vh-14rem)] h-[min(70vh,720px)] rounded-3xl overflow-hidden border border-border relative bg-card">
@@ -124,10 +144,14 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
       </div>
 
       <MapContainer
-        key={localMode && userPosition ? `near-${userPosition.lat}-${userPosition.lng}` : 'ch-wide'}
+        key={
+          localMode && userPosition
+            ? `near-${userPosition.lat}-${userPosition.lng}`
+            : `country-${(fallbackCountry || 'XX').toUpperCase()}`
+        }
         center={mapCenter}
         zoom={mapZoom}
-        minZoom={localMode ? 11 : 7}
+        minZoom={localMode ? 11 : 5}
         maxZoom={18}
         maxBounds={effectiveMaxBounds}
         maxBoundsViscosity={localMode ? 1 : 0.85}
@@ -144,7 +168,13 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
         />
 
-        <FitMapView offers={nearbyOffers} localMode={localMode} localBounds={localBounds} />
+        <FitMapView
+          offers={nearbyOffers}
+          localMode={localMode}
+          localBounds={localBounds}
+          countryBounds={countryBounds}
+          countryZoom={countryView.zoom}
+        />
 
         {userLatLng && mapRadiusKm > 0 && (
           <Circle

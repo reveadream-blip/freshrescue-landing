@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { MOCK_OFFERS } from '../data/mockSwissOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
 import { MAP_RADIUS_KM } from '../lib/geoConstants';
+import { getCountry, getCountrySync } from '../lib/country';
 
 const CATEGORIES = ['all', 'bakery', 'fruits', 'vegetables', 'dairy', 'meat', 'seafood', 'prepared', 'beverages', 'other'];
 
@@ -22,6 +23,7 @@ export default function Explore() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [locationError, setLocationError] = useState(false);
   const [userCoords, setUserCoords] = useState(null);
+  const [country, setCountry] = useState(() => getCountrySync());
   const [searchFocused, setSearchFocused] = useState(false);
   const blurTimeoutRef = useRef(null);
 
@@ -61,6 +63,20 @@ export default function Explore() {
 
   useEffect(() => {
     loadOffers();
+  }, []);
+
+  /** Détection pays asynchrone (Cloudflare /cdn-cgi/trace) : sert de fallback au
+   *  centrage carte tant que la géolocalisation n'a pas été accordée. */
+  useEffect(() => {
+    let cancelled = false;
+    Promise.resolve(getCountry())
+      .then((c) => {
+        if (!cancelled && c) setCountry(c);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   /** Suivi GPS : dès que la position est connue, la carte et le rayon se mettent à jour (mobile). */
@@ -303,7 +319,12 @@ export default function Explore() {
                   {t('exploreBackToOffers')}
                 </a>
               </div>
-              <MapView offers={offersOnMap} userPosition={userCoords} mapRadiusKm={MAP_RADIUS_KM} />
+              <MapView
+                offers={offersOnMap}
+                userPosition={userCoords}
+                mapRadiusKm={MAP_RADIUS_KM}
+                fallbackCountry={country}
+              />
             </section>
           </>
         )}
