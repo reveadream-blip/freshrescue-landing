@@ -113,9 +113,9 @@ export default function MerchantDashboard() {
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-sm truncate">{offer.title}</h3>
               <div className="flex items-center gap-3 mt-1">
-                <span className="text-primary font-bold text-sm">{offer.discount_price} CHF</span>
+                <span className="text-primary font-bold text-sm">{offer.discount_price} {t('currencyCHF')}</span>
                 {offer.original_price && (
-                  <span className="text-xs text-muted-foreground line-through">{offer.original_price} CHF</span>
+                  <span className="text-xs text-muted-foreground line-through">{offer.original_price} {t('currencyCHF')}</span>
                 )}
                 <CountdownTimer deadline={offer.collect_before} />
               </div>

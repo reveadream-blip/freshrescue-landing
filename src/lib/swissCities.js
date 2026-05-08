@@ -1,5 +1,9 @@
 /**
- * Villes et communes suisses pour suggestions de recherche (noms d’affichage + recherche sans accents).
+ * Liste de villes pour suggestions de recherche (noms d'affichage + recherche sans accents).
+ *
+ * NOTE : initialement villes suisses (héritage). À enrichir avec les villes
+ *        françaises au fur et à mesure que des commerçants y sont actifs.
+ *        Le filtrage géographique réel est dans `swissGeo.js`.
  */
 const CITIES = [
   'Aarau',

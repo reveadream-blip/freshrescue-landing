@@ -1,4 +1,9 @@
-/** Offres démo : 10 annonces par grande ville suisse (CHF, coordonnées dans la boîte CH). */
+/**
+ * Offres démo (héritage : 10 annonces par grande ville, données initiales en CHF).
+ *
+ * NOTE : en cours de transition vers une couverture multi-pays.
+ *        Ces données restent injectées en attendant le seed Supabase.
+ */
 
 const hoursFromNow = (hours) => new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
 

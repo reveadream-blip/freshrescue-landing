@@ -423,7 +423,7 @@ export default function Landing() {
 
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <span className="text-5xl font-black text-foreground">{plan.price}</span>
-                <span className="text-xl font-bold text-citrus">CHF</span>
+                <span className="text-xl font-bold text-citrus">{t('currencyCHF')}</span>
               </div>
               <div className="text-citrus font-bold uppercase tracking-widest text-sm mt-1">
                 {t(plan.subtext)}

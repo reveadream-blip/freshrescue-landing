@@ -47,9 +47,9 @@ const UI_TEXT = {
     it: 'Blog FreshRescue',
   },
   subtitle: {
-    fr: "Comment FreshRescue relie commerçants et consommateurs dans chaque canton suisse pour sauver les invendus et réduire le gaspillage alimentaire.",
-    de: 'Wie FreshRescue Händler und Kundschaft in jedem Schweizer Kanton verbindet, um unverkaufte Ware zu retten und Food Waste zu reduzieren.',
-    it: 'Come FreshRescue collega commercianti e consumatori in ogni cantone svizzero per salvare gli invenduti e ridurre lo spreco alimentare.',
+    fr: "Comment FreshRescue relie commerçants et consommateurs partout pour sauver les invendus et réduire le gaspillage alimentaire.",
+    de: 'Wie FreshRescue Händler und Kundschaft verbindet, um unverkaufte Ware zu retten und Food Waste zu reduzieren.',
+    it: 'Come FreshRescue collega commercianti e consumatori per salvare gli invenduti e ridurre lo spreco alimentare.',
   },
 };
 
@@ -104,7 +104,7 @@ export default function Blog() {
             Blog <span className="text-citrus">FreshRescue</span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 mt-4 max-w-2xl leading-relaxed">
-            Un article par canton suisse, rédigé dans la langue locale, pour expliquer comment
+            Un article par région, rédigé dans la langue locale, pour expliquer comment
             FreshRescue relie commerçants et consommateurs dans un rayon de 5 km.
           </p>
 
@@ -147,7 +147,7 @@ export default function Blog() {
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-full bg-citrus/15 text-citrus text-xs font-semibold">
-                      {a.canton || 'Suisse'}
+                      {a.canton || a.region || 'Local'}
                     </span>
                     {a.region && (
                       <span className="text-xs text-white/50">{a.region}</span>
@@ -187,7 +187,7 @@ export default function Blog() {
 
       <footer className="border-t border-white/10 mt-16">
         <div className="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-white/50">
-          {articles.length} articles · FreshRescue.app — l'application suisse anti-gaspillage
+          {articles.length} articles · FreshRescue.app — l'application anti-gaspillage
         </div>
       </footer>
     </div>

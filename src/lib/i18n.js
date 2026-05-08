@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import { adminTranslations } from './adminTranslations';
+import { getCurrencySymbol } from './country';
 
 const translations = {
  it: {
     // Landing
-    heroTitle: "Anti-spreco alimentare. Nata per la Svizzera.",
+    heroTitle: "Anti-spreco alimentare. Vicino a te.",
     heroSubtitle:
-      "FreshRescue è l’app anti-spreco che collega negozi e persone in tutta la Svizzera: si salvano gli invenduti, si riduce lo spreco e si accede a prezzi flash equi.",
-    brandTagline: "Anti-spreco · Svizzera",
+      "FreshRescue è l’app anti-spreco che collega negozi e persone nel tuo quartiere: salviamo gli invenduti, riduciamo lo spreco e accediamo a prezzi flash equi.",
+    brandTagline: "Anti-spreco · A km zero",
     exploreCta: "Offerte nelle vicinanze",
     merchantCta: "Sono un commerciante",
     oneHundredFree: "100% GRATUITO",
@@ -21,7 +22,7 @@ const translations = {
     howItWorks: "Come funziona",
     step1Title: "Il commerciante pubblica",
     step1Desc:
-      "Scatta una foto dell’invenduto, imposta un prezzo flash e un orario limite: meno spreco, più valore per la tua clientela in Svizzera.",
+      "Scatta una foto dell’invenduto, imposta un prezzo flash e un orario limite: meno spreco, più valore per la tua clientela locale.",
     step2Title: "I clienti visualizzano",
     step2Desc: "Le offerte vengono visualizzate entro un raggio di 5 km da te.",
     step3Title: "Ritira e gusta",
@@ -55,7 +56,7 @@ const translations = {
     inappropriateContentError: "Contenuto inappropriato rilevato. Per favore, modifica il testo",
     trialInProgress: "Periodo di prova",
     trialEnded: "Prova terminata",
-    trialDesc: "Approfitta di questa offerta per aumentare la tua visibilità in Svizzera.",
+    trialDesc: "Approfitta di questa offerta per aumentare la tua visibilità locale.",
     trialExpiredDesc: "La tua visibilità è sospesa. Scegli un piano per riprenderla.",
     planRecurring: "Mensile Automatico",
     planMonthly: "1 Mese Singolo",
@@ -76,9 +77,9 @@ const translations = {
     twoMonthsFree: "2 mesi gratis",
     descSingle: "Ideale per testare l'impatto sulle tue vendite.",
     descSubscription: "Flessibilità totale per il tuo stabilimento.",
-    descYearly: "2 mesi gratis rispetto al mensile (come 10 mesi pagati per 12). Unica rata annuale 299 CHF.",
+    descYearly: "2 mesi gratis rispetto al mensile (come 10 mesi pagati per 12). Unica rata annuale 299 €.",
     featureUnlimited: "Offerte illimitate",
-    featureGeo: "Mappa e offerte in tutta la Svizzera",
+    featureGeo: "Mappa e offerte vicino ai tuoi clienti",
     featureStock: "Controllo delle scorte in tempo reale",
     featureZeroComm: "Zero commissioni",
     featureSupport: "5 lingue",
@@ -164,9 +165,9 @@ const translations = {
     productName: "Nome del Prodotto",
     productDescription: "Descrizione (opzionale)",
     productDescPlaceholder: "Descrizione (Ingredienti, allergeni, quantità...)",
-    originalPrice: "Prezzo Originale (CHF)",
-    discountPrice: "Prezzo Flash (CHF)",
-    flashPrice: "Prezzo Flash (CHF)",
+    originalPrice: "Prezzo Originale",
+    discountPrice: "Prezzo Flash",
+    flashPrice: "Prezzo Flash",
     collectDeadline: "Ritirare Entro le",
     pickupBefore: "Ritirare Entro:",
     pickupLocation: "Luogo di Ritiro",
@@ -180,7 +181,7 @@ const translations = {
     edit: "Modifica",
     post: "Pubblica",
     backToHome: "Torna alla Home",
-    swissCitiesHint: "Città svizzere",
+    swissCitiesHint: "Suggerimenti città",
     // Categories & Options
     bakery: "Panetteria",
     fruits: "Frutta",
@@ -202,7 +203,7 @@ const translations = {
     expiryDate: "Data di Scadenza (DLC)",
     freezable: "Congelabile",
     // Footer
-    footerTagline: "Anti-spreco alimentare in Svizzera — dagli invenduti alle opportunità.",
+    footerTagline: "Anti-spreco alimentare — dagli invenduti alle opportunità.",
     footerRights: "Tutti i diritti riservati.",
     footerTerms: "Termini e Condizioni",
     footerBlog: "Blog",
@@ -211,7 +212,7 @@ const translations = {
     termsLastUpdate: "Ultimo aggiornamento: 5 luglio 2026",
     termsSection1Title: "1. IL CONCETTO FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue fornisce in Svizzera una piattaforma anti-spreco che consente alle attività commerciali di vendere le eccedenze alimentari a prezzi ridotti. L'app facilita la scoperta delle offerte sul territorio svizzero.",
+      "FreshRescue fornisce una piattaforma anti-spreco che consente alle attività commerciali di vendere le eccedenze alimentari a prezzi ridotti. L'app facilita la scoperta delle offerte vicino a te.",
     termsSection2Title: "2. PRENOTAZIONE E RITIRO",
     termsSection2Sub1Title: "3.1 Processo",
     termsSection2Sub1Content: "L'Utente visualizza le offerte tramite l'App. Il cliente non ha bisogno di registrarsi o pagare online. FreshRescue non raccoglie alcuna informazione sull'utente.",
@@ -222,7 +223,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergie",
     termsSection3AllergiesContent: "È responsabilità dell'Utente verificare gli ingredienti direttamente con il Negozio.",
     termsCookiesTitle: "4. COOKIE E MISURAZIONE AUDIENCE",
-    termsCookiesIntroContent: "FreshRescue.app utilizza cookie e tecnologie simili per garantire il funzionamento del sito, memorizzare le tue preferenze e misurare l'audience tramite Google Analytics (ID: G-VDSJYFKB65). Conformemente al RGPD (UE) e alla nLPD svizzera, il tuo consenso è richiesto prima di qualsiasi deposito di cookie non essenziali.",
+    termsCookiesIntroContent: "FreshRescue.app utilizza cookie e tecnologie simili per garantire il funzionamento del sito, memorizzare le tue preferenze e misurare l'audience tramite Google Analytics (ID: G-VDSJYFKB65). Conformemente al GDPR (UE), il tuo consenso è richiesto prima di qualsiasi deposito di cookie non essenziali.",
     termsCookiesNecessaryTitle: "Cookie necessari",
     termsCookiesNecessaryContent: "Indispensabili al funzionamento del sito (sicurezza, preferenze linguistiche, consenso cookie). Non richiedono il tuo consenso.",
     termsCookiesAnalyticsTitle: "Misurazione audience (Google Analytics)",
@@ -235,10 +236,10 @@ const translations = {
     termsLegalTitle: "INFORMAZIONI LEGALI",
     legalPublisher: "Editore",
     legalHeadquarters: "Sede legale",
-    legalCountry: "Svizzera",
+    legalCountry: "—",
     legalContact: "Contatto",
     legalLaw: "Legge applicabile",
-    legalSwissLaw: "Diritto svizzero",
+    legalSwissLaw: "Da definire",
     // Misc
     km: "km",
     off: "di sconto",
@@ -259,17 +260,17 @@ const translations = {
     shopCategory: "Tipo di Negozio",
     shopPhoto: "Foto Negozio",
     demoOfferBadge: "Offerta demo",
-    currencyCHF: "CHF",
+    currencyCHF: "€",
     notificationRadius: "Raggio d'azione",
     commissionOnSales: "Commissione sulle vendite",
     averageDiscount: "Sconto medio",
 }, 
   en: {
     // Landing
-    heroTitle: "Fight Food Waste. Built for Switzerland.",
+    heroTitle: "Fight Food Waste. Right next door.",
     heroSubtitle:
-      "FreshRescue is Switzerland’s anti-food-waste app: it connects shops and people nationwide to rescue surplus food, cut waste, and unlock fair flash prices.",
-    brandTagline: "Anti-waste · Switzerland",
+      "FreshRescue is the anti-food-waste app that connects local shops and people: rescue surplus food, cut waste, and unlock fair flash prices in your neighborhood.",
+    brandTagline: "Anti-waste · Local",
     exploreCta: "Nearby offers",
     merchantCta: "I'm a Merchant",
     oneHundredFree: "100% FREE",
@@ -283,7 +284,7 @@ const translations = {
     howItWorks: "How It Works",
     step1Title: "Merchant Posts",
     step1Desc:
-      "Snap surplus food, set a flash price and pickup time — less waste, more value for customers across Switzerland.",
+      "Snap surplus food, set a flash price and pickup time — less waste, more value for your local customers.",
     step2Title: "Customers are viewing",
     step2Desc: "Offers are displayed within a 5 km radius of you.",
     step3Title: "Collect & Enjoy",
@@ -317,7 +318,7 @@ const translations = {
     inappropriateContentError: "Inappropriate content detected. Please modify your text",
     trialInProgress: "Trial period",
     trialEnded: "Trial ended",
-    trialDesc: "Take advantage of this offer to boost your visibility in Switzerland.",
+    trialDesc: "Take advantage of this offer to boost your local visibility.",
     trialExpiredDesc: "Your visibility is suspended. Choose a plan to resume.",
     planRecurring: "Monthly Auto",
     planMonthly: "1 Month One-time",
@@ -338,9 +339,9 @@ const translations = {
     twoMonthsFree: "2 months free",
     descSingle: "Ideal for testing the impact on your sales.",
     descSubscription: "Total flexibility for your establishment.",
-    descYearly: "2 months free vs monthly billing (pay for ~10 months, get 12). One annual payment 299 CHF.",
+    descYearly: "2 months free vs monthly billing (pay for ~10 months, get 12). One annual payment of €299.",
     featureUnlimited: "Unlimited offers",
-    featureGeo: "Map & offers across Switzerland",
+    featureGeo: "Local map & nearby offers",
     featureStock: "Real-time stock control",
     featureZeroComm: "Zero commission",
     featureSupport: "5 languages",
@@ -426,9 +427,9 @@ const translations = {
     productName: "Product Name",
     productDescription: "Description (optional)",
     productDescPlaceholder: "Description (Ingredients, allergens, quantity...)",
-    originalPrice: "Original Price (CHF)",
-    discountPrice: "Flash Price (CHF)",
-    flashPrice: "Flash Price (CHF)",
+    originalPrice: "Original Price",
+    discountPrice: "Flash Price",
+    flashPrice: "Flash Price",
     collectDeadline: "Collect Before",
     pickupBefore: "Collect Before:",
     pickupLocation: "Pickup Location",
@@ -442,7 +443,7 @@ const translations = {
     edit: "Edit",
     post: "Post",
     backToHome: "Back to Home",
-    swissCitiesHint: "Swiss cities",
+    swissCitiesHint: "City suggestions",
     // Categories & Options
     bakery: "Bakery",
     fruits: "Fruits",
@@ -464,7 +465,7 @@ const translations = {
     expiryDate: "Expiry Date (DLC)",
     freezable: "Freezable",
     // Footer
-    footerTagline: "Anti-food waste in Switzerland — turning surplus into opportunity.",
+    footerTagline: "Anti-food waste — turning surplus into opportunity.",
     footerRights: "All rights reserved.",
     footerTerms: "Terms & Conditions",
     footerBlog: "Blog",
@@ -473,7 +474,7 @@ const translations = {
     termsLastUpdate: "Last update: July 5, 2026",
     termsSection1Title: "1. THE FRESHRESCUE CONCEPT",
     termsSection1Content:
-      "FreshRescue provides a Switzerland-focused anti-food-waste platform allowing retailers to sell surplus food at reduced prices. The app helps users find offers across Switzerland.",
+      "FreshRescue provides an anti-food-waste platform allowing retailers to sell surplus food at reduced prices. The app helps users find offers nearby.",
     termsSection2Title: "2. RESERVATION AND COLLECTION",
     termsSection2Sub1Title: "3.1 Process",
     termsSection2Sub1Content: "The User views offers via the App. The customer does not need to log in or pay online. FreshRescue does not collect any user information.",
@@ -484,7 +485,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergies",
     termsSection3AllergiesContent: "It is the User's responsibility to check ingredients directly with the Shop.",
     termsCookiesTitle: "4. COOKIES AND ANALYTICS",
-    termsCookiesIntroContent: "FreshRescue.app uses cookies and similar technologies to ensure the site works, remember your preferences, and measure audience through Google Analytics (ID: G-VDSJYFKB65). In accordance with GDPR (EU) and the Swiss FADP (nLPD), your consent is required before any non-essential cookies are set.",
+    termsCookiesIntroContent: "FreshRescue.app uses cookies and similar technologies to ensure the site works, remember your preferences, and measure audience through Google Analytics (ID: G-VDSJYFKB65). In accordance with the GDPR (EU), your consent is required before any non-essential cookies are set.",
     termsCookiesNecessaryTitle: "Necessary cookies",
     termsCookiesNecessaryContent: "Required for the site to work (security, language preferences, cookie consent). No consent needed.",
     termsCookiesAnalyticsTitle: "Audience measurement (Google Analytics)",
@@ -497,10 +498,10 @@ const translations = {
     termsLegalTitle: "LEGAL INFORMATION",
     legalPublisher: "Publisher",
     legalHeadquarters: "Headquarters",
-    legalCountry: "Switzerland",
+    legalCountry: "—",
     legalContact: "Contact",
     legalLaw: "Applicable law",
-    legalSwissLaw: "Swiss law",
+    legalSwissLaw: "To be defined",
     // Misc
     km: "km",
     off: "off",
@@ -521,17 +522,17 @@ const translations = {
     shopCategory: "Shop Type",
     shopPhoto: "Shop Photo",
     demoOfferBadge: "Demo offer",
-    currencyCHF: "CHF",
+    currencyCHF: "€",
     notificationRadius: "Radius around your location",
     commissionOnSales: "Commission on sales",
     averageDiscount: "Average discount",
   },
   fr: {
     // Landing
-    heroTitle: "Anti-gaspillage alimentaire. Pensé pour la Suisse.",
+    heroTitle: "Anti-gaspillage alimentaire. Près de chez vous.",
     heroSubtitle:
-      "FreshRescue est l’application suisse anti-gaspillage : elle relie commerçants et consommateurs partout en Suisse pour sauver les invendus, réduire le gaspillage et proposer des prix flash justes.",
-    brandTagline: "Anti-gaspillage · Suisse",
+      "FreshRescue est l’application anti-gaspillage qui relie commerçants et consommateurs de votre quartier : sauvez les invendus, réduisez le gaspillage et profitez de prix flash justes à deux pas de chez vous.",
+    brandTagline: "Anti-gaspillage · Local",
     exploreCta: "Offres à proximité",
     merchantCta: "Je suis Commerçant",
     oneHundredFree: "100% GRATUIT",
@@ -544,7 +545,7 @@ const translations = {
     howItWorks: "Comment ça Marche",
     step1Title: "Le Commerçant Publie",
     step1Desc:
-      "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour vos clients en Suisse.",
+      "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour votre clientèle locale.",
     step2Title: "Les Clients consultent",
     step2Desc: "Les offres s'affichent dans un rayon de 5 km autour de vous.",
     step3Title: "Récupérez & Savourez",
@@ -580,7 +581,7 @@ const translations = {
     inappropriateContentError: "Contenu inapproprié détecté. Merci de modifier votre texte",
     trialInProgress: "Période d'essai",
     trialEnded: "Essai terminé",
-    trialDesc: "Profitez de l'offre pour booster votre visibilité en Suisse.",
+    trialDesc: "Profitez de l'offre pour booster votre visibilité locale.",
     trialExpiredDesc: "Votre visibilité est suspendue. Choisissez une formule pour reprendre.",
     planRecurring: "Mensuel Auto",
     planMonthly: "1 Mois Unique",
@@ -601,9 +602,9 @@ const translations = {
     twoMonthsFree: "2 mois offerts",
     descSingle: "Idéal pour tester l'impact sur vos ventes.",
     descSubscription: "La flexibilité totale pour votre établissement.",
-    descYearly: "2 mois offerts par rapport au mensuel (équivalent : 10 mois payés pour 12). Paiement unique 299 CHF/an.",
+    descYearly: "2 mois offerts par rapport au mensuel (équivalent : 10 mois payés pour 12). Paiement unique 299 €/an.",
     featureUnlimited: "Offres illimitées",
-    featureGeo: "Carte et offres dans toute la Suisse",
+    featureGeo: "Carte et offres autour de votre commerce",
     featureStock: "Contrôle du stock en temps réel",
     featureZeroComm: "Zéro commission",
     featureSupport: "5 langues",
@@ -690,9 +691,9 @@ const translations = {
     productName: "Nom du Produit",
     productDescription: "Description (optionnel)",
     productDescPlaceholder: "Description (Ingrédients, allergènes, quantité...)",
-    originalPrice: "Prix Original (CHF)",
-    discountPrice: "Prix Flash (CHF)",
-    flashPrice: "Prix Flash (CHF)",
+    originalPrice: "Prix Original",
+    discountPrice: "Prix Flash",
+    flashPrice: "Prix Flash",
     collectDeadline: "À récupérer avant",
     pickupBefore: "Récupération avant :",
     pickupLocation: "Lieu de retrait",
@@ -706,7 +707,7 @@ const translations = {
     edit: "Modifier",
     post: "Publier",
     backToHome: "Retour Accueil",
-    swissCitiesHint: "Villes suisses",
+    swissCitiesHint: "Suggestions de villes",
     // Categories & Options
     bakery: "Boulangerie",
     fruits: "Fruits",
@@ -728,7 +729,7 @@ const translations = {
     expiryDate: "Date de péremption (DLC)",
     freezable: "Congelable",
     // Footer
-    footerTagline: "Anti-gaspillage alimentaire en Suisse — des invendus à l’opportunité.",
+    footerTagline: "Anti-gaspillage alimentaire — des invendus à l’opportunité.",
     footerRights: "Tous droits réservés.",
     footerTerms: "Conditions Générales (CGU)",
     footerBlog: "Blog",
@@ -737,7 +738,7 @@ const translations = {
     termsLastUpdate: "Dernière mise à jour : 5 juillet 2026",
     termsSection1Title: "1. LE CONCEPT FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue fournit en Suisse une plateforme anti-gaspillage permettant aux commerces de détail de vendre leurs surplus alimentaires à prix réduit. L'application facilite la découverte des offres sur le territoire suisse.",
+      "FreshRescue fournit une plateforme anti-gaspillage permettant aux commerces de détail de vendre leurs surplus alimentaires à prix réduit. L'application facilite la découverte des offres près de chez vous.",
     termsSection2Title: "2. RÉSERVATION ET COLLECTE",
     termsSection2Sub1Title: "3.1 Processus",
     termsSection2Sub1Content: "L'Utilisateur consulte les offres via l'Application. Le client n'a ni besoin de se connecter ni besoin de payer en ligne. FreshRescue ne récolte aucune information des utilisateurs.",
@@ -748,7 +749,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergies",
     termsSection3AllergiesContent: "Il incombe à l'Utilisateur de vérifier les ingrédients directement auprès du Magasin.",
     termsCookiesTitle: "4. COOKIES ET MESURE D'AUDIENCE",
-    termsCookiesIntroContent: "FreshRescue.app utilise des cookies et technologies similaires pour assurer le fonctionnement du site, mémoriser vos préférences et mesurer l'audience via Google Analytics (ID : G-VDSJYFKB65). Conformément au RGPD (UE) et à la nLPD suisse, votre consentement est requis avant tout dépôt de cookie non essentiel.",
+    termsCookiesIntroContent: "FreshRescue.app utilise des cookies et technologies similaires pour assurer le fonctionnement du site, mémoriser vos préférences et mesurer l'audience via Google Analytics (ID : G-VDSJYFKB65). Conformément au RGPD (UE), votre consentement est requis avant tout dépôt de cookie non essentiel.",
     termsCookiesNecessaryTitle: "Cookies nécessaires",
     termsCookiesNecessaryContent: "Indispensables au fonctionnement du site (sécurité, préférences de langue, consentement cookies). Ne requièrent pas votre consentement.",
     termsCookiesAnalyticsTitle: "Mesure d'audience (Google Analytics)",
@@ -761,10 +762,10 @@ const translations = {
     termsLegalTitle: "INFORMATIONS LÉGALES",
     legalPublisher: "Éditeur",
     legalHeadquarters: "Siège Social",
-    legalCountry: "Suisse",
+    legalCountry: "—",
     legalContact: "Contact",
     legalLaw: "Droit applicable",
-    legalSwissLaw: "Droit suisse",
+    legalSwissLaw: "À définir",
     // Misc
     km: "km",
     off: "de réduction",
@@ -785,14 +786,14 @@ const translations = {
     shopCategory: "Type de Commerce",
     shopPhoto: "Photo de la Boutique",
     demoOfferBadge: "Offre démo",
-    currencyCHF: "CHF",
+    currencyCHF: "€",
   },
   de: {
     // Landing
-    heroTitle: "Weniger Lebensmittelverschwendung. Für die ganze Schweiz.",
+    heroTitle: "Weniger Lebensmittelverschwendung. Direkt nebenan.",
     heroSubtitle:
-      "FreshRescue ist die Schweizer Anti-Waste-App: Sie verbindet Händler und Kundinnen in der ganzen Schweiz, rettet Überschüsse, vermeidet Abfall und ermöglicht faire Blitzpreise.",
-    brandTagline: "Anti-Waste · Schweiz",
+      "FreshRescue ist die Anti-Waste-App, die lokale Händler und Kundinnen verbindet: Überschüsse retten, Abfall vermeiden und faire Blitzpreise direkt in deiner Nachbarschaft entdecken.",
+    brandTagline: "Anti-Waste · Lokal",
     exploreCta: "Angebote in der Nähe",
     merchantCta: "Ich bin Händler",
     oneHundredFree: "100% KOSTENLOS",
@@ -805,7 +806,7 @@ const translations = {
     howItWorks: "So funktioniert's",
     step1Title: "Händler veröffentlicht",
     step1Desc:
-      "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für Kundinnen in der Schweiz.",
+      "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für Ihre lokale Kundschaft.",
     step2Title: "Kunden sehen mit",
     step2Desc: "Angebote werden in einem Radius von 5 km um Sie angezeigt.",
     step3Title: "Abholen und genießen",
@@ -861,9 +862,9 @@ const translations = {
     twoMonthsFree: "2 Monate gratis",
     descSingle: "Ideal, um die Wirkung auf Ihren Umsatz zu testen.",
     descSubscription: "Volle Flexibilität für Ihren Betrieb.",
-    descYearly: "2 Monate gratis gegenüber Monatsabo (wie 10 Monate zahlen, 12 nutzen). Einmalzahlung 299 CHF/Jahr.",
+    descYearly: "2 Monate gratis gegenüber Monatsabo (wie 10 Monate zahlen, 12 nutzen). Einmalzahlung 299 €/Jahr.",
     featureUnlimited: "Unbegrenzte Angebote",
-    featureGeo: "Karte & Angebote in der ganzen Schweiz",
+    featureGeo: "Lokale Karte & Angebote in der Nähe",
     featureStock: "Echtzeit-Bestandskontrolle",
     featureZeroComm: "Keine Provision",
     featureSupport: "5 Sprachen",
@@ -946,9 +947,9 @@ const translations = {
     productName: "Produktname",
     productDescription: "Beschreibung (optional)",
     productDescPlaceholder: "Beschreibung (Zutaten, Allergene, Menge...)",
-    originalPrice: "Originalpreis (CHF)",
-    discountPrice: "Blitzpreis (CHF)",
-    flashPrice: "Blitzpreis (CHF)",
+    originalPrice: "Originalpreis",
+    discountPrice: "Blitzpreis",
+    flashPrice: "Blitzpreis",
     collectDeadline: "Abholen bis",
     pickupBefore: "Abholen bis:",
     pickupLocation: "Abholort",
@@ -962,7 +963,7 @@ const translations = {
     edit: "Bearbeiten",
     post: "Veröffentlichen",
     backToHome: "Zur Startseite",
-    swissCitiesHint: "Schweizer Städte",
+    swissCitiesHint: "Stadtvorschläge",
     // Categories & Options
     bakery: "Bäckerei",
     fruits: "Obst",
@@ -984,7 +985,7 @@ const translations = {
     expiryDate: "Mindesthaltbarkeitsdatum",
     freezable: "Einfrierbar",
     // Footer
-    footerTagline: "Anti-Waste in der Schweiz — aus Überschüssen werden Chancen.",
+    footerTagline: "Anti-Waste — aus Überschüssen werden Chancen.",
     footerRights: "Alle Rechte vorbehalten.",
     footerTerms: "Allgemeine Geschäftsbedingungen",
     footerBlog: "Blog",
@@ -993,7 +994,7 @@ const translations = {
     termsLastUpdate: "Letzte Aktualisierung: 5. Juli 2026",
     termsSection1Title: "1. DAS KONZEPT FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue ist eine Schweizer Plattform gegen Lebensmittelverschwendung: Einzelhandel kann Überschüsse zu reduzierten Preisen verkaufen. Die App erleichtert die Suche nach Angeboten in der Schweiz.",
+      "FreshRescue ist eine Plattform gegen Lebensmittelverschwendung: Einzelhandel kann Überschüsse zu reduzierten Preisen verkaufen. Die App erleichtert die Suche nach Angeboten in Ihrer Nähe.",
     termsSection2Title: "2. RESERVIERUNG UND ABHOLUNG",
     termsSection2Sub1Title: "3.1 Ablauf",
     termsSection2Sub1Content: "Der Nutzer sieht Angebote in der App. Es ist weder Anmeldung noch Online-Zahlung nötig. FreshRescue erhebt keine Nutzerdaten.",
@@ -1004,7 +1005,7 @@ const translations = {
     termsSection3AllergiesTitle: "Allergien",
     termsSection3AllergiesContent: "Der Nutzer prüft Zutaten direkt beim Geschäft.",
     termsCookiesTitle: "4. COOKIES UND REICHWEITENMESSUNG",
-    termsCookiesIntroContent: "FreshRescue.app verwendet Cookies und ähnliche Technologien, um den Betrieb der Website zu gewährleisten, Ihre Einstellungen zu speichern und die Reichweite über Google Analytics (ID: G-VDSJYFKB65) zu messen. Gemäss DSGVO (EU) und revDSG (Schweiz) ist Ihre Zustimmung erforderlich, bevor nicht zwingend erforderliche Cookies gesetzt werden.",
+    termsCookiesIntroContent: "FreshRescue.app verwendet Cookies und ähnliche Technologien, um den Betrieb der Website zu gewährleisten, Ihre Einstellungen zu speichern und die Reichweite über Google Analytics (ID: G-VDSJYFKB65) zu messen. Gemäss DSGVO (EU) ist Ihre Zustimmung erforderlich, bevor nicht zwingend erforderliche Cookies gesetzt werden.",
     termsCookiesNecessaryTitle: "Notwendige Cookies",
     termsCookiesNecessaryContent: "Unverzichtbar für den Betrieb der Website (Sicherheit, Spracheinstellungen, Cookie-Einwilligung). Keine Einwilligung erforderlich.",
     termsCookiesAnalyticsTitle: "Reichweitenmessung (Google Analytics)",
@@ -1017,10 +1018,10 @@ const translations = {
     termsLegalTitle: "RECHTLICHE HINWEISE",
     legalPublisher: "Herausgeber",
     legalHeadquarters: "Firmensitz",
-    legalCountry: "Schweiz",
+    legalCountry: "—",
     legalContact: "Kontakt",
     legalLaw: "Anwendbares Recht",
-    legalSwissLaw: "Schweizer Recht",
+    legalSwissLaw: "Noch zu definieren",
     // Misc
     km: "km",
     off: "Rabatt",
@@ -1041,14 +1042,14 @@ const translations = {
     shopCategory: "Geschäftsart",
     shopPhoto: "Geschäftsfoto",
     demoOfferBadge: "Demo-Angebot",
-    currencyCHF: "CHF",
+    currencyCHF: "€",
   },
   ru: {
     // Landing
-    heroTitle: "Меньше пищевых отходов. Для всей Швейцарии.",
+    heroTitle: "Меньше пищевых отходов. Совсем рядом.",
     heroSubtitle:
-      "FreshRescue — швейцарское приложение против пищевых отходов: связывает магазины и покупателей по всей стране, спасает еду, сокращает отходы и предлагает честные флэш-цены.",
-    brandTagline: "Против отходов · Швейцария",
+      "FreshRescue — приложение против пищевых отходов, которое связывает местные магазины и покупателей: спасайте излишки, сокращайте отходы и пользуйтесь честными флэш-ценами в своём районе.",
+    brandTagline: "Против отходов · Локально",
     exploreCta: "Предложения рядом",
     merchantCta: "Я продавец",
     oneHundredFree: "100% БЕСПЛАТНО",
@@ -1061,7 +1062,7 @@ const translations = {
     howItWorks: "Как это работает",
     step1Title: "Продавец публикует",
     step1Desc:
-      "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для клиентов по всей Швейцарии.",
+      "Сфотографируйте излишки, задайте флэш-цену и время выдачи — меньше отходов, больше пользы для ваших местных клиентов.",
     step2Title: "Покупатели просматривают",
     step2Desc: "Предложения отображаются в радиусе 5 км от вас.",
     step3Title: "Забирайте и наслаждайтесь",
@@ -1097,7 +1098,7 @@ const translations = {
     inappropriateContentError: "Обнаружен недопустимый контент. Пожалуйста, измените текст",
     trialInProgress: "Пробный период",
     trialEnded: "Пробный период завершен",
-    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою видимость в Швейцарии.",
+    trialDesc: "Воспользуйтесь этим предложением, чтобы повысить свою локальную видимость.",
     trialExpiredDesc: "Ваша видимость приостановлена. Выберите план для возобновления.",
     planRecurring: "Ежемесячно авто",
     planMonthly: "1 месяц разово",
@@ -1118,9 +1119,9 @@ const translations = {
     twoMonthsFree: "2 месяца бесплатно",
     descSingle: "Идеально подходит для проверки влияния на ваши продажи.",
     descSubscription: "Полная гибкость для вашего заведения.",
-    descYearly: "2 месяца бесплатно по сравнению с помесячной оплатой (как 10 месяцев за 12). Разовый годовой платёж 299 CHF.",
+    descYearly: "2 месяца бесплатно по сравнению с помесячной оплатой (как 10 месяцев за 12). Разовый годовой платёж 299 €.",
     featureUnlimited: "Неограниченное количество предложений",
-    featureGeo: "Карта и предложения по всей Швейцарии",
+    featureGeo: "Локальная карта и предложения рядом",
     featureStock: "Контроль запасов в реальном времени",
     featureZeroComm: "Нулевая комиссия",
     featureSupport: "5 языков",
@@ -1207,9 +1208,9 @@ const translations = {
     productName: "Название продукта",
     productDescription: "Описание (необязательно)",
     productDescPlaceholder: "Описание (ингредиенты, аллергены, количество...)",
-    originalPrice: "Обычная цена (CHF)",
-    discountPrice: "Флэш-цена (CHF)",
-    flashPrice: "Флэш-цена (CHF)",
+    originalPrice: "Обычная цена",
+    discountPrice: "Флэш-цена",
+    flashPrice: "Флэш-цена",
     collectDeadline: "Забрать до",
     pickupBefore: "Забрать до:",
     pickupLocation: "Место получения",
@@ -1223,7 +1224,7 @@ const translations = {
     edit: "Изменить",
     post: "Опубликовать",
     backToHome: "На главную",
-    swissCitiesHint: "Города Швейцарии",
+    swissCitiesHint: "Подсказки городов",
     // Categories & Options
     bakery: "Выпечка",
     fruits: "Фрукты",
@@ -1245,7 +1246,7 @@ const translations = {
     expiryDate: "Срок годности (DLC)",
     freezable: "замораживаемый",
     // Footer
-    footerTagline: "Против пищевых отходов в Швейцарии — излишки в возможности.",
+    footerTagline: "Против пищевых отходов — излишки в возможности.",
     footerRights: "Все права защищены.",
     footerTerms: "Условия использования",
     footerBlog: "Блог",
@@ -1254,7 +1255,7 @@ const translations = {
     termsLastUpdate: "Последнее обновление: 5 июля 2026 г.",
     termsSection1Title: "1. КОНЦЕПЦИЯ FRESHRESCUE",
     termsSection1Content:
-      "FreshRescue — швейцарская платформа против пищевых отходов: розница продаёт излишки по сниженным ценам. Приложение помогает находить предложения по всей Швейцарии.",
+      "FreshRescue — платформа против пищевых отходов: розница продаёт излишки по сниженным ценам. Приложение помогает находить предложения рядом с вами.",
     termsSection2Title: "2. БРОНИРОВАНИЕ И ПОЛУЧЕНИЕ",
     termsSection2Sub1Title: "3.1 Процесс",
     termsSection2Sub1Content: "Пользователь просматривает предложения через приложение. Клиенту не нужно входить в систему или платить онлайн. FreshRescue не собирает информацию о пользователях.",
@@ -1265,7 +1266,7 @@ const translations = {
     termsSection3AllergiesTitle: "Аллергии",
     termsSection3AllergiesContent: "Пользователь несет ответственность за проверку ингредиентов непосредственно в магазине.",
     termsCookiesTitle: "4. COOKIE И ИЗМЕРЕНИЕ АУДИТОРИИ",
-    termsCookiesIntroContent: "FreshRescue.app использует cookie и аналогичные технологии для обеспечения работы сайта, сохранения ваших настроек и измерения аудитории через Google Analytics (ID: G-VDSJYFKB65). В соответствии с GDPR (ЕС) и швейцарским nLPD, ваше согласие требуется перед установкой любых необязательных cookie.",
+    termsCookiesIntroContent: "FreshRescue.app использует cookie и аналогичные технологии для обеспечения работы сайта, сохранения ваших настроек и измерения аудитории через Google Analytics (ID: G-VDSJYFKB65). В соответствии с GDPR (ЕС), ваше согласие требуется перед установкой любых необязательных cookie.",
     termsCookiesNecessaryTitle: "Необходимые cookie",
     termsCookiesNecessaryContent: "Необходимы для работы сайта (безопасность, языковые настройки, согласие cookie). Не требуют вашего согласия.",
     termsCookiesAnalyticsTitle: "Аналитика (Google Analytics)",
@@ -1278,10 +1279,10 @@ const translations = {
     termsLegalTitle: "ЮРИДИЧЕСКАЯ ИНФОРМАЦИЯ",
     legalPublisher: "Издатель",
     legalHeadquarters: "Штаб-квартира",
-    legalCountry: "Швейцария",
+    legalCountry: "—",
     legalContact: "Контакт",
     legalLaw: "Применимое право",
-    legalSwissLaw: "Швейцарское право",
+    legalSwissLaw: "Будет уточнено",
     // Misc
     km: "км",
     off: "скидка",
@@ -1302,15 +1303,15 @@ const translations = {
     shopCategory: "Тип магазина",
     shopPhoto: "Фото магазина",
     demoOfferBadge: "Демо-предложение",
-    currencyCHF: "CHF",
+    currencyCHF: "€",
   }
 };
 
 const UI_LANGS = ['fr', 'en', 'de', 'it', 'ru'];
 
 export function useTranslation() {
-  // Langue persistée ; sans choix (Googlebot, première visite) → fr-CH par défaut (marché + SEO),
-  // et non plus « en » qui faisait indexer des snippets anglais sur google.ch.
+  // Langue persistée ; sans choix (Googlebot, première visite) → français par défaut
+  // (marché principal post-internationalisation, aligné sur seoConfig).
   let lang = 'fr';
   if (typeof window !== 'undefined') {
     let stored = localStorage.getItem('freshrescue_lang');
@@ -1324,6 +1325,9 @@ export function useTranslation() {
   }
   
   const t = useCallback((key) => {
+    // Devise dynamique selon le pays du visiteur (€ par défaut, CHF pour CH/LI…).
+    if (key === 'currencyCHF') return getCurrencySymbol();
+
     const admin = adminTranslations[lang];
     if (admin && Object.prototype.hasOwnProperty.call(admin, key)) {
       return admin[key];

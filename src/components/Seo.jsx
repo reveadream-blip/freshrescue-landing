@@ -61,7 +61,7 @@ export default function Seo() {
     setMeta('og:description', seo.description, true);
     setMeta('og:type', 'website', true);
     if (ogUrl) setMeta('og:url', ogUrl, true);
-    setMeta('og:locale', seo.ogLocale || 'fr_CH', true);
+    setMeta('og:locale', seo.ogLocale || 'fr_FR', true);
     if (ogImage) setMeta('og:image', ogImage, true);
 
     setMeta('twitter:card', 'summary_large_image');
@@ -84,7 +84,6 @@ export default function Seo() {
             url: base,
             logo: `${base}/logo512.png`,
             description: seo.description,
-            areaServed: { '@type': 'Country', name: 'Switzerland' },
           },
           {
             '@type': 'WebSite',
@@ -92,7 +91,7 @@ export default function Seo() {
             url: base,
             name: 'FreshRescue',
             publisher: { '@id': `${base}/#organization` },
-            inLanguage: 'fr-CH',
+            inLanguage: 'fr',
           },
         ],
       });

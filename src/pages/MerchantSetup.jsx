@@ -56,8 +56,7 @@ export default function MerchantSetup() {
   const getCoordsFromAddress = async (addressText) => {
     if (!addressText || addressText.length < 3) return null;
     try {
-      const cleanAddress = addressText.trim();
-      const query = `${cleanAddress}, Switzerland`;
+      const query = addressText.trim();
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
         { headers: { 'User-Agent': 'FreshRescue-App-V2' } }

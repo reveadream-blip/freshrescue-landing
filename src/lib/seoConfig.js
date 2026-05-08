@@ -1,5 +1,5 @@
 /**
- * Métadonnées SEO (fr-CH par défaut — marché principal). Le composant Seo met à jour title / meta à la navigation.
+ * Métadonnées SEO (fr par défaut — marché francophone, multi-pays). Le composant Seo met à jour title / meta à la navigation.
  */
 
 const BRAND = 'FreshRescue';
@@ -7,9 +7,9 @@ const BRAND = 'FreshRescue';
 export const SEO_DEFAULT_OG_IMAGE = '/logo512.png';
 
 const HOME = {
-  title: `${BRAND} — App anti-gaspillage alimentaire en Suisse`,
+  title: `${BRAND} — App anti-gaspillage alimentaire`,
   description:
-    'FreshRescue : sauvez les invendus près de chez vous. Application suisse anti-gaspillage, carte nationale, offres anti-gaspi à prix flash pour les particuliers et les commerçants.',
+    'FreshRescue : sauvez les invendus près de chez vous. Application anti-gaspillage, carte locale, offres anti-gaspi à prix flash pour les particuliers et les commerçants.',
 };
 
 const PAGES = {
@@ -17,11 +17,11 @@ const PAGES = {
   '/explore': {
     title: `Carte des offres anti-gaspi — ${BRAND}`,
     description:
-      'Parcourez les offres anti-gaspillage près de vous en Suisse : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
+      'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
   },
   '/terms': {
     title: `Conditions d’utilisation — ${BRAND}`,
-    description: `Conditions générales d’utilisation de l’application ${BRAND} (Suisse).`,
+    description: `Conditions générales d’utilisation de l’application ${BRAND}.`,
   },
   '/instructions': {
     title: `Instructions commerçants & clients — ${BRAND}`,
@@ -30,7 +30,7 @@ const PAGES = {
   },
   '/install': {
     title: `Installer l’app — ${BRAND}`,
-    description: 'Installez FreshRescue sur votre téléphone : PWA anti-gaspillage pour la Suisse.',
+    description: 'Installez FreshRescue sur votre téléphone : PWA anti-gaspillage près de chez vous.',
   },
   '/merchant': {
     title: `Espace commerçant — ${BRAND}`,

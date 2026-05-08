@@ -3,7 +3,7 @@ import { Search, MapPin, Map, Loader2, Globe, Leaf } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
-import { isOfferInSwitzerland, distanceKm } from '../lib/swissGeo';
+import { isOfferInBounds, distanceKm } from '../lib/swissGeo';
 import { getOfferPhotoUrl } from '../lib/offerPhoto';
 import MapView from '../components/MapView';
 import OfferCard from '../components/OfferCard';
@@ -50,8 +50,8 @@ export default function Explore() {
         lng: parseFloat(o.lng || o.longitude),
         photo: getOfferPhotoUrl(o),
       }));
-      const swissOnly = formatted.filter((o) => isOfferInSwitzerland(o.lat, o.lng));
-      setOffers(swissOnly);
+      const inBounds = formatted.filter((o) => isOfferInBounds(o.lat, o.lng));
+      setOffers(inBounds);
     } catch (err) {
       console.error('Erreur Supabase:', err.message);
     } finally {
@@ -106,7 +106,7 @@ export default function Explore() {
       normalizeForSearch(displayShop).includes(normalizeForSearch(q)) ||
       normalizeForSearch(displayAddress).includes(normalizeForSearch(q));
 
-    return isNotExpired && matchCat && matchSearch && isOfferInSwitzerland(o.lat, o.lng);
+    return isNotExpired && matchCat && matchSearch && isOfferInBounds(o.lat, o.lng);
   });
 
   const offersOnMap = useMemo(() => {

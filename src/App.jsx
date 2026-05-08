@@ -4,6 +4,7 @@ import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Seo from '@/components/Seo';
 import { useEffect } from 'react';
+import { preloadCountry } from '@/lib/country';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -118,6 +119,10 @@ const AuthenticatedApp = () => {
     </Routes>
   );
 };
+
+// Pré-charge la détection du pays visiteur (Cloudflare /cdn-cgi/trace) au boot,
+// pour que la devise et les libellés pays-spécifiques soient déjà résolus quand l'UI s'affiche.
+preloadCountry();
 
 function App() {
   return (

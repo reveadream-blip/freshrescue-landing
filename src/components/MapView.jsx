@@ -186,7 +186,7 @@ export default function MapView({ offers = [], userPosition = null, mapRadiusKm 
                     )}
                   </div>
                   <div className="font-bold text-earth text-sm leading-tight mb-1">{dt(offer, 'title')}</div>
-                  <div className="text-citrus font-black text-lg">{offer.discount_price} CHF</div>
+                  <div className="text-citrus font-black text-lg">{offer.discount_price} {t('currencyCHF')}</div>
                   <div className="text-gray-500 text-[10px] font-bold uppercase">{offer.shop_name}</div>
 
                   {userLatLng && (

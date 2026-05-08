@@ -64,7 +64,7 @@ export default function OfferCard({ offer }) {
     e.stopPropagation();
     const address = offer.shop_address;
     if (address) {
-      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address + ", Switzerland")}`;
+      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
       window.open(url, '_blank');
     } else {
       const errorMsgs = {

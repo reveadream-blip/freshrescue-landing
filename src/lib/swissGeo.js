@@ -1,15 +1,31 @@
-/** Boîte englobante approximative de la Suisse (WGS84), pour filtrage et carte. */
-export const SWISS_BOUNDS_CORNERS = [
-  [45.78, 5.85],
-  [47.92, 10.55],
+/**
+ * Boîte englobante par défaut pour le filtrage des offres et le centrage carte.
+ *
+ * NOTE : couvre actuellement Suisse + une grande partie de la France métropolitaine
+ *        (lat 41–51, lng -5–10). À ajuster selon la liste des pays opérés.
+ *        Le SWISS_BOUNDS_CORNERS legacy reste exporté pour compat ascendante.
+ */
+export const APP_BOUNDS_CORNERS = [
+  [41.0, -5.5],
+  [51.5, 10.55],
 ];
 
-export function isOfferInSwitzerland(lat, lng) {
+export const SWISS_BOUNDS_CORNERS = APP_BOUNDS_CORNERS;
+
+export function isOfferInBounds(lat, lng) {
   const la = parseFloat(lat);
   const ln = parseFloat(lng);
   if (Number.isNaN(la) || Number.isNaN(ln)) return false;
-  return la >= 45.78 && la <= 47.92 && ln >= 5.85 && ln <= 10.55;
+  return (
+    la >= APP_BOUNDS_CORNERS[0][0] &&
+    la <= APP_BOUNDS_CORNERS[1][0] &&
+    ln >= APP_BOUNDS_CORNERS[0][1] &&
+    ln <= APP_BOUNDS_CORNERS[1][1]
+  );
 }
+
+/** @deprecated nom historique : utiliser `isOfferInBounds`. */
+export const isOfferInSwitzerland = isOfferInBounds;
 
 /** Distance à vol d’oiseau (km) entre deux points WGS84. */
 export function distanceKm(lat1, lon1, lat2, lon2) {

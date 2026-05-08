@@ -67,7 +67,7 @@ function isMonthlyPlan(planType) {
   return p.includes('mensuel') || p === 'monthly' || p === 'month';
 }
 
-const ADMIN_LOCALE = { fr: 'fr-CH', en: 'en-GB', de: 'de-CH', it: 'it-CH', ru: 'ru-RU' };
+const ADMIN_LOCALE = { fr: 'fr-FR', en: 'en-GB', de: 'de-DE', it: 'it-IT', ru: 'ru-RU' };
 
 export default function AdminDashboard() {
   const { logout } = useAuth();

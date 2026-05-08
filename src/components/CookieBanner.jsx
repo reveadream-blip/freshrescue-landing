@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 /**
- * Banniere de consentement cookies conforme RGPD (UE) et nLPD (Suisse).
+ * Banniere de consentement cookies conforme RGPD (UE).
  *
  * Fonctionnement :
  * - Au premier chargement, tout est "denied" via Consent Mode v2 (dans index.html).
@@ -20,7 +20,7 @@ const T = {
   fr: {
     title: 'Nous respectons votre vie privée',
     desc:
-      "Nous utilisons des cookies pour mesurer l'audience de FreshRescue.app et améliorer notre application suisse anti-gaspillage. Vous pouvez accepter, refuser ou personnaliser vos choix. Vous pourrez revenir sur votre décision à tout moment depuis le lien « Cookies » en bas de page.",
+      "Nous utilisons des cookies pour mesurer l'audience de FreshRescue.app et améliorer notre application anti-gaspillage. Vous pouvez accepter, refuser ou personnaliser vos choix. Vous pourrez revenir sur votre décision à tout moment depuis le lien « Cookies » en bas de page.",
     acceptAll: 'Tout accepter',
     rejectAll: 'Tout refuser',
     customize: 'Personnaliser',
@@ -42,7 +42,7 @@ const T = {
   de: {
     title: 'Wir respektieren Ihre Privatsphäre',
     desc:
-      'Wir verwenden Cookies, um die Nutzung von FreshRescue.app zu messen und unsere Schweizer Anti-Food-Waste-App zu verbessern. Sie können akzeptieren, ablehnen oder Ihre Auswahl anpassen. Sie können Ihre Entscheidung jederzeit über den Link „Cookies" am Seitenende ändern.',
+      'Wir verwenden Cookies, um die Nutzung von FreshRescue.app zu messen und unsere Anti-Food-Waste-App zu verbessern. Sie können akzeptieren, ablehnen oder Ihre Auswahl anpassen. Sie können Ihre Entscheidung jederzeit über den Link „Cookies" am Seitenende ändern.',
     acceptAll: 'Alle akzeptieren',
     rejectAll: 'Alle ablehnen',
     customize: 'Anpassen',
@@ -64,7 +64,7 @@ const T = {
   it: {
     title: 'Rispettiamo la tua privacy',
     desc:
-      "Utilizziamo cookie per misurare l'uso di FreshRescue.app e migliorare la nostra app svizzera antispreco. Puoi accettare, rifiutare o personalizzare le tue scelte. Puoi cambiare idea in qualsiasi momento dal link «Cookie» in fondo alla pagina.",
+      "Utilizziamo cookie per misurare l'uso di FreshRescue.app e migliorare la nostra app antispreco. Puoi accettare, rifiutare o personalizzare le tue scelte. Puoi cambiare idea in qualsiasi momento dal link «Cookie» in fondo alla pagina.",
     acceptAll: 'Accetta tutto',
     rejectAll: 'Rifiuta tutto',
     customize: 'Personalizza',
@@ -86,7 +86,7 @@ const T = {
   en: {
     title: 'We respect your privacy',
     desc:
-      "We use cookies to measure usage of FreshRescue.app and improve our Swiss anti-food-waste app. You can accept, reject or customize your choices. You can change your mind anytime via the 'Cookies' link in the footer.",
+      "We use cookies to measure usage of FreshRescue.app and improve our anti-food-waste app. You can accept, reject or customize your choices. You can change your mind anytime via the 'Cookies' link in the footer.",
     acceptAll: 'Accept all',
     rejectAll: 'Reject all',
     customize: 'Customize',
@@ -108,7 +108,7 @@ const T = {
   ru: {
     title: 'Мы уважаем вашу конфиденциальность',
     desc:
-      'Мы используем cookie, чтобы измерять использование FreshRescue.app и улучшать наше швейцарское приложение против пищевых отходов. Вы можете принять, отклонить или настроить выбор. Изменить решение можно в любое время через ссылку «Cookies» внизу страницы.',
+      'Мы используем cookie, чтобы измерять использование FreshRescue.app и улучшать наше приложение против пищевых отходов. Вы можете принять, отклонить или настроить выбор. Изменить решение можно в любое время через ссылку «Cookies» внизу страницы.',
     acceptAll: 'Принять всё',
     rejectAll: 'Отклонить всё',
     customize: 'Настроить',

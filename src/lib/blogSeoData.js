@@ -41,11 +41,11 @@ const bySlug = Object.fromEntries(
 );
 
 const OG_LOCALE_BY_LANG = {
-  fr: 'fr_CH',
-  de: 'de_CH',
-  it: 'it_CH',
+  fr: 'fr_FR',
+  de: 'de_DE',
+  it: 'it_IT',
   en: 'en_US',
-  ru: 'ru_CH',
+  ru: 'ru_RU',
 };
 
 /**
@@ -57,10 +57,10 @@ export function getBlogPageSeo(normalized) {
     return {
       title: `Blog — ${BRAND}`,
       description:
-        'Articles FreshRescue par canton : anti-gaspi, invendus, carte des offres et rôle des commerçants en Suisse.',
+        'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.',
       robots: 'index, follow',
       jsonLd: null,
-      ogLocale: 'fr_CH',
+      ogLocale: 'fr_FR',
     };
   }
 
@@ -75,7 +75,7 @@ export function getBlogPageSeo(normalized) {
   const title = data.title || `${BRAND} — Blog`;
   const description =
     data.description ||
-    `Article ${BRAND} : anti-gaspillage alimentaire et offres près de chez vous en Suisse.`;
+    `Article ${BRAND} : anti-gaspillage alimentaire et offres près de chez vous.`;
   const lang = data.lang || 'fr';
 
   return {
@@ -83,6 +83,6 @@ export function getBlogPageSeo(normalized) {
     description,
     robots: 'index, follow',
     jsonLd: null,
-    ogLocale: OG_LOCALE_BY_LANG[lang] || 'fr_CH',
+    ogLocale: OG_LOCALE_BY_LANG[lang] || 'fr_FR',
   };
 }
