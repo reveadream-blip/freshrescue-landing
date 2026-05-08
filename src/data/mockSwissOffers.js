@@ -5,9 +5,9 @@
  *        Ces données restent injectées en attendant le seed Supabase.
  */
 
-const hoursFromNow = (hours) => new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
+export const hoursFromNow = (hours) => new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
 
-const makeI18nFields = (title, description) => ({
+export const makeI18nFields = (title, description) => ({
   title_fr: title.fr,
   description_fr: description.fr,
   title_en: title.en,
@@ -46,8 +46,9 @@ const IMG = {
     'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=900&q=80',
 };
 
-/** 10 modèles d’offre (titres + descriptions i18n) réutilisés dans chaque ville. */
-const OFFER_TEMPLATES = [
+/** 11 modèles d’offre (titres + descriptions i18n) réutilisés dans chaque ville,
+ *  également ré-utilisés par les démos France (`mockFranceOffers.js`). */
+export const OFFER_TEMPLATES = [
   {
     category: 'bakery',
     title: {
@@ -304,7 +305,7 @@ const SWISS_CITIES = [
 ];
 
 /** Décalage déterministe pour espacer les marqueurs sur la carte. */
-function offsetLatLng(slug, index) {
+export function offsetLatLng(slug, index) {
   const seed = slug.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
   const dLat = (((seed + index * 17) % 47) / 1800) - 0.012;
   const dLng = (((seed + index * 31) % 53) / 1600) - 0.015;

@@ -9,6 +9,7 @@ import MapView from '../components/MapView';
 import OfferCard from '../components/OfferCard';
 import { Link } from 'react-router-dom';
 import { MOCK_OFFERS } from '../data/mockSwissOffers';
+import { MOCK_FRANCE_OFFERS } from '../data/mockFranceOffers';
 import { filterSwissCities, normalizeForSearch } from '../lib/swissCities';
 import { MAP_RADIUS_KM } from '../lib/geoConstants';
 import { getCountry, getCountrySync } from '../lib/country';
@@ -45,7 +46,7 @@ export default function Explore() {
 
       if (error) throw error;
 
-      const merged = [...(data || []), ...MOCK_OFFERS];
+      const merged = [...(data || []), ...MOCK_OFFERS, ...MOCK_FRANCE_OFFERS];
       const formatted = merged.map((o) => ({
         ...o,
         lat: parseFloat(o.lat || o.latitude),
