@@ -136,10 +136,14 @@ export default function Explore() {
     const startWatch = () => {
       if (watchId !== null) return;
       try {
+        // `enableHighAccuracy: false` : la précision approximative (~50–500 m)
+        // est largement suffisante pour un rayon de 30 km, et évite sur iOS
+        // Safari le 2ᵉ prompt « Précise / Approximative » qui dérouterait
+        // l'utilisateur après la 1ʳᵉ pop-up de permission.
         watchId = navigator.geolocation.watchPosition(
           handlePosition,
           handleError,
-          { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
+          { enableHighAccuracy: false, maximumAge: 15000, timeout: 30000 }
         );
       } catch {
         /* ignore — le watch est un bonus, pas obligatoire */
