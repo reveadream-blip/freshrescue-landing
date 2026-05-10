@@ -287,9 +287,9 @@ export default function Landing() {
 
           <div className="mt-20 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {[
-              { num: '5', unit: 'km', label: t('notificationRadius') },
+              { num: '30', unit: 'km', label: t('notificationRadius') },
               { num: '0', unit: '%', label: t('commissionOnSales') },
-              { num: '35', unit: '%', label: t('averageDiscount') },
+              { num: '55', unit: '%', label: t('averageDiscount') },
             ].map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-3xl md:text-4xl font-black text-citrus">

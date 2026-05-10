@@ -105,7 +105,7 @@ export default function Blog() {
           </h1>
           <p className="text-lg md:text-xl text-white/70 mt-4 max-w-2xl leading-relaxed">
             Un article par région, rédigé dans la langue locale, pour expliquer comment
-            FreshRescue relie commerçants et consommateurs dans un rayon de 5 km.
+            FreshRescue relie commerçants et consommateurs dans un rayon de 30 km.
           </p>
 
           <div className="flex flex-wrap gap-2 mt-8">

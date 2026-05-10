@@ -13,10 +13,13 @@
  *        (devise, mentions visibles, options pays-spécifiques).
  */
 
-const CACHE_KEY = 'freshrescue_country_v2';
+const CACHE_KEY = 'freshrescue_country_v3';
 const DEFAULT_COUNTRY = 'FR';
 
-const SUPPORTED_COUNTRIES = new Set([
+/** Liste des pays où l'app a une couverture opérée (carte centrée, offres mock).
+ *  Le pays détecté reste brut (ex. "TH") — ce set sert seulement à identifier
+ *  les visiteurs hors zone pour `getOperatedCountry`. */
+const OPERATED_COUNTRIES = new Set([
   'FR', 'CH', 'BE', 'LU', 'DE', 'IT', 'ES', 'GB', 'PT', 'NL', 'AT',
 ]);
 
@@ -73,7 +76,10 @@ async function fromCloudflareTrace() {
 }
 
 /**
- * Renvoie le code pays ISO-3166 (ex. "FR", "CH", "BE") détecté pour ce visiteur.
+ * Renvoie le code pays ISO-3166 BRUT (ex. "FR", "CH", "TH", "JP") détecté pour
+ * ce visiteur, sans rabat. Utilisé pour les libellés visibles (tagline,
+ * label localisé). Pour la logique d'app (carte, offres), passer plutôt par
+ * `getOperatedCountry` qui rabat les pays hors zone vers le défaut.
  * Synchrone si déjà résolu, sinon Promise.
  */
 export function getCountry() {
@@ -90,11 +96,10 @@ export function getCountry() {
       // Cloudflare est notre source la plus fiable. navigator.language n'est
       // utilisé qu'en dernier recours (en dev local notamment) car il reflète
       // la langue de l'OS et non la position réelle de l'utilisateur.
-      const candidate = cf || fromNavigatorLanguage() || DEFAULT_COUNTRY;
-      const resolved = SUPPORTED_COUNTRIES.has(candidate) ? candidate : DEFAULT_COUNTRY;
-      writeCache(resolved);
-      memo = resolved;
-      return resolved;
+      const detected = cf || fromNavigatorLanguage() || DEFAULT_COUNTRY;
+      writeCache(detected);
+      memo = detected;
+      return detected;
     })();
   }
   return inflight;
@@ -109,6 +114,16 @@ export function getCountrySync() {
     return memo;
   }
   return DEFAULT_COUNTRY;
+}
+
+/**
+ * Pays opéré par l'app : si le visiteur est dans un pays où FreshRescue a une
+ * couverture (carte + offres mock), on retourne ce pays. Sinon on rabat vers
+ * le pays par défaut (FR) pour éviter de servir une carte/devise vide.
+ */
+export function getOperatedCountrySync(country = getCountrySync()) {
+  const code = String(country || '').toUpperCase();
+  return OPERATED_COUNTRIES.has(code) ? code : DEFAULT_COUNTRY;
 }
 
 /** Devise par défaut visible côté UI selon le pays détecté. */
@@ -178,10 +193,27 @@ const COUNTRY_NAMES = {
   },
 };
 
+/**
+ * Nom localisé d'un pays. Priorité :
+ *   1) Liste curatée (orthographe maîtrisée pour les marchés opérés).
+ *   2) `Intl.DisplayNames` (couvre tous les codes ISO-3166 dans toutes les
+ *      langues supportées par l'OS — y compris Thaïlande, Japon, etc.).
+ *   3) Code brut (FR, TH…) en dernier recours.
+ */
 export function getCountryName(country = getCountrySync(), lang = 'fr') {
   const code = String(country || DEFAULT_COUNTRY).toUpperCase();
   const pack = COUNTRY_NAMES[lang] || COUNTRY_NAMES.fr;
-  return pack[code] || code;
+  if (pack[code]) return pack[code];
+  try {
+    if (typeof Intl !== 'undefined' && typeof Intl.DisplayNames === 'function') {
+      const dn = new Intl.DisplayNames([lang, 'en'], { type: 'region' });
+      const localized = dn.of(code);
+      if (localized && localized !== code) return localized;
+    }
+  } catch {
+    /* Intl.DisplayNames indispo : on retombe sur le code brut. */
+  }
+  return code;
 }
 
 /** Pré-charge la détection au démarrage de l'app (à appeler une fois). */

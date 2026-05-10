@@ -26,7 +26,7 @@ const translations = {
     step1Desc:
       "Scatta una foto dell’invenduto, imposta un prezzo flash e un orario limite: meno spreco, più valore per la tua clientela locale.",
     step2Title: "I clienti visualizzano",
-    step2Desc: "Le offerte vengono visualizzate entro un raggio di 5 km da te.",
+    step2Desc: "Le offerte vengono visualizzate entro un raggio di 30 km da te.",
     step3Title: "Ritira e gusta",
     step3Desc: "I clienti ritirano cibo fresco scontato prima dell'orario limite. Zero sprechi.",
     // Value
@@ -135,7 +135,7 @@ const translations = {
     exploreMapHeading: "Mappa",
     exploreShortcutToMap: "Vedi le offerte attive sulla mappa",
     exploreBackToOffers: "Torna alle offerte attive",
-    mapLocalRadiusHint: "≤ 5 km intorno a te — zoom e sposta la mappa",
+    mapLocalRadiusHint: "≤ 30 km intorno a te — zoom e sposta la mappa",
     mapZoomHint: "Zoom: rotella / pizzica con due dita",
     noOffers: "Nessuna offerta disponibile al momento. Torna presto!",
     collectBefore: "Ritira entro le",
@@ -290,7 +290,7 @@ const translations = {
     step1Desc:
       "Snap surplus food, set a flash price and pickup time — less waste, more value for customers nearby.",
     step2Title: "Customers are viewing",
-    step2Desc: "Offers are displayed within a 5 km radius of you.",
+    step2Desc: "Offers are displayed within a 30 km radius of you.",
     step3Title: "Collect & Enjoy",
     step3Desc: "Customers pick up fresh food at a discount before the deadline. Zero waste.",
     // Value
@@ -399,7 +399,7 @@ const translations = {
     exploreMapHeading: "Map",
     exploreShortcutToMap: "See active offers on the map",
     exploreBackToOffers: "Back to active offers",
-    mapLocalRadiusHint: "≤ 5 km around you — zoom & pan the map",
+    mapLocalRadiusHint: "≤ 30 km around you — zoom & pan the map",
     mapZoomHint: "Zoom: scroll wheel / pinch with two fingers",
     noOffers: "No offers available right now. Check back soon!",
     collectBefore: "Collect before",
@@ -551,7 +551,7 @@ const translations = {
     step1Desc:
       "Photographiez l’invendu, fixez un prix flash et une heure limite : moins de gaspillage, plus de valeur pour vos clients locaux.",
     step2Title: "Les Clients consultent",
-    step2Desc: "Les offres s'affichent dans un rayon de 5 km autour de vous.",
+    step2Desc: "Les offres s'affichent dans un rayon de 30 km autour de vous.",
     step3Title: "Récupérez & Savourez",
     step3Desc: "Les clients récupèrent des produits frais à prix réduit avant la date limite. Zéro déchet.",
     // Value
@@ -665,7 +665,7 @@ const translations = {
     exploreMapHeading: "Carte",
     exploreShortcutToMap: "Voir les offres actives sur la carte",
     exploreBackToOffers: "Retour sur les offres actives",
-    mapLocalRadiusHint: "≤ 5 km autour de vous — zoomez et déplacez la carte",
+    mapLocalRadiusHint: "≤ 30 km autour de vous — zoomez et déplacez la carte",
     mapZoomHint: "Zoom : molette / pincer à deux doigts",
     noOffers: "Aucune offre disponible pour le moment. Revenez bientôt !",
     collectBefore: "À récupérer avant",
@@ -814,7 +814,7 @@ const translations = {
     step1Desc:
       "Fotografieren Sie Überschüsse, setzen Sie Blitzpreis und Abholzeit — weniger Waste, mehr Wert für lokale Kundinnen.",
     step2Title: "Kunden sehen mit",
-    step2Desc: "Angebote werden in einem Radius von 5 km um Sie angezeigt.",
+    step2Desc: "Angebote werden in einem Radius von 30 km um Sie angezeigt.",
     step3Title: "Abholen und genießen",
     step3Desc: "Kunden holen frische Ware zum Sonderpreis vor Ablauf ab. Keine Verschwendung.",
     // Value
@@ -924,7 +924,7 @@ const translations = {
     exploreMapHeading: "Karte",
     exploreShortcutToMap: "Aktive Angebote auf der Karte ansehen",
     exploreBackToOffers: "Zurück zu den aktiven Angeboten",
-    mapLocalRadiusHint: "≤ 5 km um Sie — zoomen und Karte verschieben",
+    mapLocalRadiusHint: "≤ 30 km um Sie — zoomen und Karte verschieben",
     mapZoomHint: "Zoom: Mausrad / mit zwei Fingern zoomen",
     collectBefore: "Abholen bis",
     away: "entfernt",
