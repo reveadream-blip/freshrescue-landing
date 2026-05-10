@@ -24,6 +24,7 @@ export default function Explore() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [locationError, setLocationError] = useState(false);
+  const [permissionState, setPermissionState] = useState('unknown'); // 'granted'|'prompt'|'denied'|'unknown'
   const [userCoords, setUserCoords] = useState(null);
   const [country, setCountry] = useState(() => getCountrySync());
   const [searchFocused, setSearchFocused] = useState(false);
@@ -114,7 +115,10 @@ export default function Explore() {
     const handleError = (err) => {
       if (cancelled) return;
       setLocationError(true);
-      if (Number(err?.code) === 1) setUserCoords(null);
+      if (Number(err?.code) === 1) {
+        setUserCoords(null);
+        setPermissionState('denied');
+      }
     };
 
     const requestNow = () => {
@@ -155,28 +159,55 @@ export default function Explore() {
 
     requestPositionRef.current = requestNow;
 
-    requestNow();
-    startWatch();
-
+    // Démarche optimale :
+    //   - Permissions API connue (Chrome/Edge/Firefox/Opera) : on consulte
+    //     l'état avant d'appeler getCurrentPosition. Si "denied", inutile
+    //     d'invoquer l'API → le navigateur ignorerait l'appel sans pop-up.
+    //   - API absente (Safari < 16) : on appelle directement, le navigateur
+    //     décide d'afficher la pop-up ou non.
     if (navigator.permissions?.query) {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then((status) => {
           if (cancelled) return;
           permissionStatus = status;
+          setPermissionState(status.state);
+
+          if (status.state === 'denied') {
+            setLocationError(true);
+            setUserCoords(null);
+          } else {
+            requestNow();
+            startWatch();
+          }
+
           onPermissionChange = () => {
+            setPermissionState(status.state);
             if (status.state === 'granted') {
+              setLocationError(false);
               startWatch();
               requestNow();
             } else if (status.state === 'denied') {
               stopWatch();
               setUserCoords(null);
               setLocationError(true);
+            } else if (status.state === 'prompt') {
+              setLocationError(false);
+              requestNow();
             }
           };
           status.addEventListener('change', onPermissionChange);
         })
-        .catch(() => {});
+        .catch(() => {
+          // En cas d'échec de l'API, on tente quand même la demande directe.
+          if (!cancelled) {
+            requestNow();
+            startWatch();
+          }
+        });
+    } else {
+      requestNow();
+      startWatch();
     }
 
     return () => {
@@ -280,15 +311,16 @@ export default function Explore() {
           <button
             type="button"
             onClick={() => requestPositionRef.current?.()}
-            className="mb-6 flex w-full min-w-0 flex-nowrap items-center justify-center gap-2 overflow-x-auto rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/20 via-orange-400/15 to-orange-500/20 px-3 py-3 text-orange-400 shadow-[0_0_18px_rgba(249,115,22,0.2)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-3 sm:px-4 animate-geo-banner-glow cursor-pointer hover:bg-orange-500/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 transition-colors"
-            aria-label={t('geoError')}
+            className="mb-6 flex w-full min-w-0 flex-nowrap items-center justify-center gap-2 overflow-hidden rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/20 via-orange-400/15 to-orange-500/20 px-3 py-3 text-orange-400 shadow-[0_0_18px_rgba(249,115,22,0.2)] sm:gap-3 sm:px-4 animate-geo-banner-glow cursor-pointer hover:bg-orange-500/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 transition-colors"
+            aria-label={permissionState === 'denied' ? t('geoDenied') : t('geoRetry')}
+            title={t('geoRetry')}
           >
             <MapPin
               className="h-4 w-4 shrink-0 text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.9)] sm:h-5 sm:w-5"
               aria-hidden
             />
-            <p className="whitespace-nowrap text-[clamp(0.5625rem,2.85vw,0.875rem)] font-black italic uppercase leading-none tracking-tight text-orange-300 drop-shadow-[0_0_8px_rgba(253,186,116,0.45)] sm:tracking-wide">
-              {t('geoError')}
+            <p className="text-[clamp(0.625rem,2.4vw,0.875rem)] font-black italic uppercase leading-tight tracking-tight text-orange-300 drop-shadow-[0_0_8px_rgba(253,186,116,0.45)] sm:tracking-wide text-center">
+              {permissionState === 'denied' ? t('geoDenied') : t('geoError')}
             </p>
           </button>
         )}
