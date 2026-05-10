@@ -184,7 +184,7 @@ const Instructions = () => {
 
         <div className="mt-6">
           <img
-            src="/images/comment-ca-marche.png"
+            src="/images/comment-ca-marche-fr.png"
             alt="Comment ca marche"
             className="w-full rounded-2xl shadow-2xl"
             loading="lazy"
