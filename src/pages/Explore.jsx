@@ -28,6 +28,7 @@ export default function Explore() {
   const [country, setCountry] = useState(() => getCountrySync());
   const [searchFocused, setSearchFocused] = useState(false);
   const blurTimeoutRef = useRef(null);
+  const requestPositionRef = useRef(() => {});
 
   const citySuggestions = useMemo(() => filterSwissCities(search, 14), [search]);
   const showCitySuggestions =
@@ -86,7 +87,10 @@ export default function Explore() {
    *      mount, sans attendre `watchPosition` (plus lent à déclencher).
    *   2) `watchPosition` en parallèle pour mettre à jour la position si l'utilisateur bouge.
    *   3) `navigator.permissions` écoute les changements (autorisation manuelle
-   *      depuis les réglages du navigateur) et relance la demande sans refresh. */
+   *      depuis les réglages du navigateur) et relance la demande sans refresh.
+   *   4) `requestPositionRef.current()` permet à l'UI (bandeau cliquable) de
+   *      re-déclencher la demande sur clic — clic utilisateur direct, ce qui
+   *      relance la pop-up sur les navigateurs qui l'avaient ignorée. */
   useEffect(() => {
     if (!('geolocation' in navigator) || !window.isSecureContext) {
       setLocationError(true);
@@ -96,8 +100,10 @@ export default function Explore() {
     let watchId = null;
     let permissionStatus = null;
     let onPermissionChange = null;
+    let cancelled = false;
 
     const handlePosition = (position) => {
+      if (cancelled) return;
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
@@ -106,33 +112,48 @@ export default function Explore() {
     };
 
     const handleError = (err) => {
+      if (cancelled) return;
       setLocationError(true);
       if (Number(err?.code) === 1) setUserCoords(null);
     };
 
     const requestNow = () => {
-      navigator.geolocation.getCurrentPosition(
-        handlePosition,
-        handleError,
-        { enableHighAccuracy: false, maximumAge: 60000, timeout: 10000 }
-      );
+      try {
+        navigator.geolocation.getCurrentPosition(
+          handlePosition,
+          handleError,
+          { enableHighAccuracy: false, maximumAge: 60000, timeout: 15000 }
+        );
+      } catch {
+        setLocationError(true);
+      }
     };
 
     const startWatch = () => {
       if (watchId !== null) return;
-      watchId = navigator.geolocation.watchPosition(
-        handlePosition,
-        handleError,
-        { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
-      );
+      try {
+        watchId = navigator.geolocation.watchPosition(
+          handlePosition,
+          handleError,
+          { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
+        );
+      } catch {
+        /* ignore — le watch est un bonus, pas obligatoire */
+      }
     };
 
     const stopWatch = () => {
       if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
+        try {
+          navigator.geolocation.clearWatch(watchId);
+        } catch {
+          /* ignore */
+        }
         watchId = null;
       }
     };
+
+    requestPositionRef.current = requestNow;
 
     requestNow();
     startWatch();
@@ -141,6 +162,7 @@ export default function Explore() {
       navigator.permissions
         .query({ name: 'geolocation' })
         .then((status) => {
+          if (cancelled) return;
           permissionStatus = status;
           onPermissionChange = () => {
             if (status.state === 'granted') {
@@ -158,6 +180,7 @@ export default function Explore() {
     }
 
     return () => {
+      cancelled = true;
       stopWatch();
       if (permissionStatus && onPermissionChange) {
         permissionStatus.removeEventListener('change', onPermissionChange);
@@ -254,9 +277,11 @@ export default function Explore() {
       <div className="pt-28 pb-16 px-6 max-w-7xl mx-auto">
         
         {locationError && (
-          <div
-            className="mb-6 flex w-full min-w-0 flex-nowrap items-center justify-center gap-2 overflow-x-auto rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/20 via-orange-400/15 to-orange-500/20 px-3 py-3 text-orange-400 shadow-[0_0_18px_rgba(249,115,22,0.2)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-3 sm:px-4 animate-geo-banner-glow"
-            role="status"
+          <button
+            type="button"
+            onClick={() => requestPositionRef.current?.()}
+            className="mb-6 flex w-full min-w-0 flex-nowrap items-center justify-center gap-2 overflow-x-auto rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/20 via-orange-400/15 to-orange-500/20 px-3 py-3 text-orange-400 shadow-[0_0_18px_rgba(249,115,22,0.2)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:gap-3 sm:px-4 animate-geo-banner-glow cursor-pointer hover:bg-orange-500/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/60 transition-colors"
+            aria-label={t('geoError')}
           >
             <MapPin
               className="h-4 w-4 shrink-0 text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.9)] sm:h-5 sm:w-5"
@@ -265,7 +290,7 @@ export default function Explore() {
             <p className="whitespace-nowrap text-[clamp(0.5625rem,2.85vw,0.875rem)] font-black italic uppercase leading-none tracking-tight text-orange-300 drop-shadow-[0_0_8px_rgba(253,186,116,0.45)] sm:tracking-wide">
               {t('geoError')}
             </p>
-          </div>
+          </button>
         )}
 
         <div className="mb-10 flex w-full flex-col items-center text-center">
