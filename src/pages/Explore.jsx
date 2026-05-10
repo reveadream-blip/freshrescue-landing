@@ -81,29 +81,88 @@ export default function Explore() {
     };
   }, []);
 
-  /** Suivi GPS : dès que la position est connue, la carte et le rayon se mettent à jour (mobile). */
+  /** Géolocalisation :
+   *   1) `getCurrentPosition` immédiat → la pop-up de permission s'ouvre dès le
+   *      mount, sans attendre `watchPosition` (plus lent à déclencher).
+   *   2) `watchPosition` en parallèle pour mettre à jour la position si l'utilisateur bouge.
+   *   3) `navigator.permissions` écoute les changements (autorisation manuelle
+   *      depuis les réglages du navigateur) et relance la demande sans refresh. */
   useEffect(() => {
     if (!('geolocation' in navigator) || !window.isSecureContext) {
       setLocationError(true);
       return;
     }
 
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-        setUserCoords({ lat, lng });
-        setLocationError(false);
-      },
-      (err) => {
-        setLocationError(true);
-        if (Number(err?.code) === 1) setUserCoords(null);
-      },
-      { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
-    );
+    let watchId = null;
+    let permissionStatus = null;
+    let onPermissionChange = null;
 
-    return () => navigator.geolocation.clearWatch(watchId);
+    const handlePosition = (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      setUserCoords({ lat, lng });
+      setLocationError(false);
+    };
+
+    const handleError = (err) => {
+      setLocationError(true);
+      if (Number(err?.code) === 1) setUserCoords(null);
+    };
+
+    const requestNow = () => {
+      navigator.geolocation.getCurrentPosition(
+        handlePosition,
+        handleError,
+        { enableHighAccuracy: false, maximumAge: 60000, timeout: 10000 }
+      );
+    };
+
+    const startWatch = () => {
+      if (watchId !== null) return;
+      watchId = navigator.geolocation.watchPosition(
+        handlePosition,
+        handleError,
+        { enableHighAccuracy: true, maximumAge: 5000, timeout: 30000 }
+      );
+    };
+
+    const stopWatch = () => {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+      }
+    };
+
+    requestNow();
+    startWatch();
+
+    if (navigator.permissions?.query) {
+      navigator.permissions
+        .query({ name: 'geolocation' })
+        .then((status) => {
+          permissionStatus = status;
+          onPermissionChange = () => {
+            if (status.state === 'granted') {
+              startWatch();
+              requestNow();
+            } else if (status.state === 'denied') {
+              stopWatch();
+              setUserCoords(null);
+              setLocationError(true);
+            }
+          };
+          status.addEventListener('change', onPermissionChange);
+        })
+        .catch(() => {});
+    }
+
+    return () => {
+      stopWatch();
+      if (permissionStatus && onPermissionChange) {
+        permissionStatus.removeEventListener('change', onPermissionChange);
+      }
+    };
   }, []);
 
   const filtered = offers.filter((o) => {
