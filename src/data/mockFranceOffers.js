@@ -78,6 +78,10 @@ const FRANCE_CITIES = [
   { slug: 'cherbourg', center: [49.6386, -1.6164], street: 'Rue de la Paix', zip: '50100', name: 'Cherbourg-en-Cotentin' },
   { slug: 'beziers', center: [43.3447, 3.2197], street: 'Rue de la République', zip: '34500', name: 'Béziers' },
   { slug: 'calais', center: [50.9513, 1.8587], street: 'Boulevard Jacquard', zip: '62100', name: 'Calais' },
+
+  // Eure-et-Loir
+  { slug: 'chartres', center: [48.4469, 1.4895], street: 'Rue Noël Ballay', zip: '28000', name: 'Chartres' },
+  { slug: 'bouglainval', center: [48.5481, 1.4711], street: 'Rue de l’Église', zip: '28130', name: 'Bouglainval' },
 ];
 
 /** Numérotation déterministe par template, pour rendre les adresses crédibles. */

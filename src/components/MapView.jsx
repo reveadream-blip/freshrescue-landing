@@ -134,7 +134,10 @@ export default function MapView({
 
   const mapCenter =
     localMode && userPosition ? [userPosition.lat, userPosition.lng] : countryView.center;
-  const mapZoom = localMode ? 12 : countryView.zoom || 8;
+  // Zoom de départ adapté au rayon : ~12 pour 5 km, ~10 pour 30 km, etc.
+  // (FitMapView ajustera ensuite via fitBounds(localBounds), mais on évite un flash trop zoomé.)
+  const localStartZoom = mapRadiusKm <= 5 ? 12 : mapRadiusKm <= 15 ? 11 : 10;
+  const mapZoom = localMode ? localStartZoom : countryView.zoom || 8;
   const effectiveMaxBounds = localBounds?.isValid?.() ? localBounds : countryBounds;
 
   return (
@@ -151,7 +154,7 @@ export default function MapView({
         }
         center={mapCenter}
         zoom={mapZoom}
-        minZoom={localMode ? 11 : 5}
+        minZoom={localMode ? 9 : 5}
         maxZoom={18}
         maxBounds={effectiveMaxBounds}
         maxBoundsViscosity={localMode ? 1 : 0.85}
