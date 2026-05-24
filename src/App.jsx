@@ -21,6 +21,7 @@ import InstallRedirect from './pages/InstallRedirect';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import News from './pages/News';
+import NewsArticle from './pages/NewsArticle';
 import CookieBanner from '@/components/CookieBanner';
 
 // --- NOUVEAUX IMPORTS POUR L'ADMIN ---
@@ -66,6 +67,7 @@ const AuthenticatedApp = () => {
     '/instructions',
     '/install'
   ].includes(location.pathname)
+    || location.pathname.startsWith('/actualites')
     || location.pathname.startsWith('/admin')
     || location.pathname.startsWith('/blog');
 
@@ -87,6 +89,7 @@ const AuthenticatedApp = () => {
       <Route path="/install" element={<InstallRedirect />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/actualites" element={<News />} />
+      <Route path="/actualites/:id" element={<NewsArticle />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />

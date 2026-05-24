@@ -43,7 +43,14 @@ export const NEWS_ITEMS = [
       de: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
       ru: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
     },
-    articleLink: 'https://devenirautonome.fr/article-penuries-on-fait-le-point-ensemble-sans-panique-mais-avec-lucidite.html',
+    contentHtml: {
+      fr: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
+      en: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
+      it: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
+      de: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
+      ru: 'Salut à tous,\n\nVous avez sûrement suivi les dernières annonces de Macron et les infos qui tournent en boucle sur les risques...',
+    },
+    articleLink: '/actualites/penuries-on-fait-le-point-ensemble-sans-panique-mais-avec-lucidite',
     link: 'https://www.facebook.com/share/p/1K4ADgcmFd/',
   },
 
