@@ -4,7 +4,7 @@
  * URL canonique (ordre) : VITE_SITE_URL → site.config.json → URL / DEPLOY_* (Cloudflare Pages, etc.).
  *
  * Pages indexées (aligné sur `src/App.jsx` + SEO indexable) :
- *   /, /explore, /blog, /blog/:slug, /terms, /instructions, /install, /merchant
+ *   /, /explore, /actualites, /blog, /blog/:slug, /terms, /instructions, /install, /merchant
  *
  * Exclues du sitemap (noindex / zones privées) :
  *   /admin/*, /forgot-password, /update-password, /merchant/post, /merchant/edit/*, /merchant/setup
@@ -88,6 +88,7 @@ const base = pickBaseUrl();
 const staticPaths = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },
   { loc: '/explore', priority: '0.9', changefreq: 'weekly' },
+  { loc: '/actualites', priority: '0.8', changefreq: 'weekly' },
   { loc: '/blog', priority: '0.9', changefreq: 'weekly' },
   { loc: '/terms', priority: '0.5', changefreq: 'monthly' },
   { loc: '/instructions', priority: '0.6', changefreq: 'monthly' },

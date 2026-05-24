@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { 
   CheckCircle, ArrowRight, Zap, MapPin, 
   TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
@@ -16,6 +16,7 @@ const HOW_STEP3_IMG = howImg('step-03.png');
 
 export default function Landing() {
   const { t, lang, setLanguage } = useTranslation();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
@@ -136,6 +137,25 @@ export default function Landing() {
           </div>
 
           <div className="flex items-center gap-4">
+            <nav className="hidden md:flex items-center gap-6">
+              <Link
+                to="/explore"
+                className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
+                  location.pathname === '/explore' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t('explore')}
+              </Link>
+              <Link
+                to="/actualites"
+                className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
+                  location.pathname === '/actualites' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t('navNews')}
+              </Link>
+            </nav>
+
             {/* LE ROLLER DE LANGUE CORRIGÉ */}
 <div className="relative group">
   <select

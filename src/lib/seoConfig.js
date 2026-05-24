@@ -19,6 +19,11 @@ const PAGES = {
     description:
       'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
   },
+  '/actualites': {
+    title: `Actualités — ${BRAND}`,
+    description:
+      'Actualités FreshRescue : lancements, partenariats commerçants et initiatives anti-gaspillage alimentaire près de chez vous.',
+  },
   '/terms': {
     title: `Conditions d’utilisation — ${BRAND}`,
     description: `Conditions générales d’utilisation de l’application ${BRAND}.`,

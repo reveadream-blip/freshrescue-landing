@@ -20,6 +20,7 @@ import Instructions from './pages/Instructions';
 import InstallRedirect from './pages/InstallRedirect';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
+import News from './pages/News';
 import CookieBanner from '@/components/CookieBanner';
 
 // --- NOUVEAUX IMPORTS POUR L'ADMIN ---
@@ -61,6 +62,7 @@ const AuthenticatedApp = () => {
     '/merchant', 
     '/', 
     '/explore',
+    '/actualites',
     '/instructions',
     '/install'
   ].includes(location.pathname)
@@ -84,6 +86,7 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Landing />} />
       <Route path="/install" element={<InstallRedirect />} />
       <Route path="/explore" element={<Explore />} />
+      <Route path="/actualites" element={<News />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/update-password" element={<UpdatePassword />} />

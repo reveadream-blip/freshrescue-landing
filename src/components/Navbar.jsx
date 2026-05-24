@@ -28,6 +28,15 @@ export default function Navbar() {
           {t('explore')}
         </Link>
 
+        <Link
+          to="/actualites"
+          className={`hidden md:block text-xs font-black uppercase italic tracking-widest transition-colors ${
+            location.pathname === '/actualites' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {t('navNews')}
+        </Link>
+
         {/* --- ROLLER DE LANGUE AVEC FOND NOIR --- */}
         <div className="relative flex-shrink-0 group">
           <select
