@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import { ExternalLink, Facebook } from 'lucide-react';
 
 import Navbar from '../components/Navbar';
 import { useTranslation } from '../lib/i18n';
@@ -66,15 +65,13 @@ export default function NewsArticle() {
 
       <main className="pt-28 pb-16 px-6 max-w-3xl mx-auto">
         <div className="mb-8">
-          {item.category ? (
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 border border-amber-600/40 px-2 py-1 rounded-sm">
-              {item.category}
-            </span>
-          ) : null}
-          <p className="mt-4 text-xs text-muted-foreground uppercase tracking-widest inline-flex items-center gap-2">
-            <Facebook className="w-3 h-3 text-citrus" aria-hidden />
-            Réseau Autonomie &amp; Solidarité · {formatNewsDate(item.date, lang)}
-          </p>
+          <time
+            dateTime={item.date}
+            className="text-xs font-bold uppercase tracking-widest text-citrus"
+          >
+            {formatNewsDate(item.date, lang)}
+          </time>
+          <p className="mt-2 text-xs text-muted-foreground">FreshRescue</p>
           <h1 className="mt-4 text-2xl sm:text-4xl font-black italic uppercase tracking-tight leading-snug">
             {title}
           </h1>
@@ -83,18 +80,7 @@ export default function NewsArticle() {
         <article className="rounded-2xl border border-white/10 bg-card/60 p-6 sm:p-8">
           <ArticleContent html={contentHtml} plain={contentHtml} />
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            {item.link ? (
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 border border-white/30 text-foreground font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:border-citrus hover:text-citrus transition"
-              >
-                Voir sur Facebook
-                <ExternalLink className="w-3 h-3 ml-2" aria-hidden />
-              </a>
-            ) : null}
+          <div className="mt-8">
             <Link
               to="/actualites"
               className="inline-flex items-center justify-center px-6 py-3 bg-citrus text-earth font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:opacity-90 transition"

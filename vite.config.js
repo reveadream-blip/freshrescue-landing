@@ -1,12 +1,26 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
+import { readFileSync, existsSync } from 'fs'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const fileEnv = loadEnv(mode, process.cwd(), '')
   const viteUrl = fileEnv.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL
   const viteKey = fileEnv.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
+
+  let siteUrl = fileEnv.VITE_SITE_URL || process.env.VITE_SITE_URL || ''
+  if (!siteUrl) {
+    try {
+      const cfgPath = path.resolve(process.cwd(), 'site.config.json')
+      if (existsSync(cfgPath)) {
+        const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'))
+        siteUrl = String(cfg.siteUrl || '').trim().replace(/\/$/, '')
+      }
+    } catch {
+      /* ignore */
+    }
+  }
 
   if (mode === 'production' && (!viteUrl || !viteKey)) {
     console.error(
@@ -24,8 +38,11 @@ export default defineConfig(({ mode }) => {
       ? {
           'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(viteUrl),
           'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(viteKey),
+          ...(siteUrl ? { 'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl) } : {}),
         }
-      : undefined
+      : siteUrl
+        ? { 'import.meta.env.VITE_SITE_URL': JSON.stringify(siteUrl) }
+        : undefined
 
   return {
     logLevel: 'info',

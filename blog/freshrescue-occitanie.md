@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Occitanie : publier et trouver des offres anti-gaspi localement"
 description: "En Occitanie, FreshRescue connecte les commerces de proximité et les consommateurs autour des invendus alimentaires disponibles pres d’eux."
 slug: "freshrescue-occitanie"
-region: "Occitanie"
-region: "Haute-Garonne, Herault, Gard"
+departments: "Haute-Garonne, Herault, Gard"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Occitanie : publier et trouver des offres anti-gaspi localement
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+En Occitanie, marchés du matin et commerces de centre historique laissent des invendus quand la chaleur accélère la maturation. FreshRescue alerte les clients à proximité avant la fermeture.
 
-## Comment FreshRescue fonctionne localement
+## Mode d’emploi
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Le commerçant photographie, fixe un prix flash et une heure de retrait. Les utilisateurs parcourent la carte autour de leur position.
 
-## Pour les commerçants
+## Côté pro
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Boulangeries, primeurs, traiteurs : réduire la casse de fin de journée tout en accueillant de nouveaux visages.
 
-## Pour les consommateurs
+## Côté client
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Profiter de produits encore frais sans commander un panier anonyme livré de loin.
 
-## Pourquoi cette approche est adaptée a Haute-Garonne, Herault, Gard
+## Occitanie
 
-A Haute-Garonne, Herault, Gard, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Villes moyennes et littoral : la diversité des commerces se prête bien à une carte d’offres géolocalisées.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Haute-Garonne, Herault, Gard, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Relier surplus et foyers voisins, rapidement.

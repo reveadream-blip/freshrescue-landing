@@ -1,35 +1,39 @@
 ---
 title: "FreshRescue.app pour les commerçants : transformer les invendus en clients locaux"
 description: "FreshRescue permet aux commerçants de publier leurs invendus en quelques minutes, sans commission, pour attirer des clients proches et limitér les pertes."
-slug: "freshrescue-commerçants"
+slug: "freshrescue-commercants"
 region: "France"
 audience: "Commerçants alimentaires"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app pour les commerçants : transformer les invendus en clients locaux
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+Vous fermez dans deux heures et il reste des baguettes, un plateau traiteur ou des fruits trop mûrs ? Avant de tout jeter, **FreshRescue** vous permet de publier une offre flash en quelques minutes, visible par les habitants dans un rayon que vous maîtrisez.
 
-## Comment FreshRescue fonctionne localement
+## Ce que vous publiez
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Une photo fidèle, un prix réduit et un créneau de retrait. Pas de catalogue à maintenir : une offre = un produit disponible maintenant.
 
-## Pour les commerçants
+## Ce que vous ne payez pas (pendant l’essai)
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Aucune commission sur la vente réalisée en caisse. L’objectif est de tester si de nouveaux clients passent la porte grâce à la visibilité sur la carte.
 
-## Pour les consommateurs
+## Ce que vous gardez
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+La relation en magasin, le paiement direct, la liberté d’annuler l’offre si tout est vendu avant l’heure prévue.
 
-## Pourquoi cette approche est adaptée a Commerçants alimentaires
+## Types de commerces
 
-A Commerçants alimentaires, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Boulangeries, épiceries, restaurants, primeurs, traiteurs : dès qu’il y a un surplus alimentaire consommable, FreshRescue peut servir de vitrine locale.
 
-## En résumé
+## Pourquoi nous avons conçu ça
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Commerçants alimentaires, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Les grandes plateformes prennent des commissions et imposent parfois la livraison. Nous préférons un outil simple qui renforce le commerce de quartier plutôt qu’un intermédiaire opaque.
+
+## Prochaine étape
+
+Créez votre espace commerçant, publiez une première offre en fin de journée et observez qui vient — souvent des voisins qui ne connaissaient pas encore votre enseigne.

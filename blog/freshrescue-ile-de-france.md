@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Ile-de-France : sauver les invendus alimentaires près de chez soi"
 description: "Comment FreshRescue aide les commerces d’Ile-de-France et leurs clients à publier, trouver et récupérer des invendus alimentaires à prix flash près de chez eux."
 slug: "freshrescue-ile-de-france"
-region: "Ile-de-France"
-region: "Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne"
+departments: "Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Ile-de-France : sauver les invendus alimentaires près de chez soi
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+En petite couronne comme en grande couronne, les invendus du jour finissent parfois à la benne faute de client à proximité. **FreshRescue.app** les affiche sur une carte locale pour que quelqu’un à quelques kilomètres puisse passer avant la fermeture.
 
-## Comment FreshRescue fonctionne localement
+## Le principe
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Photo, prix flash, heure limite de retrait : le commerçant publie, les habitants filtrent par zone. Le paiement se fait en boutique, ce qui évite les frais de plateforme et les annulations de dernière minute liées à la livraison.
 
-## Pour les commerçants
+## Commerces concernés
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Boulangeries de centre-bourg, restauration rapide en zone commerciale, primeurs et épiceries de quartier : autant de structures qui peuvent transformer un surplus en chiffre d’affaires additionnel plutôt qu’en perte sèche.
 
-## Pour les consommateurs
+## Pour les familles en IDF
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Les offres restent dans un rayon raisonnable (jusqu’à 30 km selon les réglages), ce qui limite les déplacements et encourage l’achat local plutôt que le tout-livré depuis un entrepôt lointain.
 
-## Pourquoi cette approche est adaptée a Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne
+## Spécificité francilienne
 
-À Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Entre pôles denses et communes plus résidentielles, les horaires de fermeture varient : la carte permet de voir ce qui est encore disponible maintenant, pas demain matin quand ce sera trop tard.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Une même application pour relier invendus et clients là où ils se croisent déjà au quotidien en Île-de-France.

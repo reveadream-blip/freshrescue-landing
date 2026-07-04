@@ -6,30 +6,34 @@ region: "France"
 audience: "Consommateurs"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app pour les consommateurs : trouver des offres anti-gaspi autour de soi
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+Vous cherchez un plat, des viennoiseries ou des fruits à prix réduit, sans parcourir dix sites différents ? **FreshRescue** regroupe les offres anti-gaspi des commerces autour de vous sur une seule carte.
 
-## Comment FreshRescue fonctionne localement
+## Comment trouver une offre
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Ouvrez la carte, zoomez sur votre quartier, lisez le prix flash et l’heure limite de retrait. Chaque point correspond à un vrai commerce, pas à un entrepôt anonyme.
 
-## Pour les commerçants
+## Comment récupérer
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Vous vous déplacez en boutique, vous payez sur place comme d’habitude. Pas de compte livraison ni de frais de service cachés sur le panier.
 
-## Pour les consommateurs
+## Pourquoi c’est différent d’une app nationale
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Pas de panier mystère : vous voyez la photo réelle et l’adresse exacte. Vous soutenez un commerçant local plutôt qu’une logistique centralisée.
 
-## Pourquoi cette approche est adaptée a Consommateurs
+## Bonnes habitudes
 
-A Consommateurs, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Vérifiez l’heure de retrait, prévoyez le trajet (vélo, marche, transport) et arrivez tant que l’offre est encore affichée — le premier arrivé est souvent servi.
 
-## En résumé
+## Impact
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Consommateurs, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Moins de nourriture jetée, plus de liens de quartier, un budget courses allégé sur des produits encore excellents.
+
+## Commencer
+
+Consultez la carte depuis l’accueil FreshRescue et repérez ce qui est disponible près de vous ce soir.

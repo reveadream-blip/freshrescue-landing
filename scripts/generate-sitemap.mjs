@@ -1,17 +1,10 @@
 /**
- * Après `vite build`, génère dist/sitemap.xml et dist/robots.txt (URLs absolues, requis par Google Search Console).
+ * Après `vite build`, génère dist/sitemap.xml et dist/robots.txt (URLs absolues).
  *
- * URL canonique (ordre) : VITE_SITE_URL → site.config.json → URL / DEPLOY_* (Cloudflare Pages, etc.).
+ * URL canonique : VITE_SITE_URL → site.config.json → URL / DEPLOY_* (Cloudflare).
  *
- * Pages indexées (aligné sur `src/App.jsx` + SEO indexable) :
- *   /, /explore, /actualites, /blog, /blog/:slug, /terms, /instructions, /install, /merchant
- *
- * Exclues du sitemap (noindex / zones privées) :
- *   /admin/*, /forgot-password, /update-password, /merchant/post, /merchant/edit/*, /merchant/setup
- *
- * Contenu :
- *   - pages statiques ci-dessous (+ lastmod = date de build)
- *   - articles blog depuis ../blog/*.md (lastmod = date front-matter si présente, hreflang selon lang)
+ * Pages indexées : /, /explore, /actualites, /actualites/:id, /blog, /blog/:slug, …
+ * Exclues : /admin/*, auth, merchant/post|edit|setup
  */
 import { writeFileSync, existsSync, readFileSync, readdirSync } from 'fs';
 import { resolve, dirname, basename } from 'path';
@@ -21,6 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const distDir = resolve(__dirname, '..', 'dist');
 const rootDir = resolve(__dirname, '..');
 const blogDir = resolve(rootDir, 'blog');
+const newsItemsPath = resolve(rootDir, 'src/data/newsItems.js');
 
 function readSiteConfigUrl() {
   try {
@@ -49,7 +43,7 @@ function pickBaseUrl() {
   return fromEnv || '';
 }
 
-/** Lit le front-matter YAML d'un fichier Markdown (pour recuperer slug + lang + date). */
+/** Lit le front-matter YAML d'un fichier Markdown. */
 function parseFrontMatter(raw) {
   const clean = raw.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
   const m = clean.match(/^---\n([\s\S]*?)\n---/);
@@ -65,7 +59,9 @@ function parseFrontMatter(raw) {
   return data;
 }
 
-/** Retourne la liste des articles de blog trouves dans blog/*.md. */
+/**
+ * Slug canonique = nom du fichier .md (aligné sur Blog.jsx / BlogArticle.jsx).
+ */
 function readBlogPosts() {
   if (!existsSync(blogDir)) return [];
   const files = readdirSync(blogDir).filter((f) => f.endsWith('.md'));
@@ -73,41 +69,70 @@ function readBlogPosts() {
     .map((file) => {
       const raw = readFileSync(resolve(blogDir, file), 'utf8');
       const data = parseFrontMatter(raw);
-      const slug = data.slug || basename(file, '.md');
+      const slug = basename(file, '.md');
       return {
         loc: `/blog/${slug}`,
         lastmod: data.date || undefined,
-        lang: data.lang || 'fr',
       };
     })
-    .sort((a, b) => a.loc.localeCompare(b.loc));
+    .sort((a, b) => {
+      const da = a.lastmod || '';
+      const db = b.lastmod || '';
+      if (da !== db) return db.localeCompare(da);
+      return a.loc.localeCompare(b.loc);
+    });
 }
 
-const base = pickBaseUrl();
+/** Pages actualités avec article interne (/actualites/:id). */
+function readNewsArticlePaths() {
+  if (!existsSync(newsItemsPath)) return [];
+  const raw = readFileSync(newsItemsPath, 'utf8');
+  const paths = new Set();
+  const re = /articleLink:\s*['"](\/actualites\/[^'"]+)['"]/g;
+  let m;
+  while ((m = re.exec(raw))) {
+    paths.add(m[1]);
+  }
+  return [...paths]
+    .sort()
+    .map((loc) => ({ loc, lastmod: undefined }));
+}
 
-const staticPaths = [
-  { loc: '/', priority: '1.0', changefreq: 'weekly' },
-  { loc: '/explore', priority: '0.9', changefreq: 'weekly' },
-  { loc: '/actualites', priority: '0.8', changefreq: 'weekly' },
-  { loc: '/blog', priority: '0.9', changefreq: 'weekly' },
-  { loc: '/terms', priority: '0.5', changefreq: 'monthly' },
-  { loc: '/instructions', priority: '0.6', changefreq: 'monthly' },
-  { loc: '/install', priority: '0.7', changefreq: 'monthly' },
-  { loc: '/merchant', priority: '0.7', changefreq: 'monthly' },
-];
+function escapeXml(text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
 
-function xmlUrl({ origin, loc, priority = '0.7', changefreq = 'monthly', lastmod, lang }) {
-  const locTag = `<loc>${origin}${loc === '/' ? '/' : loc}</loc>`;
+/** Encode chaque segment de chemin (accents, espaces). */
+function toAbsoluteUrl(origin, pathname) {
+  if (pathname === '/') return `${origin}/`;
+  const encoded = pathname
+    .split('/')
+    .map((seg) => (seg ? encodeURIComponent(seg) : ''))
+    .join('/');
+  return `${origin}${encoded}`;
+}
+
+function xmlUrl({ origin, loc, lastmod }) {
+  const abs = escapeXml(toAbsoluteUrl(origin, loc));
   const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
-  const hreflangTag = lang
-    ? `\n    <xhtml:link rel="alternate" hreflang="${lang}" href="${origin}${loc}" />`
-    : '';
-  return `  <url>
-    ${locTag}${lastmodTag}
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>${hreflangTag}
-  </url>`;
+  return `  <url>\n    <loc>${abs}</loc>${lastmodTag}\n  </url>`;
 }
+
+const STATIC_PATHS = [
+  '/',
+  '/explore',
+  '/actualites',
+  '/blog',
+  '/terms',
+  '/instructions',
+  '/install',
+  '/merchant',
+];
 
 function main() {
   if (!existsSync(distDir)) {
@@ -117,7 +142,7 @@ function main() {
 
   if (!base) {
     console.warn(
-      '[generate-sitemap] Aucune URL canonique : définis VITE_SITE_URL, ou remplis siteUrl dans site.config.json, ou build sur Cloudflare (URL). Placeholder utilisé — à corriger pour Google Search Console.'
+      '[generate-sitemap] Aucune URL canonique : définis VITE_SITE_URL ou siteUrl dans site.config.json.'
     );
   }
 
@@ -128,32 +153,24 @@ function main() {
     : new Date().toISOString().slice(0, 10);
 
   const blogPosts = readBlogPosts();
+  const newsPosts = readNewsArticlePaths();
+
+  const staticEntries = STATIC_PATHS.map((loc) =>
+    xmlUrl({ origin, loc, lastmod: buildLastmod })
+  );
+
+  const newsEntries = newsPosts.map((p) =>
+    xmlUrl({ origin, loc: p.loc, lastmod: p.lastmod || buildLastmod })
+  );
+
   const blogEntries = blogPosts.map((p) =>
-    xmlUrl({
-      origin,
-      loc: p.loc,
-      priority: '0.7',
-      changefreq: 'monthly',
-      lastmod: p.lastmod || buildLastmod,
-      lang: p.lang,
-    })
+    xmlUrl({ origin, loc: p.loc, lastmod: p.lastmod || buildLastmod })
   );
 
-  const staticEntries = staticPaths.map((p) =>
-    xmlUrl({
-      origin,
-      loc: p.loc,
-      priority: p.priority,
-      changefreq: p.changefreq,
-      lastmod: buildLastmod,
-    })
-  );
-
-  const urlEntries = [...staticEntries, ...blogEntries].join('\n');
+  const urlEntries = [...staticEntries, ...newsEntries, ...blogEntries].join('\n');
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urlEntries}
 </urlset>
 `;
@@ -163,6 +180,8 @@ Allow: /
 
 Disallow: /admin
 Disallow: /admin/
+Disallow: /forgot-password
+Disallow: /update-password
 Disallow: /merchant/post
 Disallow: /merchant/edit/
 Disallow: /merchant/setup
@@ -172,10 +191,12 @@ Sitemap: ${origin}/sitemap.xml
 
   writeFileSync(resolve(distDir, 'sitemap.xml'), sitemap, 'utf8');
   writeFileSync(resolve(distDir, 'robots.txt'), robots, 'utf8');
-  const total = staticPaths.length + blogPosts.length;
+
+  const total = STATIC_PATHS.length + newsPosts.length + blogPosts.length;
   console.log(
-    `[generate-sitemap] OK — ${total} URLs (${staticPaths.length} statiques + ${blogPosts.length} blog) → ${origin}/sitemap.xml`
+    `[generate-sitemap] OK — ${total} URLs (${STATIC_PATHS.length} statiques + ${newsPosts.length} actualités + ${blogPosts.length} blog) → ${origin}/sitemap.xml`
   );
 }
 
+const base = pickBaseUrl();
 main();

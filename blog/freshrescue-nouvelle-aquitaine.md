@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Nouvelle-Aquitaine : sauver les invendus près de chez vous"
 description: "FreshRescue accompagne les commerces de Nouvelle-Aquitaine avec une publication rapide des offres et une récupération simple en boutique."
 slug: "freshrescue-nouvelle-aquitaine"
-region: "Nouvelle-Aquitaine"
-region: "Gironde, Pyrenees-Atlantiques, Charente-Maritime"
+departments: "Gironde, Pyrenees-Atlantiques, Charente-Maritime"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Nouvelle-Aquitaine : sauver les invendus près de chez vous
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+De la côte atlantique au Limousin, les commerces alimentaires jettent encore trop d’invendus faute de visibilité. FreshRescue centralise les offres du moment sur une carte régionale lisible.
 
-## Comment FreshRescue fonctionne localement
+## Principe
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Chaque offre indique où aller, combien payer et jusqu’à quand. Pas de surprise : le produit est celui de la photo, récupéré chez le commerçant.
 
-## Pour les commerçants
+## Commerçants
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Restaurants, primeurs, boulangeries de village ou de zone commerciale : tous peuvent essayer la plateforme avec un mois sans commission sur les ventes en magasin.
 
-## Pour les consommateurs
+## Consommateurs
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Manger local, payer moins, limiter les kilomètres inutiles.
 
-## Pourquoi cette approche est adaptée a Gironde, Pyrenees-Atlantiques, Charente-Maritime
+## Nouvelle-Aquitaine
 
-A Gironde, Pyrenees-Atlantiques, Charente-Maritime, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Territoire vaste mais habité de nombreux bourgs : le filtre par distance évite les fausses promesses de livraison lointaine.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Gironde, Pyrenees-Atlantiques, Charente-Maritime, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Une vitrine locale pour les surplus alimentaires du jour.

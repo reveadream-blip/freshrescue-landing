@@ -94,9 +94,14 @@ export default function BlogArticle() {
       <div className="min-h-screen flex items-center justify-center bg-earth text-white">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Article introuvable</h1>
-          <Link to="/blog" className="text-citrus hover:underline">
-            ← Retour au blog
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link to="/" className="text-citrus hover:underline">
+              ← Retour à l'accueil
+            </Link>
+            <Link to="/blog" className="text-citrus hover:underline">
+              ← Retour au blog
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -112,12 +117,20 @@ export default function BlogArticle() {
     <div className="min-h-screen bg-earth text-white" lang={lang}>
       <header className="border-b border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent">
         <div className="max-w-3xl mx-auto px-6 py-10">
-          <Link
-            to="/blog"
-            className="inline-flex items-center text-sm text-white/60 hover:text-citrus transition"
-          >
-            {t.allArticles}
-          </Link>
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <Link
+              to="/"
+              className="inline-flex items-center text-white/60 hover:text-citrus transition"
+            >
+              {t.backHome}
+            </Link>
+            <Link
+              to="/blog"
+              className="inline-flex items-center text-white/60 hover:text-citrus transition"
+            >
+              {t.allArticles}
+            </Link>
+          </nav>
           <div className="flex flex-wrap items-center gap-3 mt-6 text-xs">
             {(data.department || data.region || data.audience) && (
               <span className="px-2.5 py-1 rounded-full bg-citrus/15 text-citrus font-semibold">
@@ -204,6 +217,12 @@ export default function BlogArticle() {
         </article>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            to="/"
+            className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/10 text-sm font-medium text-white hover:border-citrus hover:text-citrus transition"
+          >
+            {t.backHome}
+          </Link>
           <Link
             to="/blog"
             className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/10 text-sm font-medium text-white hover:border-citrus hover:text-citrus transition"

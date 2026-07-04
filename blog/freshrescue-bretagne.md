@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Bretagne : une carte anti-gaspi pour les commerces locaux"
 description: "En Bretagne, FreshRescue met en avant les invendus des commerces de proximité et aide les habitants a consommer malin localement."
 slug: "freshrescue-bretagne"
-region: "Bretagne"
-region: "Ille-et-Vilaine, Finistere, Morbihan, Cotes-d Armor"
+departments: "Ille-et-Vilaine, Finistere, Morbihan, Cotes-d Armor"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Bretagne : une carte anti-gaspi pour les commerces locaux
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+En Bretagne, poissons du jour, légumes de marée et viennoiseries de bord de mer méritent une seconde vie. FreshRescue met ces surplus en avant sur une carte que les habitants consultent avant de sortir du travail.
 
-## Comment FreshRescue fonctionne localement
+## Sur le marché ou en boutique
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Le producteur ou le commerçant annonce ce qui reste : prix réduit, créneau de retrait clair. Le client vient sur place, souvent à pied ou en vélo, et règle en caisse comme pour un achat classique.
 
-## Pour les commerçants
+## Pour les commerces bretons
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Crêperies, poissonneries, primeurs des Lices à Rennes ou épiceries de port : chacun peut tester la publication sans engagement long, avec un mois d’essai sans commission sur les ventes en magasin.
 
 ## Pour les consommateurs
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+On découvre des adresses de quartier, on mange mieux sans gaspiller et on soutient l’économie locale — surtout en saison touristique quand les stocks bougent vite.
 
-## Pourquoi cette approche est adaptée a Ille-et-Vilaine, Finistere, Morbihan, Cotes-d Armor
+## L’atout breton
 
-A Ille-et-Vilaine, Finistere, Morbihan, Cotes-d Armor, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Les liens courts entre producteurs, marchés et villages font de la récupération sur place une évidence. La carte FreshRescue s’inscrit dans cette logique de circuit court.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Ille-et-Vilaine, Finistere, Morbihan, Cotes-d Armor, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Moins de perte en fin de journée, plus de visibilité pour les commerces qui nourrissent la région.

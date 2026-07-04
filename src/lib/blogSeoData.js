@@ -2,6 +2,8 @@
  * SEO pour les pages blog (hors seoConfig.js pour éviter import.meta.glob côté scripts Node).
  */
 
+import { shortBlogSeoTitle, truncateMeta } from './seoUtils';
+
 const BRAND = 'FreshRescue';
 
 const rawArticles = import.meta.glob('../../blog/*.md', {
@@ -56,11 +58,13 @@ export function getBlogPageSeo(normalized) {
   if (normalized === '/blog') {
     return {
       title: `Blog — ${BRAND}`,
-      description:
-        'Articles FreshRescue par région, département et usage : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.',
+      description: truncateMeta(
+        'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et commerçants près de chez vous.'
+      ),
       robots: 'index, follow',
       jsonLd: null,
       ogLocale: 'fr_FR',
+      h1: 'Blog FreshRescue',
     };
   }
 
@@ -77,10 +81,16 @@ export function getBlogPageSeo(normalized) {
     data.description ||
     `Article ${BRAND} : anti-gaspillage alimentaire et offres près de chez vous.`;
   const lang = data.lang || 'fr';
+  const h1 = (title || '')
+    .replace(/^FreshRescue\.app dans la r[eé]gion /, '')
+    .replace(/^FreshRescue\.app dans le département /, '')
+    .replace(/^FreshRescue\.app pour les /, '')
+    .replace(/^FreshRescue\.app /, '');
 
   return {
-    title,
-    description,
+    title: shortBlogSeoTitle(data),
+    description: truncateMeta(description),
+    h1: h1 || title,
     robots: 'index, follow',
     jsonLd: null,
     ogLocale: OG_LOCALE_BY_LANG[lang] || 'fr_FR',

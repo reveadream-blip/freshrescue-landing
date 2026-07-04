@@ -13,8 +13,13 @@ export default function InstallRedirect() {
   }, [navigate]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-earth text-muted-foreground">
-      <p className="text-sm font-medium">FreshRescue…</p>
+    <div className="flex min-h-screen items-center justify-center bg-earth text-muted-foreground px-6 text-center">
+      <div>
+        <h1 className="text-xl font-black uppercase italic text-foreground mb-2">
+          Installer FreshRescue
+        </h1>
+        <p className="text-sm font-medium">Redirection…</p>
+      </div>
     </div>
   );
 }

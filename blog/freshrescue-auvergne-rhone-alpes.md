@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Auvergne-Rhone-Alpes : une carte locale contre le gaspillage"
 description: "FreshRescue aide les commerces d Auvergne-Rhone-Alpes à publier leurs surplus et les consommateurs a trouver des offres proches, sans paiement en ligne obligatoire."
 slug: "freshrescue-auvergne-rhone-alpes"
-region: "Auvergne-Rhone-Alpes"
-region: "Rhone, Isere, Haute-Savoie, Loire"
+departments: "Rhone, Isere, Haute-Savoie, Loire"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Auvergne-Rhone-Alpes : une carte locale contre le gaspillage
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+Dans la région Auvergne-Rhône-Alpes, des Alpes à la plaine, les commerces alimentaires cherchent des solutions simples pour écouler les surplus. FreshRescue propose une carte unifiée sans imposer de livraison.
 
-## Comment FreshRescue fonctionne localement
+## Principe
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Publier, géolocaliser, récupérer en magasin. Le modèle respecte le rythme du commerçant et celui du client.
 
-## Pour les commerçants
+## Professionnels
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Fromageries, boulangeries, restos de station : réduire la casse quand la clientèle fluctue (saison ski, événements locaux).
 
-## Pour les consommateurs
+## Particuliers
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Voir ce qui est disponible près de chez soi ou sur le trajet du retour.
 
-## Pourquoi cette approche est adaptée a Rhone, Isere, Haute-Savoie, Loire
+## Région
 
-A Rhone, Isere, Haute-Savoie, Loire, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Relief et dispersion des communes : le filtre distance évite les déplacements absurdes.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Rhone, Isere, Haute-Savoie, Loire, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Anti-gaspi pensé pour des territoires variés, avec une même simplicité d’usage.

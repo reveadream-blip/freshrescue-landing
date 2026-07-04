@@ -1,8 +1,10 @@
 import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getSiteUrl } from '@/lib/siteUrl';
+import { canonicalUrl } from '@/lib/seoUtils';
 import { getSeoForPath, SEO_DEFAULT_OG_IMAGE } from '@/lib/seoConfig';
 import { getBlogPageSeo } from '@/lib/blogSeoData';
+import { getNewsPageSeo } from '@/lib/newsSeoData';
 
 function setMeta(attrName, value, useProperty = false) {
   const attr = useProperty ? 'property' : 'name';
@@ -45,9 +47,12 @@ export default function Seo() {
     const base = getSiteUrl();
     const pathOnly = pathname.split('?')[0] || '/';
     const canonicalPath = pathOnly.endsWith('/') && pathOnly.length > 1 ? pathOnly.slice(0, -1) : pathOnly;
-    const canonical = base ? `${base}${canonicalPath === '/' ? '/' : canonicalPath}` : '';
+    const canonical = canonicalUrl(base, canonicalPath);
 
-    const seo = getBlogPageSeo(canonicalPath) || getSeoForPath(pathname);
+    const seo =
+      getBlogPageSeo(canonicalPath) ||
+      getNewsPageSeo(canonicalPath) ||
+      getSeoForPath(pathname);
 
     document.title = seo.title;
 

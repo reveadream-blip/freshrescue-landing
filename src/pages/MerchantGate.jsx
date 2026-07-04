@@ -113,9 +113,10 @@ export default function MerchantGate() {
           {t('backToHome')}
         </Link>
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-black uppercase italic leading-none text-foreground">
-            {isLogin ? t('login') : t('signup')}
-          </h2>
+          <h1 className="text-4xl font-black uppercase italic leading-none text-foreground">
+            {t('merchantLogin')}
+          </h1>
+          <p className="sr-only">{isLogin ? t('login') : t('signup')}</p>
           <p className="text-muted-foreground text-[10px] mt-2 font-bold uppercase tracking-tighter">
             {step === 'email' ? t('merchantLogin') : t('verifyEmail')}
           </p>

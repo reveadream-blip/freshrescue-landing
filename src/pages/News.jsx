@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { ExternalLink, Facebook, Newspaper } from 'lucide-react';
+import { Newspaper } from 'lucide-react';
 
 import Navbar from '../components/Navbar';
 
@@ -97,43 +97,12 @@ export default function News() {
             >
 
               <div className="flex flex-wrap items-center gap-3 mb-4">
-
-                {item.category ? (
-
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-500 border border-amber-600/40 px-2 py-1 rounded-sm">
-
-                    {item.category}
-
-                  </span>
-
-                ) : null}
-
-                {(item.link || item.category) ? (
-
-                  <span className="text-[10px] text-muted-foreground uppercase tracking-widest inline-flex items-center gap-1">
-
-                    <Facebook className="w-3 h-3 text-citrus" aria-hidden />
-
-                    Réseau Autonomie &amp; Solidarité
-
-                  </span>
-
-                ) : (
-
-                  <time
-
-                    dateTime={item.date}
-
-                    className="text-xs font-bold uppercase tracking-widest text-citrus"
-
-                  >
-
-                    {formatNewsDate(item.date, lang)}
-
-                  </time>
-
-                )}
-
+                <time
+                  dateTime={item.date}
+                  className="text-xs font-bold uppercase tracking-widest text-citrus"
+                >
+                  {formatNewsDate(item.date, lang)}
+                </time>
               </div>
 
               <h2 className="text-xl sm:text-2xl font-black italic uppercase text-foreground leading-snug">
@@ -148,55 +117,6 @@ export default function News() {
 
               </p>
 
-              {(item.articleLink || item.link) ? (
-
-                <div className="mt-6 flex flex-col sm:flex-row gap-3">
-
-                  {item.articleLink ? (
-                    item.articleLink.startsWith('/') ? (
-                      <Link
-                        to={item.articleLink}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-citrus text-earth font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:opacity-90 transition"
-                      >
-                        Lire l'article
-                      </Link>
-                    ) : (
-                      <a
-                        href={item.articleLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-6 py-3 bg-citrus text-earth font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:opacity-90 transition"
-                      >
-                        Lire l'article
-                      </a>
-                    )
-                  ) : null}
-
-                  {item.link ? (
-
-                    <a
-
-                      href={item.link}
-
-                      target="_blank"
-
-                      rel="noopener noreferrer"
-
-                      className="inline-flex items-center justify-center px-6 py-3 border border-white/30 text-foreground font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:border-citrus hover:text-citrus transition"
-
-                    >
-
-                      Voir sur Facebook
-
-                      <ExternalLink className="w-3 h-3 ml-2" aria-hidden />
-
-                    </a>
-
-                  ) : null}
-
-                </div>
-
-              ) : null}
 
             </article>
 

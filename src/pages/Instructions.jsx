@@ -94,6 +94,18 @@ const Instructions = () => {
           {activeLang === 'de' ? 'Zurück' : activeLang === 'ru' ? 'Назад' : activeLang === 'en' ? 'Back' : 'Retour'}
         </Button>
 
+        <h1 className="text-2xl font-black text-white uppercase italic mb-8">
+          {activeLang === 'de'
+            ? 'Anleitung FreshRescue'
+            : activeLang === 'en'
+            ? 'FreshRescue instructions'
+            : activeLang === 'it'
+            ? 'Istruzioni FreshRescue'
+            : activeLang === 'ru'
+            ? 'Инструкции FreshRescue'
+            : 'Instructions FreshRescue'}
+        </h1>
+
         {/* SECTION COMMERÇANT */}
         <div className="mb-10">
           <div className="flex items-center gap-2 mb-4">

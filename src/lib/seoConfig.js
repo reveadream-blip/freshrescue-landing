@@ -4,12 +4,34 @@
 
 const BRAND = 'FreshRescue';
 
+function truncateMeta(text, maxLen = 160) {
+  const clean = String(text || '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (clean.length <= maxLen) return clean;
+  return `${clean.slice(0, maxLen - 1).trimEnd()}…`;
+}
+
 export const SEO_DEFAULT_OG_IMAGE = '/logo512.png';
 
 const HOME = {
   title: `${BRAND} — App anti-gaspillage alimentaire`,
-  description:
-    'FreshRescue : sauvez les invendus près de chez vous. Application anti-gaspillage, carte locale, offres anti-gaspi à prix flash pour les particuliers et les commerçants.',
+  description: truncateMeta(
+    'FreshRescue : sauvez les invendus près de chez vous. Application anti-gaspillage, carte locale et offres anti-gaspi à prix flash.'
+  ),
+  h1: 'Anti-gaspillage alimentaire. Près de chez vous.',
+};
+
+/** Titre visible recommandé pour le H1 (audit SEO / crawlers). */
+export const PAGE_H1 = {
+  '/': HOME.h1,
+  '/explore': 'Carte des offres anti-gaspi près de chez vous',
+  '/actualites': 'Actualités FreshRescue',
+  '/blog': 'Blog FreshRescue',
+  '/terms': 'Conditions générales d’utilisation',
+  '/instructions': 'Instructions commerçants et clients',
+  '/install': 'Installer l’application FreshRescue',
+  '/merchant': 'Espace commerçant FreshRescue',
 };
 
 const PAGES = {
@@ -21,8 +43,15 @@ const PAGES = {
   },
   '/actualites': {
     title: `Actualités — ${BRAND}`,
-    description:
-      'Actualités FreshRescue : lancements, partenariats commerçants et initiatives anti-gaspillage alimentaire près de chez vous.',
+    description: truncateMeta(
+      'Actualités FreshRescue : lancements, partenariats commerçants et initiatives anti-gaspillage près de chez vous.'
+    ),
+  },
+  '/blog': {
+    title: `Blog — ${BRAND}`,
+    description: truncateMeta(
+      'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.'
+    ),
   },
   '/terms': {
     title: `Conditions d’utilisation — ${BRAND}`,
@@ -95,9 +124,10 @@ export function getSeoForPath(pathname) {
     const entry = PAGES[normalized];
     return {
       title: entry.title,
-      description: entry.description,
+      description: truncateMeta(entry.description),
       robots: entry.robots || 'index, follow',
       jsonLd: normalized === '/' ? 'home' : null,
+      h1: PAGE_H1[normalized] || entry.title.replace(/\s*—\s*FreshRescue\s*$/i, ''),
     };
   }
 

@@ -2,34 +2,33 @@
 title: "FreshRescue.app dans la région Grand Est : offres locales et anti-gaspillage"
 description: "Dans le Grand Est, FreshRescue rend les offres invendues visibles sur une carte locale pour simplifier la récupération en magasin."
 slug: "freshrescue-grand-est"
-region: "Grand Est"
-region: "Bas-Rhin, Haut-Rhin, Moselle, Marne"
+departments: "Bas-Rhin, Haut-Rhin, Moselle, Marne"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans la région Grand Est : offres locales et anti-gaspillage
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+Du Bas-Rhin à la Marne, boulangeries alsaciennes et épiceries de centre-ville génèrent des invendus dès que la météo ou le calendrier décalent la fréquentation. FreshRescue les rend visibles en temps réel sur une carte régionale.
 
-## Comment FreshRescue fonctionne localement
+## Fonctionnement
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Une offre = une photo honnête, un prix flash, une heure de retrait. Les clients proches passent en boutique ; le commerçant encaisse comme d’habitude et évite le gaspillage en fin de journée.
 
-## Pour les commerçants
+## Commerçants
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Traiteurs, boulangers, restaurateurs et primeurs peuvent publier depuis leur smartphone dès qu’ils constatent un surplus, sans refonte de caisse ni contrat opaque.
 
-## Pour les consommateurs
+## Consommateurs
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Comparer les offres du moment, choisir selon son trajet domicile-travail et récupérer des produits encore parfaitement consommables.
 
-## Pourquoi cette approche est adaptée a Bas-Rhin, Haut-Rhin, Moselle, Marne
+## Contexte Grand Est
 
-A Bas-Rhin, Haut-Rhin, Moselle, Marne, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Frontière, marchés de Noël, zones rurales et villes moyennes : les habitudes d’achat diffèrent, mais le besoin de proximité reste le même. Une carte locale répond mieux qu’un agrégateur national générique.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Bas-Rhin, Haut-Rhin, Moselle, Marne, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Relier invendus et clients sur le territoire, sans complexifier la vente en magasin.

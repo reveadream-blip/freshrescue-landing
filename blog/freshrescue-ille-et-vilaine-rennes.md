@@ -6,30 +6,30 @@ region: "Bretagne"
 department: "Ille-et-Vilaine"
 lang: "fr"
 date: "2026-05-08"
-author: "L’équipe FreshRescue"
+author: "David"
 tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local", "prix flash"]
 ---
 
 # FreshRescue.app dans le département Ille-et-Vilaine : offres anti-gaspi a Rennes
 
-Le gaspillage alimentaire concerne tous les territoires : centres-villes, quartiers résidentiels, zones commerciales, marchés, villages et commerces de proximité. Chaque jour, des produits encore consommables restent invendus alors qu’ils pourraient intéresser des clients situés à quelques minutes. **FreshRescue.app** répond à ce problème avec une logique simple : rendre les offres visibles localement, au bon moment, et faciliter la récupération en boutique.
+À Rennes et en Ille-et-Vilaine, le rythme des marchés (dont les Lices) laisse parfois des stocks invendus le samedi soir. FreshRescue permet de les proposer immédiatement aux habitants dans un rayon court.
 
-## Comment FreshRescue fonctionne localement
+## Comment publier
 
-Le commerçant publie une offre avec une photo, un prix flash et une heure limité de récupération. Les clients consultent la carte, reperent les offres proches, puis viennent récupérer et payer sur place. Cette approche évite les tunnels compliques, réduit les frictions et garde la relation commerciale dans le magasin.
+Photo, prix, heure limite : trois champs suffisent. L’offre apparaît sur la carte ; les clients viennent récupérer et paient sur place.
 
-## Pour les commerçants
+## Commerces
 
-FreshRescue aide les boulangeries, restaurants, épiceries, traiteurs, primeurs et commerces alimentaires à transformer un invendu en opportunité. Une offre publiée rapidement peut generer une visite supplémentaire, faire découvrir un commerce de quartier et limitér les pertes de fin de journée.
+Boulangeries, fromageries, traiteurs et restos de centre : ils gagnent une visite de plus au lieu de jeter des produits encore bons.
 
-## Pour les consommateurs
+## Consommateurs rennais
 
-Les utilisateurs voient les offres disponibles autour d’eux, comparent les prix flash et choisissent ce qu’ils peuvent récupérer à temps. C’est une façon simple de consommer mieux, de soutenir les commerces locaux et de réduire le gaspillage sans changer radicalement ses habitudes.
+Idéal pour compléter le panier du week-end ou réagir à une offre vue en sortant du bureau.
 
-## Pourquoi cette approche est adaptée a Ille-et-Vilaine
+## Spécificité locale
 
-A Ille-et-Vilaine, les habitudes d’achat varient selon les quartiers, les horaires et les types de commerces. Une carte locale permet de creer un lien direct entre l’offre disponible et la personne capable de venir la chercher rapidement. FreshRescue met donc l accent sur la proximité, la simplicite et la visibilité immédiate.
+Ville étudiante et pôle numérique : les habitants sont à l’aise avec une carte mobile, mais l’achat reste bien ancré en commerce physique — c’est le cœur du modèle FreshRescue.
 
-## En résumé
+## En bref
 
-FreshRescue n’est pas limité a une frontière : l’objectif est de connecter les invendus et les clients là où ils se trouvent. Pour Ille-et-Vilaine, cela signifie moins de gaspillage, plus de visibilité pour les commerces et des offres utiles pour les habitants.
+Anti-gaspi local, sans intermédiaire de livraison.
