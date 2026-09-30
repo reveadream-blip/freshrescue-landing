@@ -207,6 +207,10 @@ const translations = {
     freezable: "Congelabile",
     // Footer
     footerTagline: "Anti-spreco alimentare · dagli invenduti alle opportunità.",
+    partnerLabel: "Partner",
+    partnerRestaurantsDesChefsDesc:
+      "Restaurants des Chefs elenca chef privati, caterer, tavole Top Chef e ristoranti stellati in Francia. Un’annuario indipendente per trovare e contattare i professionisti della tavola, in sintonia con lo spirito locale di FreshRescue.",
+    partnerReadNews: "Leggi l'articolo",
     footerRights: "Tutti i diritti riservati.",
     footerTerms: "Termini e Condizioni",
     footerBlog: "Blog",
@@ -476,6 +480,10 @@ const translations = {
     freezable: "Freezable",
     // Footer
     footerTagline: "Anti-food waste locally — turning surplus into opportunity.",
+    partnerLabel: "Partner",
+    partnerRestaurantsDesChefsDesc:
+      "Restaurants des Chefs lists private chefs, caterers, Top Chef tables and starred restaurants across France. An independent directory to find and contact culinary professionals — in the same local spirit as FreshRescue.",
+    partnerReadNews: "Read the article",
     footerRights: "All rights reserved.",
     footerTerms: "Terms & Conditions",
     footerBlog: "Blog",
@@ -747,6 +755,10 @@ const translations = {
     freezable: "Congelable",
     // Footer
     footerTagline: "Anti-gaspillage alimentaire · des invendus à l’opportunité.",
+    partnerLabel: "Partenaire",
+    partnerRestaurantsDesChefsDesc:
+      "Restaurants des Chefs recense les chefs privés, traiteurs, tables Top Chef et restaurants étoilés en France. Un annuaire indépendant pour trouver et contacter les professionnels de la table — dans le même esprit local que FreshRescue.",
+    partnerReadNews: "Lire l'actualité",
     footerRights: "Tous droits réservés.",
     footerTerms: "Conditions Générales (CGU)",
     footerBlog: "Blog",
@@ -1010,6 +1022,10 @@ const translations = {
     freezable: "Einfrierbar",
     // Footer
     footerTagline: "Anti-Waste · aus Überschüssen werden Chancen.",
+    partnerLabel: "Partner",
+    partnerRestaurantsDesChefsDesc:
+      "Restaurants des Chefs listet private Köche, Caterer, Top-Chef-Tische und Sternerestaurants in Frankreich. Ein unabhängiges Verzeichnis, um kulinarische Profis zu finden und zu kontaktieren — im gleichen lokalen Geist wie FreshRescue.",
+    partnerReadNews: "Artikel lesen",
     footerRights: "Alle Rechte vorbehalten.",
     footerTerms: "Allgemeine Geschäftsbedingungen",
     footerBlog: "Blog",
@@ -1278,6 +1294,10 @@ const translations = {
     freezable: "замораживаемый",
     // Footer
     footerTagline: "Против пищевых отходов в Швейцарии — излишки в возможности.",
+    partnerLabel: "Партнёр",
+    partnerRestaurantsDesChefsDesc:
+      "Restaurants des Chefs — каталог частных шефов, кейтеринга, ресторанов Top Chef и мишленовских заведений во Франции. Независимый справочник, чтобы находить и связываться с профессионалами — в том же локальном духе, что и FreshRescue.",
+    partnerReadNews: "Читать новость",
     footerRights: "Все права защищены.",
     footerTerms: "Условия использования",
     footerBlog: "Блог",

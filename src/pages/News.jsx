@@ -88,11 +88,13 @@ export default function News() {
 
           {items.map((item) => (
 
-            <article
+            <Link
 
               key={item.id}
 
-              className="rounded-2xl border border-white/10 bg-card/60 p-6 sm:p-8 transition-colors hover:border-citrus/40 hover:bg-card/80"
+              to={`/actualites/${item.id}`}
+
+              className="block rounded-2xl border border-white/10 bg-card/60 p-6 sm:p-8 transition-colors hover:border-citrus/40 hover:bg-card/80"
 
             >
 
@@ -117,8 +119,7 @@ export default function News() {
 
               </p>
 
-
-            </article>
+            </Link>
 
           ))}
 

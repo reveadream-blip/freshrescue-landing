@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { 
   CheckCircle, ArrowRight, Zap, MapPin, 
-  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
+  TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe, ExternalLink 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 
@@ -477,6 +477,44 @@ export default function Landing() {
               </Link>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="px-6 pb-20" aria-labelledby="partner-heading">
+        <div className="max-w-6xl mx-auto">
+          <div className="rounded-3xl border border-stem/30 bg-gradient-to-br from-stem/10 via-card/40 to-citrus/5 px-6 py-10 md:px-10 md:py-12">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-stem mb-3">
+              {t('partnerLabel')}
+            </p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+              <div className="max-w-2xl">
+                <h2 id="partner-heading" className="text-2xl md:text-3xl font-black italic uppercase tracking-tight text-foreground">
+                  Restaurants des Chefs
+                </h2>
+                <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+                  {t('partnerRestaurantsDesChefsDesc')}
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+                <a
+                  href="https://restaurantsdeschefs.fr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-stem text-earth px-6 py-3 rounded-full font-black text-sm uppercase tracking-wide hover:scale-105 transition-transform"
+                >
+                  restaurantsdeschefs.fr
+                  <ExternalLink className="w-4 h-4" aria-hidden />
+                </a>
+                <Link
+                  to="/actualites/partenariat-restaurants-des-chefs"
+                  className="inline-flex items-center justify-center gap-2 border border-white/15 bg-white/5 text-foreground px-6 py-3 rounded-full font-bold text-sm hover:border-citrus/50 hover:text-citrus transition-colors"
+                >
+                  {t('partnerReadNews')}
+                  <ArrowRight className="w-4 h-4" aria-hidden />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

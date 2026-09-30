@@ -88,9 +88,15 @@ function readNewsArticlePaths() {
   if (!existsSync(newsItemsPath)) return [];
   const raw = readFileSync(newsItemsPath, 'utf8');
   const paths = new Set();
-  const re = /articleLink:\s*['"](\/actualites\/[^'"]+)['"]/g;
+  // Format actuel : id: 'slug'  →  /actualites/slug
+  const idRe = /\bid:\s*['"]([a-z0-9-]+)['"]/g;
   let m;
-  while ((m = re.exec(raw))) {
+  while ((m = idRe.exec(raw))) {
+    paths.add(`/actualites/${m[1]}`);
+  }
+  // Ancien format éventuel : articleLink: '/actualites/...'
+  const linkRe = /articleLink:\s*['"](\/actualites\/[^'"]+)['"]/g;
+  while ((m = linkRe.exec(raw))) {
     paths.add(m[1]);
   }
   return [...paths]
