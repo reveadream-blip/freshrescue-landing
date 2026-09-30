@@ -88,7 +88,7 @@ export default function AdminDashboard() {
   const [pushSending, setPushSending] = useState(false);
   const [pushFeedback, setPushFeedback] = useState(null);
 
-  /** null | { id, form } — édition commerçant (admin) */
+  /** null | { id, form } : édition commerçant (admin) */
   const [merchantEditing, setMerchantEditing] = useState(null);
 
   const fetchAdminData = useCallback(async () => {
@@ -576,7 +576,7 @@ export default function AdminDashboard() {
                   const end = s.end_date || s.current_period_end || s.renewal_date;
                   return (
                     <tr key={s.id} className="hover:bg-muted/30">
-                      <td className="px-6 py-4 font-bold text-foreground">{m?.shop_name || '—'}</td>
+                      <td className="px-6 py-4 font-bold text-foreground">{m?.shop_name || '-'}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`rounded-lg px-2 py-1 text-[10px] font-black uppercase ${
@@ -592,7 +592,7 @@ export default function AdminDashboard() {
                         {Number(s.amount || 0).toLocaleString(adminLocale)} {t('currencyCHF')}
                       </td>
                       <td className="px-6 py-4 text-muted-foreground">
-                        {end ? new Date(end).toLocaleDateString(adminLocale) : '—'}
+                        {end ? new Date(end).toLocaleDateString(adminLocale) : '-'}
                       </td>
                     </tr>
                   );
@@ -651,7 +651,7 @@ export default function AdminDashboard() {
                         />
                       </td>
                       <td className="max-w-[220px] px-4 py-3 font-bold text-foreground">{getOfferTitle(o, t)}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{m?.shop_name || '—'}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{m?.shop_name || '-'}</td>
                       <td className="px-4 py-3 font-bold text-citrus">
                         {o.discount_price} {t('currencyCHF')}
                       </td>

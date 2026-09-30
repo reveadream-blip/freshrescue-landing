@@ -28,7 +28,7 @@ Pas de panier mystère : vous voyez la photo réelle et l’adresse exacte. Vous
 
 ## Bonnes habitudes
 
-Vérifiez l’heure de retrait, prévoyez le trajet (vélo, marche, transport) et arrivez tant que l’offre est encore affichée — le premier arrivé est souvent servi.
+Vérifiez l’heure de retrait, prévoyez le trajet (vélo, marche, transport) et arrivez tant que l’offre est encore affichée. le premier arrivé est souvent servi.
 
 ## Impact
 

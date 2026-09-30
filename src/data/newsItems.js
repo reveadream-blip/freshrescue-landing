@@ -1,57 +1,50 @@
 /**
- * Actualités FreshRescue — contenu multilingue (fr, en, it, de, ru).
+ * Actualités FreshRescue (fr, en, it, de, ru).
  */
 export const NEWS_ITEMS = [
   {
     id: 'partenariat-restaurants-des-chefs',
     date: '2026-09-30',
     title: {
-      fr: 'Partenariat : FreshRescue × Restaurants des Chefs',
-      en: 'Partnership: FreshRescue × Restaurants des Chefs',
-      it: 'Partnership: FreshRescue × Restaurants des Chefs',
-      de: 'Partnerschaft: FreshRescue × Restaurants des Chefs',
-      ru: 'Партнёрство: FreshRescue × Restaurants des Chefs',
+      fr: 'On s’associe à Restaurants des Chefs',
+      en: 'We’re teaming up with Restaurants des Chefs',
+      it: 'Collaboriamo con Restaurants des Chefs',
+      de: 'Wir arbeiten mit Restaurants des Chefs zusammen',
+      ru: 'Мы начинаем сотрудничество с Restaurants des Chefs',
     },
     excerpt: {
-      fr: 'FreshRescue s’associe à restaurantsdeschefs.fr, l’annuaire des chefs privés, traiteurs et tables Top Chef / étoilées, pour renforcer le réseau local de la gastronomie responsable.',
-      en: 'FreshRescue partners with restaurantsdeschefs.fr — the directory of private chefs, caterers and Top Chef / starred tables — to strengthen the local responsible-gastronomy network.',
-      it: 'FreshRescue si allea con restaurantsdeschefs.fr, l’annuario di chef privati, caterer e tavole Top Chef / stellate, per rafforzare la rete locale della gastronomia responsabile.',
-      de: 'FreshRescue arbeitet mit restaurantsdeschefs.fr zusammen — dem Verzeichnis privater Köche, Caterer und Top-Chef-/Sternetische —, um das lokale Netzwerk verantwortungsvoller Gastronomie zu stärken.',
-      ru: 'FreshRescue сотрудничает с restaurantsdeschefs.fr — каталогом частных шефов, кейтеринга и ресторанов Top Chef / со звёздами — чтобы усилить локальную сеть ответственной гастрономии.',
+      fr: 'FreshRescue et restaurantsdeschefs.fr se donnent un coup de main: eux pour trouver un chef ou une table, nous pour les invendus près de chez vous.',
+      en: 'FreshRescue and restaurantsdeschefs.fr are helping each other out: they help you find a chef or a restaurant, we help with surplus food nearby.',
+      it: 'FreshRescue e restaurantsdeschefs.fr si danno una mano: loro per trovare uno chef o un tavolo, noi per gli invenduti vicino a te.',
+      de: 'FreshRescue und restaurantsdeschefs.fr helfen einander: sie bei der Suche nach Koch oder Restaurant, wir bei Überschüssen in der Nähe.',
+      ru: 'FreshRescue и restaurantsdeschefs.fr помогают друг другу: они помогают найти шефа или ресторан, мы помогаем спасти непроданные продукты рядом.',
     },
     contentHtml: {
-      fr: `<p>FreshRescue annonce un partenariat éditorial et de visibilité avec <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
-<p>Restaurants des Chefs est un annuaire indépendant qui recense les <strong>chefs privés et à domicile</strong>, les <strong>traiteurs</strong>, les <strong>tables Top Chef</strong> et les <strong>restaurants étoilés</strong> en France. Sur sa carte, on cherche une ville, une région ou un nom de chef, puis on ouvre la fiche pour contacter le professionnel directement.</p>
-<p>Ce rapprochement a du sens : FreshRescue aide les commerces alimentaires à sauver leurs invendus près de chez vous, tandis que Restaurants des Chefs met en lumière les talents de la table. Ensemble, nous voulons faciliter la découverte d’acteurs locaux — du panier anti-gaspi du soir à la cuisine d’un chef privé.</p>
-<p><strong>Ce que ça change pour vous</strong></p>
-<ul>
-<li>Une mention partenaire sur la page d’accueil FreshRescue, avec lien vers l’annuaire.</li>
-<li>Une audience croisée pour les lecteurs intéressés par la gastronomie locale et le circuit court.</li>
-<li>Deux outils complémentaires, sans confusion : FreshRescue pour les offres anti-gaspi, Restaurants des Chefs pour trouver et contacter un chef ou une table.</li>
-</ul>
-<p>Découvrez l’annuaire : <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">https://restaurantsdeschefs.fr</a></p>`,
-      en: `<p>FreshRescue announces an editorial and visibility partnership with <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
-<p>Restaurants des Chefs is an independent directory of <strong>private and home chefs</strong>, <strong>caterers</strong>, <strong>Top Chef tables</strong> and <strong>starred restaurants</strong> in France. Search by city, region or chef name on the map, then open a profile to get in touch directly.</p>
-<p>The fit is natural: FreshRescue helps food businesses rescue surplus near you, while Restaurants des Chefs showcases culinary talent. Together we make it easier to discover local players — from an evening anti-waste basket to a private chef’s kitchen.</p>
-<p><strong>What this means for you</strong></p>
-<ul>
-<li>A partner mention on the FreshRescue home page, linking to the directory.</li>
-<li>Cross-audience for readers who care about local gastronomy and short supply chains.</li>
-<li>Two complementary tools: FreshRescue for anti-waste offers, Restaurants des Chefs to find and contact a chef or restaurant.</li>
-</ul>
-<p>Browse the directory: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">https://restaurantsdeschefs.fr</a></p>`,
-      it: `<p>FreshRescue annuncia una partnership editoriale e di visibilità con <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
-<p>Restaurants des Chefs è un annuario indipendente di <strong>chef privati e a domicilio</strong>, <strong>caterer</strong>, <strong>tavole Top Chef</strong> e <strong>ristoranti stellati</strong> in Francia. Sulla mappa si cerca una città, una regione o un nome, poi si apre la scheda per contattare il professionista.</p>
-<p>L’affinità è chiara: FreshRescue aiuta i negozi alimentari a salvare gli invenduti vicino a te, mentre Restaurants des Chefs valorizza i talenti della tavola. Insieme vogliamo facilitare la scoperta di attori locali.</p>
-<p>Scopri l’annuario: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">https://restaurantsdeschefs.fr</a></p>`,
-      de: `<p>FreshRescue kündigt eine redaktionelle Sichtbarkeitspartnerschaft mit <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>) an.</p>
-<p>Restaurants des Chefs ist ein unabhängiges Verzeichnis für <strong>private und Hausköche</strong>, <strong>Caterer</strong>, <strong>Top-Chef-Tische</strong> und <strong>Sternerestaurants</strong> in Frankreich. Auf der Karte sucht man Stadt, Region oder Namen und öffnet die Profilseite zum direkten Kontakt.</p>
-<p>Die Ergänzung liegt nahe: FreshRescue hilft Lebensmittelgeschäften, Überschüsse in Ihrer Nähe zu retten; Restaurants des Chefs macht kulinarische Talente sichtbar. Gemeinsam erleichtern wir die Entdeckung lokaler Akteure.</p>
-<p>Zum Verzeichnis: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">https://restaurantsdeschefs.fr</a></p>`,
-      ru: `<p>FreshRescue объявляет о партнёрстве с <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
-<p>Restaurants des Chefs — независимый каталог <strong>частных и домашних шефов</strong>, <strong>кейтеринга</strong>, <strong>ресторанов Top Chef</strong> и <strong>заведений со звёздами</strong> во Франции. На карте ищут город, регион или имя шефа и открывают карточку для прямого контакта.</p>
-<p>Смысл союза прост: FreshRescue помогает спасать непроданные продукты рядом с вами, а Restaurants des Chefs показывает кулинарные таланты. Вместе мы упрощаем поиск локальных игроков.</p>
-<p>Каталог: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">https://restaurantsdeschefs.fr</a></p>`,
+      fr: `<p>Petite news: on travaille désormais avec <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
+<p>Leur site liste des chefs privés, des traiteurs, des tables Top Chef et des restos étoilés en France. Tu cherches une ville ou un nom, tu ouvres la fiche, tu contactes. Simple.</p>
+<p>De notre côté, FreshRescue sert à écouler les invendus du coin. Eux parlent cuisine et restos, nous parlons paniers du soir et anti-gaspi. Ça se croise bien.</p>
+<p>Concrètement, tu trouveras leur logo en bas de notre page d’accueil, une page Partenaires, et ce petit article. Et un lien vers leur annuaire si tu veux peaufiner un repas ou trouver un chef.</p>
+<p>Le site: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a></p>`,
+      en: `<p>Quick update: we’re now working with <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
+<p>Their site lists private chefs, caterers, Top Chef tables and starred restaurants in France. Search a city or a name, open the page, get in touch.</p>
+<p>FreshRescue is about surplus food nearby. They’re about chefs and restaurants. Same idea of local food, different angle.</p>
+<p>You’ll see their logo on our home page, a Partners page, and this note. Plus a link to their directory if you need a chef or a table.</p>
+<p>Here it is: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a></p>`,
+      it: `<p>Novità: collaboriamo con <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
+<p>Il loro sito elenca chef privati, caterer, tavole Top Chef e ristoranti stellati in Francia. Cerchi città o nome, apri la scheda, contatti.</p>
+<p>FreshRescue serve a salvare gli invenduti vicini. Loro parlano di cucina e ristoranti. Stessa idea di cibo locale, angolo diverso.</p>
+<p>Troverai il loro logo in home, una pagina Partner e questo articolo, con il link all’annuario.</p>
+<p>Il sito: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a></p>`,
+      de: `<p>Kurzes Update: Wir arbeiten jetzt mit <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>) zusammen.</p>
+<p>Auf ihrer Seite findest du Privatköche, Caterer, Top-Chef-Tische und Sternerestaurants in Frankreich. Stadt oder Name suchen, Profil öffnen, Kontakt aufnehmen.</p>
+<p>FreshRescue rettet Überschüsse in der Nähe. Sie zeigen Köche und Restaurants. Beides lokal, nur anders herum.</p>
+<p>Ihr Logo steht auf unserer Startseite, dazu eine Partner-Seite und dieser Text, mit Link zum Verzeichnis.</p>
+<p>Hier entlang: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a></p>`,
+      ru: `<p>Коротко: мы теперь вместе с <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
+<p>У них каталог частных шефов, кейтеринга, ресторанов Top Chef и заведений со звёздами во Франции. Ищете город или имя, открываете карточку, пишете.</p>
+<p>FreshRescue про непроданные продукты рядом. Они про шефов и рестораны. Одна тема (еда рядом), разный угол.</p>
+<p>Их логотип на главной, страница «Партнёры» и эта заметка, со ссылкой на каталог.</p>
+<p>Сайт: <a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a></p>`,
     },
   },
   {
@@ -65,11 +58,11 @@ export const NEWS_ITEMS = [
       ru: 'FreshRescue: платформа против пищевых отходов запущена',
     },
     excerpt: {
-      fr: 'Découvrez les offres anti-gaspi près de chez vous sur la carte interactive et rejoignez les commerçants qui sauvent leurs invendus.',
-      en: 'Discover anti-waste offers near you on the interactive map and join merchants saving their surplus food.',
-      it: 'Scopri le offerte anti-spreco vicino a te sulla mappa interattiva e unisciti ai commercianti che salvano gli invenduti.',
-      de: 'Entdecken Sie Anti-Verschwendungs-Angebote in Ihrer Nähe auf der interaktiven Karte und schließen Sie sich Händlern an, die ihre Überschüsse retten.',
-      ru: 'Находите предложения против пищевых отходов рядом с вами на интерактивной карте и присоединяйтесь к магазинам, которые спасают непроданные товары.',
+      fr: 'Les offres anti-gaspi apparaissent sur la carte près de chez vous. Les commerçants y mettent leurs invendus.',
+      en: 'Anti-waste offers show up on the map near you. Merchants post their surplus there.',
+      it: 'Le offerte anti-spreco appaiono sulla mappa vicino a te. I negozi ci mettono gli invenduti.',
+      de: 'Anti-Waste-Angebote erscheinen auf der Karte in Ihrer Nähe. Händler stellen dort ihre Überschüsse ein.',
+      ru: 'Предложения против пищевых отходов появляются на карте рядом с вами. Магазины выкладывают туда непроданные товары.',
     },
   },
   {
@@ -83,11 +76,11 @@ export const NEWS_ITEMS = [
       ru: '1 месяц бесплатно для партнёрских магазинов',
     },
     excerpt: {
-      fr: 'Les boulangeries, épiceries et restaurants peuvent publier leurs invendus sans commission sur les ventes pendant leur période d’essai.',
-      en: 'Bakeries, grocery stores and restaurants can post surplus items with zero commission on sales during their trial period.',
-      it: 'Panetterie, negozi e ristoranti possono pubblicare gli invenduti senza commissioni sulle vendite durante il periodo di prova.',
-      de: 'Bäckereien, Lebensmittelgeschäfte und Restaurants können Überschüsse ohne Verkaufsprovision während der Testphase veröffentlichen.',
-      ru: 'Пекарни, магазины и рестораны могут публиковать непроданные товары без комиссии с продаж в пробный период.',
+      fr: 'Boulangeries, épiceries, restos : publiez vos invendus pendant l’essai, sans commission sur les ventes.',
+      en: 'Bakeries, grocery stores, restaurants: post surplus during the trial, no commission on sales.',
+      it: 'Panetterie, negozi, ristoranti: pubblicate gli invenduti durante la prova, senza commissioni sulle vendite.',
+      de: 'Bäckereien, Läden, Restaurants: Überschüsse in der Testphase veröffentlichen, ohne Verkaufsprovision.',
+      ru: 'Пекарни, магазины, рестораны: публикуйте непроданные товары в пробный период без комиссии с продаж.',
     },
   },
   {
@@ -101,11 +94,11 @@ export const NEWS_ITEMS = [
       ru: 'Локальные предложения в радиусе 30 км',
     },
     excerpt: {
-      fr: 'FreshRescue privilégie le circuit court : chaque offre est visible par les habitants du quartier, pour limiter les trajets et le gaspillage.',
-      en: 'FreshRescue favours short supply chains: each offer is visible to people nearby, cutting travel and waste.',
-      it: 'FreshRescue privilegia il corto circuito: ogni offerta è visibile alle persone vicine, per ridurre spostamenti e spreco.',
-      de: 'FreshRescue setzt auf kurze Wege: Jedes Angebot ist für Menschen in der Nähe sichtbar — weniger Fahrten, weniger Verschwendung.',
-      ru: 'FreshRescue поддерживает короткие цепочки: каждое предложение видно жителям поблизости — меньше поездок и меньше отходов.',
+      fr: 'On reste local : chaque offre est visible autour de chez vous, pour limiter les trajets et le gaspillage.',
+      en: 'We keep it local: each offer is visible nearby, so less travel and less waste.',
+      it: 'Restiamo locali: ogni offerta è visibile vicino a te, meno spostamenti e meno spreco.',
+      de: 'Wir bleiben lokal: Jedes Angebot ist in der Nähe sichtbar, weniger Fahrten, weniger Verschwendung.',
+      ru: 'Держимся локально: каждое предложение видно рядом с вами, меньше поездок и меньше отходов.',
     },
   },
 ];

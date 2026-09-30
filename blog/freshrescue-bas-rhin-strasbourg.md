@@ -12,7 +12,7 @@ tags: ["FreshRescue", "anti-gaspillage", "invendus", "France", "commerce local",
 
 # FreshRescue.app dans le département Bas-Rhin : anti-gaspi a Strasbourg
 
-À Strasbourg et dans le Bas-Rhin, la tradition du marché et la proximité avec l’Allemagne créent une offre alimentaire riche — et parfois des invendus en fin de journée. FreshRescue aide à les écouler vite, à deux pas du client.
+À Strasbourg et dans le Bas-Rhin, la tradition du marché et la proximité avec l’Allemagne créent une offre alimentaire riche. et parfois des invendus en fin de journée. FreshRescue aide à les écouler vite, à deux pas du client.
 
 ## En pratique
 

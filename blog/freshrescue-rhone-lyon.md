@@ -32,4 +32,4 @@ Densité urbaine et culture gastronomique : la récupération sur place est plus
 
 ## En bref
 
-Des offres utiles, ici, maintenant — pas demain.
+Des offres utiles, ici, maintenant. pas demain.

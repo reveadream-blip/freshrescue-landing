@@ -21,7 +21,7 @@ export function trialDaysRemaining(trialStartIso, trialDays = TRIAL_DAYS) {
 
 /**
  * Abonnement payant actif : période non expirée, ou abonnement Stripe récurrent encore actif côté statut.
- * @param {Record<string, unknown>|null|undefined} profile — ligne merchants
+ * @param {Record<string, unknown>|null|undefined} profile : ligne merchants
  */
 export function hasActivePaidSubscription(profile) {
   if (!profile) return false;

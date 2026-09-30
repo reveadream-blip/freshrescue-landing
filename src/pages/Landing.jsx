@@ -8,7 +8,7 @@ import { useTranslation } from '../lib/i18n';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 
-/** Visuels « Comment ça marche » — fichiers dans `public/images/how/` */
+/** Visuels « Comment ça marche » : fichiers dans `public/images/how/` */
 const howImg = (file) => `${import.meta.env.BASE_URL}images/how/${file}`;
 const HOW_STEP1_IMG = howImg('step-01.png');
 const HOW_STEP2_IMG = howImg('step-02.png');
@@ -41,7 +41,7 @@ export default function Landing() {
     });
   }, []);
 
-  /** Lien /?install=1 (ex. QR) : même flux que le bandeau — scroll + ouverture de la boîte d’installation si le navigateur l’autorise */
+  /** Lien /?install=1 (ex. QR) : même flux que le bandeau, scroll + ouverture de la boîte d’installation si le navigateur l’autorise */
   useEffect(() => {
     if (!installFromQr) return;
     const scroll = () =>
@@ -505,7 +505,7 @@ export default function Landing() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-white rounded-xl px-6 py-5 shadow-sm hover:shadow-md transition-shadow"
-              aria-label="Restaurants des Chefs — restaurantsdeschefs.fr"
+              aria-label="Restaurants des Chefs (restaurantsdeschefs.fr)"
             >
               <img
                 src={`${import.meta.env.BASE_URL}images/partners/restaurantsdeschefs.png`}

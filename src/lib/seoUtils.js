@@ -28,7 +28,7 @@ export function canonicalUrl(origin, pathname) {
 export function shortBlogSeoTitle(data) {
   const region = data.region || data.department || data.audience;
   if (region) {
-    return truncateTitle(`${region} — anti-gaspi | FreshRescue`, 60);
+    return truncateTitle(`${region} · anti-gaspi | FreshRescue`, 60);
   }
   const raw = (data.title || '').replace(/^FreshRescue\.app[^:]*:\s*/i, '');
   return truncateTitle(raw ? `${raw} | FreshRescue` : 'Blog | FreshRescue', 60);

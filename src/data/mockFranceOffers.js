@@ -1,5 +1,5 @@
 /**
- * Offres démo France — 2 annonces par grande/moyenne ville.
+ * Offres démo France: 2 annonces par grande/moyenne ville.
  *
  * Reprend la même structure que `mockSwissOffers.js` (templates communs,
  * helper de coordonnées) afin que la carte / la liste / la SafeOfferImage

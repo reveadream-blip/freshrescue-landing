@@ -187,7 +187,7 @@ export default function Blog() {
 
       <footer className="border-t border-white/10 mt-16">
         <div className="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-white/50">
-          {articles.length} articles · FreshRescue.app — l'application anti-gaspillage
+          {articles.length} articles · FreshRescue.app, l'application anti-gaspillage
         </div>
       </footer>
     </div>

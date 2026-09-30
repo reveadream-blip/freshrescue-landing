@@ -28,7 +28,7 @@ Idéal pour compléter le panier du week-end ou réagir à une offre vue en sort
 
 ## Spécificité locale
 
-Ville étudiante et pôle numérique : les habitants sont à l’aise avec une carte mobile, mais l’achat reste bien ancré en commerce physique — c’est le cœur du modèle FreshRescue.
+Ville étudiante et pôle numérique : les habitants sont à l’aise avec une carte mobile, mais l’achat reste bien ancré en commerce physique. c’est le cœur du modèle FreshRescue.
 
 ## En bref
 

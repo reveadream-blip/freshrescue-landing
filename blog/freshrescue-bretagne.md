@@ -23,7 +23,7 @@ Crêperies, poissonneries, primeurs des Lices à Rennes ou épiceries de port : 
 
 ## Pour les consommateurs
 
-On découvre des adresses de quartier, on mange mieux sans gaspiller et on soutient l’économie locale — surtout en saison touristique quand les stocks bougent vite.
+On découvre des adresses de quartier, on mange mieux sans gaspiller et on soutient l’économie locale. surtout en saison touristique quand les stocks bougent vite.
 
 ## L’atout breton
 

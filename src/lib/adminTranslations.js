@@ -108,7 +108,7 @@ export const adminTranslations = {
     adminDeleteError: 'DELETE:',
     adminDeleteZeroRows: 'DELETE: 0 rows (often blocked by RLS).',
     adminDeleteOfferHint:
-      '\n\n— Deploy Edge Function: supabase functions deploy admin-delete-offer\n— Or SQL: Supabase → SQL Editor, file supabase/migrations/20260417120000_admin_offers_rls.sql then Run. Try again.',
+      '\n\n- Deploy Edge Function: supabase functions deploy admin-delete-offer\n- Or SQL: Supabase → SQL Editor, file supabase/migrations/20260417120000_admin_offers_rls.sql then Run. Try again.',
     adminLatLngInvalid: 'Invalid latitude / longitude.',
     adminMerchantSaveFailed: 'Could not save.',
     adminMerchantSaveHint: 'Run migration supabase/migrations/20260417140000_admin_merchants_rls.sql in the SQL Editor.',
@@ -116,7 +116,7 @@ export const adminTranslations = {
     adminMerchantGeneric: 'this merchant',
     adminDeleteMerchantFailedLine: 'Could not delete.',
     adminDeleteMerchantHint:
-      '\n\n— Deploy: supabase functions deploy admin-delete-merchant\n— Or SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
+      '\n\n- Deploy: supabase functions deploy admin-delete-merchant\n- Or SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
     adminDeleteZeroRowsMerchant: 'DELETE: 0 rows (RLS or FK constraint).',
     adminPushNeedTitleMessage: 'Enter a title and a message.',
     adminPushDraftSaved: 'Draft saved to history.',
@@ -126,7 +126,7 @@ export const adminTranslations = {
     adminDataSubscriptions: 'subscriptions',
     adminDataPushHistory: 'push history',
     adminUnknownError: 'Unknown error',
-    adminRelanceMailSubject: 'FreshRescue — follow-up {{shop}}',
+    adminRelanceMailSubject: 'FreshRescue | follow-up {{shop}}',
     adminRelanceMailBody:
       'Hello,\n\nWe noticed little activity on FreshRescue. Need help publishing an anti-food-waste offer?\n\nRegards,\nFreshRescue team',
     adminCat_bakery: 'Bakery',
@@ -241,7 +241,7 @@ export const adminTranslations = {
     adminDeleteError: 'DELETE :',
     adminDeleteZeroRows: 'DELETE : 0 ligne (souvent bloqué par RLS).',
     adminDeleteOfferHint:
-      '\n\n— Déploie l’Edge Function : supabase functions deploy admin-delete-offer\n— Ou SQL : Supabase → SQL Editor, fichier supabase/migrations/20260417120000_admin_offers_rls.sql puis « Run ». Réessaie ensuite la suppression.',
+      '\n\n- Déploie l’Edge Function : supabase functions deploy admin-delete-offer\n- Ou SQL : Supabase → SQL Editor, fichier supabase/migrations/20260417120000_admin_offers_rls.sql puis « Run ». Réessaie ensuite la suppression.',
     adminLatLngInvalid: 'Latitude / longitude invalides.',
     adminMerchantSaveFailed: 'Enregistrement impossible.',
     adminMerchantSaveHint: 'Exécute la migration supabase/migrations/20260417140000_admin_merchants_rls.sql dans le SQL Editor.',
@@ -249,7 +249,7 @@ export const adminTranslations = {
     adminMerchantGeneric: 'ce commerçant',
     adminDeleteMerchantFailedLine: 'Suppression impossible.',
     adminDeleteMerchantHint:
-      '\n\n— Déploie : supabase functions deploy admin-delete-merchant\n— Ou SQL : supabase/migrations/20260417140000_admin_merchants_rls.sql',
+      '\n\n- Déploie : supabase functions deploy admin-delete-merchant\n- Ou SQL : supabase/migrations/20260417140000_admin_merchants_rls.sql',
     adminDeleteZeroRowsMerchant: 'DELETE : 0 ligne (RLS ou contrainte FK).',
     adminPushNeedTitleMessage: 'Renseignez un titre et un message.',
     adminPushDraftSaved: 'Brouillon enregistré dans l’historique.',
@@ -259,7 +259,7 @@ export const adminTranslations = {
     adminDataSubscriptions: 'abonnements',
     adminDataPushHistory: 'historique push',
     adminUnknownError: 'Erreur inconnue',
-    adminRelanceMailSubject: 'FreshRescue — relance {{shop}}',
+    adminRelanceMailSubject: 'FreshRescue | relance {{shop}}',
     adminRelanceMailBody:
       'Bonjour,\n\nNous avons remarqué peu d’activité sur FreshRescue. Besoin d’aide pour publier une offre anti-gaspillage ?\n\nCordialement,\nÉquipe FreshRescue',
     adminCat_bakery: 'Boulangerie',
@@ -374,7 +374,7 @@ export const adminTranslations = {
     adminDeleteError: 'DELETE:',
     adminDeleteZeroRows: 'DELETE: 0 righe (spesso bloccato da RLS).',
     adminDeleteOfferHint:
-      '\n\n— Distribuisci Edge Function: supabase functions deploy admin-delete-offer\n— Oppure SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
+      '\n\n- Distribuisci Edge Function: supabase functions deploy admin-delete-offer\n- Oppure SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
     adminLatLngInvalid: 'Latitudine / longitudine non valide.',
     adminMerchantSaveFailed: 'Impossibile salvare.',
     adminMerchantSaveHint: 'Esegui la migration supabase/migrations/20260417140000_admin_merchants_rls.sql nel SQL Editor.',
@@ -382,7 +382,7 @@ export const adminTranslations = {
     adminMerchantGeneric: 'questo commerciante',
     adminDeleteMerchantFailedLine: 'Impossibile eliminare.',
     adminDeleteMerchantHint:
-      '\n\n— Distribuisci: supabase functions deploy admin-delete-merchant\n— Oppure SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
+      '\n\n- Distribuisci: supabase functions deploy admin-delete-merchant\n- Oppure SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
     adminDeleteZeroRowsMerchant: 'DELETE: 0 righe (RLS o vincolo FK).',
     adminPushNeedTitleMessage: 'Inserisci titolo e messaggio.',
     adminPushDraftSaved: 'Bozza salvata nella cronologia.',
@@ -392,7 +392,7 @@ export const adminTranslations = {
     adminDataSubscriptions: 'abbonamenti',
     adminDataPushHistory: 'cronologia push',
     adminUnknownError: 'Errore sconosciuto',
-    adminRelanceMailSubject: 'FreshRescue — sollecito {{shop}}',
+    adminRelanceMailSubject: 'FreshRescue | sollecito {{shop}}',
     adminRelanceMailBody:
       'Ciao,\n\nAbbiamo notato poca attività su FreshRescue. Ti serve aiuto per pubblicare un’offerta anti-spreco?\n\nCordiali saluti,\nTeam FreshRescue',
     adminCat_bakery: 'Panetteria',
@@ -507,7 +507,7 @@ export const adminTranslations = {
     adminDeleteError: 'DELETE:',
     adminDeleteZeroRows: 'DELETE: 0 Zeilen (oft durch RLS blockiert).',
     adminDeleteOfferHint:
-      '\n\n— Edge Function deployen: supabase functions deploy admin-delete-offer\n— Oder SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
+      '\n\n- Edge Function deployen: supabase functions deploy admin-delete-offer\n- Oder SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
     adminLatLngInvalid: 'Ungültige Breite / Länge.',
     adminMerchantSaveFailed: 'Speichern nicht möglich.',
     adminMerchantSaveHint: 'Migration supabase/migrations/20260417140000_admin_merchants_rls.sql im SQL Editor ausführen.',
@@ -515,7 +515,7 @@ export const adminTranslations = {
     adminMerchantGeneric: 'diesen Händler',
     adminDeleteMerchantFailedLine: 'Löschen nicht möglich.',
     adminDeleteMerchantHint:
-      '\n\n— Deploy: supabase functions deploy admin-delete-merchant\n— Oder SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
+      '\n\n- Deploy: supabase functions deploy admin-delete-merchant\n- Oder SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
     adminDeleteZeroRowsMerchant: 'DELETE: 0 Zeilen (RLS oder FK).',
     adminPushNeedTitleMessage: 'Titel und Nachricht eingeben.',
     adminPushDraftSaved: 'Entwurf im Verlauf gespeichert.',
@@ -525,7 +525,7 @@ export const adminTranslations = {
     adminDataSubscriptions: 'Abonnements',
     adminDataPushHistory: 'Push-Verlauf',
     adminUnknownError: 'Unbekannter Fehler',
-    adminRelanceMailSubject: 'FreshRescue — Nachfass {{shop}}',
+    adminRelanceMailSubject: 'FreshRescue | Nachfass {{shop}}',
     adminRelanceMailBody:
       'Hallo,\n\nwir haben wenig Aktivität auf FreshRescue bemerkt. Brauchen Sie Hilfe beim Veröffentlichen eines Anti-Waste-Angebots?\n\nMit freundlichen Grüßen,\nTeam FreshRescue',
     adminCat_bakery: 'Bäckerei',
@@ -640,7 +640,7 @@ export const adminTranslations = {
     adminDeleteError: 'DELETE:',
     adminDeleteZeroRows: 'DELETE: 0 строк (часто RLS).',
     adminDeleteOfferHint:
-      '\n\n— Разверните Edge Function: supabase functions deploy admin-delete-offer\n— Или SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
+      '\n\n- Разверните Edge Function: supabase functions deploy admin-delete-offer\n- Или SQL: supabase/migrations/20260417120000_admin_offers_rls.sql',
     adminLatLngInvalid: 'Неверная широта / долгота.',
     adminMerchantSaveFailed: 'Не удалось сохранить.',
     adminMerchantSaveHint: 'Выполните миграцию supabase/migrations/20260417140000_admin_merchants_rls.sql в SQL Editor.',
@@ -648,7 +648,7 @@ export const adminTranslations = {
     adminMerchantGeneric: 'этого продавца',
     adminDeleteMerchantFailedLine: 'Не удалось удалить.',
     adminDeleteMerchantHint:
-      '\n\n— Разверните: supabase functions deploy admin-delete-merchant\n— Или SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
+      '\n\n- Разверните: supabase functions deploy admin-delete-merchant\n- Или SQL: supabase/migrations/20260417140000_admin_merchants_rls.sql',
     adminDeleteZeroRowsMerchant: 'DELETE: 0 строк (RLS или FK).',
     adminPushNeedTitleMessage: 'Укажите заголовок и сообщение.',
     adminPushDraftSaved: 'Черновик сохранён в истории.',
@@ -658,7 +658,7 @@ export const adminTranslations = {
     adminDataSubscriptions: 'подписки',
     adminDataPushHistory: 'история push',
     adminUnknownError: 'Неизвестная ошибка',
-    adminRelanceMailSubject: 'FreshRescue — напоминание {{shop}}',
+    adminRelanceMailSubject: 'FreshRescue | напоминание {{shop}}',
     adminRelanceMailBody:
       'Здравствуйте,\n\nМы заметили мало активности в FreshRescue. Нужна помощь с публикацией предложения против отходов?\n\nС уважением,\nКоманда FreshRescue',
     adminCat_bakery: 'Пекарня',

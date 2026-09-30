@@ -8,7 +8,7 @@
  *   3) Fallback : analyse de `navigator.language` (`fr-FR`, `fr-BE`, `fr-LU`…).
  *   4) Défaut : 'FR' (marché francophone principal).
  *
- * NOTE : volontairement *non* utilisé pour le SEO côté Googlebot — les balises
+ * NOTE : volontairement *non* utilisé pour le SEO côté Googlebot : les balises
  *        meta et JSON-LD restent stables. Ce module sert l'UI dynamique
  *        (devise, mentions visibles, options pays-spécifiques).
  */
@@ -17,7 +17,7 @@ const CACHE_KEY = 'freshrescue_country_v3';
 const DEFAULT_COUNTRY = 'FR';
 
 /** Liste des pays où l'app a une couverture opérée (carte centrée, offres mock).
- *  Le pays détecté reste brut (ex. "TH") — ce set sert seulement à identifier
+ *  Le pays détecté reste brut (ex. "TH") : ce set sert seulement à identifier
  *  les visiteurs hors zone pour `getOperatedCountry`. */
 const OPERATED_COUNTRIES = new Set([
   'FR', 'CH', 'BE', 'LU', 'DE', 'IT', 'ES', 'GB', 'PT', 'NL', 'AT',
@@ -197,7 +197,7 @@ const COUNTRY_NAMES = {
  * Nom localisé d'un pays. Priorité :
  *   1) Liste curatée (orthographe maîtrisée pour les marchés opérés).
  *   2) `Intl.DisplayNames` (couvre tous les codes ISO-3166 dans toutes les
- *      langues supportées par l'OS — y compris Thaïlande, Japon, etc.).
+ *      langues supportées par l'OS : y compris Thaïlande, Japon, etc.).
  *   3) Code brut (FR, TH…) en dernier recours.
  */
 export function getCountryName(country = getCountrySync(), lang = 'fr') {

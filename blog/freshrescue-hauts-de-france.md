@@ -15,7 +15,7 @@ Dans les Hauts-de-France, boulangeries et épiceries de centre-bourg connaissent
 
 ## Mécanisme
 
-Photo, prix flash, heure de retrait — le client vient chercher sur place.
+Photo, prix flash, heure de retrait. le client vient chercher sur place.
 
 ## Commerces
 

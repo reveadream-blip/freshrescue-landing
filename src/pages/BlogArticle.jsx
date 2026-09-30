@@ -52,7 +52,7 @@ const UI = {
     download: "Télécharger FreshRescue →",
     notFound: 'Article introuvable',
     backBlog: '← Retour au blog',
-    footer: "FreshRescue.app — l'application anti-gaspillage",
+    footer: "FreshRescue.app, l'application anti-gaspillage",
   },
   de: {
     backHome: '← Zurück zur Startseite',
@@ -61,7 +61,7 @@ const UI = {
     download: 'FreshRescue herunterladen →',
     notFound: 'Artikel nicht gefunden',
     backBlog: '← Zurück zum Blog',
-    footer: 'FreshRescue.app — die Anti-Food-Waste-App',
+    footer: 'FreshRescue.app, die Anti-Food-Waste-App',
   },
   it: {
     backHome: '← Torna alla home',
@@ -70,7 +70,7 @@ const UI = {
     download: 'Scarica FreshRescue →',
     notFound: 'Articolo non trovato',
     backBlog: '← Torna al blog',
-    footer: "FreshRescue.app — l'app antispreco",
+    footer: "FreshRescue.app, l'app antispreco",
   },
 };
 

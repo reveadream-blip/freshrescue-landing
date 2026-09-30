@@ -16,7 +16,7 @@ export const DEFAULT_PHOTO_BY_CATEGORY = {
   meat: `https://images.unsplash.com/photo-1600891964092-4316c288032e${Q}`,
   seafood: `https://images.unsplash.com/photo-1519708227418-c5fd843a0aeb${Q}`,
   beverages: `https://images.unsplash.com/photo-1544145945-f90425340c7e${Q}`,
-  /** Chocolats / confiseries — URL stable (évite icône image cassée). */
+  /** Chocolats / confiseries : URL stable (évite icône image cassée). */
   other: `https://images.unsplash.com/photo-1549007994-cb92caebd54b${Q}`,
 };
 

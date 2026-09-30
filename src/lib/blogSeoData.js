@@ -57,7 +57,7 @@ const OG_LOCALE_BY_LANG = {
 export function getBlogPageSeo(normalized) {
   if (normalized === '/blog') {
     return {
-      title: `Blog — ${BRAND}`,
+      title: `Blog | ${BRAND}`,
       description: truncateMeta(
         'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et commerçants près de chez vous.'
       ),
@@ -76,7 +76,7 @@ export function getBlogPageSeo(normalized) {
   if (!raw) return null;
 
   const { data } = parseFrontMatter(raw);
-  const title = data.title || `${BRAND} — Blog`;
+  const title = data.title || `${BRAND}. Blog`;
   const description =
     data.description ||
     `Article ${BRAND} : anti-gaspillage alimentaire et offres près de chez vous.`;

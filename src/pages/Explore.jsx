@@ -90,7 +90,7 @@ export default function Explore() {
    *   3) `navigator.permissions` écoute les changements (autorisation manuelle
    *      depuis les réglages du navigateur) et relance la demande sans refresh.
    *   4) `requestPositionRef.current()` permet à l'UI (bandeau cliquable) de
-   *      re-déclencher la demande sur clic — clic utilisateur direct, ce qui
+   *      re-déclencher la demande sur clic : clic utilisateur direct, ce qui
    *      relance la pop-up sur les navigateurs qui l'avaient ignorée. */
   useEffect(() => {
     if (!('geolocation' in navigator) || !window.isSecureContext) {
@@ -146,7 +146,7 @@ export default function Explore() {
           { enableHighAccuracy: false, maximumAge: 15000, timeout: 30000 }
         );
       } catch {
-        /* ignore — le watch est un bonus, pas obligatoire */
+        /* ignore : le watch est un bonus, pas obligatoire */
       }
     };
 

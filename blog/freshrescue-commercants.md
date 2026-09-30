@@ -36,4 +36,4 @@ Les grandes plateformes prennent des commissions et imposent parfois la livraiso
 
 ## Prochaine étape
 
-Créez votre espace commerçant, publiez une première offre en fin de journée et observez qui vient — souvent des voisins qui ne connaissaient pas encore votre enseigne.
+Créez votre espace commerçant, publiez une première offre en fin de journée et observez qui vient. souvent des voisins qui ne connaissaient pas encore votre enseigne.

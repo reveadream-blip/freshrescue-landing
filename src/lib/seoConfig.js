@@ -1,5 +1,5 @@
 /**
- * Métadonnées SEO (fr par défaut — marché francophone, multi-pays). Le composant Seo met à jour title / meta à la navigation.
+ * Métadonnées SEO (fr par défaut, marché francophone, multi-pays). Le composant Seo met à jour title / meta à la navigation.
  */
 
 const BRAND = 'FreshRescue';
@@ -15,7 +15,7 @@ function truncateMeta(text, maxLen = 160) {
 export const SEO_DEFAULT_OG_IMAGE = '/logo512.png';
 
 const HOME = {
-  title: `${BRAND} — App anti-gaspillage alimentaire`,
+  title: `${BRAND} : app anti-gaspillage alimentaire`,
   description: truncateMeta(
     'FreshRescue : sauvez les invendus près de chez vous. Application anti-gaspillage, carte locale et offres anti-gaspi à prix flash.'
   ),
@@ -38,53 +38,53 @@ export const PAGE_H1 = {
 const PAGES = {
   '/': HOME,
   '/explore': {
-    title: `Carte des offres anti-gaspi — ${BRAND}`,
+    title: `Carte des offres anti-gaspi | ${BRAND}`,
     description:
       'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
   },
   '/partenaires': {
-    title: `Partenaires — ${BRAND}`,
+    title: `Partenaires | ${BRAND}`,
     description: truncateMeta(
-      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux de la gastronomie responsable.'
+      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux de la gastronomie.'
     ),
   },
   '/actualites': {
-    title: `Actualités — ${BRAND}`,
+    title: `Actualités | ${BRAND}`,
     description: truncateMeta(
-      'Actualités FreshRescue : lancements, partenariats commerçants et initiatives anti-gaspillage près de chez vous.'
+      'Actualités FreshRescue : lancements, partenariats et anti-gaspillage près de chez vous.'
     ),
   },
   '/blog': {
-    title: `Blog — ${BRAND}`,
+    title: `Blog | ${BRAND}`,
     description: truncateMeta(
-      'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et rôle des commerçants près de chez vous.'
+      'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et commerçants près de chez vous.'
     ),
   },
   '/terms': {
-    title: `Conditions d’utilisation — ${BRAND}`,
+    title: `Conditions d’utilisation | ${BRAND}`,
     description: `Conditions générales d’utilisation de l’application ${BRAND}.`,
   },
   '/instructions': {
-    title: `Instructions commerçants & clients — ${BRAND}`,
+    title: `Instructions commerçants et clients | ${BRAND}`,
     description:
       'Guide pour publier une offre anti-gaspillage et pour les clients : installation de l’app FreshRescue.',
   },
   '/install': {
-    title: `Installer l’app — ${BRAND}`,
+    title: `Installer l’app | ${BRAND}`,
     description: 'Installez FreshRescue sur votre téléphone : PWA anti-gaspillage près de chez vous.',
   },
   '/merchant': {
-    title: `Espace commerçant — ${BRAND}`,
+    title: `Espace commerçant | ${BRAND}`,
     description:
       'Connectez-vous à votre espace commerçant FreshRescue : publiez vos invendus et luttez contre le gaspillage alimentaire.',
   },
   '/forgot-password': {
-    title: `Mot de passe oublié — ${BRAND}`,
+    title: `Mot de passe oublié | ${BRAND}`,
     description: `Réinitialisation du mot de passe ${BRAND}.`,
     robots: 'noindex, follow',
   },
   '/update-password': {
-    title: `Nouveau mot de passe — ${BRAND}`,
+    title: `Nouveau mot de passe | ${BRAND}`,
     description: `Définir un nouveau mot de passe ${BRAND}.`,
     robots: 'noindex, follow',
   },
@@ -104,7 +104,7 @@ export function getSeoForPath(pathname) {
 
   if (normalized.startsWith('/admin')) {
     return {
-      title: `Administration — ${BRAND}`,
+      title: `Administration | ${BRAND}`,
       description: `Tableau de bord ${BRAND}.`,
       ...NOINDEX,
       jsonLd: null,
@@ -112,7 +112,7 @@ export function getSeoForPath(pathname) {
   }
   if (normalized.startsWith('/merchant/post') || normalized.startsWith('/merchant/edit')) {
     return {
-      title: `Publication d’offre — ${BRAND}`,
+      title: `Publication d’offre | ${BRAND}`,
       description: `Publier une offre anti-gaspillage sur ${BRAND}.`,
       ...NOINDEX,
       jsonLd: null,
@@ -120,7 +120,7 @@ export function getSeoForPath(pathname) {
   }
   if (normalized === '/merchant/setup') {
     return {
-      title: `Configuration boutique — ${BRAND}`,
+      title: `Configuration boutique | ${BRAND}`,
       description: `Paramétrage du profil commerçant ${BRAND}.`,
       ...NOINDEX,
       jsonLd: null,
@@ -134,12 +134,12 @@ export function getSeoForPath(pathname) {
       description: truncateMeta(entry.description),
       robots: entry.robots || 'index, follow',
       jsonLd: normalized === '/' ? 'home' : null,
-      h1: PAGE_H1[normalized] || entry.title.replace(/\s*—\s*FreshRescue\s*$/i, ''),
+      h1: PAGE_H1[normalized] || entry.title.replace(/\s*-\s*FreshRescue\s*$/i, ''),
     };
   }
 
   return {
-    title: `Page introuvable — ${BRAND}`,
+    title: `Page introuvable | ${BRAND}`,
     description: HOME.description,
     ...NOINDEX,
     jsonLd: null,
