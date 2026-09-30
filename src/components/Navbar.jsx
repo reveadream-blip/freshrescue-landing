@@ -29,6 +29,15 @@ export default function Navbar() {
         </Link>
 
         <Link
+          to="/partenaires"
+          className={`hidden md:block text-xs font-black uppercase italic tracking-widest transition-colors ${
+            location.pathname === '/partenaires' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {t('navPartners')}
+        </Link>
+
+        <Link
           to="/actualites"
           className={`hidden md:block text-xs font-black uppercase italic tracking-widest transition-colors ${
             location.pathname === '/actualites' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'

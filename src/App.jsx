@@ -22,6 +22,7 @@ import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import News from './pages/News';
 import NewsArticle from './pages/NewsArticle';
+import Partners from './pages/Partners';
 import CookieBanner from '@/components/CookieBanner';
 
 // --- NOUVEAUX IMPORTS POUR L'ADMIN ---
@@ -63,6 +64,7 @@ const AuthenticatedApp = () => {
     '/merchant', 
     '/', 
     '/explore',
+    '/partenaires',
     '/actualites',
     '/instructions',
     '/install'
@@ -88,6 +90,7 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Landing />} />
       <Route path="/install" element={<InstallRedirect />} />
       <Route path="/explore" element={<Explore />} />
+      <Route path="/partenaires" element={<Partners />} />
       <Route path="/actualites" element={<News />} />
       <Route path="/actualites/:id" element={<NewsArticle />} />
       <Route path="/terms" element={<Terms />} />

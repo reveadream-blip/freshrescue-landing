@@ -26,6 +26,7 @@ const HOME = {
 export const PAGE_H1 = {
   '/': HOME.h1,
   '/explore': 'Carte des offres anti-gaspi près de chez vous',
+  '/partenaires': 'Partenaires FreshRescue',
   '/actualites': 'Actualités FreshRescue',
   '/blog': 'Blog FreshRescue',
   '/terms': 'Conditions générales d’utilisation',
@@ -40,6 +41,12 @@ const PAGES = {
     title: `Carte des offres anti-gaspi — ${BRAND}`,
     description:
       'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
+  },
+  '/partenaires': {
+    title: `Partenaires — ${BRAND}`,
+    description: truncateMeta(
+      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux de la gastronomie responsable.'
+    ),
   },
   '/actualites': {
     title: `Actualités — ${BRAND}`,

@@ -132,6 +132,7 @@ function xmlUrl({ origin, loc, lastmod }) {
 const STATIC_PATHS = [
   '/',
   '/explore',
+  '/partenaires',
   '/actualites',
   '/blog',
   '/terms',
