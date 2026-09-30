@@ -781,7 +781,7 @@ const translations = {
     partnerBadge: "Partenariat",
     navPartners: "Partenaires",
     partnersPageTitle: "Partenaires",
-    partnersPageSubtitle: "Des sites et des gens avec qui on avance, côté bouffe locale.",
+    partnersPageSubtitle: "Des sites et des gens avec qui on avance, côté cuisine locale.",
     partnerCategorySites: "Sites vitrine · Restauration & chefs privés",
     partnerRestaurantsDesChefsLeadBefore: "FreshRescue s'associe à",
     partnerRestaurantsDesChefsLeadAfter:
@@ -789,7 +789,7 @@ const translations = {
     partnerRestaurantsDesChefsSub:
       "Restaurateur, chef privé ou commerce du coin ? Publiez vos invendus sur FreshRescue en complément de votre présence sur l'annuaire.",
     partnerRestaurantsDesChefsDesc:
-      "Restaurants des Chefs, c'est un annuaire de chefs privés, traiteurs, tables Top Chef et restos étoilés en France. On y cherche une ville ou un nom, puis on contacte directement. On collabore avec eux parce qu'on parle tous les deux de proximité et de bonne bouffe.",
+      "Restaurants des Chefs, c'est un annuaire de chefs privés, traiteurs, tables Top Chef et restos étoilés en France. On y cherche une ville ou un nom, puis on contacte directement. On collabore avec eux parce qu'on parle tous les deux de proximité et de bonne cuisine.",
     partnerSeeDirectory: "Voir l'annuaire",
     partnerReadNews: "Lire l'actualité",
     footerRights: "Tous droits réservés.",

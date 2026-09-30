@@ -45,7 +45,7 @@ const PAGES = {
   '/partenaires': {
     title: `Partenaires | ${BRAND}`,
     description: truncateMeta(
-      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux. Découvrez avec qui on travaille autour de la bouffe de proximité.'
+      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux. Découvrez avec qui on travaille autour de la cuisine de proximité.'
     ),
   },
   '/actualites': {
