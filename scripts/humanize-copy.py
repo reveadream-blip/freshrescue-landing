@@ -25,13 +25,13 @@ fixes = {
 partner = {
     'it': "Restaurants des Chefs è un annuario di chef privati, caterer, tavole Top Chef e ristoranti stellati in Francia. Cerchi una città o un nome, poi contatti. Collaboriamo perché entrambi puntiamo sul cibo locale.",
     'en': "Restaurants des Chefs is a directory of private chefs, caterers, Top Chef tables and starred restaurants in France. Search a city or a name, then get in touch. We work with them because we both care about local food.",
-    'fr': "Restaurants des Chefs, c'est un annuaire de chefs privés, traiteurs, tables Top Chef et restos étoilés en France. On y cherche une ville ou un nom, puis on contacte directement. On collabore avec eux parce qu'on parle tous les deux de proximité et de bonne bouffe.",
+    'fr': "Restaurants des Chefs, c'est un annuaire de chefs privés, traiteurs, tables Top Chef et restos étoilés en France. On y cherche une ville ou un nom, puis on contacte directement. On collabore avec eux parce qu'on parle tous les deux de proximité et de bonne cuisine.",
     'de': "Restaurants des Chefs ist ein Verzeichnis für Privatköche, Caterer, Top-Chef-Tische und Sternerestaurants in Frankreich. Stadt oder Name suchen, dann kontaktieren. Wir arbeiten zusammen, weil lokale Küche uns beiden wichtig ist.",
     'ru': "Restaurants des Chefs: каталог частных шефов, кейтеринга, ресторанов Top Chef и заведений со звёздами во Франции. Ищете город или имя, потом пишете. Работаем вместе: и им, и нам важна еда рядом с домом.",
 }
 
 sub = {
-    'fr': 'Des sites et des gens avec qui on avance, côté bouffe locale.',
+    'fr': 'Des sites et des gens avec qui on avance, côté cuisine locale.',
     'en': 'Sites and people we team up with around local food.',
     'it': 'Siti e persone con cui collaboriamo sul cibo locale.',
     'de': 'Seiten und Leute, mit denen wir bei lokaler Küche zusammenarbeiten.',
