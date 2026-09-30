@@ -64,8 +64,9 @@ export default function Seo() {
 
     setMeta('og:title', seo.title, true);
     setMeta('og:description', seo.description, true);
-    setMeta('og:type', 'website', true);
+    setMeta('og:type', seo.jsonLd === 'article' || seo.jsonLd === 'news' ? 'article' : 'website', true);
     if (ogUrl) setMeta('og:url', ogUrl, true);
+    setMeta('og:site_name', 'FreshRescue', true);
     setMeta('og:locale', seo.ogLocale || 'fr_FR', true);
     if (ogImage) setMeta('og:image', ogImage, true);
 
@@ -99,6 +100,23 @@ export default function Seo() {
             inLanguage: 'fr',
           },
         ],
+      });
+    } else if ((seo.jsonLd === 'article' || seo.jsonLd === 'news') && base) {
+      injectJsonLd(seo.jsonLd, {
+        '@context': 'https://schema.org',
+        '@type': seo.jsonLd === 'news' ? 'NewsArticle' : 'BlogPosting',
+        headline: seo.h1 || seo.title,
+        description: seo.description,
+        datePublished: seo.datePublished || undefined,
+        mainEntityOfPage: canonical || ogUrl,
+        author: { '@type': 'Organization', name: 'FreshRescue' },
+        publisher: {
+          '@type': 'Organization',
+          name: 'FreshRescue',
+          logo: { '@type': 'ImageObject', url: `${base}/logo512.png` },
+        },
+        image: ogImage || undefined,
+        inLanguage: (seo.ogLocale || 'fr_FR').split('_')[0],
       });
     } else {
       removeJsonLd();

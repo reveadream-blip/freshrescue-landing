@@ -59,7 +59,7 @@ export function getBlogPageSeo(normalized) {
     return {
       title: `Blog | ${BRAND}`,
       description: truncateMeta(
-        'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et commerçants près de chez vous.'
+        'Articles FreshRescue par région et public : anti-gaspi, invendus du coin, carte des offres et conseils pour commerçants et clients.'
       ),
       robots: 'index, follow',
       jsonLd: null,
@@ -76,7 +76,7 @@ export function getBlogPageSeo(normalized) {
   if (!raw) return null;
 
   const { data } = parseFrontMatter(raw);
-  const title = data.title || `${BRAND}. Blog`;
+  const title = data.title || `Blog | ${BRAND}`;
   const description =
     data.description ||
     `Article ${BRAND} : anti-gaspillage alimentaire et offres près de chez vous.`;
@@ -92,7 +92,8 @@ export function getBlogPageSeo(normalized) {
     description: truncateMeta(description),
     h1: h1 || title,
     robots: 'index, follow',
-    jsonLd: null,
+    jsonLd: 'article',
+    datePublished: data.date || undefined,
     ogLocale: OG_LOCALE_BY_LANG[lang] || 'fr_FR',
   };
 }

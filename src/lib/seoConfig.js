@@ -17,7 +17,7 @@ export const SEO_DEFAULT_OG_IMAGE = '/logo512.png';
 const HOME = {
   title: `${BRAND} : app anti-gaspillage alimentaire`,
   description: truncateMeta(
-    'FreshRescue : sauvez les invendus près de chez vous. Application anti-gaspillage, carte locale et offres anti-gaspi à prix flash.'
+    'FreshRescue : sauvez les invendus près de chez vous. Carte locale, offres anti-gaspi à prix flash, sans inscription pour les clients.'
   ),
   h1: 'Anti-gaspillage alimentaire. Près de chez vous.',
 };
@@ -40,43 +40,44 @@ const PAGES = {
   '/explore': {
     title: `Carte des offres anti-gaspi | ${BRAND}`,
     description:
-      'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive et recherche par ville.',
+      'Parcourez les offres anti-gaspillage près de chez vous : boulangerie, resto, épicerie. Carte interactive, rayon local et recherche par ville.',
   },
   '/partenaires': {
     title: `Partenaires | ${BRAND}`,
     description: truncateMeta(
-      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux de la gastronomie.'
+      'Partenaires FreshRescue : Restaurants des Chefs et acteurs locaux. Découvrez avec qui on travaille autour de la bouffe de proximité.'
     ),
   },
   '/actualites': {
     title: `Actualités | ${BRAND}`,
     description: truncateMeta(
-      'Actualités FreshRescue : lancements, partenariats et anti-gaspillage près de chez vous.'
+      'Ce qui bouge chez FreshRescue : lancements, partenariats commerçants et nouveautés anti-gaspillage près de chez vous.'
     ),
   },
   '/blog': {
     title: `Blog | ${BRAND}`,
     description: truncateMeta(
-      'Articles FreshRescue par région : anti-gaspi, invendus, carte des offres et commerçants près de chez vous.'
+      'Articles FreshRescue par région et public : anti-gaspi, invendus du coin, carte des offres et conseils pour commerçants et clients.'
     ),
   },
   '/terms': {
     title: `Conditions d’utilisation | ${BRAND}`,
-    description: `Conditions générales d’utilisation de l’application ${BRAND}.`,
+    description: `Conditions générales d’utilisation de l’application ${BRAND} : offres, collecte et cookies.`,
   },
   '/instructions': {
     title: `Instructions commerçants et clients | ${BRAND}`,
     description:
-      'Guide pour publier une offre anti-gaspillage et pour les clients : installation de l’app FreshRescue.',
+      'Guide pratique FreshRescue : publier une offre anti-gaspillage côté commerçant, ou installer l’app et récupérer une offre côté client.',
   },
   '/install': {
     title: `Installer l’app | ${BRAND}`,
-    description: 'Installez FreshRescue sur votre téléphone : PWA anti-gaspillage près de chez vous.',
+    description:
+      'Installez FreshRescue sur votre téléphone (PWA) pour voir les invendus près de chez vous et les prix flash du jour.',
   },
   '/merchant': {
     title: `Espace commerçant | ${BRAND}`,
     description:
-      'Connectez-vous à votre espace commerçant FreshRescue : publiez vos invendus et luttez contre le gaspillage alimentaire.',
+      'Espace commerçant FreshRescue : connectez-vous, publiez vos invendus et suivez vos offres anti-gaspillage en local.',
   },
   '/forgot-password': {
     title: `Mot de passe oublié | ${BRAND}`,

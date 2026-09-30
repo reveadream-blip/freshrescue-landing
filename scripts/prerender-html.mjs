@@ -23,6 +23,7 @@ const newsItemsPath = resolve(rootDir, 'src/data/newsItems.js');
 const STATIC_PATHS = [
   '/',
   '/explore',
+  '/partenaires',
   '/actualites',
   '/blog',
   '/terms',
@@ -96,19 +97,26 @@ function readNewsRoutes() {
   let idMatch;
   while ((idMatch = idRe.exec(raw))) {
     const id = idMatch[1];
-    const slice = raw.slice(idMatch.index, idMatch.index + 8000);
-    const hasInternalArticle =
+    const slice = raw.slice(idMatch.index, idMatch.index + 12000);
+    const hasBody =
+      slice.includes('contentHtml:') ||
       slice.includes(`articleLink: '/actualites/${id}'`) ||
       slice.includes(`articleLink: "/actualites/${id}"`);
-    if (!hasInternalArticle) continue;
+    if (!hasBody) continue;
+    // Ne prerender que les items avec vrai contenu HTML
+    if (!slice.includes('contentHtml:')) continue;
     const frTitle = slice.match(/title:\s*\{[\s\S]*?fr:\s*'((?:\\'|[^'])*)'/);
+    const frExcerpt = slice.match(/excerpt:\s*\{[\s\S]*?fr:\s*'((?:\\'|[^'])*)'/);
     const title = frTitle ? frTitle[1].replace(/\\'/g, "'") : id;
+    const excerpt = frExcerpt
+      ? frExcerpt[1].replace(/\\'/g, "'")
+      : `Actualité FreshRescue : ${title}`;
     const h1 = title.replace(/^🔴\s*/, '');
-    const seoTitle = title.includes('FreshRescue') ? title : `${h1} : FreshRescue`;
+    const seoTitle = title.includes('FreshRescue') ? title : `${h1} | FreshRescue`;
     routes.push({
       path: `/actualites/${id}`,
       title: truncateTitle(seoTitle),
-      description: truncateMeta(`Actualité FreshRescue : ${h1}`),
+      description: truncateMeta(excerpt),
       h1,
       robots: 'index, follow',
     });
@@ -154,6 +162,7 @@ function escapeHtml(text) {
 
 function buildHtml(template, { origin, path, title, description, h1, robots }) {
   const canonical = canonicalUrl(origin, path);
+  const ogImage = `${origin}/logo512.png`;
   const rootPayload = `<main><h1>${escapeHtml(h1)}</h1><p>${escapeHtml(description)}</p></main>`;
 
   let html = template;
@@ -166,6 +175,45 @@ function buildHtml(template, { origin, path, title, description, h1, robots }) {
     /<meta name="robots" content="[^"]*"\s*\/?>/,
     `<meta name="robots" content="${escapeHtml(robots)}" />`
   );
+
+  const ogBlock = `    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FreshRescue" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="${escapeHtml(canonical)}" />
+    <meta property="og:title" content="${escapeHtml(title)}" />
+    <meta property="og:description" content="${escapeHtml(description)}" />
+    <meta property="og:image" content="${escapeHtml(ogImage)}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(title)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />
+    <meta name="twitter:image" content="${escapeHtml(ogImage)}" />
+`;
+
+  // Remplace le bloc OG du template s'il existe, sinon injecte avant </head>
+  if (html.includes('property="og:title"')) {
+    html = html.replace(
+      /<meta property="og:url" content="[^"]*"\s*\/?>/,
+      `<meta property="og:url" content="${escapeHtml(canonical)}" />`
+    );
+    html = html.replace(
+      /<meta property="og:title" content="[^"]*"\s*\/?>/,
+      `<meta property="og:title" content="${escapeHtml(title)}" />`
+    );
+    html = html.replace(
+      /<meta property="og:description" content="[^"]*"\s*\/?>/,
+      `<meta property="og:description" content="${escapeHtml(description)}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:title" content="[^"]*"\s*\/?>/,
+      `<meta name="twitter:title" content="${escapeHtml(title)}" />`
+    );
+    html = html.replace(
+      /<meta name="twitter:description" content="[^"]*"\s*\/?>/,
+      `<meta name="twitter:description" content="${escapeHtml(description)}" />`
+    );
+  } else {
+    html = html.replace('</head>', `${ogBlock}  </head>`);
+  }
 
   if (html.includes('rel="canonical"')) {
     html = html.replace(

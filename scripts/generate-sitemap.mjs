@@ -83,18 +83,20 @@ function readBlogPosts() {
     });
 }
 
-/** Pages actualités avec article interne (/actualites/:id). */
+/** Pages actualités avec vrai contenu HTML (pas les teasers seuls). */
 function readNewsArticlePaths() {
   if (!existsSync(newsItemsPath)) return [];
   const raw = readFileSync(newsItemsPath, 'utf8');
   const paths = new Set();
-  // Format actuel : id: 'slug'  →  /actualites/slug
   const idRe = /\bid:\s*['"]([a-z0-9-]+)['"]/g;
   let m;
   while ((m = idRe.exec(raw))) {
-    paths.add(`/actualites/${m[1]}`);
+    const id = m[1];
+    const slice = raw.slice(m.index, m.index + 12000);
+    if (slice.includes('contentHtml:')) {
+      paths.add(`/actualites/${id}`);
+    }
   }
-  // Ancien format éventuel : articleLink: '/actualites/...'
   const linkRe = /articleLink:\s*['"](\/actualites\/[^'"]+)['"]/g;
   while ((m = linkRe.exec(raw))) {
     paths.add(m[1]);
@@ -113,14 +115,15 @@ function escapeXml(text) {
     .replace(/'/g, '&apos;');
 }
 
-/** Encode chaque segment de chemin (accents, espaces). */
+/** Encode chaque segment de chemin (accents, espaces). Trailing slash aligné sur canonicalUrl. */
 function toAbsoluteUrl(origin, pathname) {
   if (pathname === '/') return `${origin}/`;
-  const encoded = pathname
+  const clean = String(pathname).endsWith('/') ? String(pathname).slice(0, -1) : String(pathname);
+  const encoded = clean
     .split('/')
     .map((seg) => (seg ? encodeURIComponent(seg) : ''))
     .join('/');
-  return `${origin}${encoded}`;
+  return `${origin}${encoded}/`;
 }
 
 function xmlUrl({ origin, loc, lastmod }) {

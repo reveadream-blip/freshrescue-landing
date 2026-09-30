@@ -1,0 +1,35 @@
+---
+description: SEO sites - optimiser sans sur-optimiser; restaurantsdeschefs différé
+alwaysApply: true
+---
+
+# SEO sites (tous projets Cursor)
+
+Optimiser le référencement des sites / landing / blogs **sans en faire trop** : pas de keyword stuffing, pas de titres robots, garder une écriture humaine (voir règle no-AI traces).
+
+## À vérifier / améliorer quand tu touches un site
+
+1. **Title** unique, ~50–60 car., marque en fin (`| Marque` ou `: marque`).
+2. **Meta description** unique, ~140–160 car., une phrase claire + bénéfice.
+3. **H1** unique par page, aligné avec l’intention de recherche (pas une liste de mots-clés).
+4. **Canonical** absolu HTTPS.
+5. **OG / Twitter** : title, description, image (1200×630 si dispo).
+6. **JSON-LD** utile seulement (`WebSite`, `Organization`, `Article`, `LocalBusiness` si vrai). Pas de schema inventé.
+7. **Sitemap** + `robots.txt` (`Allow` + `Sitemap:`).
+8. **URLs** lisibles, pas de params SEO inutiles.
+9. **Images** : `alt` concrets, poids raisonnable.
+10. **Liens internes** naturels (pas de footer keyword farm).
+11. **langue** : `html lang` correct ; `hreflang` seulement si versions réelles.
+
+## Interdit
+
+- Répéter la même keyword 10 fois.
+- Titres type « Meilleur X pas cher 2026 guide ultime ».
+- Pages portes / contenu dupliqué massif.
+- Modifier des contenus uniquement pour « densifier » les mots-clés.
+
+## Exception restaurantsdeschefs
+
+**Ne pas** lancer de passe SEO dédiée sur le projet Restaurants des Chefs / `restaurantsdeschefs` tant que l’utilisateur ne le demande pas.
+
+**Dès la prochaine modification** apportée à ce projet (code, contenu, pages), appliquer cette checklist SEO sur les fichiers touchés (et pages liées si nécessaire), sans refactor SEO global non demandé.
