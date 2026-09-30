@@ -5,6 +5,7 @@ import {
   TrendingUp, ShieldCheck, Leaf, Store, Smartphone, Share, HelpCircle, Globe 
 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
+import RestaurantsDesChefsPartnerCard from '../components/RestaurantsDesChefsPartnerCard';
 
 const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
 
@@ -489,31 +490,14 @@ export default function Landing() {
       </section>
 
       <section className="px-6 py-16 border-t border-white/10" aria-labelledby="partners-strip-heading">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto">
           <h2
             id="partners-strip-heading"
-            className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90 mb-10"
+            className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.28em] text-white/90"
           >
             {t('partnersPageTitle')}
           </h2>
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.18em] text-white/80">
-              {t('partnerCategorySites')}
-            </p>
-            <a
-              href="https://restaurantsdeschefs.fr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-white rounded-xl px-6 py-5 shadow-sm hover:shadow-md transition-shadow"
-              aria-label="Restaurants des Chefs (restaurantsdeschefs.fr)"
-            >
-              <img
-                src={`${import.meta.env.BASE_URL}images/partners/restaurantsdeschefs.png`}
-                alt="Restaurants des Chefs"
-                className="h-14 w-auto max-w-[200px] object-contain"
-              />
-            </a>
-          </div>
+          <RestaurantsDesChefsPartnerCard />
         </div>
       </section>
 

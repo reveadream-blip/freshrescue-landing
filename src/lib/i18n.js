@@ -208,12 +208,19 @@ const translations = {
     // Footer
     footerTagline: "Anti-spreco alimentare · invenduti del quartiere, prezzi flash.",
     partnerLabel: "Partner",
+    partnerBadge: "Partnership",
     navPartners: "Partner",
     partnersPageTitle: "Partner",
     partnersPageSubtitle: "Siti e persone con cui collaboriamo sul cibo locale.",
     partnerCategorySites: "Siti vetrina · Ristorazione & chef privati",
+    partnerRestaurantsDesChefsLeadBefore: "FreshRescue collabora con",
+    partnerRestaurantsDesChefsLeadAfter:
+      ", l'annuario di tavole gastronomiche, grandi chef, candidati Top Chef e chef privati in Francia. Oltre 1.000 locali sulla mappa interattiva.",
+    partnerRestaurantsDesChefsSub:
+      "Ristoratore, chef privato o negozio del quartiere? Pubblica gli invenduti su FreshRescue, in più rispetto all'annuario.",
     partnerRestaurantsDesChefsDesc:
       "Restaurants des Chefs è un annuario di chef privati, caterer, tavole Top Chef e ristoranti stellati in Francia. Cerchi una città o un nome, poi contatti. Collaboriamo perché entrambi puntiamo sul cibo locale.",
+    partnerSeeDirectory: "Vedi l'annuario",
     partnerReadNews: "Leggi l'articolo",
     footerRights: "Tutti i diritti riservati.",
     footerTerms: "Termini e Condizioni",
@@ -485,12 +492,19 @@ const translations = {
     // Footer
     footerTagline: "Anti-food waste · leftover food nearby, flash prices.",
     partnerLabel: "Partner",
+    partnerBadge: "Partnership",
     navPartners: "Partners",
     partnersPageTitle: "Partners",
     partnersPageSubtitle: "Sites and people we team up with around local food.",
     partnerCategorySites: "Showcase sites · Dining & private chefs",
+    partnerRestaurantsDesChefsLeadBefore: "FreshRescue teams up with",
+    partnerRestaurantsDesChefsLeadAfter:
+      ", the directory of gastronomic tables, top chefs, Top Chef contestants and private chefs in France. Over 1,000 places on an interactive map.",
+    partnerRestaurantsDesChefsSub:
+      "Restaurant, private chef or local shop? Post your surplus on FreshRescue alongside your listing in the directory.",
     partnerRestaurantsDesChefsDesc:
       "Restaurants des Chefs is a directory of private chefs, caterers, Top Chef tables and starred restaurants in France. Search a city or a name, then get in touch. We work with them because we both care about local food.",
+    partnerSeeDirectory: "View the directory",
     partnerReadNews: "Read the article",
     footerRights: "All rights reserved.",
     footerTerms: "Terms & Conditions",
@@ -764,12 +778,19 @@ const translations = {
     // Footer
     footerTagline: "Anti-gaspillage alimentaire · invendus du coin, prix flash.",
     partnerLabel: "Partenaire",
+    partnerBadge: "Partenariat",
     navPartners: "Partenaires",
     partnersPageTitle: "Partenaires",
     partnersPageSubtitle: "Des sites et des gens avec qui on avance, côté bouffe locale.",
     partnerCategorySites: "Sites vitrine · Restauration & chefs privés",
+    partnerRestaurantsDesChefsLeadBefore: "FreshRescue s'associe à",
+    partnerRestaurantsDesChefsLeadAfter:
+      ", l'annuaire des tables gastronomiques, grands chefs, candidats Top Chef et chefs privés en France. Plus de 1 000 établissements sur carte interactive.",
+    partnerRestaurantsDesChefsSub:
+      "Restaurateur, chef privé ou commerce du coin ? Publiez vos invendus sur FreshRescue en complément de votre présence sur l'annuaire.",
     partnerRestaurantsDesChefsDesc:
       "Restaurants des Chefs, c'est un annuaire de chefs privés, traiteurs, tables Top Chef et restos étoilés en France. On y cherche une ville ou un nom, puis on contacte directement. On collabore avec eux parce qu'on parle tous les deux de proximité et de bonne bouffe.",
+    partnerSeeDirectory: "Voir l'annuaire",
     partnerReadNews: "Lire l'actualité",
     footerRights: "Tous droits réservés.",
     footerTerms: "Conditions Générales (CGU)",
@@ -1035,12 +1056,19 @@ const translations = {
     // Footer
     footerTagline: "Anti-Waste · Überschüsse in der Nähe, Blitzpreise.",
     partnerLabel: "Partner",
+    partnerBadge: "Partnerschaft",
     navPartners: "Partner",
     partnersPageTitle: "Partner",
     partnersPageSubtitle: "Seiten und Leute, mit denen wir bei lokaler Küche zusammenarbeiten.",
     partnerCategorySites: "Showcase-Sites · Gastronomie & Privatköche",
+    partnerRestaurantsDesChefsLeadBefore: "FreshRescue arbeitet mit",
+    partnerRestaurantsDesChefsLeadAfter:
+      ", dem Verzeichnis für Gastro-Tische, Spitzenköche, Top-Chef-Kandidaten und Privatköche in Frankreich. Über 1.000 Orte auf der interaktiven Karte.",
+    partnerRestaurantsDesChefsSub:
+      "Restaurant, Privatkoch oder Laden um die Ecke? Veröffentlichen Sie Überschüsse auf FreshRescue, ergänzend zum Verzeichnis.",
     partnerRestaurantsDesChefsDesc:
       "Restaurants des Chefs ist ein Verzeichnis für Privatköche, Caterer, Top-Chef-Tische und Sternerestaurants in Frankreich. Stadt oder Name suchen, dann kontaktieren. Wir arbeiten zusammen, weil lokale Küche uns beiden wichtig ist.",
+    partnerSeeDirectory: "Verzeichnis ansehen",
     partnerReadNews: "Artikel lesen",
     footerRights: "Alle Rechte vorbehalten.",
     footerTerms: "Allgemeine Geschäftsbedingungen",
@@ -1311,12 +1339,19 @@ const translations = {
     // Footer
     footerTagline: "Против пищевых отходов · непроданное рядом, флэш-цены.",
     partnerLabel: "Партнёр",
+    partnerBadge: "Партнёрство",
     navPartners: "Партнёры",
     partnersPageTitle: "Партнёры",
     partnersPageSubtitle: "Сайты и люди, с которыми мы работаем вокруг местной еды.",
     partnerCategorySites: "Витринные сайты · Рестораны и частные шефы",
+    partnerRestaurantsDesChefsLeadBefore: "FreshRescue сотрудничает с",
+    partnerRestaurantsDesChefsLeadAfter:
+      ", каталогом гастрономических столов, шефов, участников Top Chef и частных шефов во Франции. Более 1000 заведений на интерактивной карте.",
+    partnerRestaurantsDesChefsSub:
+      "Ресторан, частный шеф или магазин рядом? Публикуйте непроданное на FreshRescue в дополнение к каталогу.",
     partnerRestaurantsDesChefsDesc:
       "Restaurants des Chefs: каталог частных шефов, кейтеринга, ресторанов Top Chef и заведений со звёздами во Франции. Ищете город или имя, потом пишете. Работаем вместе: и им, и нам важна еда рядом с домом.",
+    partnerSeeDirectory: "Смотреть каталог",
     partnerReadNews: "Читать новость",
     footerRights: "Все права защищены.",
     footerTerms: "Условия использования",
