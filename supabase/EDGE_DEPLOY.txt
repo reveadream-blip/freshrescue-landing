@@ -1,4 +1,4 @@
-Edge Functions — déploiement (FreshRescue)
+Edge Functions : déploiement (FreshRescue)
 ==========================================
 
 1) Créer supabase/edge.env

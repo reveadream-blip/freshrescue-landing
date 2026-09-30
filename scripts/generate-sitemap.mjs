@@ -143,7 +143,7 @@ const STATIC_PATHS = [
 
 function main() {
   if (!existsSync(distDir)) {
-    console.error('[generate-sitemap] dist/ introuvable — lancez vite build avant.');
+    console.error('[generate-sitemap] dist/ introuvable : lancez vite build avant.');
     process.exit(1);
   }
 
@@ -201,7 +201,7 @@ Sitemap: ${origin}/sitemap.xml
 
   const total = STATIC_PATHS.length + newsPosts.length + blogPosts.length;
   console.log(
-    `[generate-sitemap] OK — ${total} URLs (${STATIC_PATHS.length} statiques + ${newsPosts.length} actualités + ${blogPosts.length} blog) → ${origin}/sitemap.xml`
+    `[generate-sitemap] OK : ${total} URLs (${STATIC_PATHS.length} statiques + ${newsPosts.length} actualités + ${blogPosts.length} blog) → ${origin}/sitemap.xml`
   );
 }
 

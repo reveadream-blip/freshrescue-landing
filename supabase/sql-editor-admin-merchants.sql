@@ -1,5 +1,5 @@
 -- =============================================================================
--- FreshRescue — Admin : commerçants (RLS + RPC update / delete)
+-- FreshRescue : Admin : commerçants (RLS + RPC update / delete)
 -- Colle TOUT ce fichier dans Supabase → SQL Editor → Run
 -- =============================================================================
 -- Remplace reveadream@gmail.com partout si besoin (idem adminConfig.js + Edge Functions).

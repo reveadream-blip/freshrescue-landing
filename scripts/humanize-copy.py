@@ -136,7 +136,7 @@ export const NEWS_ITEMS = [
       en: 'FreshRescue and restaurantsdeschefs.fr are helping each other out: they help you find a chef or a restaurant, we help with surplus food nearby.',
       it: 'FreshRescue e restaurantsdeschefs.fr si danno una mano: loro per trovare uno chef o un tavolo, noi per gli invenduti vicino a te.',
       de: 'FreshRescue und restaurantsdeschefs.fr helfen einander: sie bei der Suche nach Koch oder Restaurant, wir bei Überschüssen in der Nähe.',
-      ru: 'FreshRescue и restaurantsdeschefs.fr помогают друг другу: они — найти шефа или ресторан, мы — спасти непроданные продукты рядом.',
+      ru: 'FreshRescue и restaurantsdeschefs.fr помогают друг другу: они : найти шефа или ресторан, мы : спасти непроданные продукты рядом.',
     },
     contentHtml: {
       fr: `<p>Petite news: on travaille désormais avec <strong><a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">Restaurants des Chefs</a></strong> (<a href="https://restaurantsdeschefs.fr" target="_blank" rel="noopener noreferrer">restaurantsdeschefs.fr</a>).</p>
@@ -182,10 +182,10 @@ rest = re.sub(r'\. ([a-z])', lambda m: ', ' + m.group(1), rest)
 Path('src/data/newsItems.js').write_text(news + rest, encoding='utf-8', newline='\n')
 print('news ok')
 
-# Fix RU excerpt if it still has em dash from my template - I used "они — найти" - fix
+# Fix RU excerpt if it still has em dash from my template - I used "они : найти" - fix
 n = Path('src/data/newsItems.js').read_text(encoding='utf-8')
-n = n.replace('они — найти', 'они помогают найти')
-n = n.replace('мы — спасти', 'мы помогаем спасти')
+n = n.replace('они : найти', 'они помогают найти')
+n = n.replace('мы : спасти', 'мы помогаем спасти')
 # Remove any remaining em dashes in user content files
 for p in [
     Path('src/lib/i18n.js'),

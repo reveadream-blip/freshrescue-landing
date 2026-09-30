@@ -52,7 +52,7 @@ const BODIES = {
       '## Pour les commerces bretons',
       'Crêperies, poissonneries, primeurs des Lices à Rennes ou épiceries de port : chacun peut tester la publication sans engagement long, avec un mois d’essai sans commission sur les ventes en magasin.',
       '## Pour les consommateurs',
-      'On découvre des adresses de quartier, on mange mieux sans gaspiller et on soutient l’économie locale — surtout en saison touristique quand les stocks bougent vite.',
+      'On découvre des adresses de quartier, on mange mieux sans gaspiller et on soutient l’économie locale : surtout en saison touristique quand les stocks bougent vite.',
       '## L’atout breton',
       'Les liens courts entre producteurs, marchés et villages font de la récupération sur place une évidence. La carte FreshRescue s’inscrit dans cette logique de circuit court.',
       '## En bref',
@@ -78,7 +78,7 @@ const BODIES = {
   'freshrescue-bas-rhin-strasbourg': {
     author: 'David',
     sections: [
-      'À Strasbourg et dans le Bas-Rhin, la tradition du marché et la proximité avec l’Allemagne créent une offre alimentaire riche — et parfois des invendus en fin de journée. FreshRescue aide à les écouler vite, à deux pas du client.',
+      'À Strasbourg et dans le Bas-Rhin, la tradition du marché et la proximité avec l’Allemagne créent une offre alimentaire riche : et parfois des invendus en fin de journée. FreshRescue aide à les écouler vite, à deux pas du client.',
       '## En pratique',
       'Le commerçant publie ce qui reste (sandwiches, bretzels du jour, fruits mûrs) avec un créneau de retrait. Les étudiants, familles et travailleurs du centre voient l’offre sur la carte et passent avant la fermeture.',
       '## Pour les professionnels',
@@ -102,7 +102,7 @@ const BODIES = {
       '## Consommateurs rennais',
       'Idéal pour compléter le panier du week-end ou réagir à une offre vue en sortant du bureau.',
       '## Spécificité locale',
-      'Ville étudiante et pôle numérique : les habitants sont à l’aise avec une carte mobile, mais l’achat reste bien ancré en commerce physique — c’est le cœur du modèle FreshRescue.',
+      'Ville étudiante et pôle numérique : les habitants sont à l’aise avec une carte mobile, mais l’achat reste bien ancré en commerce physique : c’est le cœur du modèle FreshRescue.',
       '## En bref',
       'Anti-gaspi local, sans intermédiaire de livraison.',
     ],
@@ -184,7 +184,7 @@ const BODIES = {
       '## Grand Lyon',
       'Densité urbaine et culture gastronomique : la récupération sur place est plus cohérente qu’une logistique de livraison froide.',
       '## En bref',
-      'Des offres utiles, ici, maintenant — pas demain.',
+      'Des offres utiles, ici, maintenant : pas demain.',
     ],
   },
   'freshrescue-auvergne-rhone-alpes': {
@@ -240,7 +240,7 @@ const BODIES = {
     sections: [
       'Dans les Hauts-de-France, boulangeries et épiceries de centre-bourg connaissent des invendus quand le temps ou l’activité industrielle locale ralentit la rue. FreshRescue les rend visibles en ligne, pour une vente en magasin.',
       '## Mécanisme',
-      'Photo, prix flash, heure de retrait — le client vient chercher sur place.',
+      'Photo, prix flash, heure de retrait : le client vient chercher sur place.',
       '## Commerces',
       'Pâtisseries, friteries, primeurs : une seconde chance pour les produits du jour.',
       '## Familles',
@@ -282,7 +282,7 @@ const BODIES = {
       '## Pourquoi nous avons conçu ça',
       'Les grandes plateformes prennent des commissions et imposent parfois la livraison. Nous préférons un outil simple qui renforce le commerce de quartier plutôt qu’un intermédiaire opaque.',
       '## Prochaine étape',
-      'Créez votre espace commerçant, publiez une première offre en fin de journée et observez qui vient — souvent des voisins qui ne connaissaient pas encore votre enseigne.',
+      'Créez votre espace commerçant, publiez une première offre en fin de journée et observez qui vient : souvent des voisins qui ne connaissaient pas encore votre enseigne.',
     ],
   },
   'freshrescue-consommateurs': {
@@ -296,7 +296,7 @@ const BODIES = {
       '## Pourquoi c’est différent d’une app nationale',
       'Pas de panier mystère : vous voyez la photo réelle et l’adresse exacte. Vous soutenez un commerçant local plutôt qu’une logistique centralisée.',
       '## Bonnes habitudes',
-      'Vérifiez l’heure de retrait, prévoyez le trajet (vélo, marche, transport) et arrivez tant que l’offre est encore affichée — le premier arrivé est souvent servi.',
+      'Vérifiez l’heure de retrait, prévoyez le trajet (vélo, marche, transport) et arrivez tant que l’offre est encore affichée : le premier arrivé est souvent servi.',
       '## Impact',
       'Moins de nourriture jetée, plus de liens de quartier, un budget courses allégé sur des produits encore excellents.',
       '## Commencer',

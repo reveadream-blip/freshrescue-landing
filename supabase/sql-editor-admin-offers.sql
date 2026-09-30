@@ -1,5 +1,5 @@
 -- =============================================================================
--- FreshRescue — Admin : suppression / mise à jour des offres (RLS + RPC)
+-- FreshRescue : Admin : suppression / mise à jour des offres (RLS + RPC)
 -- Colle TOUT ce fichier dans Supabase → SQL Editor → Run
 -- =============================================================================
 -- Avant d’exécuter : remplace reveadream@gmail.com partout ci-dessous si besoin,

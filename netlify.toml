@@ -1,6 +1,6 @@
 # SEO / Google Search Console :
 # - Variable Netlify : VITE_SITE_URL = https://www.ton-domaine.ch (domaine canonique affiché dans le sitemap)
-# - Sinon Netlify injecte souvent URL (ex. https://xxx.netlify.app) au build — sitemap valide quand même
+# - Sinon Netlify injecte souvent URL (ex. https://xxx.netlify.app) au build : sitemap valide quand même
 # - Ou remplir siteUrl dans site.config.json à la racine du repo
 
 [build]

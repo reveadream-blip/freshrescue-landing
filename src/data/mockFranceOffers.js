@@ -48,7 +48,7 @@ const FRANCE_CITIES = [
   { slug: 'villeurbanne', center: [45.7665, 4.8795], street: 'Cours Émile Zola', zip: '69100', name: 'Villeurbanne' },
   { slug: 'clermont-ferrand', center: [45.7772, 3.0870], street: 'Rue des Gras', zip: '63000', name: 'Clermont-Ferrand' },
 
-  // Villes moyennes (60k – 150k hab)
+  // Villes moyennes (60k : 150k hab)
   { slug: 'aix-en-provence', center: [43.5297, 5.4474], street: 'Cours Mirabeau', zip: '13100', name: 'Aix-en-Provence' },
   { slug: 'le-mans', center: [47.9960, 0.1996], street: 'Rue Bolton', zip: '72000', name: 'Le Mans' },
   { slug: 'brest', center: [48.3904, -4.4861], street: 'Rue de Siam', zip: '29200', name: 'Brest' },

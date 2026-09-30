@@ -104,7 +104,7 @@ function readNewsRoutes() {
     const frTitle = slice.match(/title:\s*\{[\s\S]*?fr:\s*'((?:\\'|[^'])*)'/);
     const title = frTitle ? frTitle[1].replace(/\\'/g, "'") : id;
     const h1 = title.replace(/^🔴\s*/, '');
-    const seoTitle = title.includes('FreshRescue') ? title : `${h1} — FreshRescue`;
+    const seoTitle = title.includes('FreshRescue') ? title : `${h1} : FreshRescue`;
     routes.push({
       path: `/actualites/${id}`,
       title: truncateTitle(seoTitle),
@@ -139,7 +139,7 @@ function getPageMeta(pathname, blogRoutes, newsRoutes) {
   return {
     title: seo.title,
     description: truncateMeta(seo.description),
-    h1: seo.h1 || seo.title.replace(/\s*—\s*FreshRescue\s*$/i, ''),
+    h1: seo.h1 || seo.title.replace(/\s* - \s*FreshRescue\s*$/i, ''),
     robots: seo.robots || 'index, follow',
   };
 }
@@ -198,7 +198,7 @@ function writeForPath(html, pathname) {
 
 function main() {
   if (!existsSync(join(distDir, 'index.html'))) {
-    console.error('[prerender-html] dist/index.html introuvable — lancez vite build avant.');
+    console.error('[prerender-html] dist/index.html introuvable : lancez vite build avant.');
     process.exit(1);
   }
 
@@ -221,7 +221,7 @@ function main() {
     writeForPath(html, path);
   }
 
-  console.log(`[prerender-html] OK — ${paths.length} pages (H1 + canonical) pour ${origin}`);
+  console.log(`[prerender-html] OK : ${paths.length} pages (H1 + canonical) pour ${origin}`);
 }
 
 main();

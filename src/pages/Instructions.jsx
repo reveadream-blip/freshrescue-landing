@@ -58,7 +58,7 @@ const content = {
       { t: "Anmelden", d: "E-Mail und Passwort eingeben.", icon: "🔑" },
       { t: "Einrichtung", d: "Im Dashboard unter „Geschäftseinstellungen“ Ihre Daten eintragen.", icon: "⚙️" },
       { t: "Erstellen", d: "„Angebot veröffentlichen“ wählen, Foto aufnehmen oder hochladen.", icon: "📸" },
-      { t: "Fertig", d: "Felder ausfüllen und „Veröffentlichen“ – Ihr Angebot ist online.", icon: "✅" }
+      { t: "Fertig", d: "Felder ausfüllen und „Veröffentlichen“ : Ihr Angebot ist online.", icon: "✅" }
     ],
     customerText: "Scannen Sie, um Angebote zu sehen und direkt im Geschäft zu bezahlen."
   },

@@ -1,0 +1,34 @@
+---
+description: Écrire comme un humain, zéro trace IA (tiret cadratin — interdit)
+alwaysApply: true
+---
+
+# Écriture humaine, sans traces d’IA
+
+S’applique à **tous** les projets Cursor (sites, apps, docs, UI, SEO, emails, blog, i18n).
+
+## Interdits (marques typiques d’IA)
+
+- Tiret cadratin `—` (em dash). Ne jamais l’écrire ni le laisser.
+- Tiret demi-cadratin `–` dans les titres / accroches marketing.
+- Formules creuses : « Dans un monde où… », « Il est important de noter… », « Que ce soit… », « n’hésitez pas… », « unlock », « seamless », « empower », « revolutionize ».
+- Titres en Title Case artificiel (« Comment Ça Marche », « Pour Les Commerçants ») sauf marque déposée.
+- Listes de bénéfices trop lisses / corporate ; phrases miroir parfaites FR/EN/DE/IT/RU.
+
+## Remplacements pour `—`
+
+- Titre / sous-titre : ` : ` ou ` | `
+- Séparateur léger : ` · `
+- Incise : virgules, ou deux phrases.
+- Placeholder vide : `-` (pas `—`)
+- Labels type `FR — texte` : `FR · texte` ou `FR: texte`
+
+## Ton
+
+Écrire comme une personne réelle : clair, direct, un peu oral si le produit l’est. Phrases courtes. Pas de jargon marketing vide.
+
+## Quand tu modifies un projet
+
+1. Chercher `—` et `–` dans les textes visibles (UI, HTML, SEO, markdown, i18n, affiches).
+2. Remplacer / réécrire avant de considérer la tâche finie.
+3. Ne pas « corriger » seulement les commentaires code si le site public contient encore des tirets cadratin.
