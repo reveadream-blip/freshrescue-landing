@@ -1,0 +1,23 @@
+---
+description: Après chaque modification, commit + push main (Cloudflare)
+alwaysApply: true
+---
+
+# Déploiement automatique après chaque modification
+
+Quand une tâche produit des changements de code (fichiers modifiés ou créés) dans ce dépôt, **terminer systématiquement** par un déploiement Cloudflare via GitHub, sans attendre que l’utilisateur dise « déploi ».
+
+## Procédure (identique à « déploi »)
+
+1. Vérifier `git status` et la branche **`main`**.
+2. Ne pas pousser de secrets ; respecter `.gitignore`.
+3. `git add` des changements pertinents + commit avec message clair.
+4. `git push origin main`.
+
+Après un push réussi, indiquer brièvement que Cloudflare Pages publie en général en 1–3 minutes.
+
+## Exceptions
+
+- Ne pas déployer si l’utilisateur demande explicitement de ne pas pousser / de garder en local.
+- Ne pas créer de commit vide s’il n’y a aucun changement.
+- Si le push échoue, expliquer brièvement et proposer la correction.
