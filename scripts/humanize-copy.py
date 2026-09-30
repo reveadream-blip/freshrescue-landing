@@ -31,7 +31,7 @@ partner = {
 }
 
 sub = {
-    'fr': 'Des sites et des gens avec qui on avance, côté cuisine locale.',
+    'fr': 'Des sites et des gens avec qui on avance, autour de la restauration locale.',
     'en': 'Sites and people we team up with around local food.',
     'it': 'Siti e persone con cui collaboriamo sul cibo locale.',
     'de': 'Seiten und Leute, mit denen wir bei lokaler Küche zusammenarbeiten.',

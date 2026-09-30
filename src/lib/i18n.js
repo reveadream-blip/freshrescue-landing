@@ -781,7 +781,7 @@ const translations = {
     partnerBadge: "Partenariat",
     navPartners: "Partenaires",
     partnersPageTitle: "Partenaires",
-    partnersPageSubtitle: "Des sites et des gens avec qui on avance, côté cuisine locale.",
+    partnersPageSubtitle: "Des sites et des gens avec qui on avance, autour de la restauration locale.",
     partnerCategorySites: "Sites vitrine · Restauration & chefs privés",
     partnerRestaurantsDesChefsLeadBefore: "FreshRescue s'associe à",
     partnerRestaurantsDesChefsLeadAfter:
