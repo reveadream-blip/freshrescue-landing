@@ -68,7 +68,7 @@ export default function SubscriptionSection() {
 
             {/* CTA */}
             <Link
-              to="/merchant"
+              to="/merchant/"
               className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-4 rounded-xl text-base transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               {t('getStarted')}

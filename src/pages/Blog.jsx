@@ -141,7 +141,7 @@ export default function Blog() {
             return (
               <Link
                 key={a.slug}
-                to={`/blog/${a.slug}`}
+                to={`/blog/${a.slug}/`}
                 className="group block bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 hover:border-citrus/60 rounded-2xl p-6 transition-all duration-200"
               >
                 <div className="flex items-center justify-between gap-2 mb-3">

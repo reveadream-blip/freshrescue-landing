@@ -98,7 +98,7 @@ export default function BlogArticle() {
             <Link to="/" className="text-citrus hover:underline">
               ← Retour à l'accueil
             </Link>
-            <Link to="/blog" className="text-citrus hover:underline">
+            <Link to="/blog/" className="text-citrus hover:underline">
               ← Retour au blog
             </Link>
           </div>
@@ -125,7 +125,7 @@ export default function BlogArticle() {
               {t.backHome}
             </Link>
             <Link
-              to="/blog"
+              to="/blog/"
               className="inline-flex items-center text-white/60 hover:text-citrus transition"
             >
               {t.allArticles}
@@ -224,7 +224,7 @@ export default function BlogArticle() {
             {t.backHome}
           </Link>
           <Link
-            to="/blog"
+            to="/blog/"
             className="inline-flex items-center px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/10 text-sm font-medium text-white hover:border-citrus hover:text-citrus transition"
           >
             {t.seeAll}

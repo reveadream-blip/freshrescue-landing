@@ -49,7 +49,8 @@ const AuthenticatedApp = () => {
       const isAdmin = ADMIN_EMAILS.some(email => email.toLowerCase() === user.email.toLowerCase());
       
       // Si c'est l'admin et qu'il est sur une page générique, on l'envoie sur le dashboard
-      const isOnGenericPage = ['/', '/merchant', '/explore'].includes(location.pathname);
+      const path = location.pathname.replace(/\/$/, '') || '/';
+      const isOnGenericPage = ['/', '/merchant', '/explore'].includes(path);
       
       if (isAdmin && isOnGenericPage) {
         navigate('/admin');
@@ -58,6 +59,7 @@ const AuthenticatedApp = () => {
   }, [isAuthenticated, user, navigate, location.pathname]);
 
   // Liste des routes publiques
+  const pathNoSlash = location.pathname.replace(/\/$/, '') || '/';
   const isPublicAuthRoute = [
     '/forgot-password', 
     '/update-password', 
@@ -67,8 +69,10 @@ const AuthenticatedApp = () => {
     '/partenaires',
     '/actualites',
     '/instructions',
-    '/install'
-  ].includes(location.pathname)
+    '/install',
+    '/blog',
+    '/terms',
+  ].includes(pathNoSlash)
     || location.pathname.startsWith('/actualites')
     || location.pathname.startsWith('/admin')
     || location.pathname.startsWith('/blog');

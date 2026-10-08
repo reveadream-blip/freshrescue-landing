@@ -47,7 +47,7 @@ export default function NewsArticle() {
         <Navbar />
         <main className="pt-28 pb-16 px-6 max-w-3xl mx-auto text-center">
           <p className="text-muted-foreground mb-6">Article introuvable.</p>
-          <Link to="/actualites" className="text-citrus font-bold uppercase tracking-widest text-sm hover:underline">
+          <Link to="/actualites/" className="text-citrus font-bold uppercase tracking-widest text-sm hover:underline">
             ← Retour aux actualités
           </Link>
         </main>
@@ -82,7 +82,7 @@ export default function NewsArticle() {
 
           <div className="mt-8">
             <Link
-              to="/actualites"
+              to="/actualites/"
               className="inline-flex items-center justify-center px-6 py-3 bg-citrus text-earth font-black uppercase text-xs tracking-[0.18em] rounded-sm hover:opacity-90 transition"
             >
               ← Toutes les actualités

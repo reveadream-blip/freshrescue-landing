@@ -140,7 +140,6 @@ const STATIC_PATHS = [
   '/blog',
   '/terms',
   '/instructions',
-  '/install',
   '/merchant',
 ];
 
@@ -191,10 +190,16 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 Disallow: /forgot-password
+Disallow: /forgot-password/
 Disallow: /update-password
+Disallow: /update-password/
 Disallow: /merchant/post
+Disallow: /merchant/post/
 Disallow: /merchant/edit/
 Disallow: /merchant/setup
+Disallow: /merchant/setup/
+Disallow: /install
+Disallow: /install/
 
 Sitemap: ${origin}/sitemap.xml
 `;

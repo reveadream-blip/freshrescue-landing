@@ -1,0 +1,37 @@
+# Cloudflare Pages headers (SEO / robots)
+
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/forgot-password
+  X-Robots-Tag: noindex, follow
+
+/forgot-password/
+  X-Robots-Tag: noindex, follow
+
+/update-password
+  X-Robots-Tag: noindex, follow
+
+/update-password/
+  X-Robots-Tag: noindex, follow
+
+/merchant/post
+  X-Robots-Tag: noindex, follow
+
+/merchant/post/
+  X-Robots-Tag: noindex, follow
+
+/merchant/edit/*
+  X-Robots-Tag: noindex, follow
+
+/merchant/setup
+  X-Robots-Tag: noindex, follow
+
+/merchant/setup/
+  X-Robots-Tag: noindex, follow
+
+/install
+  X-Robots-Tag: noindex, follow
+
+/install/
+  X-Robots-Tag: noindex, follow

@@ -92,7 +92,7 @@ export default function News() {
 
               key={item.id}
 
-              to={`/actualites/${item.id}`}
+              to={`/actualites/${item.id}/`}
 
               className="block rounded-2xl border border-white/10 bg-card/60 p-6 sm:p-8 transition-colors hover:border-citrus/40 hover:bg-card/80"
 

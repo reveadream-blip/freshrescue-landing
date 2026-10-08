@@ -28,7 +28,6 @@ const STATIC_PATHS = [
   '/blog',
   '/terms',
   '/instructions',
-  '/install',
   '/merchant',
 ];
 

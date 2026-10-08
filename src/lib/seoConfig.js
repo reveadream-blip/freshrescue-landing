@@ -73,6 +73,7 @@ const PAGES = {
     title: `Installer l’app | ${BRAND}`,
     description:
       'Installez FreshRescue sur votre téléphone (PWA) pour voir les invendus près de chez vous et les prix flash du jour.',
+    robots: 'noindex, follow',
   },
   '/merchant': {
     title: `Espace commerçant | ${BRAND}`,

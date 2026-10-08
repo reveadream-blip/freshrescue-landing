@@ -140,25 +140,25 @@ export default function Landing() {
           <div className="flex items-center gap-4">
             <nav className="hidden md:flex items-center gap-6">
               <Link
-                to="/explore"
+                to="/explore/"
                 className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
-                  location.pathname === '/explore' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                  (location.pathname === '/explore' || location.pathname === '/explore/') ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {t('explore')}
               </Link>
               <Link
-                to="/partenaires"
+                to="/partenaires/"
                 className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
-                  location.pathname === '/partenaires' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                  (location.pathname === '/partenaires' || location.pathname === '/partenaires/') ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {t('navPartners')}
               </Link>
               <Link
-                to="/actualites"
+                to="/actualites/"
                 className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
-                  location.pathname === '/actualites' ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                  (location.pathname === '/actualites' || location.pathname === '/actualites/') ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {t('navNews')}
@@ -189,7 +189,7 @@ export default function Landing() {
             </div>
 
             <Link 
-              to="/merchant" 
+              to="/merchant/" 
               className="hidden sm:flex items-center gap-2 bg-white/10 hover:bg-white/20 px-5 py-2.5 rounded-full text-sm font-bold transition-all border border-white/10"
             >
               <Store className="w-4 h-4 text-citrus" />
@@ -279,7 +279,7 @@ export default function Landing() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <div className="flex flex-col items-center gap-2">
                 <Link
-                  to="/explore"
+                  to="/explore/"
                   className="flex items-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-citrus/20"
                 >
                   {t('exploreCta')}
@@ -296,7 +296,7 @@ export default function Landing() {
                   <span className="text-[8px] font-bold uppercase tracking-tighter opacity-80">{promoText.test}</span>
                 </div>
                 <Link
-                  to="/merchant"
+                  to="/merchant/"
                   className="flex items-center gap-2 bg-card border-2 border-border text-foreground px-8 py-4 rounded-full font-bold text-lg hover:bg-border/40 transition-all"
                 >
                   <Store className="w-5 h-5 text-citrus" />
@@ -306,7 +306,7 @@ export default function Landing() {
             </div>
 
             <Link 
-              to="/instructions" 
+              to="/instructions/" 
               className="group flex items-center gap-2 text-muted-foreground hover:text-citrus transition-colors text-sm font-bold uppercase tracking-wider"
             >
               <HelpCircle className="w-5 h-5 group-hover:animate-bounce" />
@@ -414,7 +414,7 @@ export default function Landing() {
                 </li>
               ))}
             </ul>
-            <Link to="/merchant" className="inline-flex items-center gap-2 mt-10 bg-earth text-foreground px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+            <Link to="/merchant/" className="inline-flex items-center gap-2 mt-10 bg-earth text-foreground px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
               {t('getStarted')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -432,7 +432,7 @@ export default function Landing() {
                 </li>
               ))}
             </ul>
-            <Link to="/explore" className="inline-flex items-center gap-2 mt-10 bg-stem text-earth px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
+            <Link to="/explore/" className="inline-flex items-center gap-2 mt-10 bg-stem text-earth px-6 py-3 rounded-full font-bold hover:scale-105 transition-transform">
               {t('exploreCta')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -479,7 +479,7 @@ export default function Landing() {
               </ul>
 
               <Link
-                to="/merchant"
+                to="/merchant/"
                 className="inline-flex items-center justify-center gap-2 bg-citrus text-earth px-8 py-4 rounded-full font-black text-sm hover:scale-105 transition-transform shadow-lg shadow-citrus/30 w-full"
               >
                 {t('getStarted')} <ArrowRight className="w-5 h-5" />
@@ -518,13 +518,13 @@ export default function Landing() {
           <div className="flex flex-col items-center md:items-end gap-3">
             <div className="flex gap-6">
               <Link 
-                to="/blog" 
+                to="/blog/" 
                 className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
               >
                 {t('footerBlog')}
               </Link>
               <Link 
-                to="/terms" 
+                to="/terms/" 
                 className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
               >
                 {t('footerTerms')}

@@ -4,7 +4,7 @@ import { useTranslation } from '../lib/i18n';
 
 const PARTNER_URL = 'https://restaurantsdeschefs.fr';
 const PARTNER_LOGO = `${import.meta.env.BASE_URL}images/partners/restaurantsdeschefs.png`;
-const NEWS_PATH = '/actualites/partenariat-restaurants-des-chefs';
+const NEWS_PATH = '/actualites/partenariat-restaurants-des-chefs/';
 
 /**
  * Encart partenariat Restaurants des Chefs

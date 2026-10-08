@@ -51,14 +51,14 @@ export default function HeroSection({ heroImage, marketBg }) {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                to="/explore"
+                to="/explore/"
                 className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-4 rounded-xl text-base transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 {t('exploreCta')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                to="/merchant"
+                to="/merchant/"
                 className="inline-flex items-center justify-center gap-2 bg-card border border-border hover:border-primary/50 text-foreground font-bold px-8 py-4 rounded-xl text-base transition-all hover:scale-[1.02] active:scale-[0.98]"
               >
                 <ShoppingBag className="w-4 h-4" />

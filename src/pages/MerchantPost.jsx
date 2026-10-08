@@ -400,7 +400,7 @@ export default function MerchantPost() {
         <div className="max-w-md bg-card border border-border rounded-[2.5rem] p-10 shadow-2xl space-y-6">
           <p className="text-sm font-medium text-muted-foreground leading-relaxed">{t('merchantPublishBlocked')}</p>
           <Link
-            to="/merchant"
+            to="/merchant/"
             className="inline-flex items-center justify-center w-full bg-citrus text-earth py-4 rounded-2xl font-black uppercase italic"
           >
             {t('dashboard')}
