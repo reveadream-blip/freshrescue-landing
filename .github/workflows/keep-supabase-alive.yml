@@ -1,0 +1,51 @@
+# Ping léger pour éviter la pause du projet Supabase free (inactivité ~7 jours).
+# Secrets GitHub requis (Settings > Secrets and variables > Actions) :
+#   SUPABASE_URL       = https://xxxx.supabase.co
+#   SUPABASE_ANON_KEY  = clé anon (même que VITE_SUPABASE_ANON_KEY)
+#
+# Déclenchement : toutes les 3 jours + bouton "Run workflow" manuel.
+
+name: Keep Supabase alive
+
+on:
+  schedule:
+    - cron: '0 8 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Wake Supabase (REST ping)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_ANON_KEY:-}" ]; then
+            echo "Missing secrets SUPABASE_URL / SUPABASE_ANON_KEY"
+            exit 1
+          fi
+          BASE="${SUPABASE_URL%/}"
+          # Une lecture minimale suffit à réveiller Postgres (même si RLS renvoie []).
+          CODE=$(curl -sS -o /tmp/supabase-ping.json -w "%{http_code}" \
+            --max-time 90 \
+            --retry 3 \
+            --retry-delay 15 \
+            --retry-all-errors \
+            "${BASE}/rest/v1/offers?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            -H "Accept: application/json" \
+            -H "Prefer: count=exact")
+          echo "HTTP ${CODE}"
+          head -c 200 /tmp/supabase-ping.json || true
+          echo
+          case "${CODE}" in
+            200|206) echo "OK: Supabase joignable" ;;
+            *)
+              echo "Unexpected status ${CODE}"
+              exit 1
+              ;;
+          esac
