@@ -53,6 +53,17 @@ export default function Navbar() {
           {t('navNews')}
         </Link>
 
+        <Link
+          to={PUBLIC.blog}
+          className={`hidden md:block text-xs font-black uppercase italic tracking-widest transition-colors ${
+            location.pathname.startsWith('/blog')
+              ? 'text-citrus'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {t('footerBlog')}
+        </Link>
+
         <div className="relative flex-shrink-0 group">
           <select
             value={lang}

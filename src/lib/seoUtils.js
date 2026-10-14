@@ -26,9 +26,10 @@ export function canonicalUrl(origin, pathname) {
 }
 
 export function shortBlogSeoTitle(data) {
-  const region = data.region || data.department || data.audience;
-  if (region) {
-    return truncateTitle(`${region} · anti-gaspi | FreshRescue`, 60);
+  // Audience avant région : évite le title dupliqué « France · anti-gaspi » (commerçants / consommateurs).
+  const label = data.audience || data.department || data.region;
+  if (label) {
+    return truncateTitle(`${label} · anti-gaspi | FreshRescue`, 60);
   }
   const raw = (data.title || '').replace(/^FreshRescue\.app[^:]*:\s*/i, '');
   return truncateTitle(raw ? `${raw} | FreshRescue` : 'Blog | FreshRescue', 60);

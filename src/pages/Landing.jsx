@@ -7,7 +7,8 @@ import {
 import { useTranslation } from '../lib/i18n';
 import RestaurantsDesChefsPartnerCard from '../components/RestaurantsDesChefsPartnerCard';
 
-const HERO_BG = 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1200&auto=format&fit=crop';
+const HERO_BG =
+  'https://images.unsplash.com/photo-1542838132-92c53300491e?q=60&w=800&auto=format&fit=crop';
 
 /** Visuels « Comment ça marche » : fichiers dans `public/images/how/` */
 const howImg = (file) => `${import.meta.env.BASE_URL}images/how/${file}`;
@@ -162,6 +163,14 @@ export default function Landing() {
                 }`}
               >
                 {t('navNews')}
+              </Link>
+              <Link
+                to="/blog/"
+                className={`text-xs font-black uppercase italic tracking-widest transition-colors ${
+                  location.pathname.startsWith('/blog') ? 'text-citrus' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {t('footerBlog')}
               </Link>
             </nav>
 
@@ -501,6 +510,41 @@ export default function Landing() {
         </div>
       </section>
 
+      <section className="px-6 py-20 border-t border-white/10" aria-labelledby="faq-home-heading">
+        <div className="max-w-3xl mx-auto">
+          <h2 id="faq-home-heading" className="text-2xl md:text-3xl font-black mb-8 text-center">
+            {t('faqHomeTitle')}
+          </h2>
+          <div className="space-y-6 text-left">
+            <div>
+              <h3 className="text-lg font-bold text-foreground mb-2">{t('faqHomeQ1')}</h3>
+              <p className="text-muted-foreground leading-relaxed">{t('faqHomeA1')}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-foreground mb-2">{t('faqHomeQ2')}</h3>
+              <p className="text-muted-foreground leading-relaxed">{t('faqHomeA2')}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-foreground mb-2">{t('faqHomeQ3')}</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t('faqHomeA3')}{' '}
+                <Link to="/explore/" className="text-citrus hover:underline font-semibold">
+                  {t('explore')}
+                </Link>
+                {' · '}
+                <Link to="/blog/" className="text-citrus hover:underline font-semibold">
+                  {t('footerBlog')}
+                </Link>
+                {' · '}
+                <Link to="/instructions/" className="text-citrus hover:underline font-semibold">
+                  {t('footerInstructions')}
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-border py-12 px-6 bg-card/20">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col items-center md:items-start gap-2">
@@ -516,15 +560,45 @@ export default function Landing() {
           </div>
 
           <div className="flex flex-col items-center md:items-end gap-3">
-            <div className="flex gap-6">
-              <Link 
-                to="/blog/" 
+            <div className="flex flex-wrap justify-center md:justify-end gap-x-5 gap-y-2">
+              <Link
+                to="/explore/"
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('explore')}
+              </Link>
+              <Link
+                to="/partenaires/"
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('navPartners')}
+              </Link>
+              <Link
+                to="/actualites/"
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('navNews')}
+              </Link>
+              <Link
+                to="/blog/"
                 className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
               >
                 {t('footerBlog')}
               </Link>
-              <Link 
-                to="/terms/" 
+              <Link
+                to="/instructions/"
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('footerInstructions')}
+              </Link>
+              <Link
+                to="/merchant/"
+                className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
+              >
+                {t('merchantLogin')}
+              </Link>
+              <Link
+                to="/terms/"
                 className="text-xs font-black uppercase italic text-muted-foreground hover:text-citrus transition-colors underline decoration-citrus/20 underline-offset-4"
               >
                 {t('footerTerms')}

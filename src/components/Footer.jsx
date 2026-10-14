@@ -1,8 +1,20 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from '../lib/i18n';
 import { Leaf } from 'lucide-react';
+import { PUBLIC } from '../lib/publicPaths';
 
 export default function Footer() {
   const { t } = useTranslation();
+
+  const links = [
+    { to: PUBLIC.explore, label: t('explore') },
+    { to: PUBLIC.partenaires, label: t('navPartners') },
+    { to: PUBLIC.actualites, label: t('navNews') },
+    { to: PUBLIC.blog, label: t('footerBlog') },
+    { to: PUBLIC.instructions, label: t('footerInstructions') },
+    { to: PUBLIC.merchant, label: t('merchantLogin') },
+    { to: PUBLIC.terms, label: t('footerTerms') },
+  ];
 
   return (
     <footer className="border-t border-border/30 bg-card/50">
@@ -16,10 +28,26 @@ export default function Footer() {
               Fresh<span className="text-primary">Rescue</span>
             </span>
           </div>
-          <p className="text-sm text-muted-foreground">{t('footerTagline')}</p>
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} FreshRescue. {t('footerRights')}
-          </p>
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2"
+          >
+            {links.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="text-center md:text-right">
+            <p className="text-sm text-muted-foreground">{t('footerTagline')}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              © {new Date().getFullYear()} FreshRescue. {t('footerRights')}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
